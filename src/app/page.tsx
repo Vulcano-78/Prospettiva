@@ -99,9 +99,12 @@ export default function HomePage() {
       </header>
 
       {/* Rapid Procurement Dashboard */}
-      <section className="pt-24 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl text-primary-container mb-4">Tutto quello che ti serve, <span className="text-[#4463EE]">in un posto solo.</span></h2>
+      <section className="pt-20 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
+        <div className="text-center mb-14">
+          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Tutto quello che ti serve, <span className="text-[#4463EE]">in un posto solo.</span></h2>
+          <p className="text-[#64748b] text-sm font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+            Seleziona i servizi, aggiungi al carrello, ricevi i documenti ufficiali in pochi minuti.
+          </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
