@@ -124,10 +124,10 @@ export default function HomePage() {
       </header>
 
       {/* Rapid Procurement Dashboard */}
-      <section className="pt-20 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
+      <section className="pt-24 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
         <div className="text-center mb-14">
           <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
-          <p className="text-[#64748b] text-sm font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
