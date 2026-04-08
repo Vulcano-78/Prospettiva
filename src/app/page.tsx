@@ -19,7 +19,7 @@ export default function HomePage() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-white border-b border-slate-200">
         <Link href="/" className="text-xl font-[800] tracking-[-0.02em] text-[#002147] brand-logo">
-          Prospettiva.io
+          prospettiva<span className="text-[#4463EE]">.io</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <a className="text-[#4463EE] font-semibold hover:text-[#4463EE] transition-colors duration-200 text-sm" href="#catalog">Catalogo</a>
@@ -101,10 +101,7 @@ export default function HomePage() {
       {/* Rapid Procurement Dashboard */}
       <section className="pt-24 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
         <div className="text-center mb-12">
-          <h2 className="text-4xl text-primary-container mb-4">Rapid Procurement Dashboard</h2>
-          <p className="text-on-surface-variant max-w-2xl mx-auto text-sm">
-            Ottimizzato per ordini multipli veloci e flussi di lavoro ad alta efficienza.
-          </p>
+          <h2 className="text-4xl text-primary-container mb-4">Tutto quello che ti serve, <span className="text-[#4463EE]">in un posto solo.</span></h2>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
@@ -472,8 +469,8 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center bg-primary-container text-white">
         <div className="mb-8 md:mb-0 text-center md:text-left">
-          <div className="text-lg font-[800] text-white mb-2 brand-logo">Prospettiva.io</div>
-          <div className="text-slate-300 text-sm font-body">© 2024 Prospettiva.io. Tutti i diritti riservati.</div>
+          <div className="text-lg font-[800] text-white mb-2 brand-logo">prospettiva<span className="text-[#4463EE]">.io</span></div>
+          <div className="text-slate-300 text-sm font-body">© 2024 prospettiva.io. Tutti i diritti riservati.</div>
         </div>
         <div className="flex flex-wrap justify-center gap-8">
           <Link className="text-slate-300 text-sm hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
