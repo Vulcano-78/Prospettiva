@@ -520,16 +520,16 @@ export default function HomePage() {
 
           {/* Social Icons */}
           <div className="flex items-center gap-5 mb-8">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/90 hover:text-white hover:border-white/60 transition-colors">
               <span className="material-symbols-outlined text-xl">photo_camera</span>
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/90 hover:text-white hover:border-white/60 transition-colors">
               <span className="material-symbols-outlined text-xl">group</span>
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/90 hover:text-white hover:border-white/60 transition-colors">
               <span className="material-symbols-outlined text-xl">work</span>
             </a>
-            <a href="mailto:info@prospettiva.io" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+            <a href="mailto:info@prospettiva.io" className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/90 hover:text-white hover:border-white/60 transition-colors">
               <span className="material-symbols-outlined text-xl">mail</span>
             </a>
           </div>
@@ -544,7 +544,7 @@ export default function HomePage() {
 
           {/* Copyright + P.IVA */}
           <div className="text-white/40 text-xs font-body">
-            © 2025 Prospettiva.io — Tutti i diritti riservati. <span className="mx-2">|</span> P.IVA 12345678901
+            © 2026 Nuvó S.r.l. - Tutti i diritti riservati. <span className="mx-2">|</span> P.IVA 17463031009
           </div>
         </div>
       </footer>
