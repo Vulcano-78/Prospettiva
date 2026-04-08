@@ -69,28 +69,54 @@ export default function HomePage() {
                   <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                   <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                 </div>
-                <span className="ml-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest font-semibold">prospettiva_api_client.js</span>
+                <span className="ml-auto text-[10px] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847 — Milano, Via Brera 14</span>
               </div>
-              <div className="p-8 font-mono text-[13px] leading-relaxed text-slate-700">
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">1</span><p><span className="text-indigo-400">import</span> Prospettiva <span className="text-indigo-400">from</span> <span className="text-emerald-400/80">&apos;@prospettiva/sdk&apos;</span>;</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">2</span><p><span className="text-indigo-400">const</span> api = <span className="text-indigo-400">new</span> Prospettiva(<span className="text-emerald-400/80">&apos;pk_live_88a2...&apos;</span>);</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">3</span><p> </p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">4</span><p><span className="text-indigo-400">const</span> property = <span className="text-indigo-400">await</span> api.fetch({'{'}  </p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">5</span><p>  type: <span className="text-sky-400/80">&apos;visura_catastale&apos;</span>,</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">6</span><p>  address: {'{'}</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">7</span><p>    city: <span className="text-rose-400/70">&apos;Milano&apos;</span>,</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">8</span><p>    street: <span className="text-rose-400/70">&apos;Via della Spiga, 5&apos;</span></p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">9</span><p>  {'}'},</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">10</span><p>  enrichment: [<span className="text-amber-400/80">&apos;map_data&apos;</span>, <span className="text-amber-400/80">&apos;history&apos;</span>]</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">11</span><p>{'}'});</p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">12</span><p> </p></div>
-                <div className="flex gap-4"><span className="text-slate-400/40 select-none w-4">13</span><p><span className="text-slate-400/60">// Returns certified property object</span></p></div>
+              <div className="p-6 font-mono text-[11px] leading-relaxed text-slate-700 overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="text-slate-400 border-b border-slate-200/50">
+                      <th className="text-left py-2 font-medium">SERVIZIO</th>
+                      <th className="text-left py-2 font-medium">STATO</th>
+                      <th className="text-right py-2 font-medium">TEMPO</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100/50">
+                    <tr>
+                      <td className="py-3 pr-4">Visura Catastale</td>
+                      <td className="py-3 text-emerald-600">✓ completata</td>
+                      <td className="py-3 text-right text-slate-400">2 min 14s</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Verifica Ipotecaria</td>
+                      <td className="py-3 text-emerald-600">✓ completata</td>
+                      <td className="py-3 text-right text-slate-400">4 min 02s</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Estratto di Mappa</td>
+                      <td className="py-3 text-emerald-600">✓ completata</td>
+                      <td className="py-3 text-right text-slate-400">1 min 38s</td>
+                    </tr>
+                    <tr className="bg-[#EEF1FD]">
+                      <td className="py-3 px-2 pr-4 font-semibold flex items-center gap-2">
+                        <span className="material-symbols-outlined text-secondary text-base">auto_awesome</span>
+                        Virtual Staging AI
+                      </td>
+                      <td className="py-3 text-[#4463EE] animate-pulse">⟳ in corso...</td>
+                      <td className="py-3 text-right text-slate-400">—</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4">Certificato Urbanistico</td>
+                      <td className="py-3 text-slate-400">◌ in coda</td>
+                      <td className="py-3 text-right text-slate-400">—</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <div className="bg-white/40 backdrop-blur-md px-6 py-3 flex justify-between items-center border-t border-white/20">
-                <span className="text-slate-400 text-[10px] font-mono tracking-wider">RESPONSE: 200 SUCCESS</span>
+                <span className="text-slate-500 text-[10px] font-mono tracking-wider">3 / 5 pratiche evase</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/60"></div>
-                  <span className="text-slate-400 text-[10px] font-mono uppercase">connected</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#4463EE]"></div>
+                  <span className="text-[#4463EE] text-[10px] font-mono uppercase font-bold">● live</span>
                 </div>
               </div>
             </div>
