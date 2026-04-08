@@ -128,11 +128,6 @@ h1, h2, h3, h4, .brand-logo {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.workflow-box:hover {
-  border-color: #c8ccd4;
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -10px rgba(0, 33, 71, 0.1);
-}
 
 /* Qty Input */
 .qty-input::-webkit-outer-spin-button,

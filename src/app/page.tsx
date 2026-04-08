@@ -52,10 +52,10 @@ export default function HomePage() {
               Documenti ufficiali, verifiche ipotecarie e strumenti AI. Tutto automatizzato, tutto in un posto solo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#catalog" className="bg-secondary text-white px-8 py-4 text-lg font-medium hover:bg-primary-container transition-all flex items-center justify-center">
+              <a href="#catalog" className="bg-secondary text-white px-6 py-3 text-base font-medium hover:bg-primary-container transition-all flex items-center justify-center" style={{ borderRadius: '6px' }}>
                 Esplora i servizi <span className="ml-2">→</span>
               </a>
-              <Link href="/registrazione" className="bg-white border border-outline-variant text-primary-container px-8 py-4 text-lg font-medium hover:bg-surface-container-low transition-all text-center">
+              <Link href="/registrazione" className="bg-white border border-outline-variant text-primary-container px-6 py-3 text-base font-medium hover:bg-surface-container-low transition-all text-center" style={{ borderRadius: '6px' }}>
                 Crea account gratis
               </Link>
             </div>
@@ -170,10 +170,10 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-catastale" className="bg-slate-100 text-slate-500 text-[10px] font-bold h-8 px-2 hover:bg-slate-200 uppercase flex items-center">Acquista</Link>
+                        <Link href="/servizio/visura-catastale" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
@@ -191,10 +191,10 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => handleAddToCart('planimetria')} className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <button onClick={() => handleAddToCart('planimetria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/planimetria" className="bg-slate-100 text-slate-500 text-[10px] font-bold h-8 px-2 hover:bg-slate-200 uppercase flex items-center">Acquista</Link>
+                        <Link href="/servizio/planimetria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
@@ -247,10 +247,10 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-100 text-slate-500 text-[10px] font-bold h-8 px-2 hover:bg-slate-200 uppercase flex items-center">Acquista</Link>
+                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
@@ -268,10 +268,10 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-100 text-slate-500 text-[10px] font-bold h-8 px-2 hover:bg-slate-200 uppercase flex items-center">Acquista</Link>
+                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
@@ -310,47 +310,45 @@ export default function HomePage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  <tr className="group hover:bg-white transition-all duration-200 border-l-2 border-transparent hover:border-secondary">
-                    <td className="py-4 pl-3">
-                      <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-slate-400 group-hover:text-secondary text-lg">folder_open</span>
-                        <div>
-                          <div className="text-sm font-bold text-primary-container">Accesso agli Atti</div>
-                          <div className="text-[10px] text-on-surface-variant">Pratiche edilizie</div>
-                        </div>
-                      </div>
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Accesso agli Atti</div>
+                      <div className="text-[10px] text-on-surface-variant">Pratiche edilizie</div>
                     </td>
-                    <td className="py-4 text-right pr-4"><span className="text-xs font-semibold text-primary-container">€45.00</span></td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€45.00</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
-                  <tr className="group hover:bg-white transition-all duration-200 border-l-2 border-transparent hover:border-secondary">
-                    <td className="py-4 pl-3">
-                      <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-slate-400 group-hover:text-secondary text-lg">map</span>
-                        <div>
-                          <div className="text-sm font-bold text-primary-container">Certificato C.D.U.</div>
-                          <div className="text-[10px] text-on-surface-variant">Destinazione urbanistica</div>
-                        </div>
-                      </div>
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Certificato C.D.U.</div>
+                      <div className="text-[10px] text-on-surface-variant">Destinazione urbanistica</div>
                     </td>
-                    <td className="py-4 text-right pr-4"><span className="text-xs font-semibold text-primary-container">€35.00</span></td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€35.00</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-200 text-slate-400 h-8 w-[60px] flex items-center justify-center hover:bg-slate-50">
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
