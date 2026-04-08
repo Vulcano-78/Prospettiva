@@ -1,11 +1,19 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { services } from '@/data/services';
 
 export default function HomePage() {
   const { addItem, itemCount } = useCart();
+
+  useEffect(() => {
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname);
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   const getService = (slug: string) => services.find(s => s.slug === slug);
 
