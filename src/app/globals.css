@@ -4,27 +4,24 @@
   --color-primary: #000a1e;
   --color-accent: #4463EE;
   --color-primary-container: #002147;
+  --color-secondary: #4463EE;
   --color-tertiary-fixed-dim: #4463EE;
-  --color-tertiary: #100900;
-  --color-tertiary-container: #fff6e0;
 
   --color-background: #ffffff;
   --color-surface: #ffffff;
+  --color-surface-bright: #f8f9fa;
   --color-surface-container: #ffffff;
-  --color-surface-container-low: #ffffff;
+  --color-surface-container-low: #f3f4f5;
   --color-surface-container-high: #ffffff;
   --color-surface-container-highest: #f0f1f2;
   --color-surface-container-lowest: #ffffff;
   --color-surface-variant: #e1e3e4;
-  --color-surface-dim: #d9dadb;
-  --color-surface-bright: #ffffff;
 
   --color-on-surface: #191c1d;
   --color-on-surface-variant: #44474e;
-  --color-secondary: #516169;
-  --color-on-secondary: #ffffff;
   --color-on-primary: #ffffff;
   --color-on-primary-container: #708ab5;
+  --color-on-secondary: #ffffff;
   --color-outline: #74777f;
   --color-outline-variant: #c4c6cf;
 
@@ -36,25 +33,22 @@
   --color-primary: var(--color-primary);
   --color-primary-container: var(--color-primary-container);
   --color-accent: var(--color-accent);
+  --color-secondary: var(--color-secondary);
   --color-tertiary-fixed-dim: var(--color-tertiary-fixed-dim);
-  --color-tertiary: var(--color-tertiary);
-  --color-tertiary-container: var(--color-tertiary-container);
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
+  --color-surface-bright: var(--color-surface-bright);
   --color-surface-container: var(--color-surface-container);
   --color-surface-container-low: var(--color-surface-container-low);
   --color-surface-container-high: var(--color-surface-container-high);
   --color-surface-container-highest: var(--color-surface-container-highest);
   --color-surface-container-lowest: var(--color-surface-container-lowest);
   --color-surface-variant: var(--color-surface-variant);
-  --color-surface-dim: var(--color-surface-dim);
-  --color-surface-bright: var(--color-surface-bright);
   --color-on-surface: var(--color-on-surface);
   --color-on-surface-variant: var(--color-on-surface-variant);
-  --color-secondary: var(--color-secondary);
-  --color-on-secondary: var(--color-on-secondary);
   --color-on-primary: var(--color-on-primary);
   --color-on-primary-container: var(--color-on-primary-container);
+  --color-on-secondary: var(--color-on-secondary);
   --color-outline: var(--color-outline);
   --color-outline-variant: var(--color-outline-variant);
   --color-error: var(--color-error);
@@ -62,11 +56,12 @@
 
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
   --font-label: 'Inter', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  * { border-radius: 0px !important; box-sizing: border-box; }
 }
 
 html {
@@ -75,86 +70,92 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--color-surface-container-lowest);
+  background-color: white;
   color: var(--color-on-surface);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, .font-headline {
+h1, h2, h3, h4, .brand-logo {
   font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+  vertical-align: middle;
 }
 
-/* Sidebar */
-.sidebar-link.active {
-  background-color: var(--color-tertiary-fixed-dim);
-  color: var(--color-primary);
-  font-weight: 700;
+/* Navy Glow */
+.navy-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(68, 99, 238, 0.15) 0%, rgba(0, 33, 71, 0) 70%), #002147;
 }
 
-.sidebar-link:not(.active):hover {
-  background-color: var(--color-surface-container-highest);
-  color: var(--color-primary);
+/* Hero Gradient */
+.hero-gradient {
+  background:
+    linear-gradient(180deg, #dee1ff 0%, #ffffff 100%),
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E .c %7B font-family: monospace; font-size: 10px; fill: %234463EE; opacity: 0.3; %7D %3C/style%3E%3Ctext x='10' y='15' class='c'%3E1%3C/text%3E%3Ctext x='10' y='35' class='c'%3E0%3C/text%3E%3Ctext x='10' y='55' class='c'%3E1%3C/text%3E%3Ctext x='10' y='75' class='c'%3E1%3C/text%3E%3Ctext x='40' y='25' class='c'%3E0%3C/text%3E%3Ctext x='40' y='45' class='c'%3E1%3C/text%3E%3Ctext x='40' y='65' class='c'%3E0%3C/text%3E%3Ctext x='70' y='10' class='c'%3E1%3C/text%3E%3Ctext x='70' y='30' class='c'%3E1%3C/text%3E%3Ctext x='70' y='50' class='c'%3E0%3C/text%3E%3Ctext x='70' y='90' class='c'%3E1%3C/text%3E%3C/svg%3E");
+  background-blend-mode: multiply;
 }
 
-/* Category Panel */
-.category-panel {
-  background-color: white;
-  padding: 0;
-  transition: all 300ms;
+/* Workflow Box */
+.workflow-box {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  transition: all 0.2s ease;
 }
 
-/* Category Pill */
-.category-pill {
-  background-color: var(--color-tertiary-fixed-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  flex-shrink: 0;
+.workflow-box:hover {
+  border-color: #4463EE;
 }
 
-/* Hero */
-.hero-texture {
-  background-color: #ffffff;
+/* Qty Input */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* Product Card */
-.product-card {
-  background-color: white;
-  border: 1px solid rgba(196, 198, 207, 0.1);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  transition: all 300ms;
-  outline: none;
-  height: 100%;
+.qty-input {
+  -moz-appearance: textfield;
 }
 
-.product-card:hover,
-.product-card:focus-within {
-  border-color: rgba(0, 10, 30, 0.2);
-  box-shadow: 0 4px 6px -1px rgba(0, 10, 30, 0.05);
+/* AI Grid */
+.ai-grid {
+  background-image: linear-gradient(rgba(68,99,238,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(68,99,238,0.2) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
-/* Product Card Inactive */
-.product-card-inactive {
-  background-color: white;
-  border: 1px dashed rgba(196, 198, 207, 0.4);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: all 200ms;
+/* Glass Code Box */
+.glass-code-box {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 25px 50px -12px rgba(0, 33, 71, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Button Square */
-.btn-sq {
-  border-radius: 0;
+/* Blueprint Lines */
+.blueprint-lines {
+  background-image:
+    linear-gradient(rgba(68, 99, 238, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(68, 99, 238, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Wall Stroke */
+.wall-stroke {
+  stroke: rgba(68, 99, 238, 0.5);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* AI Marker */
+.ai-marker {
+  box-shadow: 0 0 15px 4px rgba(68, 99, 238, 0.9);
 }
 
 /* Product Box (for other pages) */
@@ -171,9 +172,7 @@ h1, h2, h3, h4, h5, h6, .font-headline {
 }
 
 @media (min-width: 768px) {
-  .product-box {
-    flex-direction: row;
-  }
+  .product-box { flex-direction: row; }
 }
 
 .product-box:hover, .product-box:focus-within {
@@ -194,37 +193,39 @@ h1, h2, h3, h4, h5, h6, .font-headline {
 }
 
 @media (min-width: 768px) {
-  .product-box-inactive {
-    flex-direction: row;
-  }
+  .product-box-inactive { flex-direction: row; }
 }
 
-/* Form Styles */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"],
-input[type="url"],
-select,
-textarea {
-  outline: none;
+/* Sidebar (for other pages) */
+.sidebar-link.active {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.1);
+.sidebar-link:not(.active):hover {
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-primary);
 }
 
-/* Button Base */
+/* Category Pill (for other pages) */
+.category-pill {
+  background-color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
   font-weight: 700;
   transition: all 200ms;
   cursor: pointer;
@@ -235,18 +236,14 @@ textarea:focus {
   color: white;
 }
 
-.btn-primary:hover {
-  opacity: 0.9;
-}
+.btn-primary:hover { opacity: 0.9; }
 
 .btn-accent {
   background-color: var(--color-accent);
   color: white;
 }
 
-.btn-accent:hover {
-  filter: brightness(1.1);
-}
+.btn-accent:hover { filter: brightness(1.1); }
 
 .btn-outline {
   background-color: transparent;
@@ -258,15 +255,9 @@ textarea:focus {
   background-color: rgba(68, 99, 238, 0.1);
 }
 
-/* Wizard Step Styles */
-.wizard-step-active {
-  color: var(--color-primary);
-  font-weight: 700;
-}
-
-.wizard-step-completed {
-  color: var(--color-success);
-}
+/* Wizard Steps */
+.wizard-step-active { color: var(--color-primary); font-weight: 700; }
+.wizard-step-completed { color: var(--color-success); }
 
 /* Glass Effect */
 .glass-effect {
@@ -274,12 +265,21 @@ textarea:focus {
   -webkit-backdrop-filter: blur(20px);
 }
 
-/* Hide scrollbar */
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Form */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+  outline: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.1);
 }
+
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
