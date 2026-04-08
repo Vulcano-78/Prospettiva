@@ -44,21 +44,20 @@ export default function HomePage() {
       <header className="hero-gradient pt-32 pb-24 px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
-            <h1 className="text-5xl md:text-6xl mb-6 text-primary-container leading-[1.1]">
-              Tutto quello che serve per lavorare nell&apos;immobiliare, <br />
-              <span className="text-secondary">in un unico posto.</span>
+            <h1 className="text-5xl md:text-6xl mb-6 leading-[1.1]">
+              <span className="text-primary-container">Tutto quello che ti serve</span><br />
+              <span className="text-[#4463EE]">per lavorare nell&apos;immobiliare.</span>
             </h1>
             <p className="text-on-surface-variant text-lg md:text-xl mb-10 max-w-xl font-body">
-              Documenti catastali ufficiali, verifiche ipotecarie, marketing AI e API robuste per sviluppatori.
-              Automatizzati, veloci, certificati.
+              Documenti ufficiali, verifiche e strumenti AI in un&apos;unica piattaforma. Automatizzati, veloci, certificati.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#catalog" className="bg-secondary text-white px-8 py-4 text-lg font-medium hover:bg-primary-container transition-all flex items-center justify-center">
-                Esplora gli strumenti <span className="ml-2">→</span>
+                Esplora i servizi <span className="ml-2">→</span>
               </a>
-              <button className="bg-white border border-outline-variant text-primary-container px-8 py-4 text-lg font-medium hover:bg-surface-container-low transition-all">
-                Documentazione API
-              </button>
+              <Link href="/registrazione" className="bg-white border border-outline-variant text-primary-container px-8 py-4 text-lg font-medium hover:bg-surface-container-low transition-all text-center">
+                Crea account gratis
+              </Link>
             </div>
           </div>
           <div className="lg:col-span-5 hidden lg:block">
