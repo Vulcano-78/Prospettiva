@@ -45,11 +45,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
             <h1 className="text-5xl md:text-6xl mb-6 leading-[1.1]">
-              <span className="text-primary-container">Tutto quello che ti serve</span><br />
-              <span className="text-[#4463EE]">per lavorare nell&apos;immobiliare.</span>
+              <span className="text-[#002147]">L&apos;immobiliare,</span><br />
+              <span className="text-[#4463EE]">senza la burocrazia.</span>
             </h1>
             <p className="text-on-surface-variant text-lg md:text-xl mb-10 max-w-xl font-body">
-              Documenti ufficiali, verifiche e strumenti AI in un&apos;unica piattaforma. Automatizzati, veloci, certificati.
+              Documenti ufficiali, verifiche ipotecarie e strumenti AI. Tutto automatizzato, tutto in un posto solo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#catalog" className="bg-secondary text-white px-8 py-4 text-lg font-medium hover:bg-primary-container transition-all flex items-center justify-center">
@@ -126,9 +126,9 @@ export default function HomePage() {
       {/* Rapid Procurement Dashboard */}
       <section className="pt-20 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
         <div className="text-center mb-14">
-          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Tutto quello che ti serve, <span className="text-[#4463EE]">in un posto solo.</span></h2>
+          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
           <p className="text-[#64748b] text-sm font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
-            Seleziona i servizi, aggiungi al carrello, ricevi i documenti ufficiali in pochi minuti.
+            Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
