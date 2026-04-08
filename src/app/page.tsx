@@ -131,9 +131,11 @@ export default function HomePage() {
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-20">
           {/* 01 - Documenti Catastali */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-slate-50/30">
+          <div className="workflow-container">
+          <div className="workflow-box-glow"></div>
+          <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">01</span>
               <div>
@@ -205,9 +207,12 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+          </div>
 
           {/* 02 - Verifiche Ipotecarie */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-slate-50/30">
+          <div className="workflow-container">
+          <div className="workflow-box-glow"></div>
+          <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">02</span>
               <div>
@@ -279,9 +284,12 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+          </div>
 
           {/* 03 - Urbanistica */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-slate-50/30">
+          <div className="workflow-container">
+          <div className="workflow-box-glow"></div>
+          <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">03</span>
               <div>
@@ -355,9 +363,12 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+          </div>
 
           {/* 04 - Utility Professionali */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-slate-50/30">
+          <div className="workflow-container">
+          <div className="workflow-box-glow"></div>
+          <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">04</span>
               <div>
@@ -398,6 +409,7 @@ export default function HomePage() {
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
               </a>
             </div>
+          </div>
           </div>
         </div>
       </section>

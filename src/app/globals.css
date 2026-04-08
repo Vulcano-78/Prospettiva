@@ -101,15 +101,37 @@ h1, h2, h3, h4, .brand-logo {
   background-blend-mode: multiply;
 }
 
+/* Workflow Container */
+.workflow-container {
+  position: relative;
+  z-index: 1;
+}
+
+.workflow-box-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle at center, rgba(68, 99, 238, 0.08) 0%, rgba(68, 99, 238, 0) 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* Workflow Box */
 .workflow-box {
+  position: relative;
+  z-index: 2;
   border: 1px solid #e2e8f0;
   background: #ffffff;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .workflow-box:hover {
-  border-color: #4463EE;
+  border-color: #c8ccd4;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px -10px rgba(0, 33, 71, 0.1);
 }
 
 /* Qty Input */
