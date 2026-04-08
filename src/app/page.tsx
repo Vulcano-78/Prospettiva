@@ -513,15 +513,39 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center bg-primary-container text-white">
-        <div className="mb-8 md:mb-0 text-center md:text-left">
-          <div className="text-lg font-[800] text-white mb-2 brand-logo">prospettiva<span className="text-[#4463EE]">.io</span></div>
-          <div className="text-slate-300 text-sm font-body">© 2024 prospettiva.io. Tutti i diritti riservati.</div>
-        </div>
-        <div className="flex flex-wrap justify-center gap-8">
-          <Link className="text-slate-300 text-sm hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
-          <Link className="text-slate-300 text-sm hover:text-white transition-colors" href="/cookie">Cookie Policy</Link>
-          <Link className="text-slate-300 text-sm hover:text-white transition-colors" href="/termini">Termini e Condizioni</Link>
+      <footer className="w-full bg-primary-container text-white">
+        <div className="max-w-7xl mx-auto px-8 py-16 flex flex-col items-center text-center">
+          {/* Logo */}
+          <div className="text-2xl font-[800] text-white mb-8 brand-logo">prospettiva<span className="text-[#4463EE]">.io</span></div>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-5 mb-8">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+              <span className="material-symbols-outlined text-xl">photo_camera</span>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+              <span className="material-symbols-outlined text-xl">group</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+              <span className="material-symbols-outlined text-xl">work</span>
+            </a>
+            <a href="mailto:info@prospettiva.io" className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors">
+              <span className="material-symbols-outlined text-xl">mail</span>
+            </a>
+          </div>
+
+          {/* Legal Links */}
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
+            <Link className="text-white/60 text-sm hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
+            <Link className="text-white/60 text-sm hover:text-white transition-colors" href="/cookie">Cookie Policy</Link>
+            <Link className="text-white/60 text-sm hover:text-white transition-colors" href="/termini">Termini e Condizioni</Link>
+            <Link className="text-white/60 text-sm hover:text-white transition-colors" href="/privacy">GDPR</Link>
+          </div>
+
+          {/* Copyright + P.IVA */}
+          <div className="text-white/40 text-xs font-body">
+            © 2025 Prospettiva.io — Tutti i diritti riservati. <span className="mx-2">|</span> P.IVA 12345678901
+          </div>
         </div>
       </footer>
     </>
