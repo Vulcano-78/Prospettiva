@@ -1,26 +1,196 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Colors */
+  --color-primary: #000a1e;
+  --color-accent: #4463EE;
+  --color-primary-container: #002147;
+
+  /* Tertiary */
+  --color-tertiary-fixed-dim: #4463EE;
+  --color-tertiary: #100900;
+  --color-tertiary-container: #fff6e0;
+
+  /* Surface Colors */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-container: #ffffff;
+  --color-surface-container-low: #ffffff;
+  --color-surface-container-high: #ffffff;
+  --color-surface-container-highest: #f0f1f2;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-variant: #e1e3e4;
+  --color-surface-dim: #d9dadb;
+  --color-surface-bright: #ffffff;
+
+  /* Text Colors */
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #44474e;
+  --color-secondary: #516169;
+  --color-on-secondary: #ffffff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #708ab5;
+  --color-outline: #191c1d;
+  --color-outline-variant: #e1e3e4;
+
+  /* Status Colors */
+  --color-error: #ba1a1a;
+  --color-success: #16a34a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--color-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-accent: var(--color-accent);
+  --color-tertiary-fixed-dim: var(--color-tertiary-fixed-dim);
+  --color-tertiary: var(--color-tertiary);
+  --color-tertiary-container: var(--color-tertiary-container);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-variant: var(--color-surface-variant);
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-bright: var(--color-surface-bright);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-on-primary: var(--color-on-primary);
+  --color-on-primary-container: var(--color-on-primary-container);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Inter', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: white;
+  color: var(--color-on-surface);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-headline {
+  font-family: 'Manrope', sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+/* Sidebar Link Active State */
+.sidebar-link.active {
+  background-color: var(--color-tertiary-fixed-dim);
+  color: var(--color-primary);
+  font-weight: 700;
+  border-color: black;
+}
+
+.sidebar-link:not(.active):hover {
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-primary);
+}
+
+/* Category Panel */
+.category-panel {
+  background-color: transparent;
+  padding: 0;
+  transition: all 300ms;
+}
+
+/* Product Card */
+.product-card {
+  background-color: transparent;
+  border: 2px solid black;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 300ms;
+  outline: none;
+  height: 100%;
+  min-height: 160px;
+}
+
+.product-card:hover {
+  border-color: var(--color-tertiary-fixed-dim);
+}
+
+/* Product Card Inactive */
+.product-card-inactive {
+  background-color: transparent;
+  border: 2px dashed var(--color-outline-variant);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 200ms;
+  min-height: 160px;
+}
+
+/* Button Square */
+.btn-sq {
+  border-radius: 0;
+}
+
+/* Hero Overlay */
+.hero-overlay {
+  background: linear-gradient(to right, rgba(0,10,30,0.95) 0%, rgba(0,10,30,0.85) 30%, rgba(0,10,30,0.4) 100%);
+}
+
+/* Grid Product Layout */
+.grid-product-layout {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-product-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-product-layout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-product-layout {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Form Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-tertiary-fixed-dim);
 }
