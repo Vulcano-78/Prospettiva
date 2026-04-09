@@ -108,7 +108,8 @@ export default function HomePage() {
       </header>
 
       {/* Rapid Procurement Dashboard */}
-      <section className="pt-24 pb-16 px-8 max-w-7xl mx-auto bg-white" id="catalog">
+      <section className="bg-white" id="catalog">
+      <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -394,6 +395,7 @@ export default function HomePage() {
           </div>
           </div>
         </div>
+      </div>
       </section>
 
       {/* Marketing AI Section */}
