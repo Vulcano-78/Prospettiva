@@ -25,7 +25,9 @@ export default function RootLayout({
       <body className="bg-white font-body text-on-surface">
         <CartProvider>
           <Header />
+          <main className="pt-16">
           {children}
+          </main>
           <Footer />
         </CartProvider>
       </body>

@@ -14,7 +14,7 @@ export default function Header() {
 
   return (
     <div
-      className="sticky top-0 w-full z-50 px-2 pt-1.5"
+      className="fixed top-0 w-full z-50 px-2 pt-1.5"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
