@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import HeaderSimplified from '@/components/HeaderSimplified';
-import Footer from '@/components/Footer';
+
 import ProgressBar from '@/components/ProgressBar';
 import { formatPrice } from '@/data/services';
 
@@ -53,8 +52,6 @@ export default function CheckoutClientePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <HeaderSimplified showBackToShop={false} />
-
       {/* Studio Banner */}
       <div className="bg-[#002147] text-white py-4 px-6">
         <div className="max-w-2xl mx-auto flex items-center justify-center gap-3">
@@ -286,7 +283,6 @@ export default function CheckoutClientePage() {
         )}
       </main>
 
-      <Footer />
     </div>
   );
 }

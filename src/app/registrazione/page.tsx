@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 
 type AccountType = 'professionista' | 'privato';
 
@@ -45,8 +44,6 @@ export default function RegistrationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <main className="flex-grow py-12 px-6">
         <div className="max-w-xl mx-auto">
           <div className="text-center mb-10">
@@ -243,7 +240,6 @@ export default function RegistrationPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

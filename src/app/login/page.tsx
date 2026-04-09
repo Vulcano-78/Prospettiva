@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -17,8 +16,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <main className="flex-grow flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-10">
@@ -86,7 +83,6 @@ export default function LoginPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

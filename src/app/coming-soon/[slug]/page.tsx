@@ -2,8 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 import { getServiceBySlug } from '@/data/services';
 
 export default function ComingSoonPage() {
@@ -16,8 +15,6 @@ export default function ComingSoonPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <main className="flex-grow flex items-center justify-center px-6 py-12">
         <div className="max-w-6xl w-full grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
@@ -81,7 +78,6 @@ export default function ComingSoonPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

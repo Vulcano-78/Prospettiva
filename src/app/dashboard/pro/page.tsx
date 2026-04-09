@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 
 const mockOrders = [
   { id: 1, date: '12/08/2023', client: 'Innovazione S.p.A.', piva: '0123456789', services: 'Asset Digitali, Consulenza AI', total: 2450.00, status: 'paid' },
@@ -13,8 +12,6 @@ const mockOrders = [
 export default function DashboardProPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside className="hidden lg:flex w-64 flex-col py-8 px-6 bg-gradient-to-b from-white to-slate-50 border-r border-slate-100">
@@ -242,7 +239,6 @@ export default function DashboardProPage() {
         </main>
       </div>
 
-      <Footer />
     </div>
   );
 }

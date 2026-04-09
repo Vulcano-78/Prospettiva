@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import HeaderSimplified from '@/components/HeaderSimplified';
-import Footer from '@/components/Footer';
+
 import ProgressBar from '@/components/ProgressBar';
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
@@ -42,8 +41,6 @@ export default function CheckoutDataPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <HeaderSimplified />
-
       <main className="flex-grow pt-8 pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
         {/* Progress Bar */}
         <div className="mb-8 md:mb-12">
@@ -207,7 +204,6 @@ export default function CheckoutDataPage() {
         </form>
       </main>
 
-      <Footer />
     </div>
   );
 }

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 
 const mockDocuments = [
   { id: 'ORD-98234', name: 'Visura Camerale Ordinaria', date: '12 Ott 2023', status: 'completed', price: 18.50 },
@@ -18,8 +17,6 @@ const mockInvoices = [
 export default function DashboardPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside className="hidden lg:flex w-64 flex-col py-8 px-6 bg-gradient-to-b from-white to-slate-50 border-r border-slate-100">
@@ -210,7 +207,6 @@ export default function DashboardPage() {
         </main>
       </div>
 
-      <Footer />
     </div>
   );
 }

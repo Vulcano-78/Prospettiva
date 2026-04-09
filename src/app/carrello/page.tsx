@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import HeaderSimplified from '@/components/HeaderSimplified';
-import Footer from '@/components/Footer';
+
 import CartItemRow from '@/components/CartItemRow';
 import ProgressBar from '@/components/ProgressBar';
 import { useCart } from '@/context/CartContext';
@@ -20,7 +19,6 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-        <HeaderSimplified />
         <main className="flex-grow flex flex-col items-center justify-center px-6 py-16">
           <div className="text-center">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">shopping_cart</span>
@@ -35,15 +33,12 @@ export default function CartPage() {
             </Link>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <HeaderSimplified />
-
       <main className="flex-grow pt-8 pb-24 px-4 md:px-6 max-w-2xl mx-auto w-full">
         {/* Progress Bar */}
         <div className="mb-8 md:mb-12">
@@ -134,7 +129,6 @@ export default function CartPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

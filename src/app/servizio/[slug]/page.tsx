@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 import { getServiceBySlug, formatPrice, provinces, Service } from '@/data/services';
 import { useCart } from '@/context/CartContext';
 
@@ -21,7 +20,6 @@ export default function ServicePage() {
   if (!service) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Header />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-[#002147] mb-4">Servizio non trovato</h1>
@@ -30,7 +28,6 @@ export default function ServicePage() {
             </Link>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -120,8 +117,6 @@ export default function ServicePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
@@ -272,7 +267,6 @@ export default function ServicePage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

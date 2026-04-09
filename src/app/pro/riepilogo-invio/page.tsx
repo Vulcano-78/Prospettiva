@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import HeaderSimplified from '@/components/HeaderSimplified';
-import Footer from '@/components/Footer';
+
 import { formatPrice } from '@/data/services';
 
 const mockSelectedServices = [
@@ -35,8 +34,6 @@ export default function RiepilogoInvioPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <HeaderSimplified />
-
       <main className="flex-grow max-w-4xl mx-auto px-6 py-10">
         {/* Progress */}
         <div className="mb-8 flex justify-center">
@@ -253,7 +250,6 @@ export default function RiepilogoInvioPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

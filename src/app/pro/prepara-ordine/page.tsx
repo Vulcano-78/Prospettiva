@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 import { services, categories, formatPrice } from '@/data/services';
 
 const packages = [
@@ -47,8 +46,6 @@ export default function PreparaOrdinePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <Header />
-
       <main className="flex-grow max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
         {/* Header */}
         <section className="mb-12">
@@ -261,7 +258,6 @@ export default function PreparaOrdinePage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

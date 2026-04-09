@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
-import HeaderSimplified from '@/components/HeaderSimplified';
-import Footer from '@/components/Footer';
+
 import { useCart } from '@/context/CartContext';
 
 export default function ConfirmationPage() {
@@ -19,8 +18,6 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <HeaderSimplified showBackToShop={false} />
-
       <main className="flex-grow flex flex-col items-center px-6 py-12 md:py-16">
         <div className="max-w-4xl w-full">
           {/* Success Header */}
@@ -145,7 +142,6 @@ export default function ConfirmationPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }
