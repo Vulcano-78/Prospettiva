@@ -8,10 +8,26 @@ export default function Header() {
   const { itemCount } = useCart();
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const isActive = hovered || catalogOpen || mobileMenuOpen;
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200">
-      <div className="flex items-center px-8 h-16 max-w-[1440px] mx-auto relative">
+    <div
+      className="fixed top-0 w-full z-50 px-2 pt-1.5"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+    <nav
+      className="w-full transition-all duration-300 ease-in-out max-w-[1440px] mx-auto"
+      style={{
+        backgroundColor: isActive ? 'rgba(255,255,255,0.97)' : 'transparent',
+        boxShadow: isActive ? '0 4px 30px rgba(0,0,0,0.08)' : 'none',
+        backdropFilter: isActive ? 'blur(12px)' : 'none',
+        borderRadius: '6px',
+      }}
+    >
+      <div className="flex items-center px-8 h-14 relative">
         {/* Logo - left */}
         <Link href="/" className="text-xl font-[800] tracking-[-0.02em] text-[#002147] brand-logo flex-shrink-0">
           prospettiva<span className="text-[#4463EE]">.io</span>
@@ -26,8 +42,8 @@ export default function Header() {
 
             {/* Mega Menu */}
             {catalogOpen && (
-              <div className="fixed top-16 left-1/2 -translate-x-1/2 pt-0 z-50">
-                <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]">
+              <div className="fixed top-[62px] left-1/2 -translate-x-1/2 pt-1 z-50">
+                <div className="bg-white/97 backdrop-blur-xl border border-slate-200 shadow-xl p-8 w-[720px]" style={{ borderRadius: '6px' }}>
                   <div className="grid grid-cols-4 gap-8">
                     {/* Documenti Catastali */}
                     <div>
@@ -148,12 +164,13 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-200 px-6 py-4 space-y-3">
+        <div className="md:hidden bg-white/97 border-t border-slate-100 px-6 py-4 space-y-3">
           <Link href="/" className="block text-[#002147] font-bold py-2" onClick={() => setMobileMenuOpen(false)}>Catalogo</Link>
           <Link href="/login" className="block text-[#002147] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Accedi</Link>
           <Link href="/registrazione" className="block bg-[#4463EE] text-white font-bold px-4 py-3 text-center" style={{ borderRadius: '6px' }} onClick={() => setMobileMenuOpen(false)}>Registrati</Link>
         </div>
       )}
     </nav>
+    </div>
   );
 }
