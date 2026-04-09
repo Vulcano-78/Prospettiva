@@ -108,7 +108,7 @@ export default function HomePage() {
       </header>
 
       {/* Rapid Procurement Dashboard */}
-      <section id="catalog" style={{ background: 'linear-gradient(180deg, #dee1ff 0%, #ffffff 15%, #ffffff 85%, #eef0ff 100%)' }}>
+      <section id="catalog" className="bg-white">
       <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
@@ -116,7 +116,9 @@ export default function HomePage() {
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="relative">
+        <div className="absolute inset-0 -mx-8 -mb-16" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)' }}></div>
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
@@ -382,6 +384,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+        </div>
         </div>
       </div>
       </section>
