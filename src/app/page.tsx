@@ -497,17 +497,17 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="bg-surface-container-low py-24 px-8 text-center" id="cta">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl text-primary-container mb-6">Inizia oggi, gratis.</h2>
+          <h2 className="text-4xl text-primary-container mb-6">Prospettiva non è un servizio. È un nuovo modo di lavorare.</h2>
           <p className="text-on-surface-variant mb-10 text-lg">
-            Non serve una carta di credito. Registrati in meno di 2 minuti e ottieni accesso a tutti gli strumenti di base.
+            Documenti, marketing AI, strumenti professionali. Tutto in un&apos;unica piattaforma, costruita per chi lavora ogni giorno nell&apos;immobiliare. Siamo agli inizi — e la strada è già tracciata.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link href="/registrazione" className="bg-primary-container text-white px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-secondary transition-all text-center">
-              Registrati Ora
+              Registrati gratis →
             </Link>
-            <button className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all">
-              Parla con un esperto
-            </button>
+            <a href="#come-funziona" className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all">
+              Scopri cosa sta arrivando →
+            </a>
           </div>
         </div>
       </section>
