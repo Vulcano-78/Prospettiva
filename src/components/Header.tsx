@@ -28,7 +28,7 @@ export default function Header() {
               {/* Mega Menu */}
               {catalogOpen && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 pt-10 z-50 w-[720px]">
-                  <div className="bg-white border border-slate-200 shadow-xl p-8" style={{ borderRadius: '6px' }}>
+                  <div className="bg-white border border-slate-200 shadow-xl p-8" style={{ borderRadius: '6px', position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '720px' }}>
                     <div className="grid grid-cols-4 gap-8">
                       {/* Documenti Catastali */}
                       <div>
