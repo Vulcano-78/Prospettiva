@@ -108,7 +108,7 @@ export default function HomePage() {
       </header>
 
       {/* Rapid Procurement Dashboard */}
-      <section className="bg-white" id="catalog">
+      <section id="catalog" style={{ background: 'linear-gradient(180deg, #dee1ff 0%, #ffffff 15%, #ffffff 85%, #eef0ff 100%)' }}>
       <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
@@ -118,7 +118,6 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
-          <div className="workflow-container">
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">01</span>
@@ -191,10 +190,8 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          </div>
 
           {/* 02 - Verifiche Ipotecarie */}
-          <div className="workflow-container">
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">02</span>
@@ -267,10 +264,8 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          </div>
 
           {/* 03 - Urbanistica */}
-          <div className="workflow-container">
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">03</span>
@@ -343,10 +338,8 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          </div>
 
           {/* 04 - Utility Gratuite */}
-          <div className="workflow-container">
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">04</span>
@@ -388,7 +381,6 @@ export default function HomePage() {
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
               </a>
             </div>
-          </div>
           </div>
         </div>
       </div>

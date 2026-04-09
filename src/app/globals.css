@@ -101,28 +101,8 @@ h1, h2, h3, h4, .brand-logo {
   background-blend-mode: multiply;
 }
 
-/* Workflow Container */
-.workflow-container {
-  position: relative;
-  z-index: 1;
-}
-
-.workflow-box-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 140%;
-  height: 140%;
-  background: radial-gradient(circle at center, rgba(68, 99, 238, 0.08) 0%, rgba(68, 99, 238, 0) 70%);
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* Workflow Box */
 .workflow-box {
-  position: relative;
-  z-index: 2;
   border: 1px solid #e2e8f0;
   background: #ffffff;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
