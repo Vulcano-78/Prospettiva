@@ -139,7 +139,7 @@ export default function HomePage() {
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-container">
           <div className="workflow-box-glow"></div>
