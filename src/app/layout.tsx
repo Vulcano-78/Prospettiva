@@ -7,6 +7,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Prospettiva.io - Documenti Catastali e Servizi Immobiliari",
   description: "L'intelligenza digitale per il professionista immobiliare. Documenti catastali, verifiche ipotecarie, marketing AI.",
+  themeColor: "#dee1ff",
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+  },
 };
 
 export default function RootLayout({
@@ -17,7 +22,6 @@ export default function RootLayout({
   return (
     <html lang="it">
       <head>
-        <meta name="theme-color" content="#dee1ff" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
