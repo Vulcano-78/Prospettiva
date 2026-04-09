@@ -153,7 +153,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
             <h1 className="text-5xl md:text-6xl mb-6 leading-[1.1]">
-              <span className="text-[#002147]">Immobiliare,</span><br />
+              <span className="text-[#002147]">L&apos;immobiliare,</span><br />
               <span className="text-[#4463EE]">senza la burocrazia.</span>
             </h1>
             <p className="text-on-surface-variant text-lg md:text-xl mb-10 max-w-xl font-body">
