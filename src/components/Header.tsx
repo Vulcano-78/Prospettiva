@@ -28,8 +28,7 @@ export default function Header() {
               {/* Mega Menu bridge + panel */}
               {catalogOpen && (
                 <>
-                <div className="absolute top-full left-0 w-full h-6 z-50"></div>
-                <div className="fixed top-[58px] left-1/2 -translate-x-1/2 z-50" onMouseEnter={() => setCatalogOpen(true)} onMouseLeave={() => setCatalogOpen(false)}>
+                <div className="fixed top-[50px] left-1/2 -translate-x-1/2 z-50" onMouseEnter={() => setCatalogOpen(true)} onMouseLeave={() => setCatalogOpen(false)}>
                   <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]" style={{ borderRadius: '6px' }}>
                     <div className="grid grid-cols-4 gap-8">
                       {/* Documenti Catastali */}
