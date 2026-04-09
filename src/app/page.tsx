@@ -117,7 +117,7 @@ export default function HomePage() {
           </p>
         </div>
         <div className="relative">
-        <div className="absolute inset-0 -mx-8 -mb-16" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)' }}></div>
+        <div className="absolute inset-0 -mb-16" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)', left: '50%', transform: 'translateX(-50%)', width: '100vw' }}></div>
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
