@@ -119,7 +119,6 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-container">
-          <div className="workflow-box-glow"></div>
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">01</span>
@@ -196,7 +195,6 @@ export default function HomePage() {
 
           {/* 02 - Verifiche Ipotecarie */}
           <div className="workflow-container">
-          <div className="workflow-box-glow"></div>
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">02</span>
@@ -273,7 +271,6 @@ export default function HomePage() {
 
           {/* 03 - Urbanistica */}
           <div className="workflow-container">
-          <div className="workflow-box-glow"></div>
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">03</span>
@@ -350,7 +347,6 @@ export default function HomePage() {
 
           {/* 04 - Utility Gratuite */}
           <div className="workflow-container">
-          <div className="workflow-box-glow"></div>
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">04</span>
