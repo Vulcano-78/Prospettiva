@@ -27,12 +27,13 @@ export default function Header() {
 
               {/* Mega Menu */}
               {catalogOpen && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 pt-10 z-50 w-[720px]">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 pt-10 z-50 w-[860px]">
                   <div className="bg-white border border-slate-200 shadow-xl p-8" style={{ borderRadius: '6px', position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '720px' }}>
-                    <div className="grid grid-cols-4 gap-8">
+                    <div className="grid grid-cols-5 gap-6">
                       {/* Documenti Catastali */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-4">Documenti Catastali</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Documenti Catastali</h4>
+                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/servizio/visura-catastale" className="group">
                             <div className="text-sm font-semibold text-[#4463EE] group-hover:text-[#002147] transition-colors">Visura Catastale</div>
@@ -59,7 +60,8 @@ export default function Header() {
 
                       {/* Verifiche Ipotecarie */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-4">Verifiche Ipotecarie</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Verifiche Ipotecarie</h4>
+                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/servizio/visura-ipotecaria" className="group">
                             <div className="text-sm font-semibold text-[#4463EE] group-hover:text-[#002147] transition-colors">Visura Ipotecaria</div>
@@ -74,7 +76,8 @@ export default function Header() {
 
                       {/* Urbanistica */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-4">Urbanistica</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Urbanistica</h4>
+                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/coming-soon/certificato-urbanistico" className="group">
                             <div className="text-sm font-semibold text-[#4463EE] group-hover:text-[#002147] transition-colors">Certificato C.D.U.</div>
@@ -85,8 +88,12 @@ export default function Header() {
                             <div className="text-[10px] text-slate-400">Prestazione energetica</div>
                           </Link>
                         </div>
+                      </div>
 
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-4 mt-8">Marketing AI</h4>
+                      {/* Marketing AI */}
+                      <div>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Marketing AI</h4>
+                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/coming-soon/virtual-staging" className="group">
                             <div className="text-sm font-semibold text-[#4463EE] group-hover:text-[#002147] transition-colors">Virtual Staging AI</div>
@@ -95,9 +102,10 @@ export default function Header() {
                         </div>
                       </div>
 
-                      {/* Utility */}
+                      {/* Utility Gratuite */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-4">Utility</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Utility Gratuite</h4>
+                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/servizio/calcolatore-imu" className="group">
                             <div className="text-sm font-semibold text-[#4463EE] group-hover:text-[#002147] transition-colors">Calcolatore IMU</div>
