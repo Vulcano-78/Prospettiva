@@ -347,7 +347,7 @@ export default function HomePage() {
           </div>
           </div>
 
-          {/* 04 - Utility Professionali */}
+          {/* 04 - Utility Gratuite */}
           <div className="workflow-container">
           <div className="workflow-box-glow"></div>
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
@@ -355,7 +355,7 @@ export default function HomePage() {
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">04</span>
               <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">construction</span> Utility Professionali
+                  <span className="material-symbols-outlined text-secondary text-xl">construction</span> Utility Gratuite
                 </h3>
                 <p className="text-xs text-on-surface-variant">Strumenti per l&apos;attività quotidiana.</p>
               </div>
