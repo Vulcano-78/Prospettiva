@@ -27,14 +27,14 @@ export default function HomePage() {
     <>
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200">
-        <div className="flex items-center px-8 h-16 max-w-[1440px] mx-auto">
+        <div className="flex items-center px-8 h-16 max-w-[1440px] mx-auto relative">
           {/* Logo - left */}
           <Link href="/" className="text-xl font-[800] tracking-[-0.02em] text-[#002147] brand-logo flex-shrink-0">
             prospettiva<span className="text-[#4463EE]">.io</span>
           </Link>
 
           {/* Center nav links */}
-          <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
+          <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             <div className="relative" onMouseEnter={() => setCatalogOpen(true)} onMouseLeave={() => setCatalogOpen(false)}>
               <button className="text-[#002147] font-medium hover:text-[#4463EE] transition-colors duration-200 text-sm flex items-center gap-1">
                 Catalogo <span className="material-symbols-outlined text-base">expand_more</span>
@@ -42,8 +42,8 @@ export default function HomePage() {
 
               {/* Mega Menu */}
               {catalogOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 pt-4">
-                  <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]" style={{ borderRadius: '0' }}>
+                <div className="fixed top-16 left-1/2 -translate-x-1/2 pt-0 z-50">
+                  <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]">
                     <div className="grid grid-cols-4 gap-8">
                       {/* Documenti Catastali */}
                       <div>
@@ -133,7 +133,7 @@ export default function HomePage() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-shrink-0 ml-auto">
             <Link href="/carrello" className="relative text-[#002147] hover:text-[#4463EE] transition-colors mr-1">
               <span className="material-symbols-outlined text-2xl">shopping_cart</span>
               {itemCount > 0 && (
@@ -142,8 +142,8 @@ export default function HomePage() {
                 </span>
               )}
             </Link>
-            <Link href="/login" className="px-5 py-2 border border-slate-200 text-sm font-medium hover:bg-slate-50 transition-colors">Accedi</Link>
-            <Link href="/registrazione" className="px-5 py-2 bg-[#4463EE] text-white text-sm font-medium hover:bg-[#002147] transition-colors">Registrati</Link>
+            <Link href="/login" className="px-5 py-2 border border-slate-200 text-sm font-medium hover:bg-slate-50 transition-colors" style={{ borderRadius: '6px' }}>Accedi</Link>
+            <Link href="/registrazione" className="px-5 py-2 bg-[#4463EE] text-white text-sm font-medium hover:bg-[#002147] transition-colors" style={{ borderRadius: '6px' }}>Registrati</Link>
           </div>
         </div>
       </nav>
@@ -164,7 +164,7 @@ export default function HomePage() {
                 Esplora i servizi <span className="ml-2">→</span>
               </a>
               <Link href="/registrazione" className="bg-white border border-outline-variant text-primary-container px-6 py-3 text-base font-medium hover:bg-surface-container-low transition-all text-center" style={{ borderRadius: '6px' }}>
-                Crea account gratis
+                Crea account
               </Link>
             </div>
           </div>
@@ -529,7 +529,7 @@ export default function HomePage() {
             <p className="text-white/60 text-lg mb-10 max-w-md">
               Trasforma schizzi tecnici e stanze vuote in ambienti arredati da designer professionisti. Carica la planimetria e lascia che l&apos;AI faccia la magia istantaneamente.
             </p>
-            <Link href="/coming-soon/virtual-staging" className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all">
+            <Link href="/coming-soon/virtual-staging" className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all" style={{ borderRadius: '6px' }}>
               Entra in lista d&apos;attesa →
             </Link>
           </div>
@@ -602,10 +602,10 @@ export default function HomePage() {
             Documenti, marketing AI, strumenti professionali. Tutto in un&apos;unica piattaforma, costruita per chi lavora ogni giorno nell&apos;immobiliare. Siamo agli inizi — e la strada è già tracciata.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <Link href="/registrazione" className="bg-primary-container text-white px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-secondary transition-all text-center">
+            <Link href="/registrazione" className="bg-primary-container text-white px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-secondary transition-all text-center" style={{ borderRadius: '6px' }}>
               Registrati gratis →
             </Link>
-            <a href="#come-funziona" className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all">
+            <a href="#come-funziona" className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all" style={{ borderRadius: '6px' }}>
               Scopri cosa sta arrivando →
             </a>
           </div>
