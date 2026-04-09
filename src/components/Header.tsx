@@ -27,7 +27,7 @@ export default function Header() {
 
               {/* Mega Menu */}
               {catalogOpen && (
-                <div className="fixed top-[60px] left-1/2 -translate-x-1/2 pt-1 z-50">
+                <div className="fixed top-[60px] left-1/2 -translate-x-1/2 pt-1 z-50" onMouseEnter={() => setCatalogOpen(true)} onMouseLeave={() => setCatalogOpen(false)}>
                   <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]" style={{ borderRadius: '6px' }}>
                     <div className="grid grid-cols-4 gap-8">
                       {/* Documenti Catastali */}
