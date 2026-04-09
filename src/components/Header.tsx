@@ -25,9 +25,11 @@ export default function Header() {
                 Catalogo <span className="material-symbols-outlined text-base">expand_more</span>
               </button>
 
-              {/* Mega Menu */}
+              {/* Mega Menu bridge + panel */}
               {catalogOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 z-50">
+                <>
+                <div className="absolute top-full left-0 w-full h-6 z-50"></div>
+                <div className="fixed top-[58px] left-1/2 -translate-x-1/2 z-50" onMouseEnter={() => setCatalogOpen(true)} onMouseLeave={() => setCatalogOpen(false)}>
                   <div className="bg-white border border-slate-200 shadow-xl p-8 w-[720px]" style={{ borderRadius: '6px' }}>
                     <div className="grid grid-cols-4 gap-8">
                       {/* Documenti Catastali */}
@@ -112,6 +114,7 @@ export default function Header() {
                     </div>
                   </div>
                 </div>
+                </>
               )}
             </div>
             <Link className="text-[#002147] hover:text-[#4463EE] transition-colors duration-200 text-sm font-medium" href="/#come-funziona">Come funziona</Link>
