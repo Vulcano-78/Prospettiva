@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Prospettiva.io - Documenti Catastali e Servizi Immobiliari",
@@ -22,7 +24,9 @@ export default function RootLayout({
       </head>
       <body className="bg-white font-body text-on-surface">
         <CartProvider>
+          <Header />
           {children}
+          <Footer />
         </CartProvider>
       </body>
     </html>
