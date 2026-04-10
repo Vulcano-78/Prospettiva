@@ -30,7 +30,8 @@ export default function HomePage() {
           <div className="lg:col-span-7 text-left">
             <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
               <span className="text-[#002147]">L&apos;immobiliare,</span><br />
-              <span className="text-[#4463EE]">senza burocrazia, ed un po&apos; di arte.</span>
+              <span className="text-[#4463EE]">senza burocrazia,</span><br />
+              <span className="text-[#4463EE]">ed un po&apos; di arte.</span>
             </h1>
             <p className="text-on-surface-variant text-lg md:text-xl mb-10 max-w-xl font-body">
               Documenti ufficiali, verifiche ipotecarie e strumenti AI. Tutto automatizzato, tutto in un posto solo.
