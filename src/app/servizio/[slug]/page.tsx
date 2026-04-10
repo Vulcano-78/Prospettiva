@@ -131,7 +131,7 @@ export default function ServicePage() {
           const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
           return (
             <div className="max-w-[1440px] mx-auto px-8 relative mb-8">
-              <div className="absolute left-8 top-1/2 -translate-y-1/2">
+              <div className="absolute left-8 top-4">
                 <Breadcrumb className="" items={[
                   { label: 'Home', href: '/' },
                   { label: cat.label, href: cat.url },
