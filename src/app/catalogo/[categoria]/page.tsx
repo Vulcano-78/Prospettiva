@@ -83,8 +83,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
         <div className="max-w-7xl mx-auto">
           <div className="workflow-box p-8 flex flex-col bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-              <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">{config.number}</span>
-              <div>
+                            <div>
                 <h2 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">{config.icon}</span> {config.title}
                 </h2>
