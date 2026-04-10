@@ -187,9 +187,9 @@ export default function HomePage() {
               </table>
             </div>
             <div className="pt-6 text-center">
-              <a className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="#documenti-catastali">
+              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -261,9 +261,9 @@ export default function HomePage() {
               </table>
             </div>
             <div className="pt-6 text-center">
-              <a className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="#verifiche-ipotecarie">
+              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -335,9 +335,9 @@ export default function HomePage() {
               </table>
             </div>
             <div className="pt-6 text-center">
-              <a className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="#urbanistica">
+              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/urbanistica">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -379,9 +379,9 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="pt-6 text-center mt-auto">
-              <a className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="#strumenti-gratuiti">
+              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
