@@ -25,7 +25,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <header className="hero-gradient pt-40 pb-28 px-8">
+      <header className="hero-gradient pt-32 md:pt-40 pb-28 px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
             <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
@@ -109,10 +109,10 @@ export default function HomePage() {
 
       {/* Rapid Procurement Dashboard */}
       <section id="catalog" className="bg-white">
-      <div className="pt-24 pb-16 px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
-          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <div className="pt-12 md:pt-24 pb-16 px-8 max-w-7xl mx-auto">
+        <div className="text-left md:text-center mb-14">
+          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
+          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
