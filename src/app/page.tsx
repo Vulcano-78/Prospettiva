@@ -28,7 +28,7 @@ export default function HomePage() {
       <header className="hero-gradient pt-32 md:pt-40 pb-28 px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
-            <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
+            <h1 className="text-5xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
               <span className="text-[#002147]">L&apos;immobiliare,</span><br />
               <span className="text-[#4463EE]">senza burocrazia.</span>
             </h1>
@@ -109,9 +109,9 @@ export default function HomePage() {
 
       {/* Rapid Procurement Dashboard */}
       <section id="catalog" className="bg-white">
-      <div className="pt-12 md:pt-24 pb-16 px-8 max-w-7xl mx-auto">
+      <div className="pt-6 md:pt-24 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-left md:text-center mb-14">
-          <h2 className="text-[42px] md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
+          <h2 className="text-3xl md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
@@ -404,9 +404,11 @@ export default function HomePage() {
             <p className="text-white/60 text-lg mb-10 max-w-md">
               Trasforma schizzi tecnici e stanze vuote in ambienti arredati da designer professionisti. Carica la planimetria e lascia che l&apos;AI faccia la magia istantaneamente.
             </p>
-            <Link href="/coming-soon/virtual-staging" className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all" style={{ borderRadius: '6px' }}>
-              Entra in lista d&apos;attesa →
-            </Link>
+            <div className="text-center md:text-left">
+              <Link href="/coming-soon/virtual-staging" className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all" style={{ borderRadius: '6px' }}>
+                Entra in lista d&apos;attesa →
+              </Link>
+            </div>
           </div>
           <div className="relative">
             <div className="aspect-video bg-slate-900 border border-white/10 relative overflow-hidden group shadow-2xl">
@@ -460,8 +462,8 @@ export default function HomePage() {
       {/* Partner Logos */}
       <section className="bg-white border-y border-slate-100 py-12 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-between items-center gap-8 opacity-40 grayscale">
-            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">AGENZIA ENTRATE</span>
+          <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-40 grayscale">
+            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">AGENZIA DELLE ENTRATE</span>
             <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">CATASTO NAZIONALE</span>
             <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">CONSIGLIO NOTARIATO</span>
             <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">REGISTRO IMPRESE</span>
