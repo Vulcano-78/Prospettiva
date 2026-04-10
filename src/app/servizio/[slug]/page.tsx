@@ -15,7 +15,7 @@ export default function ServicePage() {
   const { addItem } = useCart();
 
   const [formData, setFormData] = useState<Record<string, string>>({});
-  const [searchType, setSearchType] = useState<'immobile' | 'soggetto'>('immobile');
+  const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
 
   if (!service) {
     return (
@@ -117,28 +117,26 @@ export default function ServicePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 pt-24 pb-12">
-        {/* Back link */}
-        <div className="mb-6">
-          <Link href="/#catalog" className="text-[#4463EE] text-xs font-semibold hover:text-[#002147] transition-colors flex items-center gap-1">
+      <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 pt-20 pb-12">
+        {/* Header with back link */}
+        <div className="relative mb-8">
+          <Link href="/#catalog" className="absolute left-0 top-1/2 -translate-y-1/2 text-[#4463EE] text-xs font-semibold hover:text-[#002147] transition-colors flex items-center gap-1">
             <span className="material-symbols-outlined text-base">chevron_left</span>
             Torna al catalogo
           </Link>
-        </div>
-
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            {service.name}
-          </h1>
-          <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
-            {service.longDescription || service.description}
-          </p>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              {service.name}
+            </h1>
+            <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
+              {service.longDescription || service.description}
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Form Section */}
-          <div className="w-full lg:w-2/3 workflow-box bg-white p-6 md:p-8">
+          <div className="w-full lg:w-2/3 workflow-box bg-white p-6 md:p-8" style={{ borderRadius: '6px' }}>
             <form className="space-y-6" onSubmit={handleBuyNow}>
               {/* Search Type Toggle (for Visura) */}
               {hasSearchTypeToggle && (
@@ -146,30 +144,45 @@ export default function ServicePage() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                     Modalità di Ricerca
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 gap-3">
                     <button
                       type="button"
                       onClick={() => setSearchType('immobile')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-4 border transition-all text-sm font-bold ${
+                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
                         searchType === 'immobile'
                           ? 'border-[#002147] bg-[#002147] text-white'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                       }`}
+                      style={{ borderRadius: '6px' }}
                     >
-                      <span className="material-symbols-outlined text-lg">home</span>
+                      <span className="material-symbols-outlined text-base">home</span>
                       Per Immobile
                     </button>
                     <button
                       type="button"
                       onClick={() => setSearchType('soggetto')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-4 border transition-all text-sm font-bold ${
+                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
                         searchType === 'soggetto'
                           ? 'border-[#002147] bg-[#002147] text-white'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                       }`}
+                      style={{ borderRadius: '6px' }}
                     >
-                      <span className="material-symbols-outlined text-lg">person</span>
+                      <span className="material-symbols-outlined text-base">person</span>
                       Per Soggetto
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSearchType('soggetto-giuridico')}
+                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
+                        searchType === 'soggetto-giuridico'
+                          ? 'border-[#002147] bg-[#002147] text-white'
+                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                      }`}
+                      style={{ borderRadius: '6px' }}
+                    >
+                      <span className="material-symbols-outlined text-base">business</span>
+                      Per Soggetto Giuridico
                     </button>
                   </div>
                 </div>
@@ -196,7 +209,7 @@ export default function ServicePage() {
                   className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
                   style={{ borderRadius: '6px' }}
                 >
-                  Scarica ora — {formatPrice(service.price)}
+                  Acquista ora — {formatPrice(service.price)} + IVA
                   <span className="material-symbols-outlined text-base">arrow_forward</span>
                 </button>
                 <button
@@ -215,7 +228,7 @@ export default function ServicePage() {
           {/* Sidebar */}
           <div className="w-full lg:w-1/3 space-y-4 lg:sticky lg:top-24">
             {/* Document Preview */}
-            <div className="workflow-box bg-white overflow-hidden">
+            <div className="workflow-box bg-white overflow-hidden" style={{ borderRadius: '6px' }}>
               <div className="bg-[#002147] px-4 py-2.5 flex items-center justify-between">
                 <span className="text-white text-[10px] font-bold uppercase tracking-widest">
                   Fac-simile Documento
@@ -255,14 +268,14 @@ export default function ServicePage() {
 
             {/* Features */}
             <div className="grid grid-cols-1 gap-2">
-              <div className="flex items-center gap-3 workflow-box bg-white p-3">
+              <div className="flex items-center gap-3 workflow-box bg-white p-3" style={{ borderRadius: '6px' }}>
                 <span className="material-symbols-outlined text-emerald-600 bg-emerald-50 p-1.5 text-lg">speed</span>
                 <div>
                   <p className="text-xs font-bold text-[#002147]">Velocità estrema</p>
                   <p className="text-[10px] text-slate-500">Consegna media: 12 minuti</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 workflow-box bg-white p-3">
+              <div className="flex items-center gap-3 workflow-box bg-white p-3" style={{ borderRadius: '6px' }}>
                 <span className="material-symbols-outlined text-[#4463EE] bg-blue-50 p-1.5 text-lg">verified_user</span>
                 <div>
                   <p className="text-xs font-bold text-[#002147]">Dati Garantiti</p>
