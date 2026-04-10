@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import { getServiceBySlug, formatPrice, Service } from '@/data/services';
 import { useCart } from '@/context/CartContext';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export default function ServicePage() {
   const params = useParams();
@@ -121,21 +122,19 @@ export default function ServicePage() {
         {/* Breadcrumb */}
         {(() => {
           const categoryToUrl: Record<string, { url: string; label: string }> = {
-            'documenti-catastali': { url: '/catalogo/documenti-catastali', label: 'Documenti Catastali' },
-            'verifiche-ipotecarie': { url: '/catalogo/verifiche-ipotecarie', label: 'Verifiche Ipotecarie' },
+            'documenti-catastali': { url: '/catalogo/documenti-catastali', label: 'Catasto' },
+            'verifiche-ipotecarie': { url: '/catalogo/verifiche-ipotecarie', label: 'Conservatoria' },
             'urbanistica': { url: '/catalogo/urbanistica', label: 'Urbanistica' },
             'marketing-ai': { url: '/#catalog', label: 'Marketing AI' },
             'strumenti-gratuiti': { url: '/catalogo/utility-gratuite', label: 'Utility Gratuite' },
           };
           const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
           return (
-            <nav className="mb-6 text-xs flex items-center gap-2 text-on-surface-variant">
-              <Link href="/" className="hover:text-[#4463EE] transition-colors">Home</Link>
-              <span className="text-slate-300">/</span>
-              <Link href={cat.url} className="hover:text-[#4463EE] transition-colors">{cat.label}</Link>
-              <span className="text-slate-300">/</span>
-              <span className="text-[#002147] font-semibold">{service.name}</span>
-            </nav>
+            <Breadcrumb items={[
+              { label: 'Home', href: '/' },
+              { label: cat.label, href: cat.url },
+              { label: service.name },
+            ]} />
           );
         })()}
 

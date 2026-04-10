@@ -5,16 +5,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services, getServicesByCategory } from '@/data/services';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const categoryConfig: Record<string, { title: string; description: string; icon: string; number: string }> = {
   'documenti-catastali': {
-    title: 'Documenti Catastali',
+    title: 'Catasto',
     description: 'Visure e planimetrie ufficiali in tempo reale.',
     icon: 'description',
     number: '01',
   },
   'verifiche-ipotecarie': {
-    title: 'Verifiche Ipotecarie',
+    title: 'Conservatoria',
     description: 'Analisi gravami e trascrizioni pregiudizievoli.',
     icon: 'account_balance',
     number: '02',
@@ -63,13 +64,11 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen">
       {/* Header section with title */}
-      <section className="hero-gradient pt-32 pb-12 px-8"><div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <Link href="/#catalog" className="text-[#4463EE] text-sm font-semibold hover:text-[#002147] transition-colors flex items-center gap-1">
-            <span className="material-symbols-outlined text-base">chevron_left</span>
-            Torna al catalogo
-          </Link>
-        </div>
+      <section className="hero-gradient pt-24 pb-12 px-8"><div className="max-w-7xl mx-auto">
+        <Breadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: config.title },
+        ]} />
         <div className="text-center mb-12">
           <h1 className="text-[42px] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>

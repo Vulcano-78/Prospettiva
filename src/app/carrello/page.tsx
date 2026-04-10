@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import CartItemRow from '@/components/CartItemRow';
 import ProgressBar from '@/components/ProgressBar';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 
@@ -39,7 +40,11 @@ export default function CartPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-8 pb-24 px-4 md:px-6 max-w-2xl mx-auto w-full">
+      <main className="flex-grow pt-20 pb-24 px-4 md:px-6 max-w-2xl mx-auto w-full">
+        <Breadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Carrello' },
+        ]} />
         {/* Progress Bar */}
         <div className="mb-8 md:mb-12">
           <ProgressBar currentStep={1} />

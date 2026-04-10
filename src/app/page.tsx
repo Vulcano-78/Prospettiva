@@ -125,7 +125,7 @@ export default function HomePage() {
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">01</span>
               <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">description</span> Documenti Catastali
+                  <span className="material-symbols-outlined text-secondary text-xl">description</span> Catasto
                 </h3>
                 <p className="text-xs text-on-surface-variant">Visure e planimetrie ufficiali in tempo reale.</p>
               </div>
@@ -201,7 +201,7 @@ export default function HomePage() {
               <span className="w-10 h-10 flex-shrink-0 border border-primary-container flex items-center justify-center font-bold text-sm text-primary-container bg-white">02</span>
               <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">account_balance</span> Verifiche Ipotecarie
+                  <span className="material-symbols-outlined text-secondary text-xl">account_balance</span> Conservatoria
                 </h3>
                 <p className="text-xs text-on-surface-variant">Analisi gravami e trascrizioni pregiudizievoli.</p>
               </div>

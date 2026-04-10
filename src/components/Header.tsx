@@ -32,7 +32,7 @@ export default function Header() {
                     <div className="grid grid-cols-5 gap-6">
                       {/* Documenti Catastali */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Documenti Catastali</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Catasto</h4>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/servizio/visura-catastale" className="group">
@@ -60,7 +60,7 @@ export default function Header() {
 
                       {/* Verifiche Ipotecarie */}
                       <div>
-                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Verifiche Ipotecarie</h4>
+                        <h4 className="text-[10px] font-black text-[#002147] uppercase tracking-widest mb-2">Conservatoria</h4>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
                           <Link href="/servizio/visura-ipotecaria" className="group">

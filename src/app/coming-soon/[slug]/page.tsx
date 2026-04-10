@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { getServiceBySlug } from '@/data/services';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export default function ComingSoonPage() {
   const params = useParams();
@@ -15,8 +16,14 @@ export default function ComingSoonPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex items-center justify-center px-6 py-12">
-        <div className="max-w-6xl w-full grid lg:grid-cols-2 gap-16 items-center">
+      <main className="flex-grow px-6 pt-20 pb-12">
+        <div className="max-w-6xl mx-auto">
+          <Breadcrumb items={[
+            { label: 'Home', href: '/' },
+            { label: serviceName },
+          ]} />
+        </div>
+        <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div className="space-y-8 order-2 lg:order-1">
             <div className="space-y-4">

@@ -33,13 +33,13 @@ export interface Category {
 export const categories: Category[] = [
   {
     id: 'documenti-catastali',
-    name: 'Documenti Catastali',
+    name: 'Catasto',
     description: 'Visure, planimetrie e analisi documentali ufficiali.',
     icon: 'assignment'
   },
   {
     id: 'verifiche-ipotecarie',
-    name: 'Verifiche Ipotecarie',
+    name: 'Conservatoria',
     description: 'Ispezioni e controlli sulla presenza di gravami.',
     icon: 'search'
   },
