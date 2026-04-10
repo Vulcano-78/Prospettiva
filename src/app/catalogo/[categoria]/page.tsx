@@ -63,7 +63,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen">
       {/* Header section with title */}
-      <section className="pt-32 pb-12 px-8 max-w-7xl mx-auto">
+      <section className="hero-gradient pt-32 pb-12 px-8"><div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href="/#catalog" className="text-[#4463EE] text-sm font-semibold hover:text-[#002147] transition-colors flex items-center gap-1">
             <span className="material-symbols-outlined text-base">chevron_left</span>
@@ -75,6 +75,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             {config.description}
           </p>
+        </div>
         </div>
       </section>
 
