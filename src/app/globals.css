@@ -114,6 +114,10 @@ h1, h2, h3, h4, .brand-logo {
 
 /* Mobile responsive table for workflow boxes */
 @media (max-width: 767px) {
+  .workflow-box > div:first-child {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
   .workflow-box table thead {
     display: none;
   }
