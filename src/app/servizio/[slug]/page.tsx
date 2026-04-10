@@ -118,20 +118,35 @@ export default function ServicePage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 pt-20 pb-12">
-        {/* Header with back link */}
-        <div className="relative mb-8">
-          <Link href="/#catalog" className="absolute left-0 top-1/2 -translate-y-1/2 text-[#4463EE] text-xs font-semibold hover:text-[#002147] transition-colors flex items-center gap-1">
-            <span className="material-symbols-outlined text-base">chevron_left</span>
-            Torna al catalogo
-          </Link>
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              {service.name}
-            </h1>
-            <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
-              {service.longDescription || service.description}
-            </p>
-          </div>
+        {/* Breadcrumb */}
+        {(() => {
+          const categoryToUrl: Record<string, { url: string; label: string }> = {
+            'documenti-catastali': { url: '/catalogo/documenti-catastali', label: 'Documenti Catastali' },
+            'verifiche-ipotecarie': { url: '/catalogo/verifiche-ipotecarie', label: 'Verifiche Ipotecarie' },
+            'urbanistica': { url: '/catalogo/urbanistica', label: 'Urbanistica' },
+            'marketing-ai': { url: '/#catalog', label: 'Marketing AI' },
+            'strumenti-gratuiti': { url: '/catalogo/utility-gratuite', label: 'Utility Gratuite' },
+          };
+          const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
+          return (
+            <nav className="mb-6 text-xs flex items-center gap-2 text-on-surface-variant">
+              <Link href="/" className="hover:text-[#4463EE] transition-colors">Home</Link>
+              <span className="text-slate-300">/</span>
+              <Link href={cat.url} className="hover:text-[#4463EE] transition-colors">{cat.label}</Link>
+              <span className="text-slate-300">/</span>
+              <span className="text-[#002147] font-semibold">{service.name}</span>
+            </nav>
+          );
+        })()}
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            {service.name}
+          </h1>
+          <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
+            {service.longDescription || service.description}
+          </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
