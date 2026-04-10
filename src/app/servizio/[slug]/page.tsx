@@ -118,8 +118,8 @@ export default function ServicePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 md:px-6 pt-20 pb-12">
-        {/* Breadcrumb */}
+      <main className="flex-grow w-full pt-20 pb-12">
+        {/* Title row with breadcrumb aligned to logo (max-w-[1440px] px-8) */}
         {(() => {
           const categoryToUrl: Record<string, { url: string; label: string }> = {
             'documenti-catastali': { url: '/catalogo/documenti-catastali', label: 'Catasto' },
@@ -130,23 +130,27 @@ export default function ServicePage() {
           };
           const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
           return (
-            <Breadcrumb items={[
-              { label: 'Home', href: '/' },
-              { label: cat.label, href: cat.url },
-              { label: service.name },
-            ]} />
+            <div className="max-w-[1440px] mx-auto px-8 relative mb-8">
+              <div className="absolute left-8 top-1/2 -translate-y-1/2">
+                <Breadcrumb className="" items={[
+                  { label: 'Home', href: '/' },
+                  { label: cat.label, href: cat.url },
+                  { label: service.name },
+                ]} />
+              </div>
+              <div className="text-center">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  {service.name}
+                </h1>
+                <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
+                  {service.longDescription || service.description}
+                </p>
+              </div>
+            </div>
           );
         })()}
 
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            {service.name}
-          </h1>
-          <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
-            {service.longDescription || service.description}
-          </p>
-        </div>
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Form Section */}
@@ -298,6 +302,7 @@ export default function ServicePage() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </main>
     </div>
