@@ -64,12 +64,12 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen">
       {/* Header section with title */}
-      <section className="hero-gradient pt-24 pb-12 px-8"><div className="max-w-7xl mx-auto">
+      <section className="hero-gradient pt-24 pb-6 px-8"><div className="max-w-7xl mx-auto">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
           { label: config.title },
         ]} />
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <h1 className="text-[42px] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             {config.description}
