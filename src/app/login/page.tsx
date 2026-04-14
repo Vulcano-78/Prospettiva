@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Breadcrumb from '@/components/Breadcrumb';
 
 
 export default function LoginPage() {
@@ -19,7 +18,7 @@ export default function LoginPage() {
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       <main className="flex-grow flex flex-col items-center px-6 pt-20 pb-12">
         <div className="w-full max-w-md">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Accedi' }]} />
+
           <div className="text-center mb-10">
             <h1 className="text-3xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
               Bentornato

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Breadcrumb from '@/components/Breadcrumb';
 
 
 type AccountType = 'professionista' | 'privato';
@@ -47,7 +46,7 @@ export default function RegistrationPage() {
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       <main className="flex-grow pt-20 pb-12 px-6">
         <div className="max-w-xl mx-auto">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Registrati' }]} />
+
           <div className="text-center mb-10">
             <h1 className="text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
               Crea il tuo account
