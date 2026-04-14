@@ -12,7 +12,7 @@ export default function Footer() {
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/cookie">Cookie Policy</Link>
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/termini">Termini e Condizioni</Link>
-          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/privacy">GDPR</Link>
+          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/gdpr">GDPR</Link>
         </div>
 
         {/* Copyright + P.IVA */}
