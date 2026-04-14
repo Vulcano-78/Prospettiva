@@ -29,7 +29,7 @@ export default function CheckoutDataPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/conferma');
+    router.push('/checkout/pagamento');
   };
 
   if (items.length === 0) {
