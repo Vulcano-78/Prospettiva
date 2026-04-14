@@ -18,9 +18,10 @@ const defaultSteps: Step[] = [
 
 export default function ProgressBar({ currentStep, steps = defaultSteps }: ProgressBarProps) {
   return (
-    <div className="flex items-center justify-between px-2 mb-4">
+    <div className="flex items-center justify-center">
       {steps.map((step, index) => (
-        <div key={step.number} className="flex items-center flex-1">
+        <div key={step.number} className="flex items-center">
+          {/* Step circle + label */}
           <div className="flex flex-col items-center gap-2">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
@@ -50,9 +51,10 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
             </span>
           </div>
 
+          {/* Connector line */}
           {index < steps.length - 1 && (
             <div
-              className={`h-[2px] flex-1 mx-4 relative top-[-10px] transition-colors ${
+              className={`h-[2px] w-16 md:w-24 mx-4 relative top-[-10px] transition-colors ${
                 step.number < currentStep
                   ? 'bg-green-100'
                   : 'bg-[#e1e3e4]'

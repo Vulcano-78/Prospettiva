@@ -42,10 +42,8 @@ export default function CheckoutDataPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       {/* Progress Bar — full width, centered on page */}
-      <div className="w-full pt-20 px-4 md:px-6">
-        <div className="max-w-md mx-auto mb-8 md:mb-12">
-          <ProgressBar currentStep={2} />
-        </div>
+      <div className="w-full pt-20 mb-8 md:mb-12">
+        <ProgressBar currentStep={2} />
       </div>
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
