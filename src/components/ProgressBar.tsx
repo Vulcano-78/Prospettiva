@@ -26,7 +26,7 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
                 step.number < currentStep
-                  ? 'bg-[#2db92d] text-[#2db92d]'
+                  ? 'bg-green-100 text-[#2db92d]'
                   : step.number === currentStep
                   ? 'bg-[#002147] text-white'
                   : 'bg-[#e7e8e9] text-[#44474e]'
@@ -56,7 +56,7 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
             <div
               className={`h-[2px] w-16 md:w-24 mx-4 relative top-[-10px] transition-colors ${
                 step.number < currentStep
-                  ? 'bg-[#2db92d]'
+                  ? 'bg-green-100'
                   : 'bg-[#e1e3e4]'
               }`}
             />
