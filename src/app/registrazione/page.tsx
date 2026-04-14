@@ -52,7 +52,7 @@ export default function RegistrationPage() {
               Crea il tuo account
             </h1>
             <p className="text-[#44474e]">
-              Inizia oggi a utilizzare gli strumenti di Prospettiva.io per il mercato immobiliare.
+              Inizia oggi a utilizzare gli strumenti di Prospettiva.io.
             </p>
           </div>
 
@@ -62,51 +62,39 @@ export default function RegistrationPage() {
               <h2 className="text-xs font-bold text-[#002147] uppercase tracking-widest mb-4 text-center">
                 Seleziona il tipo di account
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
                 <button
                   type="button"
                   onClick={() => setAccountType('professionista')}
-                  className={`relative flex flex-col items-center text-center p-6 rounded-xl border-2 transition-all ${
+                  className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
                     accountType === 'professionista'
-                      ? 'border-[#002147] bg-[#002147]/5 ring-4 ring-[#002147]/10'
+                      ? 'border-[#002147] bg-[#002147]/5'
                       : 'border-slate-200 hover:border-[#002147]/30'
                   }`}
                 >
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all ${
-                    accountType === 'professionista' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-500'
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                    accountType === 'professionista' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-400'
                   }`}>
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>corporate_fare</span>
+                    <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>corporate_fare</span>
                   </div>
-                  <span className="font-bold text-[#002147]">Professionista / Azienda</span>
-                  <span className="text-[10px] text-[#44474e] mt-1">Agenti, architetti e consulenti</span>
-                  {accountType === 'professionista' && (
-                    <div className="absolute top-3 right-3">
-                      <span className="material-symbols-outlined text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    </div>
-                  )}
+                  <span className="text-sm font-semibold text-[#002147]">Professionista</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setAccountType('privato')}
-                  className={`relative flex flex-col items-center text-center p-6 rounded-xl border-2 transition-all ${
+                  className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
                     accountType === 'privato'
-                      ? 'border-[#002147] bg-[#002147]/5 ring-4 ring-[#002147]/10'
+                      ? 'border-[#002147] bg-[#002147]/5'
                       : 'border-slate-200 hover:border-[#002147]/30'
                   }`}
                 >
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all ${
-                    accountType === 'privato' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-500'
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                    accountType === 'privato' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-400'
                   }`}>
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
+                    <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
                   </div>
-                  <span className="font-bold text-[#002147]">Privato</span>
-                  <span className="text-[10px] text-[#44474e] mt-1">Per chi cerca o vende casa</span>
-                  {accountType === 'privato' && (
-                    <div className="absolute top-3 right-3">
-                      <span className="material-symbols-outlined text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    </div>
-                  )}
+                  <span className="text-sm font-semibold text-[#002147]">Privato</span>
                 </button>
               </div>
             </section>
