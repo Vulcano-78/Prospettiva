@@ -148,7 +148,7 @@ export default function PaymentPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-8 pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
+      <main className="flex-grow pt-20 pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
         {/* Progress Bar */}
         <div className="mb-8 md:mb-12">
           <ProgressBar currentStep={3} />
@@ -280,16 +280,8 @@ export default function PaymentPage() {
               <div className="mt-6 pt-5 border-t border-slate-100">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-xs text-[#44474e]">
-                    <span className="material-symbols-outlined text-base text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
-                    Transazione protetta e crittografata
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-[#44474e]">
                     <span className="material-symbols-outlined text-base text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
-                    Documenti consegnati in 15-30 min
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-[#44474e]">
-                    <span className="material-symbols-outlined text-base text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>support_agent</span>
-                    Supporto dedicato post-acquisto
+                    Documenti consegnati entro un&apos;ora
                   </div>
                 </div>
               </div>
