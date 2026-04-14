@@ -41,12 +41,14 @@ export default function CheckoutDataPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-8 pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
-        {/* Progress Bar */}
-        <div className="mb-8 md:mb-12">
+      {/* Progress Bar — full width, centered on page */}
+      <div className="w-full pt-20 px-4 md:px-6">
+        <div className="max-w-md mx-auto mb-8 md:mb-12">
           <ProgressBar currentStep={2} />
         </div>
+      </div>
 
+      <main className="flex-grow pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
         {/* Header */}
         <header className="mb-8 md:mb-10 text-center">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>

@@ -18,7 +18,7 @@ const defaultSteps: Step[] = [
 
 export default function ProgressBar({ currentStep, steps = defaultSteps }: ProgressBarProps) {
   return (
-    <div className="flex items-center justify-between px-2 mb-4 max-w-md mx-auto w-full">
+    <div className="flex items-center justify-between px-2 mb-4">
       {steps.map((step, index) => (
         <div key={step.number} className="flex items-center flex-1">
           <div className="flex flex-col items-center gap-2">

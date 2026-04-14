@@ -40,15 +40,18 @@ export default function CartPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-20 pb-24 px-4 md:px-6 max-w-2xl mx-auto w-full">
+      {/* Progress Bar — full width, centered on page */}
+      <div className="w-full pt-20 px-4 md:px-6">
+        <div className="max-w-md mx-auto mb-8 md:mb-12">
+          <ProgressBar currentStep={1} />
+        </div>
+      </div>
+
+      <main className="flex-grow pb-24 px-4 md:px-6 max-w-2xl mx-auto w-full">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
           { label: 'Carrello' },
         ]} />
-        {/* Progress Bar */}
-        <div className="mb-8 md:mb-12">
-          <ProgressBar currentStep={1} />
-        </div>
 
         {/* Header */}
         <header className="mb-8 md:mb-10 text-center">
