@@ -130,8 +130,8 @@ export default function ServicePage() {
           };
           const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
           return (
-            <div className="max-w-[1440px] mx-auto px-8 relative mb-8">
-              <div className="absolute left-8 top-4">
+            <div className="max-w-[1440px] mx-auto px-4 md:px-8 md:relative mb-8">
+              <div className="mb-4 md:mb-0 md:absolute md:left-8 md:top-4">
                 <Breadcrumb className="" items={[
                   { label: 'Home', href: '/' },
                   { label: cat.label, href: cat.url },
@@ -142,7 +142,7 @@ export default function ServicePage() {
                 <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   {service.name}
                 </h1>
-                <p className="text-base text-on-surface-variant max-w-2xl mx-auto">
+                <p className="text-sm md:text-base text-on-surface-variant max-w-2xl mx-auto">
                   {service.longDescription || service.description}
                 </p>
               </div>
@@ -162,11 +162,11 @@ export default function ServicePage() {
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                     Modalità di Ricerca
                   </label>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="flex flex-col md:flex-row gap-2">
                     <button
                       type="button"
                       onClick={() => setSearchType('immobile')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
+                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
                         searchType === 'immobile'
                           ? 'border-[#002147] bg-[#002147] text-white'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -179,7 +179,7 @@ export default function ServicePage() {
                     <button
                       type="button"
                       onClick={() => setSearchType('soggetto')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
+                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
                         searchType === 'soggetto'
                           ? 'border-[#002147] bg-[#002147] text-white'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -192,7 +192,7 @@ export default function ServicePage() {
                     <button
                       type="button"
                       onClick={() => setSearchType('soggetto-giuridico')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-3 border transition-all text-xs font-bold ${
+                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
                         searchType === 'soggetto-giuridico'
                           ? 'border-[#002147] bg-[#002147] text-white'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
