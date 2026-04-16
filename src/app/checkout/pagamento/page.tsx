@@ -153,7 +153,7 @@ export default function PaymentPage() {
         <ProgressBar currentStep={3} />
       </div>
 
-      <main className="flex-grow pb-24 px-4 md:px-6 max-w-3xl mx-auto w-full">
+      <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         {/* Header */}
         <header className="mb-8 md:mb-10 text-center">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
@@ -164,9 +164,9 @@ export default function PaymentPage() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Payment Section — 3 cols */}
-          <div className="lg:col-span-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Payment Section — 2 cols */}
+          <div className="lg:col-span-2">
             {initError && (
               <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-6 flex items-start gap-3">
                 <span className="material-symbols-outlined text-[#ba1a1a]">error</span>
@@ -241,8 +241,8 @@ export default function PaymentPage() {
             ) : null}
           </div>
 
-          {/* Order Summary — 2 cols */}
-          <div className="lg:col-span-2">
+          {/* Order Summary — 1 col */}
+          <div className="lg:col-span-1">
             <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm sticky top-24">
               <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
