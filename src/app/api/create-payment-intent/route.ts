@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2026-03-25.dahlia',
-  });
+  return new Stripe(process.env.STRIPE_SECRET_KEY!);
 }
 
 export const dynamic = 'force-dynamic';
