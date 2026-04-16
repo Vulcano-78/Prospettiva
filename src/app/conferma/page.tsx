@@ -18,7 +18,7 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex flex-col items-center px-6 pt-24 pb-16">
+      <main className="flex-grow flex flex-col items-center px-6 pt-20 pb-10">
         <div className="max-w-4xl w-full">
           {/* Success Header */}
           <div className="text-center mb-8">
