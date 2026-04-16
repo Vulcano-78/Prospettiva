@@ -22,11 +22,9 @@ export default function ConfirmationPage() {
         <div className="max-w-4xl w-full">
           {/* Success Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6">
-              <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                check_circle
-              </span>
-            </div>
+            <span className="material-symbols-outlined text-7xl text-[#28a428] mb-6" style={{ fontVariationSettings: "'FILL' 1" }}>
+              check
+            </span>
             <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-4">
               Ordine Confermato
             </span>
@@ -48,7 +46,7 @@ export default function ConfirmationPage() {
                       Tempo Stimato
                     </p>
                     <p className="text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                      15-30 min
+                      Entro un&apos;ora
                     </p>
                   </div>
                   <div className="bg-slate-50 p-3 rounded-lg">
@@ -61,6 +59,12 @@ export default function ConfirmationPage() {
                     <span className="material-symbols-outlined text-[#4463ee]">mail</span>
                     <p className="text-sm text-[#44474e]">
                       Controlla la tua email per il download. Ti avviseremo appena il file sara pronto.
+                    </p>
+                  </div>
+                  <div className="flex gap-4 items-start">
+                    <span className="material-symbols-outlined text-[#4463ee]">speed</span>
+                    <p className="text-sm text-[#44474e]">
+                      Facciamo il possibile per consegnare nel minor tempo possibile. I tempi di evasione dipendono dai sistemi dell&apos;Agenzia delle Entrate, ma nella maggior parte dei casi riusciamo a completare l&apos;ordine in pochi minuti.
                     </p>
                   </div>
                   <div className="flex gap-4 items-start">
