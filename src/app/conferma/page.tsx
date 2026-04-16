@@ -18,11 +18,11 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex flex-col items-center px-6 pt-28 pb-16">
+      <main className="flex-grow flex flex-col items-center px-6 pt-24 pb-16">
         <div className="max-w-4xl w-full">
           {/* Success Header */}
           <div className="text-center mb-8">
-            <span className="material-symbols-outlined text-[120px] text-[#28a428] mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>
+            <span className="material-symbols-outlined text-[160px] text-[#28a428] mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>
               check
             </span>
             <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-4">
@@ -56,15 +56,15 @@ export default function ConfirmationPage() {
 
                 <div className="space-y-4">
                   <div className="flex gap-4 items-start">
-                    <span className="material-symbols-outlined text-[#4463ee]">mail</span>
+                    <span className="material-symbols-outlined text-[#4463ee]">speed</span>
                     <p className="text-sm text-[#44474e]">
-                      Controlla la tua email per il download. Ti avviseremo appena il file sara pronto.
+                      La maggior parte degli ordini viene evasa in pochi minuti. I tempi possono variare in base ai sistemi dell&apos;Agenzia delle Entrate.
                     </p>
                   </div>
                   <div className="flex gap-4 items-start">
-                    <span className="material-symbols-outlined text-[#4463ee]">speed</span>
+                    <span className="material-symbols-outlined text-[#4463ee]">mail</span>
                     <p className="text-sm text-[#44474e]">
-                      Facciamo il possibile per consegnare nel minor tempo possibile. I tempi di evasione dipendono dai sistemi dell&apos;Agenzia delle Entrate, ma nella maggior parte dei casi riusciamo a completare l&apos;ordine in pochi minuti.
+                      Controlla la tua email per il download. Ti avviseremo appena il file sara pronto.
                     </p>
                   </div>
                   <div className="flex gap-4 items-start">
