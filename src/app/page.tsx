@@ -155,7 +155,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/servizio/visura-catastale" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
                         <Link href="/servizio/visura-catastale" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
@@ -177,7 +177,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/servizio/planimetria" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <button onClick={() => handleAddToCart('planimetria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <button onClick={() => handleAddToCart('planimetria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
                         <Link href="/servizio/planimetria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
@@ -230,7 +230,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/servizio/visura-ipotecaria" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
                         <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
@@ -252,7 +252,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/servizio/visura-ipotecaria" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
                         <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
@@ -305,7 +305,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </Link>
                         <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
@@ -327,7 +327,7 @@ export default function HomePage() {
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50">
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </Link>
                         <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
