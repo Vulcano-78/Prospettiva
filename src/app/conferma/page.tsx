@@ -18,11 +18,11 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex flex-col items-center px-6 pt-20 pb-10">
+      <main className="flex-grow flex flex-col items-center px-6 pt-20 pb-8">
         <div className="max-w-4xl w-full">
           {/* Success Header */}
           <div className="text-center mb-8">
-            <span className="material-symbols-outlined text-[#28a428] mb-4 block" style={{ fontSize: 'clamp(4rem, 8vw, 6rem)', fontVariationSettings: "'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48" }}>
+            <span className="material-symbols-outlined text-[#28a428] mb-4 block" style={{ fontSize: 'clamp(3.5rem, 7vw, 5.5rem)', fontVariationSettings: "'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48" }}>
               check
             </span>
             <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-4">
