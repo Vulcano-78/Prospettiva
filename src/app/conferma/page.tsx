@@ -18,25 +18,25 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex flex-col items-center px-6 py-12 md:py-16">
+      <main className="flex-grow flex flex-col items-center px-6 pt-28 pb-16">
         <div className="max-w-4xl w-full">
           {/* Success Header */}
-          <div className="text-center mb-12">
-            <span className="material-symbols-outlined text-7xl text-[#28a428] mb-6" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <div className="text-center mb-8">
+            <span className="material-symbols-outlined text-[120px] text-[#28a428] mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>
               check
             </span>
             <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-4">
               Ordine Confermato
             </span>
-            <h1 className="text-3xl md:text-5xl font-extrabold text-[#002147] tracking-tight leading-tight mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
               La tua richiesta e in elaborazione.
             </h1>
-            <p className="text-lg text-[#44474e] max-w-xl mx-auto">
+            <p className="text-base text-[#44474e] max-w-xl mx-auto">
               I nostri sistemi stanno elaborando i dati catastali aggiornati. Riceverai il documento direttamente nella tua casella email.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="grid md:grid-cols-2 gap-8 items-stretch">
             {/* Order Details Card */}
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
               <div className="flex flex-col gap-6">
@@ -46,7 +46,7 @@ export default function ConfirmationPage() {
                       Tempo Stimato
                     </p>
                     <p className="text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                      Entro un&apos;ora
+                      Entro 60 minuti
                     </p>
                   </div>
                   <div className="bg-slate-50 p-3 rounded-lg">

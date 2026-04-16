@@ -92,7 +92,7 @@ export default function ProductCard({ service }: ProductCardProps) {
         </Link>
         <button
           onClick={handleAddToCart}
-          className="flex-1 md:flex-none whitespace-nowrap border border-[#002147]/10 text-[#002147] font-bold px-4 py-2 rounded-xl text-[11px] hover:bg-[#4463ee]/20 transition-all"
+          className="flex-1 md:flex-none whitespace-nowrap border border-[#002147]/10 text-[#002147] font-bold px-4 py-2 rounded-xl text-[11px] hover:bg-[#4463ee]/20 transition-all cursor-pointer"
         >
           Carrello
         </button>

@@ -233,7 +233,7 @@ export default function ServicePage() {
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2"
+                  className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
                   style={{ borderRadius: '6px' }}
                 >
                   <span className="material-symbols-outlined text-lg">shopping_cart</span>

@@ -133,7 +133,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                                 <Link href={`/servizio/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
                                 <button
                                   onClick={() => handleAddToCart(service.slug)}
-                                  className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50"
+                                  className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer"
                                 >
                                   <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                                 </button>
