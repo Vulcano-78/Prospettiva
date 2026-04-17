@@ -79,6 +79,21 @@ export default function CartPage() {
                 Svuota carrello
               </button>
             </div>
+
+            {/* Action — aligned to left column, centered */}
+            <div className="mt-2 flex flex-col items-center gap-3">
+              <button
+                onClick={handleProceed}
+                className="w-full max-w-xs bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+              >
+                <span>Continua</span>
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </button>
+              <div className="flex items-center gap-2 text-xs text-[#44474e] font-medium">
+                <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+                Pagamento sicuro con crittografia SSL
+              </div>
+            </div>
           </div>
 
           {/* Right: Order Summary + Actions */}
@@ -127,21 +142,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* Actions — below grid, full width */}
-        <div className="mt-8 max-w-sm mx-auto space-y-3">
-          <button
-            onClick={handleProceed}
-            className="w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
-          >
-            <span>Continua</span>
-            <span className="material-symbols-outlined text-base">arrow_forward</span>
-          </button>
-
-          <div className="flex items-center justify-center gap-2 text-xs text-[#44474e] font-medium">
-            <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-            Pagamento sicuro con crittografia SSL
-          </div>
-        </div>
       </main>
 
     </div>

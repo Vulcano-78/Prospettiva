@@ -189,6 +189,25 @@ export default function CheckoutDataPage() {
               )}
             </form>
 
+            {/* Actions — aligned to left column */}
+            <div className="mt-6 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
+              >
+                <span className="material-symbols-outlined text-sm">arrow_back</span>
+                Indietro
+              </button>
+              <button
+                type="submit"
+                form="dati-form"
+                className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+              >
+                <span>Continua</span>
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </button>
+            </div>
           </div>
 
           {/* Right: Order Summary */}
@@ -237,25 +256,6 @@ export default function CheckoutDataPage() {
           </div>
         </div>
 
-        {/* Actions — below grid */}
-        <div className="mt-8 max-w-sm mx-auto flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
-          >
-            <span className="material-symbols-outlined text-sm">arrow_back</span>
-            Indietro
-          </button>
-          <button
-            type="submit"
-            form="dati-form"
-            className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
-          >
-            <span>Continua</span>
-            <span className="material-symbols-outlined text-base">arrow_forward</span>
-          </button>
-        </div>
       </main>
     </div>
   );

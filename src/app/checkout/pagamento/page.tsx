@@ -65,6 +65,14 @@ function PaymentForm({ total }: { total: number }) {
       {/* Actions */}
       <div className="flex items-center gap-3">
         <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
+        >
+          <span className="material-symbols-outlined text-sm">arrow_back</span>
+          Indietro
+        </button>
+        <button
           type="submit"
           disabled={!stripe || loading}
           className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -83,14 +91,6 @@ function PaymentForm({ total }: { total: number }) {
               <span className="material-symbols-outlined text-base">lock</span>
             </>
           )}
-        </button>
-        <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
-        >
-          <span className="material-symbols-outlined text-sm">arrow_back</span>
-          Indietro
         </button>
       </div>
 
