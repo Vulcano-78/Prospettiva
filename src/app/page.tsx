@@ -25,16 +25,62 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <header className="hero-gradient pt-32 md:pt-40 pb-28 px-8">
+      <header className="hero-gradient pt-24 md:pt-40 pb-20 md:pb-28 px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
             <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
               <span className="text-[#002147]">L&apos;immobiliare,</span><br />
               <span className="text-[#4463EE]">senza burocrazia.</span>
             </h1>
-            <p className="text-on-surface-variant text-lg md:text-xl mb-10 max-w-xl font-body">
+            <p className="text-on-surface-variant text-base md:text-xl mb-6 md:mb-10 max-w-xl font-body">
               Documenti ufficiali, verifiche ipotecarie e strumenti AI. Tutto automatizzato, tutto in un posto solo.
             </p>
+
+            {/* Mobile hero image */}
+            <div className="lg:hidden mb-6">
+              <div className="glass-code-box flex flex-col overflow-hidden text-[10px]">
+                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/20 bg-white/30">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
+                  </div>
+                  <span className="ml-auto text-[8px] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847</span>
+                </div>
+                <div className="p-4 font-mono leading-relaxed text-slate-700 overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="text-slate-400 border-b border-slate-200/50">
+                        <th className="text-left py-1.5 font-medium">SERVIZIO</th>
+                        <th className="text-left py-1.5 font-medium">STATO</th>
+                        <th className="text-right py-1.5 font-medium">TEMPO</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100/50">
+                      <tr>
+                        <td className="py-2 pr-3">Visura Catastale</td>
+                        <td className="py-2 text-emerald-600">✓ completata</td>
+                        <td className="py-2 text-right text-slate-400">2m 14s</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 pr-3">Verifica Ipotecaria</td>
+                        <td className="py-2 text-emerald-600">✓ completata</td>
+                        <td className="py-2 text-right text-slate-400">4m 02s</td>
+                      </tr>
+                      <tr className="bg-[#EEF1FD]">
+                        <td className="py-2 px-1.5 pr-3 font-semibold flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-secondary text-sm">auto_awesome</span>
+                          Virtual Staging AI
+                        </td>
+                        <td className="py-2 text-[#4463EE] animate-pulse">⟳ in corso...</td>
+                        <td className="py-2 text-right text-slate-400">—</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#catalog" className="bg-secondary text-white px-6 py-3 text-base font-medium hover:bg-primary-container transition-all flex items-center justify-center" style={{ borderRadius: '6px' }}>
                 Esplora i servizi <span className="ml-2">→</span>
@@ -109,10 +155,10 @@ export default function HomePage() {
 
       {/* Rapid Procurement Dashboard */}
       <section id="catalog" className="bg-white">
-      <div className="pt-2 md:pt-24 pb-16 px-8 max-w-7xl mx-auto">
+      <div className="pt-2 md:pt-16 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-left md:text-center mb-14">
           <h2 className="text-4xl md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
-          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-on-surface-variant text-base md:text-lg font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
