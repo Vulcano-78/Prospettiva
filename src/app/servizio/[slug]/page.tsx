@@ -17,6 +17,7 @@ export default function ServicePage() {
 
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
+  const [showFacsimile, setShowFacsimile] = useState(false);
 
   if (!service) {
     return (
@@ -50,7 +51,7 @@ export default function ServicePage() {
   const handleBuyNow = (e: React.FormEvent) => {
     e.preventDefault();
     addItem(service, formData);
-    router.push('/checkout');
+    router.push('/checkout/dati');
   };
 
   const renderField = (field: Service['fields'][0]) => {
@@ -115,11 +116,12 @@ export default function ServicePage() {
   };
 
   const hasSearchTypeToggle = service.slug === 'visura-catastale' || service.slug === 'visura-catastale-storica';
+  const priceWithIVA = service.price * 1.22;
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       <main className="flex-grow w-full pt-20 pb-12">
-        {/* Title row with breadcrumb aligned to logo (max-w-[1440px] px-8) */}
+        {/* Title row with breadcrumb */}
         {(() => {
           const categoryToUrl: Record<string, { url: string; label: string }> = {
             'documenti-catastali': { url: '/catalogo/documenti-catastali', label: 'Catasto' },
@@ -130,8 +132,8 @@ export default function ServicePage() {
           };
           const cat = categoryToUrl[service.category] || { url: '/#catalog', label: 'Catalogo' };
           return (
-            <div className="max-w-[1440px] mx-auto px-4 md:px-8 md:relative mb-8">
-              <div className="mb-4 md:mb-0 md:absolute md:left-8 md:top-4">
+            <div className="max-w-5xl mx-auto px-4 md:px-6 md:relative mb-8">
+              <div className="mb-4 md:mb-0 md:absolute md:left-6 md:top-4">
                 <Breadcrumb className="" items={[
                   { label: 'Home', href: '/' },
                   { label: cat.label, href: cat.url },
@@ -150,159 +152,194 @@ export default function ServicePage() {
           );
         })()}
 
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-6">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            {/* Left: Form */}
+            <div className="lg:col-span-2">
+              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
+                  Inserisci i dati
+                </h2>
 
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Form Section */}
-          <div className="w-full lg:w-2/3 workflow-box bg-white p-6 md:p-8" style={{ borderRadius: '6px' }}>
-            <form className="space-y-6" onSubmit={handleBuyNow}>
-              {/* Search Type Toggle (for Visura) */}
-              {hasSearchTypeToggle && (
-                <div className="space-y-2">
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                    Modalità di Ricerca
-                  </label>
-                  <div className="flex flex-col md:flex-row gap-2">
+                <form className="space-y-6" onSubmit={handleBuyNow}>
+                  {/* Search Type Toggle (for Visura) */}
+                  {hasSearchTypeToggle && (
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                        Modalita di Ricerca
+                      </label>
+                      <div className="flex flex-col md:flex-row gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setSearchType('immobile')}
+                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
+                            searchType === 'immobile'
+                              ? 'border-[#002147] bg-[#002147] text-white'
+                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-base">home</span>
+                          Per Immobile
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSearchType('soggetto')}
+                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
+                            searchType === 'soggetto'
+                              ? 'border-[#002147] bg-[#002147] text-white'
+                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-base">person</span>
+                          Per Soggetto
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSearchType('soggetto-giuridico')}
+                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
+                            searchType === 'soggetto-giuridico'
+                              ? 'border-[#002147] bg-[#002147] text-white'
+                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-base">business</span>
+                          Per Soggetto Giuridico
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Dynamic Fields */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {service.fields.map(field => renderField(field))}
+                  </div>
+
+                  {/* Delegate Warning */}
+                  {service.requiresDelegate && (
+                    <div className="border-l-4 border-orange-400 bg-orange-50 rounded-r-lg p-3">
+                      <p className="text-xs text-orange-900">
+                        <strong>Nota:</strong> Questo servizio richiede una delega firmata dal proprietario. Dopo il pagamento, riceverai le istruzioni per completare la procedura.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
                     <button
-                      type="button"
-                      onClick={() => setSearchType('immobile')}
-                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
-                        searchType === 'immobile'
-                          ? 'border-[#002147] bg-[#002147] text-white'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                      }`}
-                      style={{ borderRadius: '6px' }}
+                      type="submit"
+                      className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
                     >
-                      <span className="material-symbols-outlined text-base">home</span>
-                      Per Immobile
+                      Acquista ora — {formatPrice(service.price)} + IVA
+                      <span className="material-symbols-outlined text-base">arrow_forward</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => setSearchType('soggetto')}
-                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
-                        searchType === 'soggetto'
-                          ? 'border-[#002147] bg-[#002147] text-white'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                      }`}
-                      style={{ borderRadius: '6px' }}
+                      onClick={handleAddToCart}
+                      className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-base">person</span>
-                      Per Soggetto
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSearchType('soggetto-giuridico')}
-                      className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold ${
-                        searchType === 'soggetto-giuridico'
-                          ? 'border-[#002147] bg-[#002147] text-white'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                      }`}
-                      style={{ borderRadius: '6px' }}
-                    >
-                      <span className="material-symbols-outlined text-base">business</span>
-                      Per Soggetto Giuridico
+                      <span className="material-symbols-outlined text-lg">shopping_cart</span>
+                      Aggiungi al carrello
                     </button>
                   </div>
-                </div>
-              )}
+                </form>
+              </section>
+            </div>
 
-              {/* Dynamic Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {service.fields.map(field => renderField(field))}
-              </div>
+            {/* Right: Summary sidebar */}
+            <div className="lg:col-span-1">
+              <div className="lg:sticky lg:top-24 space-y-4">
+                {/* Cost Summary */}
+                <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
+                  <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                    <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
+                    Riepilogo
+                  </h2>
 
-              {/* Delegate Warning */}
-              {service.requiresDelegate && (
-                <div className="border-l-4 border-orange-400 bg-orange-50 p-3">
-                  <p className="text-xs text-orange-900">
-                    <strong>Nota:</strong> Questo servizio richiede una delega firmata dal proprietario. Dopo il pagamento, riceverai le istruzioni per completare la procedura.
-                  </p>
-                </div>
-              )}
+                  <div className="py-3 border-b border-slate-100">
+                    <p className="text-sm text-[#191c1d] font-medium">{service.name}</p>
+                    <p className="text-xs text-[#74777f] mt-0.5">Qty: 1</p>
+                  </div>
 
-              {/* Action Buttons */}
-              <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
-                <button
-                  type="submit"
-                  className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
-                  style={{ borderRadius: '6px' }}
-                >
-                  Acquista ora — {formatPrice(service.price)} + IVA
-                  <span className="material-symbols-outlined text-base">arrow_forward</span>
-                </button>
+                  <div className="space-y-2 pt-4">
+                    <div className="flex justify-between text-sm text-[#44474e]">
+                      <span>Prezzo</span>
+                      <span className="font-medium text-[#191c1d]">{formatPrice(service.price)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-[#44474e]">
+                      <span>IVA (22%)</span>
+                      <span className="font-medium text-[#191c1d]">{formatPrice(service.price * 0.22)}</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-3 border-t border-slate-200 mt-2">
+                      <span className="text-base font-bold text-[#002147]">Totale</span>
+                      <span className="text-xl font-extrabold text-[#002147]">{formatPrice(priceWithIVA)}</span>
+                    </div>
+                  </div>
+
+                  {/* Delivery info */}
+                  <div className="mt-5 pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-2 text-xs text-[#44474e]">
+                      <span className="material-symbols-outlined text-base text-[#28a428]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                      Documenti consegnati entro 60 minuti
+                    </div>
+                  </div>
+                </section>
+
+                {/* Fac-simile */}
                 <button
                   type="button"
-                  onClick={handleAddToCart}
-                  className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
-                  style={{ borderRadius: '6px' }}
+                  onClick={() => setShowFacsimile(!showFacsimile)}
+                  className="w-full bg-white rounded-2xl p-4 border border-slate-200/50 shadow-sm flex items-center justify-between hover:border-[#4463ee]/30 transition-colors cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-lg">shopping_cart</span>
-                  Aggiungi al carrello
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[#4463ee]">description</span>
+                    <span className="text-sm font-semibold text-[#002147]">Visualizza fac-simile</span>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-400 text-base">{showFacsimile ? 'expand_less' : 'expand_more'}</span>
                 </button>
-              </div>
-            </form>
-          </div>
 
-          {/* Sidebar */}
-          <div className="w-full lg:w-1/3 space-y-4 lg:sticky lg:top-24">
-            {/* Document Preview */}
-            <div className="workflow-box bg-white overflow-hidden" style={{ borderRadius: '6px' }}>
-              <div className="bg-[#002147] px-4 py-2.5 flex items-center justify-between">
-                <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                  Fac-simile Documento
-                </span>
-                <span className="bg-white/20 text-white text-[9px] px-2 py-0.5">
-                  Anteprima PDF
-                </span>
-              </div>
-              <div className="p-5 relative">
-                <div className="bg-slate-50 border border-slate-200 p-3 space-y-3 opacity-90 blur-[1px] select-none pointer-events-none">
-                  <div className="flex justify-between items-start border-b border-slate-300 pb-2">
-                    <div className="w-20 h-3 bg-slate-200"></div>
-                    <div className="w-10 h-10 bg-slate-100"></div>
+                {showFacsimile && (
+                  <div className="bg-white rounded-2xl border border-slate-200/50 shadow-sm overflow-hidden">
+                    <div className="bg-[#002147] px-4 py-2.5 flex items-center justify-between">
+                      <span className="text-white text-[10px] font-bold uppercase tracking-widest">
+                        Fac-simile Documento
+                      </span>
+                      <span className="bg-white/20 text-white text-[9px] px-2 py-0.5 rounded">
+                        Anteprima PDF
+                      </span>
+                    </div>
+                    <div className="p-5 relative">
+                      <div className="bg-slate-50 border border-slate-200 p-3 space-y-3 opacity-90 blur-[1px] select-none pointer-events-none">
+                        <div className="flex justify-between items-start border-b border-slate-300 pb-2">
+                          <div className="w-20 h-3 bg-slate-200"></div>
+                          <div className="w-10 h-10 bg-slate-100"></div>
+                        </div>
+                        <div className="space-y-1.5">
+                          <div className="w-full h-2.5 bg-slate-100"></div>
+                          <div className="w-4/5 h-2.5 bg-slate-100"></div>
+                        </div>
+                        <div className="grid grid-cols-4 gap-1.5">
+                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
+                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
+                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
+                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white border border-slate-200 shadow-md px-3 py-2 rounded-lg flex flex-col items-center gap-1">
+                          <span className="material-symbols-outlined text-[#002147]">verified</span>
+                          <span className="text-xs font-bold text-[#002147]">Documento Ufficiale</span>
+                          <span className="text-[9px] text-slate-500 text-center leading-tight">
+                            Dati reali dall&apos;Agenzia delle Entrate
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <div className="w-full h-2.5 bg-slate-100"></div>
-                    <div className="w-4/5 h-2.5 bg-slate-100"></div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-1.5">
-                    <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                    <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                    <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                    <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-white border border-slate-200 shadow-md px-3 py-2 flex flex-col items-center gap-1">
-                    <span className="material-symbols-outlined text-[#002147]">verified</span>
-                    <span className="text-xs font-bold text-[#002147]">Visura Ufficiale</span>
-                    <span className="text-[9px] text-slate-500 text-center leading-tight">
-                      Dati reali dall&apos;Agenzia delle Entrate
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Features */}
-            <div className="grid grid-cols-1 gap-2">
-              <div className="flex items-center gap-3 workflow-box bg-white p-3" style={{ borderRadius: '6px' }}>
-                <span className="material-symbols-outlined text-emerald-600 bg-emerald-50 p-1.5 text-lg">speed</span>
-                <div>
-                  <p className="text-xs font-bold text-[#002147]">Velocità estrema</p>
-                  <p className="text-[10px] text-slate-500">Consegna media: 12 minuti</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 workflow-box bg-white p-3" style={{ borderRadius: '6px' }}>
-                <span className="material-symbols-outlined text-[#4463EE] bg-blue-50 p-1.5 text-lg">verified_user</span>
-                <div>
-                  <p className="text-xs font-bold text-[#002147]">Dati Garantiti</p>
-                  <p className="text-[10px] text-slate-500">Direttamente dai database AdE</p>
-                </div>
+                )}
               </div>
             </div>
           </div>
-        </div>
         </div>
       </main>
     </div>
