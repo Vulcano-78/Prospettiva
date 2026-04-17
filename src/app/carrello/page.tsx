@@ -133,12 +133,13 @@ export default function CartPage() {
                   <span className="material-symbols-outlined text-base text-[#28a428]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
                   Documenti consegnati entro 60 minuti
                 </div>
-                <div className="flex items-center gap-2 text-xs text-[#44474e]">
-                  <span className="material-symbols-outlined text-base text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-                  Pagamento sicuro con crittografia SSL
-                </div>
               </div>
             </section>
+
+            <div className="flex items-center justify-center gap-2 text-xs text-[#44474e] mt-3">
+              <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+              Pagamento sicuro con crittografia SSL
+            </div>
           </div>
         </div>
 
