@@ -64,7 +64,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen">
       {/* Header section with title */}
-      <section className="hero-gradient pt-24 pb-6 px-8"><div className="max-w-7xl mx-auto">
+      <section className="hero-gradient pt-24 pb-6 px-8"><div className="max-w-[1440px] mx-auto">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
           { label: config.title },

@@ -16,13 +16,14 @@ export default function ComingSoonPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow px-6 pt-20 pb-12">
-        <div className="max-w-6xl mx-auto">
-          <Breadcrumb items={[
-            { label: 'Home', href: '/' },
-            { label: serviceName },
-          ]} />
-        </div>
+      <div className="w-full pt-20 px-8 max-w-[1440px] mx-auto">
+        <Breadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: serviceName },
+        ]} />
+      </div>
+
+      <main className="flex-grow px-6 pb-12">
         <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div className="space-y-8 order-2 lg:order-1">
