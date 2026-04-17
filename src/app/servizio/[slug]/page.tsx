@@ -213,7 +213,7 @@ export default function ServicePage() {
                       type="submit"
                       className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
                     >
-                      Acquista ora — {formatPrice(service.price)} + IVA
+                      Acquista ora
                       <span className="material-symbols-outlined text-base">arrow_forward</span>
                     </button>
                     <button

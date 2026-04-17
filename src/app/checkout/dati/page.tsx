@@ -65,11 +65,46 @@ export default function CheckoutDataPage() {
           {/* Left: Forms */}
           <div className="lg:col-span-2 space-y-8">
             <form onSubmit={handleSubmit} id="dati-form" className="space-y-8">
-              {/* Account Type + Personal Data */}
+              {/* Section 1: Dati per i documenti */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
-                  Dati Intestatario
+                  Dati per i documenti
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                      Nome *
+                    </label>
+                    <input type="text" name="nome" value={formData.nome} onChange={handleChange} className="w-full" placeholder="Mario" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                      Cognome *
+                    </label>
+                    <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                      Email *
+                    </label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                      Telefono
+                    </label>
+                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full" placeholder="+39 333 1234567" />
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 2: Dati per il pagamento */}
+              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
+                  Dati per il pagamento
                 </h2>
 
                 {/* Account Type Selector */}
@@ -101,31 +136,6 @@ export default function CheckoutDataPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {/* Common fields for all types */}
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Nome *
-                    </label>
-                    <input type="text" name="nome" value={formData.nome} onChange={handleChange} className="w-full" placeholder="Mario" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Cognome *
-                    </label>
-                    <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Email *
-                    </label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Telefono
-                    </label>
-                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full" placeholder="+39 333 1234567" />
-                  </div>
                   <div className="md:col-span-2">
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Codice Fiscale *
@@ -136,7 +146,7 @@ export default function CheckoutDataPage() {
                   {/* Impresa / Professionista fields */}
                   {accountType !== 'privato' && (
                     <>
-                      <div className="md:col-span-2 pt-2 border-t border-slate-100">
+                      <div className="md:col-span-2">
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                           {accountType === 'impresa' ? 'Ragione Sociale *' : 'Denominazione Studio *'}
                         </label>
