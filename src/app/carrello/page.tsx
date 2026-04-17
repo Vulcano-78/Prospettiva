@@ -71,37 +71,19 @@ export default function CartPage() {
               </div>
             </section>
 
-            {/* Actions */}
-            <div className="space-y-4">
+            <div className="flex justify-center">
               <button
-                onClick={handleProceed}
-                className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg group"
+                onClick={clearCart}
+                className="text-[#44474e] hover:text-[#ba1a1a] text-sm font-medium transition-colors cursor-pointer"
               >
-                <span>Continua</span>
-                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                Svuota carrello
               </button>
-
-              <div className="flex flex-col items-center gap-4 pt-2">
-                <div className="flex items-center gap-2 text-xs text-[#44474e] font-medium">
-                  <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-                  Pagamento 100% sicuro protetto da crittografia SSL
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <button
-                  onClick={clearCart}
-                  className="text-[#44474e] hover:text-[#ba1a1a] text-sm font-medium transition-colors cursor-pointer"
-                >
-                  Svuota carrello
-                </button>
-              </div>
             </div>
           </div>
 
-          {/* Right: Order Summary */}
-          <div className="lg:col-span-1">
-            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm sticky top-24">
+          {/* Right: Order Summary + Actions */}
+          <div className="lg:col-span-1 space-y-4">
+            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm lg:sticky lg:top-24">
               <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo
@@ -142,10 +124,22 @@ export default function CartPage() {
                 </div>
               </div>
             </section>
+
+            <button
+              onClick={handleProceed}
+              className="w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+            >
+              <span>Continua</span>
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </button>
+
+            <div className="flex items-center justify-center gap-2 text-xs text-[#44474e] font-medium">
+              <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+              Pagamento sicuro con crittografia SSL
+            </div>
           </div>
         </div>
       </main>
-
 
     </div>
   );
