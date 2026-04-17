@@ -7,20 +7,24 @@ import ProgressBar from '@/components/ProgressBar';
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 
+type AccountType = 'privato' | 'impresa' | 'professionista';
+
 export default function CheckoutDataPage() {
   const router = useRouter();
   const { items, getSubtotal, getIVA, getTotal } = useCart();
 
+  const [accountType, setAccountType] = useState<AccountType>('privato');
   const [formData, setFormData] = useState({
     nome: '',
     cognome: '',
     email: '',
     telefono: '',
     codiceFiscale: '',
-    indirizzo: '',
-    citta: '',
-    cap: '',
-    provincia: ''
+    // Impresa / Professionista
+    ragioneSociale: '',
+    partitaIva: '',
+    pec: '',
+    codiceDestinatario: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -41,7 +45,7 @@ export default function CheckoutDataPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      {/* Progress Bar — full width, centered on page */}
+      {/* Progress Bar */}
       <div className="w-full pt-20 mb-8 md:mb-12">
         <ProgressBar currentStep={2} />
       </div>
@@ -61,83 +65,103 @@ export default function CheckoutDataPage() {
           {/* Left: Forms */}
           <div className="lg:col-span-2 space-y-8">
             <form onSubmit={handleSubmit} id="dati-form" className="space-y-8">
-              {/* Personal Data */}
+              {/* Account Type + Personal Data */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   Dati Intestatario
                 </h2>
 
+                {/* Account Type Selector */}
+                <div className="mb-6">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-3">
+                    Tipo di intestatario
+                  </label>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    {([
+                      { value: 'privato', label: 'Privato', icon: 'person' },
+                      { value: 'impresa', label: 'Impresa', icon: 'business' },
+                      { value: 'professionista', label: 'Libero professionista', icon: 'work' },
+                    ] as const).map(opt => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setAccountType(opt.value)}
+                        className={`flex items-center gap-2 py-2.5 px-4 border rounded-lg transition-all text-xs font-bold ${
+                          accountType === opt.value
+                            ? 'border-[#002147] bg-[#002147] text-white'
+                            : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-base">{opt.icon}</span>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Common fields for all types */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Nome *
                     </label>
-                    <input
-                      type="text"
-                      name="nome"
-                      value={formData.nome}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="Mario"
-                      required
-                    />
+                    <input type="text" name="nome" value={formData.nome} onChange={handleChange} className="w-full" placeholder="Mario" required />
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Cognome *
                     </label>
-                    <input
-                      type="text"
-                      name="cognome"
-                      value={formData.cognome}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="Rossi"
-                      required
-                    />
+                    <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Email *
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="mario.rossi@email.it"
-                      required
-                    />
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Telefono
                     </label>
-                    <input
-                      type="tel"
-                      name="telefono"
-                      value={formData.telefono}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="+39 333 1234567"
-                    />
+                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full" placeholder="+39 333 1234567" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                       Codice Fiscale *
                     </label>
-                    <input
-                      type="text"
-                      name="codiceFiscale"
-                      value={formData.codiceFiscale}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="RSSMRA85L01H501Z"
-                      required
-                    />
+                    <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required />
                   </div>
+
+                  {/* Impresa / Professionista fields */}
+                  {accountType !== 'privato' && (
+                    <>
+                      <div className="md:col-span-2 pt-2 border-t border-slate-100">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                          {accountType === 'impresa' ? 'Ragione Sociale *' : 'Denominazione Studio *'}
+                        </label>
+                        <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} className="w-full" placeholder={accountType === 'impresa' ? 'Rossi S.r.l.' : 'Studio Rossi'} required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                          Partita IVA *
+                        </label>
+                        <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="IT12345678901" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                          PEC
+                        </label>
+                        <input type="email" name="pec" value={formData.pec} onChange={handleChange} className="w-full" placeholder="azienda@pec.it" />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                          Codice Destinatario (SDI)
+                        </label>
+                        <input type="text" name="codiceDestinatario" value={formData.codiceDestinatario} onChange={handleChange} className="w-full" placeholder="0000000" />
+                      </div>
+                    </>
+                  )}
                 </div>
               </section>
 

@@ -17,7 +17,6 @@ export default function ServicePage() {
 
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
-  const [showFacsimile, setShowFacsimile] = useState(false);
 
   if (!service) {
     return (
@@ -285,58 +284,19 @@ export default function ServicePage() {
                   </div>
                 </section>
 
-                {/* Fac-simile */}
-                <button
-                  type="button"
-                  onClick={() => setShowFacsimile(!showFacsimile)}
+                {/* Fac-simile link */}
+                <a
+                  href="/facsimile/visura-catastale.png"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full bg-white rounded-2xl p-4 border border-slate-200/50 shadow-sm flex items-center justify-between hover:border-[#4463ee]/30 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[#4463ee]">description</span>
                     <span className="text-sm font-semibold text-[#002147]">Visualizza fac-simile</span>
                   </div>
-                  <span className="material-symbols-outlined text-slate-400 text-base">{showFacsimile ? 'expand_less' : 'expand_more'}</span>
-                </button>
-
-                {showFacsimile && (
-                  <div className="bg-white rounded-2xl border border-slate-200/50 shadow-sm overflow-hidden">
-                    <div className="bg-[#002147] px-4 py-2.5 flex items-center justify-between">
-                      <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                        Fac-simile Documento
-                      </span>
-                      <span className="bg-white/20 text-white text-[9px] px-2 py-0.5 rounded">
-                        Anteprima PDF
-                      </span>
-                    </div>
-                    <div className="p-5 relative">
-                      <div className="bg-slate-50 border border-slate-200 p-3 space-y-3 opacity-90 blur-[1px] select-none pointer-events-none">
-                        <div className="flex justify-between items-start border-b border-slate-300 pb-2">
-                          <div className="w-20 h-3 bg-slate-200"></div>
-                          <div className="w-10 h-10 bg-slate-100"></div>
-                        </div>
-                        <div className="space-y-1.5">
-                          <div className="w-full h-2.5 bg-slate-100"></div>
-                          <div className="w-4/5 h-2.5 bg-slate-100"></div>
-                        </div>
-                        <div className="grid grid-cols-4 gap-1.5">
-                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                          <div className="h-6 bg-slate-50 border border-slate-200"></div>
-                        </div>
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-white border border-slate-200 shadow-md px-3 py-2 rounded-lg flex flex-col items-center gap-1">
-                          <span className="material-symbols-outlined text-[#002147]">verified</span>
-                          <span className="text-xs font-bold text-[#002147]">Documento Ufficiale</span>
-                          <span className="text-[9px] text-slate-500 text-center leading-tight">
-                            Dati reali dall&apos;Agenzia delle Entrate
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  <span className="material-symbols-outlined text-slate-400 text-base">open_in_new</span>
+                </a>
               </div>
             </div>
           </div>
