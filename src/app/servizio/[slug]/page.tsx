@@ -17,6 +17,7 @@ export default function ServicePage() {
 
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
+  const [showFacsimile, setShowFacsimile] = useState(false);
 
   if (!service) {
     return (
@@ -284,24 +285,48 @@ export default function ServicePage() {
                   </div>
                 </section>
 
-                {/* Fac-simile link */}
-                <a
-                  href="/facsimile/visura-catastale.png"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* Fac-simile button */}
+                <button
+                  type="button"
+                  onClick={() => setShowFacsimile(true)}
                   className="w-full bg-white rounded-2xl p-4 border border-slate-200/50 shadow-sm flex items-center justify-between hover:border-[#4463ee]/30 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[#4463ee]">description</span>
                     <span className="text-sm font-semibold text-[#002147]">Visualizza fac-simile</span>
                   </div>
-                  <span className="material-symbols-outlined text-slate-400 text-base">open_in_new</span>
-                </a>
+                  <span className="material-symbols-outlined text-slate-400 text-base">visibility</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Fac-simile Modal */}
+      {showFacsimile && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setShowFacsimile(false)}>
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-[#4463ee]">description</span>
+                <h3 className="text-base font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Fac-simile — {service.name}</h3>
+              </div>
+              <button onClick={() => setShowFacsimile(false)} className="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center transition-colors cursor-pointer">
+                <span className="material-symbols-outlined text-slate-500">close</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-auto p-2">
+              <iframe
+                src="/facsimile/visura-catastale.pdf"
+                className="w-full rounded-lg"
+                style={{ height: '75vh' }}
+                title="Fac-simile documento"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -22,9 +22,9 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
       {steps.map((step, index) => (
         <div key={step.number} className="flex items-center">
           {/* Step circle + label */}
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-1">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
+              className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-colors ${
                 step.number < currentStep
                   ? 'bg-[#70dc70] text-[#28a428]'
                   : step.number === currentStep
@@ -33,13 +33,13 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
               }`}
             >
               {step.number < currentStep ? (
-                <span className="material-symbols-outlined text-lg">check</span>
+                <span className="material-symbols-outlined text-sm">check</span>
               ) : (
                 step.number
               )}
             </div>
             <span
-              className={`text-xs font-medium transition-colors ${
+              className={`text-[10px] font-medium transition-colors ${
                 step.number < currentStep
                   ? 'font-bold text-[#28a428]'
                   : step.number === currentStep
@@ -54,7 +54,7 @@ export default function ProgressBar({ currentStep, steps = defaultSteps }: Progr
           {/* Connector line */}
           {index < steps.length - 1 && (
             <div
-              className={`h-[2px] w-16 md:w-24 mx-4 relative top-[-10px] transition-colors ${
+              className={`h-[1.5px] w-12 md:w-20 mx-3 relative top-[-8px] transition-colors ${
                 step.number < currentStep
                   ? 'bg-[#70dc70]'
                   : 'bg-[#e1e3e4]'

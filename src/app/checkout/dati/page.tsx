@@ -77,23 +77,23 @@ export default function CheckoutDataPage() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-3">
                     Tipo di intestatario
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     {([
                       { value: 'privato', label: 'Privato', icon: 'person' },
                       { value: 'impresa', label: 'Impresa', icon: 'business' },
-                      { value: 'professionista', label: 'Libero professionista', icon: 'work' },
+                      { value: 'professionista', label: 'Professionista', icon: 'work' },
                     ] as const).map(opt => (
                       <button
                         key={opt.value}
                         type="button"
                         onClick={() => setAccountType(opt.value)}
-                        className={`flex items-center gap-2 py-2.5 px-4 border rounded-lg transition-all text-xs font-bold ${
+                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-[11px] font-bold ${
                           accountType === opt.value
                             ? 'border-[#002147] bg-[#002147] text-white'
                             : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
-                        <span className="material-symbols-outlined text-base">{opt.icon}</span>
+                        <span className="material-symbols-outlined text-lg">{opt.icon}</span>
                         {opt.label}
                       </button>
                     ))}
