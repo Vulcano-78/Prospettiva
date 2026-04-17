@@ -19,14 +19,14 @@ export default function CartItemRow({ item }: CartItemRowProps) {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-sm text-[#002147] truncate">{item.service.name}</h3>
+          <h3 className="font-bold text-sm md:text-lg text-[#002147] truncate">{item.service.name}</h3>
         </div>
 
         <button
           onClick={() => removeItem(item.id)}
           className="text-[#c4c6cf] hover:text-[#ba1a1a] transition-colors cursor-pointer p-1 shrink-0"
         >
-          <span className="material-symbols-outlined text-base">close</span>
+          <span className="material-symbols-outlined text-lg md:text-xl">delete</span>
         </button>
       </div>
     </div>
