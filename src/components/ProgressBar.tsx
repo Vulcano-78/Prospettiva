@@ -18,7 +18,7 @@ const defaultSteps: Step[] = [
 
 export default function ProgressBar({ currentStep, steps = defaultSteps }: ProgressBarProps) {
   return (
-    <div className="flex items-center justify-center py-2">
+    <div className="flex items-center justify-center pt-2 pb-0">
       {steps.map((step, index) => (
         <div key={step.number} className="flex items-center">
           {/* Step circle + label */}
