@@ -94,19 +94,6 @@ function PaymentForm({ total }: { total: number }) {
         </button>
       </div>
 
-      {/* Trust badges */}
-      <div className="flex flex-col items-center gap-3 pt-2">
-        <div className="flex items-center gap-2 text-xs text-[#44474e] font-medium">
-          <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-          Pagamento 100% sicuro protetto da crittografia SSL
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-xs text-[#74777f]">Powered by</span>
-          <svg width="49" height="20" viewBox="0 0 49 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M48.4 10.2c0-3.4-1.6-6-4.8-6-3.2 0-5 2.6-5 6 0 4 2.2 5.9 5.4 5.9 1.6 0 2.7-.3 3.6-.8v-2.6c-.9.4-1.9.7-3.2.7-1.3 0-2.4-.4-2.5-2h6.3c0-.2.2-.8.2-1.2zm-6.4-1.2c0-1.5.9-2.1 1.8-2.1.8 0 1.7.6 1.7 2.1h-3.5zM33.6 4.2c-1.3 0-2.1.6-2.5 1l-.2-.8h-2.8v15.2l3.2-.7v-3.7c.5.3 1.2.8 2.3.8 2.3 0 4.4-1.9 4.4-6-.1-3.8-2.2-5.8-4.4-5.8zm-.8 8.9c-.8 0-1.2-.3-1.5-.6V7.8c.4-.4.8-.6 1.5-.6 1.2 0 2 1.3 2 3s-.8 2.9-2 2.9zM24 3.5l3.2-.7V0L24 .7v2.8zM24 4.5h3.2v11.3H24V4.5zM20.5 5.4l-.2-1h-2.8v11.3h3.1V8.2c.8-1 2-0.8 2.4-.7V4.5c-.4-.2-2-.5-2.5 .9zM14.2 1.5L11.1 2.2l-.1 10.4c0 1.9 1.4 3.3 3.3 3.3 1.1 0 1.8-.2 2.3-.4v-2.6c-.4.2-2.5.8-2.5-1.2V7h2.5V4.5H14v-3zM5.6 7.9c0-.5.4-.7 1.1-.7.9 0 2.1.3 3 .8V5c-1-.4-2-.6-3-.6C4.2 4.4 2.3 5.8 2.3 8.1c0 3.6 4.9 3 4.9 4.5 0 .6-.5.8-1.2.8-1 0-2.4-.4-3.4-1v3.1c1.2.5 2.3.7 3.4.7 2.6 0 4.4-1.3 4.4-3.6-.1-3.8-5-3.1-4.8-4.7z" fill="#6772E5" />
-          </svg>
-        </div>
-      </div>
     </form>
   );
 }
@@ -275,13 +262,15 @@ export default function PaymentPage() {
                 </div>
               </div>
 
-              {/* Security info */}
-              <div className="mt-6 pt-5 border-t border-slate-100">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-xs text-[#44474e]">
-                    <span className="material-symbols-outlined text-base text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
-                    Documenti consegnati entro un&apos;ora
-                  </div>
+              {/* Delivery info + SSL */}
+              <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
+                <div className="flex items-center gap-2 text-xs text-[#44474e]">
+                  <span className="material-symbols-outlined text-base text-[#28a428]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                  Documenti consegnati entro 60 minuti
+                </div>
+                <div className="flex items-center gap-2 text-xs text-[#44474e]">
+                  <span className="material-symbols-outlined text-base text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+                  Pagamento sicuro con crittografia SSL
                 </div>
               </div>
             </section>

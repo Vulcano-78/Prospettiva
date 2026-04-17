@@ -245,11 +245,15 @@ export default function CheckoutDataPage() {
                 </div>
               </div>
 
-              {/* Delivery info */}
-              <div className="mt-5 pt-4 border-t border-slate-100">
+              {/* Delivery info + SSL */}
+              <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
                 <div className="flex items-center gap-2 text-xs text-[#44474e]">
                   <span className="material-symbols-outlined text-base text-[#28a428]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
                   Documenti consegnati entro 60 minuti
+                </div>
+                <div className="flex items-center gap-2 text-xs text-[#44474e]">
+                  <span className="material-symbols-outlined text-base text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+                  Pagamento sicuro con crittografia SSL
                 </div>
               </div>
             </section>
