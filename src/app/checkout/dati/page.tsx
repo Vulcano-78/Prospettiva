@@ -194,7 +194,7 @@ export default function CheckoutDataPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
+                className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                 Indietro

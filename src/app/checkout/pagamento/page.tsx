@@ -67,7 +67,7 @@ function PaymentForm({ total }: { total: number }) {
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
+          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm"
         >
           <span className="material-symbols-outlined text-sm">arrow_back</span>
           Indietro
@@ -87,7 +87,7 @@ function PaymentForm({ total }: { total: number }) {
             </>
           ) : (
             <>
-              <span>Paga ora — {formatPrice(total)}</span>
+              <span>Effettua pagamento</span>
               <span className="material-symbols-outlined text-base">lock</span>
             </>
           )}
