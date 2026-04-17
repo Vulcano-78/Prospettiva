@@ -522,10 +522,10 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link href="/registrazione" className="bg-primary-container text-white px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-secondary transition-all text-center" style={{ borderRadius: '6px' }}>
-              Registrati gratis →
+              Registrati gratis<span className="hidden md:inline"> →</span>
             </Link>
             <a href="#come-funziona" className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all" style={{ borderRadius: '6px' }}>
-              Scopri cosa sta arrivando →
+              Scopri cosa sta arrivando<span className="hidden md:inline"> →</span>
             </a>
           </div>
         </div>
