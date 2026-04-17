@@ -1,7 +1,7 @@
 'use client';
 
 import { CartItem } from '@/context/CartContext';
-import { formatPrice } from '@/data/services';
+
 import { useCart } from '@/context/CartContext';
 
 interface CartItemRowProps {
@@ -20,7 +20,6 @@ export default function CartItemRow({ item }: CartItemRowProps) {
 
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-sm text-[#002147] truncate">{item.service.name}</h3>
-          <p className="text-xs text-[#44474e] mt-0.5">{formatPrice(item.service.price)} <span className="text-[10px] text-[#74777f]">+ IVA</span></p>
         </div>
 
         <button
