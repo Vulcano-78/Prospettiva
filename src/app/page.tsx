@@ -25,7 +25,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <header className="hero-gradient pt-24 md:pt-40 pb-20 md:pb-28 px-8">
+      <header className="hero-gradient pt-24 md:pt-40 pb-10 md:pb-28 px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 text-left">
             <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
