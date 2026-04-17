@@ -93,8 +93,8 @@ export default function CartPage() {
           </div>
 
           {/* Right: Order Summary + Actions */}
-          <div className="lg:col-span-1 space-y-4">
-            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm lg:sticky lg:top-24">
+          <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-3">
+            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
               <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo
