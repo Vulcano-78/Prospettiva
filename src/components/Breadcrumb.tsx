@@ -7,7 +7,7 @@ export interface BreadcrumbItem {
 
 export default function Breadcrumb({ items, className = 'mb-4' }: { items: BreadcrumbItem[]; className?: string }) {
   return (
-    <nav className={`${className} text-[11px] flex items-center gap-1.5 text-on-surface-variant flex-wrap`}>
+    <nav className={`${className} text-[11px] flex items-center gap-1.5 text-on-surface-variant flex-wrap text-left justify-start`}>
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
         return (
