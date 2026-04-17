@@ -63,35 +63,34 @@ function PaymentForm({ total }: { total: number }) {
       </section>
 
       {/* Actions */}
-      <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <>
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              <span>Elaborazione in corso...</span>
+              <span>Elaborazione...</span>
             </>
           ) : (
             <>
               <span>Paga ora — {formatPrice(total)}</span>
-              <span className="material-symbols-outlined">lock</span>
+              <span className="material-symbols-outlined text-base">lock</span>
             </>
           )}
         </button>
-
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="w-full bg-white border border-slate-200 text-[#002147] font-bold py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
+          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
         >
-          <span className="material-symbols-outlined">arrow_back</span>
-          Torna ai dati
+          <span className="material-symbols-outlined text-sm">arrow_back</span>
+          Indietro
         </button>
       </div>
 

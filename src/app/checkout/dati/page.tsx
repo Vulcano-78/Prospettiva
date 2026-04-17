@@ -54,7 +54,7 @@ export default function CheckoutDataPage() {
         {/* Header */}
         <header className="mb-8 md:mb-10 text-center">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Dati per la lavorazione
+            Dati
           </h1>
           <p className="text-[#44474e] text-sm">
             Inserisci i dati necessari per elaborare la tua richiesta.
@@ -189,26 +189,6 @@ export default function CheckoutDataPage() {
               )}
             </form>
 
-            {/* Actions */}
-            <div className="flex flex-col gap-4">
-              <button
-                type="submit"
-                form="dati-form"
-                className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
-              >
-                <span>Procedi al pagamento — {formatPrice(getTotal())}</span>
-                <span className="material-symbols-outlined">payments</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="w-full bg-white border border-slate-200 text-[#002147] font-bold py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined">arrow_back</span>
-                Torna al carrello
-              </button>
-            </div>
           </div>
 
           {/* Right: Order Summary */}
@@ -255,6 +235,26 @@ export default function CheckoutDataPage() {
               </div>
             </section>
           </div>
+        </div>
+
+        {/* Actions — below grid */}
+        <div className="mt-8 max-w-sm mx-auto flex items-center gap-3">
+          <button
+            type="submit"
+            form="dati-form"
+            className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+          >
+            <span>Continua</span>
+            <span className="material-symbols-outlined text-base">arrow_forward</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-xs"
+          >
+            <span className="material-symbols-outlined text-sm">arrow_back</span>
+            Indietro
+          </button>
         </div>
       </main>
     </div>
