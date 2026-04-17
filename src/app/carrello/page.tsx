@@ -124,19 +124,22 @@ export default function CartPage() {
                 </div>
               </div>
             </section>
+          </div>
+        </div>
 
-            <button
-              onClick={handleProceed}
-              className="w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
-            >
-              <span>Continua</span>
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </button>
+        {/* Actions — below grid, full width */}
+        <div className="mt-8 max-w-sm mx-auto space-y-3">
+          <button
+            onClick={handleProceed}
+            className="w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+          >
+            <span>Continua</span>
+            <span className="material-symbols-outlined text-base">arrow_forward</span>
+          </button>
 
-            <div className="flex items-center justify-center gap-2 text-xs text-[#44474e] font-medium">
-              <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-              Pagamento sicuro con crittografia SSL
-            </div>
+          <div className="flex items-center justify-center gap-2 text-xs text-[#44474e] font-medium">
+            <span className="material-symbols-outlined text-sm text-[#002147]" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
+            Pagamento sicuro con crittografia SSL
           </div>
         </div>
       </main>
