@@ -77,7 +77,7 @@ export default function CartPage() {
                 onClick={handleProceed}
                 className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg group"
               >
-                <span>Procedi alla compilazione dei dati</span>
+                <span>Continua</span>
                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </button>
 
@@ -146,22 +146,7 @@ export default function CartPage() {
         </div>
       </main>
 
-      {/* Mobile Sticky Footer */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#c4c6cf]/20 p-4 shadow-lg">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-xs text-[#44474e]">Totale</p>
-            <p className="text-xl font-extrabold text-[#002147]">{formatPrice(getTotal())}</p>
-          </div>
-          <button
-            onClick={handleProceed}
-            className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"
-          >
-            Continua
-            <span className="material-symbols-outlined">arrow_forward</span>
-          </button>
-        </div>
-      </div>
+
     </div>
   );
 }
