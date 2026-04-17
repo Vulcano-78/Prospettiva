@@ -87,13 +87,13 @@ export default function CheckoutDataPage() {
                         key={opt.value}
                         type="button"
                         onClick={() => setAccountType(opt.value)}
-                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-[11px] font-bold ${
+                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
                           accountType === opt.value
                             ? 'border-[#002147] bg-[#002147] text-white'
                             : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
-                        <span className="material-symbols-outlined text-lg">{opt.icon}</span>
+                        <span className="material-symbols-outlined text-base">{opt.icon}</span>
                         {opt.label}
                       </button>
                     ))}

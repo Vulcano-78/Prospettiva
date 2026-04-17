@@ -169,43 +169,26 @@ export default function ServicePage() {
                       <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                         Modalita di Ricerca
                       </label>
-                      <div className="flex flex-col md:flex-row gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setSearchType('immobile')}
-                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
-                            searchType === 'immobile'
-                              ? 'border-[#002147] bg-[#002147] text-white'
-                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                          }`}
-                        >
-                          <span className="material-symbols-outlined text-base">home</span>
-                          Per Immobile
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setSearchType('soggetto')}
-                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
-                            searchType === 'soggetto'
-                              ? 'border-[#002147] bg-[#002147] text-white'
-                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                          }`}
-                        >
-                          <span className="material-symbols-outlined text-base">person</span>
-                          Per Soggetto
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setSearchType('soggetto-giuridico')}
-                          className={`flex items-center gap-2 py-2.5 px-4 border transition-all text-xs font-bold rounded-lg ${
-                            searchType === 'soggetto-giuridico'
-                              ? 'border-[#002147] bg-[#002147] text-white'
-                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                          }`}
-                        >
-                          <span className="material-symbols-outlined text-base">business</span>
-                          Per Soggetto Giuridico
-                        </button>
+                      <div className="grid grid-cols-3 gap-2">
+                        {([
+                          { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
+                          { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
+                          { value: 'soggetto-giuridico' as const, label: 'Sogg. Giuridico', icon: 'business' },
+                        ]).map(opt => (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => setSearchType(opt.value)}
+                            className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+                              searchType === opt.value
+                                ? 'border-[#002147] bg-[#002147] text-white'
+                                : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-base">{opt.icon}</span>
+                            {opt.label}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -295,7 +278,7 @@ export default function ServicePage() {
                     <span className="material-symbols-outlined text-[#4463ee]">description</span>
                     <span className="text-sm font-semibold text-[#002147]">Visualizza fac-simile</span>
                   </div>
-                  <span className="material-symbols-outlined text-slate-400 text-base">visibility</span>
+                  <span className="material-symbols-outlined text-slate-400 text-base">open_in_new</span>
                 </button>
               </div>
             </div>
