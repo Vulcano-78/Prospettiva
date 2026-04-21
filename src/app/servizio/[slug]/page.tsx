@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { getServiceBySlug, formatPrice, Service } from '@/data/services';
+import { province, comuniPerProvincia } from '@/data/comuni';
 import { useCart } from '@/context/CartContext';
 import Breadcrumb from '@/components/Breadcrumb';
 
@@ -42,6 +43,10 @@ export default function ServicePage() {
   }
 
   const handleChange = (name: string, value: string) => {
+    if (name === 'provincia') {
+      setFormData(prev => ({ ...prev, [name]: value, comune: '' }));
+      return;
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -178,7 +183,7 @@ export default function ServicePage() {
     }
   };
 
-  const renderSelectField = (name: string, label: string, options: { value: string; label: string }[]) => (
+  const renderSelectField = (name: string, label: string, options: { value: string; label: string }[], hasEmpty = false) => (
     <div className="space-y-1.5">
       <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
         {label}
@@ -186,10 +191,11 @@ export default function ServicePage() {
       <div className="relative">
         <select
           className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all appearance-none"
-          value={formData[name] || options[0].value}
+          value={formData[name] || (hasEmpty ? '' : options[0].value)}
           onChange={(e) => handleChange(name, e.target.value)}
           required
         >
+          {hasEmpty && <option value="">Seleziona...</option>}
           {options.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
@@ -298,8 +304,25 @@ export default function ServicePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {searchType === 'immobile' && (
                         <>
-                          {renderTextField('provincia', 'Provincia', 'RM')}
-                          {renderTextField('comune', 'Comune', 'ROMA')}
+                          {renderSelectField('provincia', 'Provincia *', province.map(p => ({ value: p.sigla, label: `${p.sigla} — ${p.nome}` })), true)}
+                          <div className="space-y-1.5">
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Comune *</label>
+                            <div className="relative">
+                              <select
+                                className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all appearance-none"
+                                value={formData.comune || ''}
+                                onChange={(e) => handleChange('comune', e.target.value)}
+                                required
+                                disabled={!formData.provincia}
+                              >
+                                <option value="">{formData.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
+                                {(comuniPerProvincia[formData.provincia] || []).map(c => (
+                                  <option key={c} value={c.toUpperCase()}>{c}</option>
+                                ))}
+                              </select>
+                              <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+                            </div>
+                          </div>
                           <div className="md:col-span-2 grid grid-cols-3 gap-3">
                             {renderTextField('foglio', 'Foglio', '1')}
                             {renderTextField('particella', 'Particella', '1')}
@@ -310,13 +333,13 @@ export default function ServicePage() {
                       {searchType === 'soggetto' && (
                         <>
                           {renderTextField('cf_piva', 'Codice Fiscale', 'RSSMRA85M01H501Z')}
-                          {renderTextField('provincia', 'Provincia', 'RM')}
+                          {renderSelectField('provincia', 'Provincia *', province.map(p => ({ value: p.sigla, label: `${p.sigla} — ${p.nome}` })), true)}
                         </>
                       )}
                       {searchType === 'soggetto-giuridico' && (
                         <>
                           {renderTextField('cf_piva', 'Partita IVA', '12345678901')}
-                          {renderTextField('provincia', 'Provincia', 'RM')}
+                          {renderSelectField('provincia', 'Provincia *', province.map(p => ({ value: p.sigla, label: `${p.sigla} — ${p.nome}` })), true)}
                         </>
                       )}
                     </div>
