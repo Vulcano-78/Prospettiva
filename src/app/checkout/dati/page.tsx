@@ -476,7 +476,7 @@ export default function CheckoutDataPage() {
                           name="codiceFiscale"
                           value={formData.codiceFiscale}
                           onChange={handleChange}
-                          className={`w-full ${!cfManuallyEdited ? 'bg-slate-50 text-slate-400' : ''}`}
+                          className="w-full"
                           placeholder={!cfManuallyEdited ? 'Autocompilato' : '12345678901'}
                           required
                           readOnly={!cfManuallyEdited}
