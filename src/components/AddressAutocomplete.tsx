@@ -55,7 +55,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
         .filter((f: { properties: { feature_type?: string } }) =>
           f.properties.feature_type === 'address' || f.properties.feature_type === 'street'
         )
-        .map((f: { properties: { full_address?: string; name?: string; place_formatted?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string }; locality?: { name?: string } } } }) => {
+        .map((f: { properties: { full_address?: string; name?: string; place_formatted?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string; region_code?: string }; locality?: { name?: string } } } }) => {
           const props = f.properties;
           const ctx = props.context || {};
           return {
@@ -63,7 +63,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
             address: props.name || '',
             city: ctx.place?.name || ctx.locality?.name || '',
             postcode: ctx.postcode?.name || '',
-            region: ctx.region?.name || '',
+            region: ctx.region?.region_code || '',
           };
         });
 

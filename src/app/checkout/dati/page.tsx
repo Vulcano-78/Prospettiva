@@ -343,7 +343,7 @@ export default function CheckoutDataPage() {
                             indirizzo: s.address,
                             citta: s.city,
                             cap: s.postcode,
-                            provincia: province.find(p => p.nome.toLowerCase() === s.region.toLowerCase())?.sigla || prev.provincia,
+                            provincia: s.region || prev.provincia,
                           }));
                         }}
                         placeholder="Inizia a digitare l'indirizzo..."
@@ -414,7 +414,7 @@ export default function CheckoutDataPage() {
                             sedeLegaleIndirizzo: s.address,
                             sedeLegaleComune: s.city,
                             sedeLegaleCap: s.postcode,
-                            sedeLegaleProvincia: province.find(p => p.nome.toLowerCase() === s.region.toLowerCase())?.sigla || prev.sedeLegaleProvincia,
+                            sedeLegaleProvincia: s.region || prev.sedeLegaleProvincia,
                           }));
                         }}
                         placeholder="Inizia a digitare l'indirizzo..."
