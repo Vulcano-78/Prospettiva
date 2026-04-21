@@ -5,14 +5,15 @@ import { useEffect, useRef } from 'react';
 
 import { useCart } from '@/context/CartContext';
 
-function buildVisuraPayload(order: { slug: string; formData: Record<string, string> }) {
+function buildVisuraPayload(order: { slug: string; formData: Record<string, string> }, email: string) {
   const fd = order.formData;
   const searchType = fd._searchType || 'immobile';
+  const tipoVisura = order.slug === 'visura-catastale-storica' ? 'storica' : 'ordinaria';
   const base = {
     tipo_catasto: fd.tipo_catasto || 'F',
-    tipo_visura: fd.tipo_visura || 'ordinaria',
+    tipo_visura: tipoVisura,
     tipo_dettaglio: fd.tipo_dettaglio || 'sintetica',
-    email: fd.email || '',
+    email,
   };
 
   if (searchType === 'immobile') {
@@ -55,11 +56,13 @@ export default function ConfirmationPage() {
       const raw = localStorage.getItem('pendingOrder');
       if (!raw) return;
       const orders: { slug: string; formData: Record<string, string> }[] = JSON.parse(raw);
+      const checkoutEmail = localStorage.getItem('checkoutEmail') || '';
       localStorage.removeItem('pendingOrder');
+      localStorage.removeItem('checkoutEmail');
 
       for (const order of orders) {
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
-          const payload = buildVisuraPayload(order);
+          const payload = buildVisuraPayload(order, checkoutEmail);
           fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

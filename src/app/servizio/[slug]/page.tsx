@@ -292,35 +292,15 @@ export default function ServicePage() {
                     </div>
 
                     {/* Common fields */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {renderSelectField('tipo_catasto', 'Tipo Catasto', [
                         { value: 'F', label: 'Fabbricati' },
                         { value: 'T', label: 'Terreni' },
-                      ])}
-                      {renderSelectField('tipo_visura', 'Tipo Visura', [
-                        { value: 'ordinaria', label: 'Ordinaria' },
-                        { value: 'storica', label: 'Storica' },
                       ])}
                       {renderSelectField('tipo_dettaglio', 'Tipo Dettaglio', [
                         { value: 'sintetica', label: 'Sintetica' },
                         { value: 'analitica', label: 'Analitica' },
                       ])}
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all"
-                          placeholder="cliente@email.it"
-                          value={formData.email || ''}
-                          onChange={(e) => handleChange('email', e.target.value)}
-                          required
-                        />
-                      </div>
                     </div>
 
                     {/* Action Buttons */}

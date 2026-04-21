@@ -33,6 +33,8 @@ export default function CheckoutDataPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Save checkout email for post-payment webhook
+    try { localStorage.setItem('checkoutEmail', formData.email); } catch {}
     router.push('/checkout/pagamento');
   };
 
