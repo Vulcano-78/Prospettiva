@@ -18,12 +18,13 @@ interface AddressAutocompleteProps {
   required?: boolean;
 }
 
-export default function AddressAutocomplete({ value, onChange, onSelect, placeholder = 'Via Roma 1', required = false }: AddressAutocompleteProps) {
+export default function AddressAutocomplete({ value, onChange, onSelect, placeholder = 'Inizia a digitare...', required = false }: AddressAutocompleteProps) {
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const sessionTokenRef = useRef(crypto.randomUUID());
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -40,32 +41,35 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
   const fetchSuggestions = async (query: string) => {
     if (!token || query.length < 3) {
       setSuggestions([]);
+      setShowDropdown(false);
       return;
     }
 
     setLoading(true);
     try {
+      // Use Mapbox Search Box API (suggest endpoint)
       const res = await fetch(
-        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&country=IT&language=it&types=address&limit=5&access_token=${token}`
+        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${encodeURIComponent(query)}&country=IT&language=it&types=address&limit=5&session_token=${sessionTokenRef.current}&access_token=${token}`
       );
       const data = await res.json();
 
-      const results: AddressSuggestion[] = (data.features || []).map((f: { properties: { full_address?: string; name?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string }; locality?: { name?: string } } } }) => {
-        const props = f.properties;
-        const ctx = props.context || {};
-        return {
-          full_address: props.full_address || props.name || '',
-          address: props.name || '',
-          city: ctx.place?.name || ctx.locality?.name || '',
-          postcode: ctx.postcode?.name || '',
-          region: ctx.region?.name || '',
-        };
-      });
-
-      setSuggestions(results);
-      setShowDropdown(results.length > 0);
+      if (data.suggestions) {
+        const results: AddressSuggestion[] = data.suggestions.map((s: { name: string; full_address?: string; place_formatted?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string }; locality?: { name?: string } } }) => ({
+          full_address: s.full_address || s.place_formatted || s.name,
+          address: s.name || '',
+          city: s.context?.place?.name || s.context?.locality?.name || '',
+          postcode: s.context?.postcode?.name || '',
+          region: s.context?.region?.name || '',
+        }));
+        setSuggestions(results);
+        setShowDropdown(results.length > 0);
+      } else {
+        setSuggestions([]);
+        setShowDropdown(false);
+      }
     } catch {
       setSuggestions([]);
+      setShowDropdown(false);
     } finally {
       setLoading(false);
     }
@@ -81,6 +85,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
     onChange(s.address);
     setShowDropdown(false);
     setSuggestions([]);
+    sessionTokenRef.current = crypto.randomUUID();
     onSelect(s);
   };
 
@@ -109,7 +114,11 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
               className="w-full text-left px-3 py-2.5 text-sm text-[#191c1d] hover:bg-[#f8f9fa] transition-colors cursor-pointer border-b border-slate-50 last:border-0"
             >
               <span className="font-medium">{s.address}</span>
-              {s.city && <span className="text-[#74777f] text-xs ml-2">{s.city}{s.postcode ? ` — ${s.postcode}` : ''}</span>}
+              {(s.city || s.postcode) && (
+                <span className="text-[#74777f] text-xs ml-2">
+                  {[s.city, s.postcode].filter(Boolean).join(' — ')}
+                </span>
+              )}
             </button>
           ))}
         </div>
