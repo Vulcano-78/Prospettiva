@@ -500,7 +500,7 @@ export default function CheckoutDataPage() {
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                         Email *
-                        <span className="font-normal normal-case tracking-normal text-[#74777f] ml-2">Riceverai qui la ricevuta e i documenti</span>
+                        <span className="font-normal normal-case tracking-normal text-[#74777f] ml-2">Riceverai qui i documenti e la fattura di cortesia</span>
                       </label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="info@azienda.it" required />
                     </div>
