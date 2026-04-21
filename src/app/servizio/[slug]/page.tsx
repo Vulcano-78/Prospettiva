@@ -18,6 +18,8 @@ export default function ServicePage() {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
   const [showFacsimile, setShowFacsimile] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   if (!service) {
     return (
@@ -52,6 +54,67 @@ export default function ServicePage() {
     e.preventDefault();
     addItem(service, formData);
     router.push('/checkout/dati');
+  };
+
+  const isVisura = service.slug === 'visura-catastale' || service.slug === 'visura-catastale-storica';
+
+  const handleVisuraSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const tipoCatasto = formData.tipo_catasto || 'F';
+      const tipoVisura = formData.tipo_visura || 'ordinaria';
+      const tipoDettaglio = formData.tipo_dettaglio || 'sintetica';
+      const email = formData.email || '';
+
+      let payload: Record<string, string>;
+
+      if (searchType === 'immobile') {
+        payload = {
+          entita: 'immobile',
+          provincia: (formData.provincia || '').toUpperCase(),
+          comune: (formData.comune || '').toUpperCase(),
+          foglio: formData.foglio || '',
+          particella: formData.particella || '',
+          tipo_catasto: tipoCatasto,
+          tipo_visura: tipoVisura,
+          tipo_dettaglio: tipoDettaglio,
+          email,
+        };
+        if (formData.subalterno) {
+          payload.subalterno = formData.subalterno;
+        }
+      } else {
+        payload = {
+          entita: 'soggetto',
+          cf_piva: formData.cf_piva || '',
+          tipo_catasto: tipoCatasto,
+          provincia: (formData.provincia || '').toUpperCase(),
+          tipo_visura: tipoVisura,
+          tipo_dettaglio: tipoDettaglio,
+          email,
+        };
+      }
+
+      const res = await fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setSubmitResult({ ok: true, message: 'Richiesta inviata! Riceverai la visura via email.' });
+      } else {
+        setSubmitResult({ ok: false, message: 'Si e verificato un errore. Riprova tra qualche istante.' });
+      }
+    } catch {
+      setSubmitResult({ ok: false, message: 'Errore di connessione. Verifica la tua rete e riprova.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const renderField = (field: Service['fields'][0]) => {
@@ -115,7 +178,45 @@ export default function ServicePage() {
     }
   };
 
-  const hasSearchTypeToggle = service.slug === 'visura-catastale' || service.slug === 'visura-catastale-storica';
+  const renderSelectField = (name: string, label: string, options: { value: string; label: string }[]) => (
+    <div className="space-y-1.5">
+      <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all appearance-none"
+          value={formData[name] || options[0].value}
+          onChange={(e) => handleChange(name, e.target.value)}
+          required
+        >
+          {options.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">
+          expand_more
+        </span>
+      </div>
+    </div>
+  );
+
+  const renderTextField = (name: string, label: string, placeholder: string, required = true) => (
+    <div className="space-y-1.5">
+      <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+        {label} {required && '*'}
+      </label>
+      <input
+        type="text"
+        className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all"
+        placeholder={placeholder}
+        value={formData[name] || ''}
+        onChange={(e) => handleChange(name, e.target.value)}
+        required={required}
+      />
+    </div>
+  );
+
   const priceWithIVA = service.price * 1.22;
 
   return (
@@ -162,9 +263,10 @@ export default function ServicePage() {
                   Inserisci i dati
                 </h2>
 
-                <form className="space-y-6" onSubmit={handleBuyNow}>
-                  {/* Search Type Toggle (for Visura) */}
-                  {hasSearchTypeToggle && (
+                {isVisura ? (
+                  /* ── Visura Catastale custom form ── */
+                  <form className="space-y-6" onSubmit={handleVisuraSubmit}>
+                    {/* Search Type Toggle */}
                     <div className="space-y-2">
                       <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                         Modalita di Ricerca
@@ -178,7 +280,7 @@ export default function ServicePage() {
                           <button
                             key={opt.value}
                             type="button"
-                            onClick={() => setSearchType(opt.value)}
+                            onClick={() => { setSearchType(opt.value); setSubmitResult(null); }}
                             className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
                               searchType === opt.value
                                 ? 'border-[#002147] bg-[#002147] text-white'
@@ -191,41 +293,143 @@ export default function ServicePage() {
                         ))}
                       </div>
                     </div>
-                  )}
 
-                  {/* Dynamic Fields */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {service.fields.map(field => renderField(field))}
-                  </div>
-
-                  {/* Delegate Warning */}
-                  {service.requiresDelegate && (
-                    <div className="border-l-4 border-orange-400 bg-orange-50 rounded-r-lg p-3">
-                      <p className="text-xs text-orange-900">
-                        <strong>Nota:</strong> Questo servizio richiede una delega firmata dal proprietario. Dopo il pagamento, riceverai le istruzioni per completare la procedura.
-                      </p>
+                    {/* Tab-specific fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {searchType === 'immobile' && (
+                        <>
+                          {renderTextField('provincia', 'Provincia', 'RM')}
+                          {renderTextField('comune', 'Comune', 'ROMA')}
+                          {renderTextField('foglio', 'Foglio', '1')}
+                          {renderTextField('particella', 'Particella', '1')}
+                          {renderTextField('subalterno', 'Subalterno', '1', false)}
+                        </>
+                      )}
+                      {searchType === 'soggetto' && (
+                        <>
+                          {renderTextField('cf_piva', 'Codice Fiscale', 'RSSMRA85M01H501Z')}
+                          {renderTextField('provincia', 'Provincia', 'RM')}
+                        </>
+                      )}
+                      {searchType === 'soggetto-giuridico' && (
+                        <>
+                          {renderTextField('cf_piva', 'Partita IVA', '12345678901')}
+                          {renderTextField('provincia', 'Provincia', 'RM')}
+                        </>
+                      )}
                     </div>
-                  )}
 
-                  {/* Action Buttons */}
-                  <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
-                    <button
-                      type="submit"
-                      className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
-                    >
-                      Acquista ora
-                      <span className="material-symbols-outlined text-base">arrow_forward</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleAddToCart}
-                      className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span className="material-symbols-outlined text-lg">shopping_cart</span>
-                      Aggiungi al carrello
-                    </button>
-                  </div>
-                </form>
+                    {/* Common fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {renderSelectField('tipo_catasto', 'Tipo Catasto', [
+                        { value: 'F', label: 'Fabbricati' },
+                        { value: 'T', label: 'Terreni' },
+                      ])}
+                      {renderSelectField('tipo_visura', 'Tipo Visura', [
+                        { value: 'ordinaria', label: 'Ordinaria' },
+                        { value: 'storica', label: 'Storica' },
+                      ])}
+                      {renderSelectField('tipo_dettaglio', 'Tipo Dettaglio', [
+                        { value: 'sintetica', label: 'Sintetica' },
+                        { value: 'analitica', label: 'Analitica' },
+                      ])}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all"
+                          placeholder="cliente@email.it"
+                          value={formData.email || ''}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    {/* Result message */}
+                    {submitResult && (
+                      <div className={`rounded-xl p-4 flex items-start gap-3 ${submitResult.ok ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+                        <span className={`material-symbols-outlined ${submitResult.ok ? 'text-[#28a428]' : 'text-[#ba1a1a]'}`}>
+                          {submitResult.ok ? 'check_circle' : 'error'}
+                        </span>
+                        <p className={`text-sm ${submitResult.ok ? 'text-green-800' : 'text-[#ba1a1a]'}`}>{submitResult.message}</p>
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+                      <button
+                        type="submit"
+                        disabled={submitting || (submitResult?.ok ?? false)}
+                        className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {submitting ? (
+                          <>
+                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                            Invio in corso...
+                          </>
+                        ) : (
+                          <>
+                            Acquista ora
+                            <span className="material-symbols-outlined text-base">arrow_forward</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-lg">shopping_cart</span>
+                        Aggiungi al carrello
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  /* ── Generic service form ── */
+                  <form className="space-y-6" onSubmit={handleBuyNow}>
+                    {/* Dynamic Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {service.fields.map(field => renderField(field))}
+                    </div>
+
+                    {/* Delegate Warning */}
+                    {service.requiresDelegate && (
+                      <div className="border-l-4 border-orange-400 bg-orange-50 rounded-r-lg p-3">
+                        <p className="text-xs text-orange-900">
+                          <strong>Nota:</strong> Questo servizio richiede una delega firmata dal proprietario. Dopo il pagamento, riceverai le istruzioni per completare la procedura.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+                      <button
+                        type="submit"
+                        className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
+                      >
+                        Acquista ora
+                        <span className="material-symbols-outlined text-base">arrow_forward</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        className="md:w-auto bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-lg">shopping_cart</span>
+                        Aggiungi al carrello
+                      </button>
+                    </div>
+                  </form>
+                )}
               </section>
             </div>
 
