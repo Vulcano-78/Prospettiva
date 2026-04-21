@@ -19,8 +19,6 @@ export default function ServicePage() {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>('immobile');
   const [showFacsimile, setShowFacsimile] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   if (!service) {
     return (
@@ -63,63 +61,12 @@ export default function ServicePage() {
 
   const isVisura = service.slug === 'visura-catastale' || service.slug === 'visura-catastale-storica';
 
-  const handleVisuraSubmit = async (e: React.FormEvent) => {
+  const handleVisuraSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (submitting) return;
-    setSubmitting(true);
-    setSubmitResult(null);
-
-    try {
-      const tipoCatasto = formData.tipo_catasto || 'F';
-      const tipoVisura = formData.tipo_visura || 'ordinaria';
-      const tipoDettaglio = formData.tipo_dettaglio || 'sintetica';
-      const email = formData.email || '';
-
-      let payload: Record<string, string>;
-
-      if (searchType === 'immobile') {
-        payload = {
-          entita: 'immobile',
-          provincia: (formData.provincia || '').toUpperCase(),
-          comune: (formData.comune || '').toUpperCase(),
-          foglio: formData.foglio || '',
-          particella: formData.particella || '',
-          tipo_catasto: tipoCatasto,
-          tipo_visura: tipoVisura,
-          tipo_dettaglio: tipoDettaglio,
-          email,
-        };
-        if (formData.subalterno) {
-          payload.subalterno = formData.subalterno;
-        }
-      } else {
-        payload = {
-          entita: 'soggetto',
-          cf_piva: formData.cf_piva || '',
-          tipo_catasto: tipoCatasto,
-          provincia: (formData.provincia || '').toUpperCase(),
-          tipo_visura: tipoVisura,
-          tipo_dettaglio: tipoDettaglio,
-          email,
-        };
-      }
-
-      const res = await fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok) {
-        setSubmitResult({ ok: true, message: 'Richiesta inviata! Riceverai la visura via email.' });
-      } else {
-        setSubmitResult({ ok: false, message: 'Si e verificato un errore. Riprova tra qualche istante.' });
-      }
-    } catch {
-      setSubmitResult({ ok: false, message: 'Errore di connessione. Verifica la tua rete e riprova.' });
-    } finally {
-      setSubmitting(false);
-    }
+    // Store searchType in formData so it travels with the cart item
+    const visuraFormData = { ...formData, _searchType: searchType };
+    addItem(service, visuraFormData);
+    router.push('/checkout/dati');
   };
 
   const renderField = (field: Service['fields'][0]) => {
@@ -286,7 +233,7 @@ export default function ServicePage() {
                           <button
                             key={opt.value}
                             type="button"
-                            onClick={() => { setSearchType(opt.value); setSubmitResult(null); }}
+                            onClick={() => setSearchType(opt.value)}
                             className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
                               searchType === opt.value
                                 ? 'border-[#002147] bg-[#002147] text-white'
@@ -376,37 +323,14 @@ export default function ServicePage() {
                       </div>
                     </div>
 
-                    {/* Result message */}
-                    {submitResult && (
-                      <div className={`rounded-xl p-4 flex items-start gap-3 ${submitResult.ok ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-                        <span className={`material-symbols-outlined ${submitResult.ok ? 'text-[#28a428]' : 'text-[#ba1a1a]'}`}>
-                          {submitResult.ok ? 'check_circle' : 'error'}
-                        </span>
-                        <p className={`text-sm ${submitResult.ok ? 'text-green-800' : 'text-[#ba1a1a]'}`}>{submitResult.message}</p>
-                      </div>
-                    )}
-
                     {/* Action Buttons */}
                     <div className="pt-5 border-t border-slate-100 flex flex-col md:flex-row items-stretch md:items-center gap-3">
                       <button
                         type="submit"
-                        disabled={submitting || (submitResult?.ok ?? false)}
-                        className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-grow bg-[#4463EE] text-white font-bold py-3 px-6 rounded-xl hover:bg-[#002147] transition-all text-sm flex items-center justify-center gap-2"
                       >
-                        {submitting ? (
-                          <>
-                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                            </svg>
-                            Invio in corso...
-                          </>
-                        ) : (
-                          <>
-                            Acquista ora
-                            <span className="material-symbols-outlined text-base">arrow_forward</span>
-                          </>
-                        )}
+                        Acquista ora
+                        <span className="material-symbols-outlined text-base">arrow_forward</span>
                       </button>
                       <button
                         type="button"

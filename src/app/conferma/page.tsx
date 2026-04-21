@@ -1,18 +1,74 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useCart } from '@/context/CartContext';
 
+function buildVisuraPayload(order: { slug: string; formData: Record<string, string> }) {
+  const fd = order.formData;
+  const searchType = fd._searchType || 'immobile';
+  const base = {
+    tipo_catasto: fd.tipo_catasto || 'F',
+    tipo_visura: fd.tipo_visura || 'ordinaria',
+    tipo_dettaglio: fd.tipo_dettaglio || 'sintetica',
+    email: fd.email || '',
+  };
+
+  if (searchType === 'immobile') {
+    const payload: Record<string, string> = {
+      entita: 'immobile',
+      provincia: (fd.provincia || '').toUpperCase(),
+      comune: (fd.comune || '').toUpperCase(),
+      foglio: fd.foglio || '',
+      particella: fd.particella || '',
+      ...base,
+    };
+    if (fd.subalterno) payload.subalterno = fd.subalterno;
+    return payload;
+  }
+
+  return {
+    entita: 'soggetto',
+    cf_piva: fd.cf_piva || '',
+    provincia: (fd.provincia || '').toUpperCase(),
+    ...base,
+  };
+}
+
 export default function ConfirmationPage() {
   const { clearCart, items } = useCart();
+  const webhookSent = useRef(false);
 
   useEffect(() => {
     if (items.length > 0) {
       clearCart();
     }
   }, [clearCart, items.length]);
+
+  // Send pending visura orders to n8n after payment
+  useEffect(() => {
+    if (webhookSent.current) return;
+    webhookSent.current = true;
+
+    try {
+      const raw = localStorage.getItem('pendingOrder');
+      if (!raw) return;
+      const orders: { slug: string; formData: Record<string, string> }[] = JSON.parse(raw);
+      localStorage.removeItem('pendingOrder');
+
+      for (const order of orders) {
+        if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
+          const payload = buildVisuraPayload(order);
+          fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).catch(() => { /* silent fail — order is paid, webhook can be retried */ });
+        }
+      }
+    } catch { /* localStorage or parse error */ }
+  }, []);
 
   const orderId = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`;
 
