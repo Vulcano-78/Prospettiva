@@ -7,6 +7,7 @@ import ProgressBar from '@/components/ProgressBar';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import { province, comuniPerProvincia } from '@/data/comuni';
+import AddressAutocomplete from '@/components/AddressAutocomplete';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
@@ -333,36 +334,33 @@ export default function CheckoutDataPage() {
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Indirizzo *</label>
-                      <input type="text" name="indirizzo" value={formData.indirizzo} onChange={handleChange} className="w-full" placeholder="Via Roma 1" required />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
-                      <div className="relative">
-                        <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" name="provincia" value={formData.provincia} onChange={(e) => {
-                          setFormData(prev => ({ ...prev, provincia: e.target.value, citta: '', cap: '' }));
-                        }} required>
-                          <option value="">Seleziona...</option>
-                          {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-                        </select>
-                        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                      </div>
+                      <AddressAutocomplete
+                        value={formData.indirizzo}
+                        onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
+                        onSelect={(s) => {
+                          setFormData(prev => ({
+                            ...prev,
+                            indirizzo: s.address,
+                            citta: s.city,
+                            cap: s.postcode,
+                            provincia: province.find(p => p.nome.toLowerCase() === s.region.toLowerCase())?.sigla || prev.provincia,
+                          }));
+                        }}
+                        placeholder="Inizia a digitare l'indirizzo..."
+                        required
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Comune *</label>
-                      <div className="relative">
-                        <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" name="citta" value={formData.citta} onChange={(e) => {
-                          const comune = (comuniPerProvincia[formData.provincia] || []).find(c => c.nome === e.target.value);
-                          setFormData(prev => ({ ...prev, citta: e.target.value, cap: comune?.cap || prev.cap }));
-                        }} required disabled={!formData.provincia}>
-                          <option value="">{formData.provincia ? 'Seleziona...' : 'Prima la provincia'}</option>
-                          {(comuniPerProvincia[formData.provincia] || []).map(c => <option key={c.nome} value={c.nome}>{c.nome}</option>)}
-                        </select>
-                        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                      </div>
+                      <input type="text" name="citta" value={formData.citta} onChange={handleChange} className="w-full" placeholder="Roma" required />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">CAP *</label>
                       <input type="text" name="cap" value={formData.cap} onChange={handleChange} className="w-full" placeholder="00100" required />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
+                      <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} className="w-full" placeholder="RM" required />
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
@@ -407,36 +405,33 @@ export default function CheckoutDataPage() {
                     {/* Sede legale */}
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Indirizzo sede legale *</label>
-                      <input type="text" name="sedeLegaleIndirizzo" value={formData.sedeLegaleIndirizzo} onChange={handleChange} className="w-full" placeholder="Via Roma 1" required />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
-                      <div className="relative">
-                        <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" name="sedeLegaleProvincia" value={formData.sedeLegaleProvincia} onChange={(e) => {
-                          setFormData(prev => ({ ...prev, sedeLegaleProvincia: e.target.value, sedeLegaleComune: '', sedeLegaleCap: '' }));
-                        }} required>
-                          <option value="">Seleziona...</option>
-                          {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-                        </select>
-                        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                      </div>
+                      <AddressAutocomplete
+                        value={formData.sedeLegaleIndirizzo}
+                        onChange={(val) => setFormData(prev => ({ ...prev, sedeLegaleIndirizzo: val }))}
+                        onSelect={(s) => {
+                          setFormData(prev => ({
+                            ...prev,
+                            sedeLegaleIndirizzo: s.address,
+                            sedeLegaleComune: s.city,
+                            sedeLegaleCap: s.postcode,
+                            sedeLegaleProvincia: province.find(p => p.nome.toLowerCase() === s.region.toLowerCase())?.sigla || prev.sedeLegaleProvincia,
+                          }));
+                        }}
+                        placeholder="Inizia a digitare l'indirizzo..."
+                        required
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Comune *</label>
-                      <div className="relative">
-                        <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" name="sedeLegaleComune" value={formData.sedeLegaleComune} onChange={(e) => {
-                          const comune = (comuniPerProvincia[formData.sedeLegaleProvincia] || []).find(c => c.nome === e.target.value);
-                          setFormData(prev => ({ ...prev, sedeLegaleComune: e.target.value, sedeLegaleCap: comune?.cap || prev.sedeLegaleCap }));
-                        }} required disabled={!formData.sedeLegaleProvincia}>
-                          <option value="">{formData.sedeLegaleProvincia ? 'Seleziona...' : 'Prima la provincia'}</option>
-                          {(comuniPerProvincia[formData.sedeLegaleProvincia] || []).map(c => <option key={c.nome} value={c.nome}>{c.nome}</option>)}
-                        </select>
-                        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                      </div>
+                      <input type="text" name="sedeLegaleComune" value={formData.sedeLegaleComune} onChange={handleChange} className="w-full" placeholder="Roma" required />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">CAP *</label>
                       <input type="text" name="sedeLegaleCap" value={formData.sedeLegaleCap} onChange={handleChange} className="w-full" placeholder="00100" required />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
+                      <input type="text" name="sedeLegaleProvincia" value={formData.sedeLegaleProvincia} onChange={handleChange} className="w-full" placeholder="RM" required />
                     </div>
 
                     {/* P.IVA e CF */}
