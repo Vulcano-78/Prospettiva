@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
-import type { CartItem } from '@/context/CartContext';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import ProgressBar from '@/components/ProgressBar';
@@ -13,7 +12,7 @@ import { formatPrice } from '@/data/services';
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 /* ─── Payment Form (inside <Elements>) ─── */
-function PaymentForm({ total, cartItems }: { total: number; cartItems: CartItem[] }) {
+function PaymentForm({ total }: { total: number }) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -26,14 +25,6 @@ function PaymentForm({ total, cartItems }: { total: number; cartItems: CartItem[
 
     setLoading(true);
     setError(null);
-
-    // Save cart data for post-payment webhook (survives Stripe redirect)
-    try {
-      localStorage.setItem('pendingOrder', JSON.stringify(cartItems.map(item => ({
-        slug: item.service.slug,
-        formData: item.formData,
-      }))));
-    } catch { /* localStorage unavailable */ }
 
     const { error: stripeError } = await stripe.confirmPayment({
       elements,
@@ -113,6 +104,17 @@ export default function PaymentPage() {
   const { items, getSubtotal, getIVA, getTotal } = useCart();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
+
+  // Save order data to localStorage as soon as we reach the payment page
+  useEffect(() => {
+    if (items.length === 0) return;
+    try {
+      localStorage.setItem('pendingOrder', JSON.stringify(items.map(item => ({
+        slug: item.service.slug,
+        formData: item.formData,
+      }))));
+    } catch { /* localStorage unavailable */ }
+  }, [items]);
 
   useEffect(() => {
     if (items.length === 0) return;
@@ -218,7 +220,7 @@ export default function PaymentPage() {
                   },
                 }}
               >
-                <PaymentForm total={getTotal()} cartItems={items} />
+                <PaymentForm total={getTotal()} />
               </Elements>
             ) : !initError ? (
               /* Loading skeleton */
