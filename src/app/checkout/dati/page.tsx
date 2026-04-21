@@ -209,6 +209,10 @@ export default function CheckoutDataPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Auto-fill SDI with 0000000 if both SDI and PEC are empty (Cassetto Fiscale)
+    if (accountType !== 'privato' && !formData.codiceDestinatario && !formData.pec) {
+      setFormData(prev => ({ ...prev, codiceDestinatario: '0000000' }));
+    }
     try { localStorage.setItem('checkoutEmail', formData.email); } catch {}
     router.push('/checkout/pagamento');
   };
@@ -487,6 +491,9 @@ export default function CheckoutDataPage() {
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">oppure PEC</label>
                       <input type="email" name="pec" value={formData.pec} onChange={handleChange} className="w-full" placeholder="azienda@pec.it" />
+                    </div>
+                    <div className="md:col-span-2">
+                      <p className="text-xs text-[#c4c6cf]">Se non inserisci nulla, troverai la fattura nel tuo Cassetto Fiscale</p>
                     </div>
 
                     {/* Email */}
