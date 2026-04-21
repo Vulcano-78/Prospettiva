@@ -541,9 +541,9 @@ export default function CheckoutDataPage() {
 
             {/* Actions */}
             <div className="mt-6 flex items-center gap-3">
-              <button type="button" onClick={() => router.back()} className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm">
+              <button type="button" onClick={() => router.push('/carrello')} className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-6 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm">
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
-                Indietro
+                Torna al carrello
               </button>
               <button type="submit" form="dati-form" className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
                 <span>Continua</span>
