@@ -189,7 +189,7 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
-                      <div className="text-[10px] text-on-surface-variant">Storica o per immobile</div>
+                      <div className="text-[10px] text-on-surface-variant">Documento ufficiale per immobile o soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€9.90</span>
@@ -210,11 +210,11 @@ export default function HomePage() {
                   </tr>
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Planimetria</div>
-                      <div className="text-[10px] text-on-surface-variant">Copia conforme depositata</div>
+                      <div className="text-sm font-bold text-primary-container">Visura Catastale Storica</div>
+                      <div className="text-[10px] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
                     </td>
                     <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€14.90</span>
+                      <span className="text-xs font-semibold text-primary-container">€12.90</span>
                       <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
@@ -222,11 +222,11 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href="/servizio/planimetria" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <button onClick={() => handleAddToCart('planimetria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                        <Link href="/servizio/visura-catastale-storica" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
+                        <button onClick={() => handleAddToCart('visura-catastale-storica')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/planimetria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                        <Link href="/servizio/visura-catastale-storica" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
                       </div>
                     </td>
                   </tr>
