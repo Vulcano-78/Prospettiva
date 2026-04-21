@@ -439,24 +439,26 @@ export default function CheckoutDataPage() {
                       <input type="text" name="sedeLegaleCap" value={formData.sedeLegaleCap} onChange={handleChange} className="w-full" placeholder="00100" required />
                     </div>
 
-                    {/* P.IVA e CF affiancati */}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
-                      <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
-                      <div className="flex gap-2">
-                        <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="12345678901" required />
-                        {!cfManuallyEdited && formData.codiceFiscale && (
-                          <button
-                            type="button"
-                            onClick={() => { setCfManuallyEdited(true); setFormData(prev => ({ ...prev, codiceFiscale: '' })); }}
-                            className="shrink-0 text-[#4463ee] text-xs font-semibold px-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
-                          >
-                            Modifica
-                          </button>
-                        )}
+                    {/* P.IVA e CF affiancati — sempre sulla stessa riga */}
+                    <div className="md:col-span-2 grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
+                        <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
+                        <div className="flex gap-2">
+                          <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="12345678901" required />
+                          {!cfManuallyEdited && formData.codiceFiscale && (
+                            <button
+                              type="button"
+                              onClick={() => { setCfManuallyEdited(true); setFormData(prev => ({ ...prev, codiceFiscale: '' })); }}
+                              className="shrink-0 text-[#4463ee] text-xs font-semibold px-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
+                            >
+                              Modifica
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
 
