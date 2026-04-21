@@ -300,9 +300,11 @@ export default function ServicePage() {
                         <>
                           {renderTextField('provincia', 'Provincia', 'RM')}
                           {renderTextField('comune', 'Comune', 'ROMA')}
-                          {renderTextField('foglio', 'Foglio', '1')}
-                          {renderTextField('particella', 'Particella', '1')}
-                          {renderTextField('subalterno', 'Subalterno', '1', false)}
+                          <div className="md:col-span-2 grid grid-cols-3 gap-3">
+                            {renderTextField('foglio', 'Foglio', '1')}
+                            {renderTextField('particella', 'Particella', '1')}
+                            {renderTextField('subalterno', 'Subalterno', '1', false)}
+                          </div>
                         </>
                       )}
                       {searchType === 'soggetto' && (
