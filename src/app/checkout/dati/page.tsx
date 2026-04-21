@@ -164,8 +164,8 @@ export default function CheckoutDataPage() {
   const { items, updateItem, removeItem, getSubtotal, getIVA, getTotal } = useCart();
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
-  const [cfEqualsIva, setCfEqualsIva] = useState(false);
   const [showAltEmail, setShowAltEmail] = useState(false);
+  const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
   const [formData, setFormData] = useState({
     nome: '',
     cognome: '',
@@ -191,18 +191,15 @@ export default function CheckoutDataPage() {
     const { name, value } = e.target;
     setFormData(prev => {
       const next = { ...prev, [name]: value };
-      if (name === 'partitaIva' && cfEqualsIva) {
+      // Auto-copy P.IVA to CF unless CF was manually edited
+      if (name === 'partitaIva' && !cfManuallyEdited) {
         next.codiceFiscale = value;
+      }
+      if (name === 'codiceFiscale') {
+        setCfManuallyEdited(true);
       }
       return next;
     });
-  };
-
-  const handleCfEqualsIva = (checked: boolean) => {
-    setCfEqualsIva(checked);
-    if (checked) {
-      setFormData(prev => ({ ...prev, codiceFiscale: prev.partitaIva }));
-    }
   };
 
   const handleItemFieldChange = (itemId: string, currentFormData: Record<string, string>, name: string, value: string) => {
@@ -312,7 +309,7 @@ export default function CheckoutDataPage() {
                       { value: 'impresa', label: 'Impresa', icon: 'business' },
                       { value: 'professionista', label: 'Professionista', icon: 'work' },
                     ] as const).map(opt => (
-                      <button key={opt.value} type="button" onClick={() => { setAccountType(opt.value); setCfEqualsIva(false); }}
+                      <button key={opt.value} type="button" onClick={() => { setAccountType(opt.value); setCfManuallyEdited(false); }}
                         className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
                           accountType === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}>
@@ -442,36 +439,14 @@ export default function CheckoutDataPage() {
                       <input type="text" name="sedeLegaleCap" value={formData.sedeLegaleCap} onChange={handleChange} className="w-full" placeholder="00100" required />
                     </div>
 
-                    {/* P.IVA */}
+                    {/* P.IVA e CF affiancati */}
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
                       <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
                     </div>
-
-                    {/* CF con checkbox "uguale a P.IVA" */}
-                    <div className="md:col-span-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169]">Codice Fiscale *</label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={cfEqualsIva}
-                            onChange={(e) => handleCfEqualsIva(e.target.checked)}
-                            className="w-3.5 h-3.5 accent-[#002147]"
-                          />
-                          <span className="text-xs text-[#44474e]">Uguale alla Partita IVA</span>
-                        </label>
-                      </div>
-                      <input
-                        type="text"
-                        name="codiceFiscale"
-                        value={formData.codiceFiscale}
-                        onChange={handleChange}
-                        className={`w-full ${cfEqualsIva ? 'bg-slate-50 text-slate-400' : ''}`}
-                        placeholder="12345678901"
-                        required
-                        readOnly={cfEqualsIva}
-                      />
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
+                      <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="12345678901" required />
                     </div>
 
                     {/* SDI o PEC */}
