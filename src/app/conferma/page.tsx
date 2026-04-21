@@ -53,26 +53,21 @@ export default function ConfirmationPage() {
 
     try {
       const raw = localStorage.getItem('pendingOrder');
-      console.log('[conferma] pendingOrder from localStorage:', raw);
       if (!raw) return;
       const orders: { slug: string; formData: Record<string, string> }[] = JSON.parse(raw);
       localStorage.removeItem('pendingOrder');
 
       for (const order of orders) {
-        console.log('[conferma] Processing order:', order.slug, order.formData);
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
           const payload = buildVisuraPayload(order);
-          console.log('[conferma] Sending webhook payload:', payload);
           fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-          })
-            .then(res => console.log('[conferma] Webhook response:', res.status))
-            .catch(err => console.error('[conferma] Webhook error:', err));
+          }).catch(() => { /* silent fail */ });
         }
       }
-    } catch (err) { console.error('[conferma] Error processing pendingOrder:', err); }
+    } catch { /* localStorage or parse error */ }
   }, []);
 
   const orderId = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`;
