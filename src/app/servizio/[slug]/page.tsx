@@ -264,7 +264,7 @@ export default function ServicePage() {
                               >
                                 <option value="">{formData.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
                                 {(comuniPerProvincia[formData.provincia] || []).map(c => (
-                                  <option key={c} value={c.toUpperCase()}>{c}</option>
+                                  <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>
                                 ))}
                               </select>
                               <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
