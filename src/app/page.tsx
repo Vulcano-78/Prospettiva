@@ -189,7 +189,7 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
-                      <div className="text-[10px] text-on-surface-variant">Documento ufficiale per immobile o soggetto</div>
+                      <div className="text-[10px] text-on-surface-variant">Per immobile o soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€9.90</span>
