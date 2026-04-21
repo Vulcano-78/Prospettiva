@@ -4,14 +4,193 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
-import { useCart } from '@/context/CartContext';
+import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
+import { province, comuniPerProvincia } from '@/data/comuni';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
+function isVisura(slug: string) {
+  return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
+}
+
+/* ─── Visura-specific fields for a single cart item ─── */
+function VisuraFields({ item, data, onChange }: {
+  item: CartItem;
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+}) {
+  const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>(
+    (data._searchType as 'immobile' | 'soggetto' | 'soggetto-giuridico') || 'immobile'
+  );
+
+  const handleSearchTypeChange = (type: typeof searchType) => {
+    setSearchType(type);
+    onChange('_searchType', type);
+  };
+
+  const handleProvinciaChange = (value: string) => {
+    onChange('provincia', value);
+    onChange('comune', '');
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Search Type */}
+      <div className="space-y-2">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">
+          Modalita di ricerca
+        </label>
+        <div className="grid grid-cols-3 gap-2">
+          {([
+            { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
+            { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
+            { value: 'soggetto-giuridico' as const, label: 'Sogg. Giuridico', icon: 'business' },
+          ]).map(opt => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => handleSearchTypeChange(opt.value)}
+              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+                searchType === opt.value
+                  ? 'border-[#002147] bg-[#002147] text-white'
+                  : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <span className="material-symbols-outlined text-base">{opt.icon}</span>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tab-specific fields */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {searchType === 'immobile' && (
+          <>
+            {/* Provincia */}
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
+              <div className="relative">
+                <select
+                  className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all appearance-none"
+                  value={data.provincia || ''}
+                  onChange={(e) => handleProvinciaChange(e.target.value)}
+                  required
+                >
+                  <option value="">Seleziona...</option>
+                  {province.map(p => (
+                    <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>
+                  ))}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+              </div>
+            </div>
+            {/* Comune */}
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Comune *</label>
+              <div className="relative">
+                <select
+                  className="w-full bg-white border border-slate-200 px-3 py-2 text-sm focus:ring-1 focus:ring-[#4463EE] focus:border-[#4463EE] outline-none transition-all appearance-none"
+                  value={data.comune || ''}
+                  onChange={(e) => onChange('comune', e.target.value)}
+                  required
+                  disabled={!data.provincia}
+                >
+                  <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
+                  {(comuniPerProvincia[data.provincia] || []).map(c => (
+                    <option key={c} value={c.toUpperCase()}>{c}</option>
+                  ))}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+              </div>
+            </div>
+            {/* Foglio / Particella / Subalterno */}
+            <div className="md:col-span-2 grid grid-cols-3 gap-3">
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Foglio *</label>
+                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
+              </div>
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Particella *</label>
+                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
+              </div>
+              <div className="space-y-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Subalterno</label>
+                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
+              </div>
+            </div>
+          </>
+        )}
+        {searchType === 'soggetto' && (
+          <>
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Codice Fiscale *</label>
+              <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="RSSMRA85M01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
+              <div className="relative">
+                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onChange('provincia', e.target.value)} required>
+                  <option value="">Seleziona...</option>
+                  {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+              </div>
+            </div>
+          </>
+        )}
+        {searchType === 'soggetto-giuridico' && (
+          <>
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Partita IVA *</label>
+              <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
+              <div className="relative">
+                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onChange('provincia', e.target.value)} required>
+                  <option value="">Seleziona...</option>
+                  {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Common selectors */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Tipo Catasto</label>
+          <div className="relative">
+            <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.tipo_catasto || 'F'} onChange={(e) => onChange('tipo_catasto', e.target.value)}>
+              <option value="F">Fabbricati</option>
+              <option value="T">Terreni</option>
+            </select>
+            <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Tipo Dettaglio</label>
+          <div className="relative">
+            <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.tipo_dettaglio || 'sintetica'} onChange={(e) => onChange('tipo_dettaglio', e.target.value)}>
+              <option value="sintetica">Sintetica</option>
+              <option value="analitica">Analitica</option>
+            </select>
+            <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Page ─── */
 export default function CheckoutDataPage() {
   const router = useRouter();
-  const { items, getSubtotal, getIVA, getTotal } = useCart();
+  const { items, updateItem, getSubtotal, getIVA, getTotal } = useCart();
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
   const [formData, setFormData] = useState({
@@ -20,7 +199,6 @@ export default function CheckoutDataPage() {
     email: '',
     telefono: '',
     codiceFiscale: '',
-    // Impresa / Professionista
     ragioneSociale: '',
     partitaIva: '',
     pec: '',
@@ -31,9 +209,12 @@ export default function CheckoutDataPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleItemFieldChange = (itemId: string, currentFormData: Record<string, string>, name: string, value: string) => {
+    updateItem(itemId, { ...currentFormData, [name]: value });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Save checkout email for post-payment webhook
     try { localStorage.setItem('checkoutEmail', formData.email); } catch {}
     router.push('/checkout/pagamento');
   };
@@ -44,6 +225,7 @@ export default function CheckoutDataPage() {
   }
 
   const needsDelegate = items.some(item => item.service.requiresDelegate);
+  let sectionNum = 0;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
@@ -67,46 +249,73 @@ export default function CheckoutDataPage() {
           {/* Left: Forms */}
           <div className="lg:col-span-2 space-y-8">
             <form onSubmit={handleSubmit} id="dati-form" className="space-y-8">
-              {/* Section 1: Dati per i documenti */}
+              {/* Service-specific fields for each cart item */}
+              {items.map(item => {
+                sectionNum++;
+                if (isVisura(item.service.slug)) {
+                  return (
+                    <section key={item.id} className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+                      <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                        <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{sectionNum}</span>
+                        {item.service.name}
+                      </h2>
+                      <VisuraFields
+                        item={item}
+                        data={item.formData}
+                        onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                      />
+                    </section>
+                  );
+                }
+
+                // Generic service fields
+                return (
+                  <section key={item.id} className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+                    <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                      <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{sectionNum}</span>
+                      {item.service.name}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {item.service.fields.map(field => (
+                        <div key={field.name} className="space-y-1.5">
+                          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">
+                            {field.label} {field.required && '*'}
+                          </label>
+                          {field.type === 'select' ? (
+                            <div className="relative">
+                              <select
+                                className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none"
+                                value={item.formData[field.name] || ''}
+                                onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)}
+                                required={field.required}
+                              >
+                                <option value="">Seleziona...</option>
+                                {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                              </select>
+                              <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+                            </div>
+                          ) : (
+                            <input
+                              type={field.type}
+                              className="w-full bg-white border border-slate-200 px-3 py-2 text-sm"
+                              placeholder={field.placeholder}
+                              value={item.formData[field.name] || ''}
+                              onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)}
+                              required={field.required}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+
+              {/* Dati per la fatturazione */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
-                  Dati per i documenti
-                </h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Nome *
-                    </label>
-                    <input type="text" name="nome" value={formData.nome} onChange={handleChange} className="w-full" placeholder="Mario" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Cognome *
-                    </label>
-                    <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Email *
-                    </label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Telefono
-                    </label>
-                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full" placeholder="+39 333 1234567" />
-                  </div>
-                </div>
-              </section>
-
-              {/* Section 2: Dati per il pagamento */}
-              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
-                  Dati per il pagamento
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{items.length + 1}</span>
+                  Dati per la fatturazione
                 </h2>
 
                 {/* Account Type Selector */}
@@ -138,14 +347,27 @@ export default function CheckoutDataPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Nome *</label>
+                    <input type="text" name="nome" value={formData.nome} onChange={handleChange} className="w-full" placeholder="Mario" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Cognome *</label>
+                    <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Telefono</label>
+                    <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full" placeholder="+39 333 1234567" />
+                  </div>
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                      Codice Fiscale *
-                    </label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
                     <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required />
                   </div>
 
-                  {/* Impresa / Professionista fields */}
                   {accountType !== 'privato' && (
                     <>
                       <div className="md:col-span-2">
@@ -155,21 +377,15 @@ export default function CheckoutDataPage() {
                         <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} className="w-full" placeholder={accountType === 'impresa' ? 'Rossi S.r.l.' : 'Studio Rossi'} required />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                          Partita IVA *
-                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
                         <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="IT12345678901" required />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                          PEC
-                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">PEC</label>
                         <input type="email" name="pec" value={formData.pec} onChange={handleChange} className="w-full" placeholder="azienda@pec.it" />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                          Codice Destinatario (SDI)
-                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Destinatario (SDI)</label>
                         <input type="text" name="codiceDestinatario" value={formData.codiceDestinatario} onChange={handleChange} className="w-full" placeholder="0000000" />
                       </div>
                     </>
@@ -181,7 +397,7 @@ export default function CheckoutDataPage() {
               {needsDelegate && (
                 <section className="bg-white rounded-2xl p-6 md:p-8 border border-amber-200/50 shadow-sm">
                   <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">2</span>
+                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">{items.length + 2}</span>
                     Delega Proprietario
                   </h2>
 
@@ -201,7 +417,7 @@ export default function CheckoutDataPage() {
               )}
             </form>
 
-            {/* Actions — aligned to left column */}
+            {/* Actions */}
             <div className="mt-6 flex items-center gap-3">
               <button
                 type="button"
@@ -257,7 +473,6 @@ export default function CheckoutDataPage() {
                 </div>
               </div>
 
-              {/* Delivery info + SSL */}
               <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
                 <div className="flex items-center gap-2 text-xs text-[#44474e]">
                   <span className="material-symbols-outlined text-base text-[#28a428]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
@@ -272,7 +487,6 @@ export default function CheckoutDataPage() {
             </div>
           </div>
         </div>
-
       </main>
     </div>
   );

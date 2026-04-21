@@ -2,6 +2,7 @@
 
 import { useState, use } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services, getServicesByCategory } from '@/data/services';
@@ -56,9 +57,17 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   // For Urbanistica, also include Marketing AI items? No, keep it strictly per category.
   // For utility-gratuite, the data category is 'strumenti-gratuiti'
 
+  const router = useRouter();
+
   const handleAddToCart = (slug: string) => {
     const service = services.find(s => s.slug === slug);
     if (service) addItem(service);
+  };
+
+  const handleBuyNow = (slug: string) => {
+    const service = services.find(s => s.slug === slug);
+    if (service) addItem(service);
+    router.push('/checkout/dati');
   };
 
   return (
@@ -137,7 +146,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                                 >
                                   <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                                 </button>
-                                <Link href={`/servizio/${service.slug}`} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                                <button onClick={() => handleBuyNow(service.slug)} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                               </>
                             ) : (
                               <>

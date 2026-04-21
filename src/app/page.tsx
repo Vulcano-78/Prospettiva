@@ -2,10 +2,12 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services } from '@/data/services';
 
 export default function HomePage() {
+  const router = useRouter();
   const { addItem, itemCount } = useCart();
 
   useEffect(() => {
@@ -20,6 +22,12 @@ export default function HomePage() {
   const handleAddToCart = (slug: string) => {
     const service = getService(slug);
     if (service) addItem(service);
+  };
+
+  const handleBuyNow = (slug: string) => {
+    const service = getService(slug);
+    if (service) addItem(service);
+    router.push('/checkout/dati');
   };
 
   return (
@@ -204,7 +212,7 @@ export default function HomePage() {
                         <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-catastale" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                        <button onClick={() => handleBuyNow('visura-catastale')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
@@ -226,7 +234,7 @@ export default function HomePage() {
                         <button onClick={() => handleAddToCart('visura-catastale-storica')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-catastale-storica" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
@@ -279,7 +287,7 @@ export default function HomePage() {
                         <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
@@ -301,7 +309,7 @@ export default function HomePage() {
                         <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <Link href="/servizio/visura-ipotecaria" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
