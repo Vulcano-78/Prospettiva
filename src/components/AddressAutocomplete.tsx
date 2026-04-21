@@ -24,7 +24,6 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const sessionTokenRef = useRef(crypto.randomUUID());
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -39,7 +38,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
   }, []);
 
   const fetchSuggestions = async (query: string) => {
-    if (!token || query.length < 3) {
+    if (!token || query.length < 4) {
       setSuggestions([]);
       setShowDropdown(false);
       return;
@@ -47,26 +46,29 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
 
     setLoading(true);
     try {
-      // Use Mapbox Search Box API (suggest endpoint)
       const res = await fetch(
-        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${encodeURIComponent(query)}&country=IT&language=it&types=address&limit=5&session_token=${sessionTokenRef.current}&access_token=${token}`
+        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&country=IT&language=it&limit=5&access_token=${token}`
       );
       const data = await res.json();
 
-      if (data.suggestions) {
-        const results: AddressSuggestion[] = data.suggestions.map((s: { name: string; full_address?: string; place_formatted?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string }; locality?: { name?: string } } }) => ({
-          full_address: s.full_address || s.place_formatted || s.name,
-          address: s.name || '',
-          city: s.context?.place?.name || s.context?.locality?.name || '',
-          postcode: s.context?.postcode?.name || '',
-          region: s.context?.region?.name || '',
-        }));
-        setSuggestions(results);
-        setShowDropdown(results.length > 0);
-      } else {
-        setSuggestions([]);
-        setShowDropdown(false);
-      }
+      const results: AddressSuggestion[] = (data.features || [])
+        .filter((f: { properties: { feature_type?: string } }) =>
+          f.properties.feature_type === 'address' || f.properties.feature_type === 'street'
+        )
+        .map((f: { properties: { full_address?: string; name?: string; place_formatted?: string; context?: { place?: { name?: string }; postcode?: { name?: string }; region?: { name?: string }; locality?: { name?: string } } } }) => {
+          const props = f.properties;
+          const ctx = props.context || {};
+          return {
+            full_address: props.full_address || '',
+            address: props.name || '',
+            city: ctx.place?.name || ctx.locality?.name || '',
+            postcode: ctx.postcode?.name || '',
+            region: ctx.region?.name || '',
+          };
+        });
+
+      setSuggestions(results);
+      setShowDropdown(results.length > 0);
     } catch {
       setSuggestions([]);
       setShowDropdown(false);
@@ -78,14 +80,13 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
   const handleInputChange = (val: string) => {
     onChange(val);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => fetchSuggestions(val), 300);
+    debounceRef.current = setTimeout(() => fetchSuggestions(val), 350);
   };
 
   const handleSelect = (s: AddressSuggestion) => {
     onChange(s.address);
     setShowDropdown(false);
     setSuggestions([]);
-    sessionTokenRef.current = crypto.randomUUID();
     onSelect(s);
   };
 
@@ -105,7 +106,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
         <span className="absolute right-3 top-2.5 material-symbols-outlined text-slate-300 text-base animate-spin">progress_activity</span>
       )}
       {showDropdown && suggestions.length > 0 && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-52 overflow-y-auto">
           {suggestions.map((s, i) => (
             <button
               key={i}
@@ -114,11 +115,9 @@ export default function AddressAutocomplete({ value, onChange, onSelect, placeho
               className="w-full text-left px-3 py-2.5 text-sm text-[#191c1d] hover:bg-[#f8f9fa] transition-colors cursor-pointer border-b border-slate-50 last:border-0"
             >
               <span className="font-medium">{s.address}</span>
-              {(s.city || s.postcode) && (
-                <span className="text-[#74777f] text-xs ml-2">
-                  {[s.city, s.postcode].filter(Boolean).join(' — ')}
-                </span>
-              )}
+              <span className="text-[#74777f] text-xs block mt-0.5">
+                {[s.city, s.postcode, s.region].filter(Boolean).join(', ')}
+              </span>
             </button>
           ))}
         </div>
