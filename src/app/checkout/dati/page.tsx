@@ -439,26 +439,48 @@ export default function CheckoutDataPage() {
                       <input type="text" name="sedeLegaleCap" value={formData.sedeLegaleCap} onChange={handleChange} className="w-full" placeholder="00100" required />
                     </div>
 
-                    {/* P.IVA e CF affiancati — sempre sulla stessa riga */}
-                    <div className="md:col-span-2 grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
-                        <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
-                        <div className="flex gap-2">
-                          <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="12345678901" required />
-                          {!cfManuallyEdited && formData.codiceFiscale && (
-                            <button
-                              type="button"
-                              onClick={() => { setCfManuallyEdited(true); setFormData(prev => ({ ...prev, codiceFiscale: '' })); }}
-                              className="shrink-0 text-[#4463ee] text-xs font-semibold px-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
-                            >
-                              Modifica
-                            </button>
-                          )}
+                    {/* P.IVA e CF */}
+                    <div className="md:col-span-2">
+                      <div className="grid grid-cols-2 gap-4 mb-2">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#516169]">Partita IVA *</label>
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-bold uppercase tracking-wider text-[#516169]">Codice Fiscale *</label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!cfManuallyEdited) {
+                                setCfManuallyEdited(true);
+                                setFormData(prev => ({ ...prev, codiceFiscale: '' }));
+                              } else {
+                                setCfManuallyEdited(false);
+                                setFormData(prev => ({ ...prev, codiceFiscale: prev.partitaIva }));
+                              }
+                            }}
+                            className={`flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border transition-colors cursor-pointer ${
+                              !cfManuallyEdited
+                                ? 'border-[#28a428]/30 bg-[#28a428]/8 text-[#28a428]'
+                                : 'border-orange-200 bg-orange-50 text-orange-600'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>
+                              {!cfManuallyEdited ? 'link' : 'link_off'}
+                            </span>
+                            {!cfManuallyEdited ? 'Uguale' : 'Diverso'}
+                          </button>
                         </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
+                        <input
+                          type="text"
+                          name="codiceFiscale"
+                          value={formData.codiceFiscale}
+                          onChange={handleChange}
+                          className={`w-full ${!cfManuallyEdited ? 'bg-slate-50 text-slate-400' : ''}`}
+                          placeholder={!cfManuallyEdited ? 'Autocompilato' : '12345678901'}
+                          required
+                          readOnly={!cfManuallyEdited}
+                        />
                       </div>
                     </div>
 
