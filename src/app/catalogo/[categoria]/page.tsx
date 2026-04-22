@@ -139,7 +139,6 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                           {service.isActive ? (
                             service.price > 0 ? (
                               <>
-                                <Link href={`/servizio/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
                                 <button
                                   onClick={() => handleAddToCart(service.slug)}
                                   className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer"
@@ -149,10 +148,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                                 <button onClick={() => handleBuyNow(service.slug)} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                               </>
                             ) : (
-                              <>
-                                <Link href={`/servizio/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                                <Link href={`/servizio/${service.slug}`} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Apri</Link>
-                              </>
+                              <Link href={`/coming-soon/${service.slug}`} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Apri</Link>
                             )
                           ) : (
                             <>
