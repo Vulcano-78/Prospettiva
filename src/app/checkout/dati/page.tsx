@@ -213,7 +213,12 @@ export default function CheckoutDataPage() {
     if (accountType !== 'privato' && !formData.codiceDestinatario && !formData.pec) {
       setFormData(prev => ({ ...prev, codiceDestinatario: '0000000' }));
     }
-    try { localStorage.setItem('checkoutEmail', formData.email); } catch {}
+    try {
+      localStorage.setItem('checkoutEmail', formData.email);
+      if (formData.emailDocumenti) {
+        localStorage.setItem('checkoutEmailDocumenti', formData.emailDocumenti);
+      }
+    } catch {}
     router.push('/checkout/pagamento');
   };
 
@@ -381,7 +386,7 @@ export default function CheckoutDataPage() {
                       <div className="md:col-span-2">
                         <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#4463ee] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
                           <span className="material-symbols-outlined text-sm">add</span>
-                          Invia i documenti a un&apos;altra email
+                          Invia i documenti anche a un&apos;altra email
                         </button>
                       </div>
                     ) : (
@@ -487,7 +492,7 @@ export default function CheckoutDataPage() {
                       <div className="md:col-span-2">
                         <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#4463ee] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
                           <span className="material-symbols-outlined text-sm">add</span>
-                          Invia i documenti a un&apos;altra email
+                          Invia i documenti anche a un&apos;altra email
                         </button>
                       </div>
                     ) : (
