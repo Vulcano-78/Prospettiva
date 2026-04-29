@@ -1,16 +1,12 @@
 import { NextResponse } from 'next/server';
 
-const TOKEN = 'Bearer 69f1f897c17fe9edfd088ff2';
-
 export async function GET() {
+  const token = process.env.OPENAPI_TOKEN;
+  if (!token) return NextResponse.json({ error: 'token mancante' }, { status: 500 });
+
   const res = await fetch('https://test.catasto.openapi.it/territorio', {
-    headers: { Authorization: TOKEN },
+    headers: { Authorization: `Bearer ${token}` },
   });
-  const text = await res.text();
-  console.log('[territorio] status:', res.status, 'body:', text.slice(0, 500));
-  try {
-    return NextResponse.json(JSON.parse(text));
-  } catch {
-    return NextResponse.json({ error: 'parse error', raw: text.slice(0, 500) }, { status: 500 });
-  }
+  const data = await res.json();
+  return NextResponse.json(data);
 }
