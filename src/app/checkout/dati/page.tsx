@@ -18,6 +18,147 @@ function isVisura(slug: string) {
 function isEstrattoMappa(slug: string) {
   return slug === 'estratto-mappa' || slug === 'elaborato-planimetrico';
 }
+function isProspettoCatastale(slug: string) { return slug === 'prospetto-catastale'; }
+function isRicercaPersona(slug: string) { return slug === 'ricerca-persona'; }
+function isRicercaNazionale(slug: string) { return slug === 'ricerca-nazionale'; }
+function isRicercaIndirizzo(slug: string) { return slug === 'ricerca-indirizzo'; }
+
+const selectClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none';
+const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
+const labelClass = 'block text-[10px] font-bold uppercase tracking-widest text-[#516169]';
+
+function ProvinciaComune({ data, onChange, onProvinciaChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
+}) {
+  return (
+    <>
+      <div className="space-y-1.5">
+        <label className={labelClass}>Provincia *</label>
+        <div className="relative">
+          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
+            <option value="">Seleziona...</option>
+            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label className={labelClass}>Comune *</label>
+        <div className="relative">
+          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
+            <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
+            {(comuniPerProvincia[data.provincia] || []).map(c => <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>)}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function TipoCatastoSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="space-y-1.5">
+      <label className={labelClass}>Tipo Catasto *</label>
+      <div className="relative">
+        <select className={selectClass} value={value || 'F'} onChange={(e) => onChange(e.target.value)} required>
+          <option value="F">Fabbricati</option>
+          <option value="T">Terreni</option>
+          <option value="TF">Entrambi</option>
+        </select>
+        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Prospetto Catastale fields ─── */
+function ProspettoCatastaleFields({ data, onChange, onProvinciaChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
+      <div className="space-y-1.5">
+        <label className={labelClass}>Foglio *</label>
+        <input type="text" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
+      </div>
+      <div className="space-y-1.5">
+        <label className={labelClass}>Particella *</label>
+        <input type="text" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
+      </div>
+      <div className="space-y-1.5">
+        <label className={labelClass}>Subalterno</label>
+        <input type="text" className={inputClass} placeholder="Es. 1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
+      </div>
+      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
+    </div>
+  );
+}
+
+/* ─── Ricerca Persona fields ─── */
+function RicercaPersonaFields({ data, onChange, onProvinciaChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="md:col-span-2 space-y-1.5">
+        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
+        <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+      </div>
+      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
+      <div className="space-y-1.5">
+        <label className={labelClass}>Provincia *</label>
+        <div className="relative">
+          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
+            <option value="">Seleziona...</option>
+            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Ricerca Nazionale fields ─── */
+function RicercaNazionaleFields({ data, onChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="md:col-span-2 space-y-1.5">
+        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
+        <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+      </div>
+      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
+    </div>
+  );
+}
+
+/* ─── Ricerca per Indirizzo fields ─── */
+function RicercaIndirizzoFields({ data, onChange, onProvinciaChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
+      <div className="md:col-span-2 space-y-1.5">
+        <label className={labelClass}>Indirizzo *</label>
+        <input type="text" className={inputClass} placeholder="Via Roma 12" value={data.indirizzo || ''} onChange={(e) => onChange('indirizzo', e.target.value)} required />
+      </div>
+    </div>
+  );
+}
 
 /* ─── Estratto di Mappa fields ─── */
 function EstrattoMappaFields({ data, onChange, onProvinciaChange }: {
@@ -306,6 +447,29 @@ export default function CheckoutDataPage() {
                   />
                 ) : isEstrattoMappa(item.service.slug) ? (
                   <EstrattoMappaFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                  />
+                ) : isProspettoCatastale(item.service.slug) ? (
+                  <ProspettoCatastaleFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                  />
+                ) : isRicercaPersona(item.service.slug) ? (
+                  <RicercaPersonaFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value })}
+                  />
+                ) : isRicercaNazionale(item.service.slug) ? (
+                  <RicercaNazionaleFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                  />
+                ) : isRicercaIndirizzo(item.service.slug) ? (
+                  <RicercaIndirizzoFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
                     onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}

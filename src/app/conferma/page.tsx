@@ -100,6 +100,65 @@ export default function ConfirmationPage() {
           }).catch(() => { /* silent fail */ });
         }
 
+        if (order.slug === 'prospetto-catastale') {
+          const fd = order.formData;
+          const payload: Record<string, string> = {
+            tipo_catasto: fd.tipo_catasto || 'F',
+            provincia: (fd.provincia || '').toUpperCase(),
+            comune: (fd.comune || '').toUpperCase(),
+            foglio: fd.foglio || '',
+            particella: fd.particella || '',
+            email: checkoutEmail,
+          };
+          if (fd.subalterno) payload.subalterno = fd.subalterno;
+          fetch('https://n8n.vulcano.tools/webhook/prospetto-catastale', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).catch(() => { /* silent fail */ });
+        }
+
+        if (order.slug === 'ricerca-persona') {
+          const fd = order.formData;
+          fetch('https://n8n.vulcano.tools/webhook/ricerca-persona', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              cf_piva: fd.cf_piva || '',
+              tipo_catasto: fd.tipo_catasto || 'F',
+              provincia: (fd.provincia || '').toUpperCase(),
+              email: checkoutEmail,
+            }),
+          }).catch(() => { /* silent fail */ });
+        }
+
+        if (order.slug === 'ricerca-nazionale') {
+          const fd = order.formData;
+          fetch('https://n8n.vulcano.tools/webhook/ricerca-nazionale', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              cf_piva: fd.cf_piva || '',
+              tipo_catasto: fd.tipo_catasto || 'F',
+              email: checkoutEmail,
+            }),
+          }).catch(() => { /* silent fail */ });
+        }
+
+        if (order.slug === 'ricerca-indirizzo') {
+          const fd = order.formData;
+          fetch('https://n8n.vulcano.tools/webhook/ricerca-indirizzo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              provincia: (fd.provincia || '').toUpperCase(),
+              comune: (fd.comune || '').toUpperCase(),
+              indirizzo: fd.indirizzo || '',
+              email: checkoutEmail,
+            }),
+          }).catch(() => { /* silent fail */ });
+        }
+
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
           const payload = buildVisuraPayload(order, checkoutEmail, checkoutEmailDocumenti || undefined);
           const searchType = order.formData._searchType || 'immobile';

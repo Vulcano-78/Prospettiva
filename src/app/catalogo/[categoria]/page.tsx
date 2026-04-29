@@ -51,6 +51,7 @@ const categoryServiceOrder: Record<string, string[]> = {
     'prospetto-catastale',
     'ricerca-persona',
     'ricerca-nazionale',
+    'ricerca-indirizzo',
   ],
 };
 
