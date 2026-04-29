@@ -7,27 +7,9 @@ import ProgressBar from '@/components/ProgressBar';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
+import { province } from '@/data/province';
 
-type Province = { sigla: string; nome: string };
-
-let _provincesCache: Province[] | null = null;
-let _provincesInflight: Promise<Province[]> | null = null;
 const _comuniCache: Record<string, string[]> = {};
-
-function loadProvince(): Promise<Province[]> {
-  if (_provincesCache) return Promise.resolve(_provincesCache);
-  if (!_provincesInflight) {
-    _provincesInflight = fetch('/api/territorio')
-      .then(r => r.json())
-      .then(d => {
-        const list: Province[] = Array.isArray(d) ? d : (d.data ?? []);
-        _provincesCache = list;
-        return list;
-      })
-      .catch(() => { _provincesInflight = null; return []; });
-  }
-  return _provincesInflight;
-}
 
 function loadComuni(sigla: string): Promise<string[]> {
   if (_comuniCache[sigla]) return Promise.resolve(_comuniCache[sigla]);
@@ -67,14 +49,8 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
   onChange: (name: string, value: string) => void;
   onProvinciaChange: (value: string) => void;
 }) {
-  const [provinces, setProvinces] = useState<Province[]>([]);
   const [comuni, setComuni] = useState<string[]>([]);
-  const [loadingProv, setLoadingProv] = useState(true);
   const [loadingComuni, setLoadingComuni] = useState(false);
-
-  useEffect(() => {
-    loadProvince().then(p => { setProvinces(p); setLoadingProv(false); });
-  }, []);
 
   useEffect(() => {
     if (!data.provincia) { setComuni([]); return; }
@@ -87,9 +63,9 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
       <div className="space-y-1.5">
         <label className={labelClass}>Provincia *</label>
         <div className="relative">
-          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required disabled={loadingProv}>
-            <option value="">{loadingProv ? 'Caricamento...' : 'Seleziona...'}</option>
-            {provinces.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
+            <option value="">Seleziona...</option>
+            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
           </select>
           <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
         </div>
@@ -114,20 +90,13 @@ function ProvinciaSelect({ value, onChange }: {
   value: string;
   onChange: (value: string) => void;
 }) {
-  const [provinces, setProvinces] = useState<Province[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadProvince().then(p => { setProvinces(p); setLoading(false); });
-  }, []);
-
   return (
     <div className="space-y-1.5">
       <label className={labelClass}>Provincia *</label>
       <div className="relative">
-        <select className={selectClass} value={value} onChange={(e) => onChange(e.target.value)} required disabled={loading}>
-          <option value="">{loading ? 'Caricamento...' : 'Seleziona...'}</option>
-          {provinces.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+        <select className={selectClass} value={value} onChange={(e) => onChange(e.target.value)} required>
+          <option value="">Seleziona...</option>
+          {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
         </select>
         <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
       </div>

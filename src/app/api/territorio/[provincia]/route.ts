@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const TOKEN = 'Bearer 69f1f897c17fe9edfd088ff2';
+const TOKEN = 'Bearer 69f1f8a1c17fe9edfd088ff4';
 
 export async function GET(
   _req: Request,
