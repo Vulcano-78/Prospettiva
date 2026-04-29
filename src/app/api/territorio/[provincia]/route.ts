@@ -8,7 +8,7 @@ export async function GET(
   if (!token) return NextResponse.json({ error: 'token mancante' }, { status: 500 });
 
   const { provincia } = await params;
-  const res = await fetch(`https://test.catasto.openapi.it/territorio/${provincia}`, {
+  const res = await fetch(`https://catasto.openapi.it/territorio/${provincia}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await res.json();
