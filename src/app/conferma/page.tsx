@@ -57,10 +57,12 @@ export default function ConfirmationPage() {
 
     try {
       const raw = localStorage.getItem('pendingOrder');
-      if (!raw) return;
+      console.log('[conferma] pendingOrder raw:', raw);
+      if (!raw) { console.log('[conferma] nessun pendingOrder trovato'); return; }
       const orders: { slug: string; formData: Record<string, string> }[] = JSON.parse(raw);
       const checkoutEmail = localStorage.getItem('checkoutEmail') || '';
       const checkoutEmailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
+      console.log('[conferma] orders:', orders.map(o => o.slug), '| email:', checkoutEmail);
       localStorage.removeItem('pendingOrder');
       localStorage.removeItem('checkoutEmail');
       localStorage.removeItem('checkoutEmailDocumenti');
@@ -121,11 +123,12 @@ export default function ConfirmationPage() {
           if (fd.cf_piva) payload.cf_piva = fd.cf_piva;
           if (fd.indirizzo) payload.indirizzo = fd.indirizzo;
 
+          console.log('[conferma] invio richiesta-catastale:', payload);
           fetch('https://n8n.vulcano.tools/webhook/richiesta-catastale', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-          }).catch(() => { /* silent fail */ });
+          }).then(r => console.log('[conferma] risposta n8n:', r.status)).catch(e => console.error('[conferma] errore fetch:', e));
         }
 
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
