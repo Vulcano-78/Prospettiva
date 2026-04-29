@@ -16,10 +16,10 @@ function loadComuni(sigla: string): Promise<string[]> {
   return fetch(`/api/territorio/${sigla}`)
     .then(r => r.json())
     .then(d => {
-      // Response: { success, data: { sigla, nome, comuni: [...] } }
-      const raw = d?.data?.comuni ?? d?.data ?? d ?? [];
-      const list: { nome?: string }[] = Array.isArray(raw) ? raw : [];
-      const nomi = list.map(c => (c.nome ?? '').toUpperCase()).filter(Boolean);
+      // Response: { data: { provincia, comuni: [{ comune, sezioni, codice_catastale }] } }
+      const raw = d?.data?.comuni ?? [];
+      const list: { comune?: string }[] = Array.isArray(raw) ? raw : [];
+      const nomi = list.map(c => (c.comune ?? '').toUpperCase()).filter(Boolean);
       _comuniCache[sigla] = nomi;
       return nomi;
     })
