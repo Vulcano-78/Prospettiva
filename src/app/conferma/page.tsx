@@ -112,12 +112,12 @@ export default function ConfirmationPage() {
           const tipo_servizio = slugToTipoServizio[order.slug];
           const payload: Record<string, string> = { tipo_servizio, email: checkoutEmail };
 
+          payload.tipo_catasto = fd.tipo_catasto || 'F';
           if (fd.provincia) payload.provincia = fd.provincia.toUpperCase();
           if (fd.comune) payload.comune = fd.comune.toUpperCase();
           if (fd.foglio) payload.foglio = fd.foglio;
           if (fd.particella) payload.particella = fd.particella;
           if (fd.subalterno) payload.subalterno = fd.subalterno;
-          if (fd.tipo_catasto) payload.tipo_catasto = fd.tipo_catasto;
           if (fd.cf_piva) payload.cf_piva = fd.cf_piva;
           if (fd.indirizzo) payload.indirizzo = fd.indirizzo;
 

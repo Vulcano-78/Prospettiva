@@ -152,6 +152,7 @@ function RicercaIndirizzoFields({ data, onChange, onProvinciaChange }: {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
+      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
       <div className="md:col-span-2 space-y-1.5">
         <label className={labelClass}>Indirizzo *</label>
         <input type="text" className={inputClass} placeholder="Via Roma 12" value={data.indirizzo || ''} onChange={(e) => onChange('indirizzo', e.target.value)} required />
