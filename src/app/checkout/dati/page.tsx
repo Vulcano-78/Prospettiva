@@ -15,6 +15,54 @@ function isVisura(slug: string) {
   return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
 }
 
+function isEstrattoMappa(slug: string) {
+  return slug === 'estratto-mappa';
+}
+
+/* ─── Estratto di Mappa fields ─── */
+function EstrattoMappaFields({ data, onChange, onProvinciaChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-1.5">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
+        <div className="relative">
+          <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
+            <option value="">Seleziona...</option>
+            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Comune *</label>
+        <div className="relative">
+          <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
+            <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
+            {(comuniPerProvincia[data.provincia] || []).map(c => <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>)}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Foglio *</label>
+        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
+      </div>
+      <div className="space-y-1.5">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Particella *</label>
+        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
+      </div>
+      <div className="space-y-1.5">
+        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Sezione</label>
+        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
+      </div>
+    </div>
+  );
+}
+
 /* ─── Visura-specific fields ─── */
 function VisuraFields({ item, data, onChange, onProvinciaChange }: {
   item: CartItem;
@@ -252,6 +300,12 @@ export default function CheckoutDataPage() {
                 const sectionContent = isVisura(item.service.slug) ? (
                   <VisuraFields
                     item={item}
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                  />
+                ) : isEstrattoMappa(item.service.slug) ? (
+                  <EstrattoMappaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
                     onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}

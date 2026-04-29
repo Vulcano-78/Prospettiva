@@ -66,6 +66,23 @@ export default function ConfirmationPage() {
       localStorage.removeItem('checkoutEmailDocumenti');
 
       for (const order of orders) {
+        if (order.slug === 'estratto-mappa') {
+          const fd = order.formData;
+          const payload: Record<string, string> = {
+            provincia: (fd.provincia || '').toUpperCase(),
+            comune: (fd.comune || '').toUpperCase(),
+            foglio: fd.foglio || '',
+            particella: fd.particella || '',
+            email: checkoutEmail,
+          };
+          if (fd.sezione) payload.sezione = fd.sezione;
+          fetch('https://n8n.vulcano.tools/webhook/estratto-mappa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).catch(() => { /* silent fail */ });
+        }
+
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
           const payload = buildVisuraPayload(order, checkoutEmail, checkoutEmailDocumenti || undefined);
           const searchType = order.formData._searchType || 'immobile';
