@@ -140,19 +140,33 @@ function buildPdf(
   });
 }
 
+function parseField(value: unknown): unknown {
+  if (typeof value === 'string') {
+    try { return JSON.parse(value); } catch { return value; }
+  }
+  return value ?? {};
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { tipo_report, dati, parametri_richiesta } = body;
+    const { tipo_report, dati: rawDati, parametri_richiesta: rawParametri } = body;
 
-    if (!tipo_report || !dati || !parametri_richiesta) {
+    if (!tipo_report) {
       return NextResponse.json(
-        { error: 'Campi obbligatori mancanti: tipo_report, dati, parametri_richiesta' },
+        { error: 'Campo obbligatorio mancante: tipo_report' },
         { status: 400 }
       );
     }
 
-    const pdfBuffer = await buildPdf(tipo_report, dati, parametri_richiesta);
+    const dati = parseField(rawDati);
+    const parametri_richiesta = parseField(rawParametri);
+
+    const pdfBuffer = await buildPdf(
+      tipo_report,
+      dati as Record<string, unknown>,
+      parametri_richiesta as Record<string, unknown>
+    );
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
