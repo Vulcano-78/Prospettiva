@@ -16,7 +16,7 @@ function isVisura(slug: string) {
 }
 
 function isEstrattoMappa(slug: string) {
-  return slug === 'estratto-mappa';
+  return slug === 'estratto-mappa' || slug === 'elaborato-planimetrico';
 }
 
 /* ─── Estratto di Mappa fields ─── */

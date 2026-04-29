@@ -76,7 +76,24 @@ export default function ConfirmationPage() {
             email: checkoutEmail,
           };
           if (fd.sezione) payload.sezione = fd.sezione;
-          fetch('https://n8n.vulcano.tools/webhook/estratto-mappa', {
+          fetch('https://n8n.vulcano.tools/webhook-test/estratto-mappa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).catch(() => { /* silent fail */ });
+        }
+
+        if (order.slug === 'elaborato-planimetrico') {
+          const fd = order.formData;
+          const payload: Record<string, string> = {
+            provincia: (fd.provincia || '').toUpperCase(),
+            comune: (fd.comune || '').toUpperCase(),
+            foglio: fd.foglio || '',
+            particella: fd.particella || '',
+            email: checkoutEmail,
+          };
+          if (fd.sezione) payload.sezione = fd.sezione;
+          fetch('https://n8n.vulcano.tools/webhook/elaborato-planimetrico', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
