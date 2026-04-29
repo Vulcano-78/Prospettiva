@@ -100,62 +100,31 @@ export default function ConfirmationPage() {
           }).catch(() => { /* silent fail */ });
         }
 
-        if (order.slug === 'prospetto-catastale') {
+        const slugToTipoServizio: Record<string, string> = {
+          'prospetto-catastale': 'prospetto_catastale',
+          'ricerca-persona': 'ricerca_persona',
+          'ricerca-nazionale': 'ricerca_nazionale',
+          'ricerca-indirizzo': 'ricerca_indirizzo',
+        };
+
+        if (order.slug in slugToTipoServizio) {
           const fd = order.formData;
-          const payload: Record<string, string> = {
-            tipo_catasto: fd.tipo_catasto || 'F',
-            provincia: (fd.provincia || '').toUpperCase(),
-            comune: (fd.comune || '').toUpperCase(),
-            foglio: fd.foglio || '',
-            particella: fd.particella || '',
-            email: checkoutEmail,
-          };
+          const tipo_servizio = slugToTipoServizio[order.slug];
+          const payload: Record<string, string> = { tipo_servizio, email: checkoutEmail };
+
+          if (fd.provincia) payload.provincia = fd.provincia.toUpperCase();
+          if (fd.comune) payload.comune = fd.comune.toUpperCase();
+          if (fd.foglio) payload.foglio = fd.foglio;
+          if (fd.particella) payload.particella = fd.particella;
           if (fd.subalterno) payload.subalterno = fd.subalterno;
-          fetch('https://n8n.vulcano.tools/webhook/prospetto-catastale', {
+          if (fd.tipo_catasto) payload.tipo_catasto = fd.tipo_catasto;
+          if (fd.cf_piva) payload.cf_piva = fd.cf_piva;
+          if (fd.indirizzo) payload.indirizzo = fd.indirizzo;
+
+          fetch('https://n8n.vulcano.tools/webhook/richiesta-catastale', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-          }).catch(() => { /* silent fail */ });
-        }
-
-        if (order.slug === 'ricerca-persona') {
-          const fd = order.formData;
-          fetch('https://n8n.vulcano.tools/webhook/ricerca-persona', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              cf_piva: fd.cf_piva || '',
-              tipo_catasto: fd.tipo_catasto || 'F',
-              provincia: (fd.provincia || '').toUpperCase(),
-              email: checkoutEmail,
-            }),
-          }).catch(() => { /* silent fail */ });
-        }
-
-        if (order.slug === 'ricerca-nazionale') {
-          const fd = order.formData;
-          fetch('https://n8n.vulcano.tools/webhook/ricerca-nazionale', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              cf_piva: fd.cf_piva || '',
-              tipo_catasto: fd.tipo_catasto || 'F',
-              email: checkoutEmail,
-            }),
-          }).catch(() => { /* silent fail */ });
-        }
-
-        if (order.slug === 'ricerca-indirizzo') {
-          const fd = order.formData;
-          fetch('https://n8n.vulcano.tools/webhook/ricerca-indirizzo', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              provincia: (fd.provincia || '').toUpperCase(),
-              comune: (fd.comune || '').toUpperCase(),
-              indirizzo: fd.indirizzo || '',
-              email: checkoutEmail,
-            }),
           }).catch(() => { /* silent fail */ });
         }
 
