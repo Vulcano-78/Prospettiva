@@ -7,10 +7,13 @@ export async function GET(
   { params }: { params: Promise<{ provincia: string }> }
 ) {
   const { provincia } = await params;
-  const res = await fetch(`https://test.catasto.openapi.it/territorio/${provincia}`, {
-    headers: { Authorization: TOKEN },
-    next: { revalidate: 3600 },
-  });
-  const data = await res.json();
-  return NextResponse.json(data);
+  const url = `https://test.catasto.openapi.it/territorio/${provincia}`;
+  const res = await fetch(url, { headers: { Authorization: TOKEN } });
+  const text = await res.text();
+  console.log('[territorio/provincia] status:', res.status, 'body:', text.slice(0, 300));
+  try {
+    return NextResponse.json(JSON.parse(text));
+  } catch {
+    return NextResponse.json({ error: 'parse error', status: res.status, raw: text.slice(0, 300) }, { status: 500 });
+  }
 }
