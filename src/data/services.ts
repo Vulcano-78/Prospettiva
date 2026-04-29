@@ -250,7 +250,7 @@ export const services: Service[] = [
     id: 'elaborato-planimetrico',
     slug: 'elaborato-planimetrico',
     name: 'Elaborato Planimetrico',
-    shortName: 'Elaborato Plan.',
+    shortName: 'Elaborato Planimetrico',
     description: 'Rappresentazione grafica del fabbricato con subalterni.',
     price: 19.90,
     category: 'documenti-catastali',
