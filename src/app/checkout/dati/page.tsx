@@ -1,13 +1,48 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
-import { province, comuniPerProvincia } from '@/data/comuni';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
+
+type Province = { sigla: string; nome: string };
+
+let _provincesCache: Province[] | null = null;
+let _provincesInflight: Promise<Province[]> | null = null;
+const _comuniCache: Record<string, string[]> = {};
+
+function loadProvince(): Promise<Province[]> {
+  if (_provincesCache) return Promise.resolve(_provincesCache);
+  if (!_provincesInflight) {
+    _provincesInflight = fetch('/api/territorio')
+      .then(r => r.json())
+      .then(d => {
+        const list: Province[] = Array.isArray(d) ? d : (d.data ?? []);
+        _provincesCache = list;
+        return list;
+      })
+      .catch(() => { _provincesInflight = null; return []; });
+  }
+  return _provincesInflight;
+}
+
+function loadComuni(sigla: string): Promise<string[]> {
+  if (_comuniCache[sigla]) return Promise.resolve(_comuniCache[sigla]);
+  return fetch(`/api/territorio/${sigla}`)
+    .then(r => r.json())
+    .then(d => {
+      const list = Array.isArray(d) ? d : (d.data ?? []);
+      const nomi: string[] = list
+        .map((c: { nome?: string }) => (c.nome ?? '').toUpperCase())
+        .filter(Boolean);
+      _comuniCache[sigla] = nomi;
+      return nomi;
+    })
+    .catch(() => []);
+}
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
@@ -32,14 +67,29 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
   onChange: (name: string, value: string) => void;
   onProvinciaChange: (value: string) => void;
 }) {
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [comuni, setComuni] = useState<string[]>([]);
+  const [loadingProv, setLoadingProv] = useState(true);
+  const [loadingComuni, setLoadingComuni] = useState(false);
+
+  useEffect(() => {
+    loadProvince().then(p => { setProvinces(p); setLoadingProv(false); });
+  }, []);
+
+  useEffect(() => {
+    if (!data.provincia) { setComuni([]); return; }
+    setLoadingComuni(true);
+    loadComuni(data.provincia).then(c => { setComuni(c); setLoadingComuni(false); });
+  }, [data.provincia]);
+
   return (
     <>
       <div className="space-y-1.5">
         <label className={labelClass}>Provincia *</label>
         <div className="relative">
-          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
-            <option value="">Seleziona...</option>
-            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required disabled={loadingProv}>
+            <option value="">{loadingProv ? 'Caricamento...' : 'Seleziona...'}</option>
+            {provinces.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
           </select>
           <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
         </div>
@@ -47,14 +97,41 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
       <div className="space-y-1.5">
         <label className={labelClass}>Comune *</label>
         <div className="relative">
-          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
-            <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
-            {(comuniPerProvincia[data.provincia] || []).map(c => <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>)}
+          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia || loadingComuni}>
+            <option value="">
+              {!data.provincia ? 'Seleziona prima la provincia' : loadingComuni ? 'Caricamento...' : 'Seleziona comune...'}
+            </option>
+            {comuni.map(nome => <option key={nome} value={nome}>{nome}</option>)}
           </select>
           <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
         </div>
       </div>
     </>
+  );
+}
+
+function ProvinciaSelect({ value, onChange }: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProvince().then(p => { setProvinces(p); setLoading(false); });
+  }, []);
+
+  return (
+    <div className="space-y-1.5">
+      <label className={labelClass}>Provincia *</label>
+      <div className="relative">
+        <select className={selectClass} value={value} onChange={(e) => onChange(e.target.value)} required disabled={loading}>
+          <option value="">{loading ? 'Caricamento...' : 'Seleziona...'}</option>
+          {provinces.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
+        </select>
+        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+      </div>
+    </div>
   );
 }
 
@@ -113,16 +190,7 @@ function RicercaPersonaFields({ data, onChange, onProvinciaChange }: {
         <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
       </div>
       <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-      <div className="space-y-1.5">
-        <label className={labelClass}>Provincia *</label>
-        <div className="relative">
-          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
-            <option value="">Seleziona...</option>
-            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-          </select>
-          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-        </div>
-      </div>
+      <ProvinciaSelect value={data.provincia || ''} onChange={onProvinciaChange} />
     </div>
   );
 }
@@ -169,37 +237,18 @@ function EstrattoMappaFields({ data, onChange, onProvinciaChange }: {
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
       <div className="space-y-1.5">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
-        <div className="relative">
-          <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
-            <option value="">Seleziona...</option>
-            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-          </select>
-          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-        </div>
+        <label className={labelClass}>Foglio *</label>
+        <input type="text" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
       </div>
       <div className="space-y-1.5">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Comune *</label>
-        <div className="relative">
-          <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
-            <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
-            {(comuniPerProvincia[data.provincia] || []).map(c => <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>)}
-          </select>
-          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-        </div>
+        <label className={labelClass}>Particella *</label>
+        <input type="text" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
       </div>
       <div className="space-y-1.5">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Foglio *</label>
-        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Particella *</label>
-        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Sezione</label>
-        <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
+        <label className={labelClass}>Sezione</label>
+        <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
       </div>
     </div>
   );
@@ -245,26 +294,7 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {searchType === 'immobile' && (
           <>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
-              <div className="relative">
-                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
-                  <option value="">Seleziona...</option>
-                  {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-              </div>
-            </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Comune *</label>
-              <div className="relative">
-                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
-                  <option value="">{data.provincia ? 'Seleziona comune...' : 'Seleziona prima la provincia'}</option>
-                  {(comuniPerProvincia[data.provincia] || []).map(c => <option key={c.nome} value={c.nome.toUpperCase()}>{c.nome}</option>)}
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-              </div>
-            </div>
+            <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
             <div className="md:col-span-2 grid grid-cols-3 gap-3">
               <div className="space-y-1.5">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Foglio *</label>
@@ -287,16 +317,7 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
               <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Codice Fiscale *</label>
               <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="RSSMRA85M01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
             </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
-              <div className="relative">
-                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onChange('provincia', e.target.value)} required>
-                  <option value="">Seleziona...</option>
-                  {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-              </div>
-            </div>
+            <ProvinciaSelect value={data.provincia || ''} onChange={(v) => onChange('provincia', v)} />
           </>
         )}
         {searchType === 'soggetto-giuridico' && (
@@ -305,16 +326,7 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
               <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Partita IVA *</label>
               <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
             </div>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
-              <div className="relative">
-                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onChange('provincia', e.target.value)} required>
-                  <option value="">Seleziona...</option>
-                  {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-              </div>
-            </div>
+            <ProvinciaSelect value={data.provincia || ''} onChange={(v) => onChange('provincia', v)} />
           </>
         )}
       </div>
