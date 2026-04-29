@@ -122,7 +122,6 @@ export default function Header() {
                 </div>
               )}
             </div>
-            <Link className="text-[#002147] hover:text-[#4463EE] transition-colors duration-200 text-sm font-medium" href="/#come-funziona">Come funziona</Link>
           </div>
 
           {/* Right actions */}

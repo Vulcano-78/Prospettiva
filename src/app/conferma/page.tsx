@@ -68,7 +68,10 @@ export default function ConfirmationPage() {
       for (const order of orders) {
         if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
           const payload = buildVisuraPayload(order, checkoutEmail, checkoutEmailDocumenti || undefined);
-          fetch('https://n8n.vulcano.tools/webhook-test/visura-catastale', {
+          const webhookUrl = order.slug === 'visura-catastale-storica'
+            ? 'https://n8n.vulcano.tools/webhook-test/visura-catastale-storica'
+            : 'https://n8n.vulcano.tools/webhook-test/visura-catastale';
+          fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
