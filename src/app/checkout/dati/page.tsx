@@ -16,10 +16,11 @@ function isVisura(slug: string) {
 }
 
 /* ─── Visura-specific fields ─── */
-function VisuraFields({ item, data, onChange }: {
+function VisuraFields({ item, data, onChange, onProvinciaChange }: {
   item: CartItem;
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
 }) {
   const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>(
     (data._searchType as 'immobile' | 'soggetto' | 'soggetto-giuridico') || 'immobile'
@@ -28,11 +29,6 @@ function VisuraFields({ item, data, onChange }: {
   const handleSearchTypeChange = (type: typeof searchType) => {
     setSearchType(type);
     onChange('_searchType', type);
-  };
-
-  const handleProvinciaChange = (value: string) => {
-    onChange('provincia', value);
-    onChange('comune', '');
   };
 
   return (
@@ -62,7 +58,7 @@ function VisuraFields({ item, data, onChange }: {
             <div className="space-y-1.5">
               <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Provincia *</label>
               <div className="relative">
-                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => handleProvinciaChange(e.target.value)} required>
+                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
                   <option value="">Seleziona...</option>
                   {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
                 </select>
@@ -258,6 +254,7 @@ export default function CheckoutDataPage() {
                     item={item}
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
