@@ -42,6 +42,18 @@ const categoryToDataKey: Record<string, string> = {
   'utility-gratuite': 'strumenti-gratuiti',
 };
 
+const categoryServiceOrder: Record<string, string[]> = {
+  'documenti-catastali': [
+    'visura-catastale',
+    'visura-catastale-storica',
+    'estratto-mappa',
+    'elaborato-planimetrico',
+    'prospetto-catastale',
+    'ricerca-persona',
+    'ricerca-nazionale',
+  ],
+};
+
 export default function CatalogoCategoriaPage({ params }: { params: Promise<{ categoria: string }> }) {
   const { categoria } = use(params);
   const { addItem } = useCart();
@@ -52,7 +64,10 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   }
 
   const dataCategory = categoryToDataKey[categoria];
-  const categoryServices = getServicesByCategory(dataCategory);
+  const orderList = categoryServiceOrder[categoria];
+  const categoryServices = orderList
+    ? orderList.map(slug => services.find(s => s.slug === slug)).filter((s): s is NonNullable<typeof s> => !!s)
+    : getServicesByCategory(dataCategory);
 
   // For Urbanistica, also include Marketing AI items? No, keep it strictly per category.
   // For utility-gratuite, the data category is 'strumenti-gratuiti'
@@ -73,7 +88,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen">
       {/* Header section with title */}
-      <section className="hero-gradient pt-24 pb-6 px-8"><div className="max-w-[1440px] mx-auto">
+      <section className="hero-gradient pt-16 pb-6 px-8"><div className="max-w-[1440px] mx-auto">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
           { label: config.title },
