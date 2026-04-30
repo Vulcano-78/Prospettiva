@@ -53,7 +53,7 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
             <option value="">
               {!data.provincia ? 'Seleziona prima la provincia' : 'Seleziona comune...'}
             </option>
-            {comuni.map(nome => <option key={nome} value={nome}>{nome}</option>)}
+            {comuni.map(c => <option key={c.nome} value={c.nome}>{c.nome}</option>)}
           </select>
           <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
         </div>
