@@ -271,7 +271,7 @@ export const services: Service[] = [
     slug: 'ispezione-ipotecaria-nazionale',
     name: 'Ispezione Ipotecaria',
     shortName: 'Ispezione Ipotecaria',
-    description: 'Iscrizioni in tutte le conservatorie.',
+    description: 'In quali conservatorie un soggetto ha formalità.',
     price: 19.90,
     category: 'verifiche-ipotecarie',
     categoryIcon: 'language',
