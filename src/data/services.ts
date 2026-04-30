@@ -267,23 +267,6 @@ export const services: Service[] = [
 
   // VERIFICHE IPOTECARIE
   {
-    id: 'visura-ipotecaria',
-    slug: 'visura-ipotecaria',
-    name: 'Visura Ipotecaria',
-    shortName: 'Visura Ipotecaria',
-    description: 'Verifica la presenza di trascrizioni o annotazioni.',
-    price: 19.90,
-    category: 'verifiche-ipotecarie',
-    categoryIcon: 'fact_check',
-    isActive: true,
-    fields: [
-      { name: 'tipoRicerca', label: 'Tipo Ricerca', type: 'select', options: ['Per soggetto', 'Per immobile'], required: true },
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-      codiceFiscale,
-      emailField
-    ]
-  },
-  {
     id: 'ispezione-ipotecaria-nazionale',
     slug: 'ispezione-ipotecaria-nazionale',
     name: 'Ispezione Ipotecaria Nazionale',
