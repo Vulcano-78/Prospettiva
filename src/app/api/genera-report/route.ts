@@ -1,7 +1,11 @@
+import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 import PDFDocument from 'pdfkit';
 
 export const runtime = 'nodejs';
+
+const FONT_REGULAR = path.join(process.cwd(), 'public/fonts/Roboto-Regular.ttf');
+const FONT_BOLD = path.join(process.cwd(), 'public/fonts/Roboto-Bold.ttf');
 
 const NAVY = '#002147';
 const BLUE = '#4463EE';
@@ -25,7 +29,7 @@ function buildPdf(
   parametriRichiesta: Record<string, unknown>
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({ margin: 50, size: 'A4' });
+    const doc = new PDFDocument({ margin: 50, size: 'A4', font: FONT_REGULAR });
     const chunks: Buffer[] = [];
     doc.on('data', (c: Buffer) => chunks.push(c));
     doc.on('end', () => resolve(Buffer.concat(chunks)));
@@ -41,17 +45,17 @@ function buildPdf(
     // ── Header bar ──────────────────────────────────────────────────
     doc.rect(0, 0, pageWidth, 72).fill(NAVY);
 
-    doc.fillColor(WHITE).font('Helvetica-Bold').fontSize(20).text('prospettiva', 50, 24, { continued: true });
+    doc.fillColor(WHITE).font(FONT_BOLD).fontSize(20).text('prospettiva', 50, 24, { continued: true });
     doc.fillColor(BLUE).text('.io');
 
     doc
       .fillColor(WHITE)
-      .font('Helvetica')
+      .font(FONT_REGULAR)
       .fontSize(9)
       .text(`Generato il ${dateStr} alle ${timeStr}`, 50, 50, { align: 'right', width: contentWidth });
 
     // ── Title ────────────────────────────────────────────────────────
-    doc.fillColor(NAVY).font('Helvetica-Bold').fontSize(18).text(tipoLabel, 50, 100);
+    doc.fillColor(NAVY).font(FONT_BOLD).fontSize(18).text(tipoLabel, 50, 100);
 
     doc.moveTo(50, 124).lineTo(pageWidth - 50, 124).strokeColor(BLUE).lineWidth(2).stroke();
 
@@ -60,15 +64,15 @@ function buildPdf(
     // ── Helpers ──────────────────────────────────────────────────────
     function drawSectionTitle(title: string) {
       doc.rect(50, y, contentWidth, 24).fill(NAVY);
-      doc.fillColor(WHITE).font('Helvetica-Bold').fontSize(9).text(title.toUpperCase(), 58, y + 7);
+      doc.fillColor(WHITE).font(FONT_BOLD).fontSize(9).text(title.toUpperCase(), 58, y + 7);
       y += 32;
     }
 
     function drawRow(label: string, value: string, shade: boolean) {
       const rowH = 20;
       if (shade) doc.rect(50, y, contentWidth, rowH).fill(LIGHT_GREY);
-      doc.fillColor(GREY).font('Helvetica-Bold').fontSize(8).text(label, 58, y + 5, { width: 180 });
-      doc.fillColor(NAVY).font('Helvetica').fontSize(8).text(String(value ?? '—'), 244, y + 5, { width: contentWidth - 196 });
+      doc.fillColor(GREY).font(FONT_BOLD).fontSize(8).text(label, 58, y + 5, { width: 180 });
+      doc.fillColor(NAVY).font(FONT_REGULAR).fontSize(8).text(String(value ?? '—'), 244, y + 5, { width: contentWidth - 196 });
       y += rowH;
     }
 
@@ -76,7 +80,7 @@ function buildPdf(
       const colW = contentWidth / columns.length;
       doc.rect(50, y, contentWidth, 22).fill(NAVY);
       columns.forEach((col, i) => {
-        doc.fillColor(WHITE).font('Helvetica-Bold').fontSize(8).text(col.toUpperCase(), 58 + i * colW, y + 6, { width: colW - 8 });
+        doc.fillColor(WHITE).font(FONT_BOLD).fontSize(8).text(col.toUpperCase(), 58 + i * colW, y + 6, { width: colW - 8 });
       });
       y += 22;
     }
@@ -86,7 +90,7 @@ function buildPdf(
       const rowH = 18;
       if (shade) doc.rect(50, y, contentWidth, rowH).fill(LIGHT_GREY);
       cells.forEach((cell, i) => {
-        doc.fillColor(NAVY).font('Helvetica').fontSize(8).text(String(cell ?? '—'), 58 + i * colW, y + 4, { width: colW - 8 });
+        doc.fillColor(NAVY).font(FONT_REGULAR).fontSize(8).text(String(cell ?? '—'), 58 + i * colW, y + 4, { width: colW - 8 });
       });
       y += rowH;
     }
@@ -105,7 +109,7 @@ function buildPdf(
 
     if (Array.isArray(dati)) {
       if (dati.length === 0) {
-        doc.fillColor(GREY).font('Helvetica').fontSize(9).text('Nessun risultato trovato.', 58, y);
+        doc.fillColor(GREY).font(FONT_REGULAR).fontSize(9).text('Nessun risultato trovato.', 58, y);
         y += 20;
       } else {
         const columns = Object.keys(dati[0] as Record<string, unknown>);
@@ -129,7 +133,7 @@ function buildPdf(
     doc.moveTo(50, footerY - 8).lineTo(pageWidth - 50, footerY - 8).strokeColor(LIGHT_GREY).lineWidth(1).stroke();
     doc
       .fillColor(GREY)
-      .font('Helvetica')
+      .font(FONT_REGULAR)
       .fontSize(7)
       .text('Documento generato da prospettiva.io — uso interno, non ha valore legale autonomo.', 50, footerY, {
         align: 'center',
@@ -182,7 +186,7 @@ export async function POST(req: NextRequest) {
       );
     } catch (pdfErr) {
       const msg = pdfErr instanceof Error ? pdfErr.message : String(pdfErr);
-      const code = /afm|font/i.test(msg) ? 'FONT_NOT_FOUND' : 'PDF_ERROR';
+      const code = /afm|font|ttf/i.test(msg) ? 'FONT_NOT_FOUND' : 'PDF_ERROR';
       console.error('[genera-report]', {
         error: msg,
         stack: pdfErr instanceof Error ? pdfErr.stack : undefined,
