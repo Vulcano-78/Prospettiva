@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useComuni } from '@/hooks/useTerritorio';
 
 const labelClass = 'block text-[10px] font-bold uppercase tracking-widest text-[#516169]';
-const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
 const selectClass =
   'w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none disabled:bg-slate-50 disabled:text-slate-400';
-
-const SEARCH_THRESHOLD = 30;
 
 interface ComuneSelectProps {
   provincia: string;
@@ -30,12 +27,6 @@ export default function ComuneSelect({
   required = true,
 }: ComuneSelectProps) {
   const { comuni, isLoading, error: fetchError, retry } = useComuni(provincia || null);
-  const [search, setSearch] = useState('');
-
-  // Reset search when provincia changes
-  useEffect(() => {
-    setSearch('');
-  }, [provincia]);
 
   // Reset selected value if it no longer exists in the new comuni list
   useEffect(() => {
@@ -45,14 +36,6 @@ export default function ComuneSelect({
       onChange('');
     }
   }, [provincia, comuni, isLoading, value, onChange]);
-
-  const useSearch = comuni.length > SEARCH_THRESHOLD;
-
-  const filtered = useMemo(() => {
-    if (!useSearch || !search.trim()) return comuni;
-    const q = search.trim().toLowerCase();
-    return comuni.filter((c) => c.comune.toLowerCase().includes(q));
-  }, [comuni, search, useSearch]);
 
   if (fetchError) {
     return (
@@ -77,15 +60,6 @@ export default function ComuneSelect({
   return (
     <div className="space-y-1.5">
       {label && <label className={labelClass}>{label}</label>}
-      {useSearch && !isDisabled && (
-        <input
-          type="text"
-          placeholder="Cerca comune..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className={inputClass}
-        />
-      )}
       <div className="relative">
         <select
           className={selectClass}
@@ -101,7 +75,7 @@ export default function ComuneSelect({
               ? 'Caricamento comuni...'
               : 'Seleziona comune...'}
           </option>
-          {filtered.map((c) => (
+          {comuni.map((c) => (
             <option key={c.comune} value={c.comune}>
               {c.comune}
             </option>
