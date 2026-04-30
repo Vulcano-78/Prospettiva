@@ -551,15 +551,14 @@ export default function CheckoutDataPage() {
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                         Email *
-                        <span className="font-normal normal-case tracking-normal text-[#74777f] ml-2">Riceverai qui i documenti e la ricevuta</span>
                       </label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
                     </div>
                     {!showAltEmail ? (
                       <div className="md:col-span-2">
-                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#4463ee] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
+                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#002147] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
                           <span className="material-symbols-outlined text-sm">add</span>
-                          Invia i documenti anche a un&apos;altra email
+                          aggiungi email <span className="font-normal text-[#c4c6cf] ml-1">(per ricevere i documenti)</span>
                         </button>
                       </div>
                     ) : (
@@ -657,15 +656,14 @@ export default function CheckoutDataPage() {
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
                         Email *
-                        <span className="font-normal normal-case tracking-normal text-[#74777f] ml-2">Riceverai qui i documenti e la fattura di cortesia</span>
                       </label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="info@azienda.it" required />
                     </div>
                     {!showAltEmail ? (
                       <div className="md:col-span-2">
-                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#4463ee] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
+                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#002147] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
                           <span className="material-symbols-outlined text-sm">add</span>
-                          Invia i documenti anche a un&apos;altra email
+                          aggiungi email <span className="font-normal text-[#c4c6cf] ml-1">(per ricevere i documenti)</span>
                         </button>
                       </div>
                     ) : (
