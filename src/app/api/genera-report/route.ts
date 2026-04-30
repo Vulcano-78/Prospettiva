@@ -148,13 +148,24 @@ function parseField(value: unknown): unknown {
 }
 
 export async function POST(req: NextRequest) {
+  let bodyKeys: string[] = [];
   try {
     const body = await req.json();
+    bodyKeys = Object.keys(body || {});
     const { tipo_report, dati: rawDati, parametri_richiesta: rawParametri } = body;
 
     if (!tipo_report) {
+      console.error('[genera-report]', { error: 'tipo_report mancante', bodyKeys });
       return NextResponse.json(
         { error: 'Campo obbligatorio mancante: tipo_report' },
+        { status: 400 }
+      );
+    }
+
+    if (rawDati === undefined || rawDati === null) {
+      console.error('[genera-report]', { error: 'dati mancante', bodyKeys });
+      return NextResponse.json(
+        { error: 'Campo obbligatorio mancante: dati' },
         { status: 400 }
       );
     }
@@ -162,11 +173,24 @@ export async function POST(req: NextRequest) {
     const dati = parseField(rawDati);
     const parametri_richiesta = parseField(rawParametri);
 
-    const pdfBuffer = await buildPdf(
-      tipo_report,
-      dati as Record<string, unknown>,
-      parametri_richiesta as Record<string, unknown>
-    );
+    let pdfBuffer: Buffer;
+    try {
+      pdfBuffer = await buildPdf(
+        tipo_report,
+        dati as Record<string, unknown>,
+        parametri_richiesta as Record<string, unknown>
+      );
+    } catch (pdfErr) {
+      const msg = pdfErr instanceof Error ? pdfErr.message : String(pdfErr);
+      const code = /afm|font/i.test(msg) ? 'FONT_NOT_FOUND' : 'PDF_ERROR';
+      console.error('[genera-report]', {
+        error: msg,
+        stack: pdfErr instanceof Error ? pdfErr.stack : undefined,
+        bodyKeys,
+        code,
+      });
+      return NextResponse.json({ error: code }, { status: 500 });
+    }
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
@@ -177,7 +201,12 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (err) {
-    console.error('[genera-report]', err);
-    return NextResponse.json({ error: 'Errore nella generazione del PDF' }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('[genera-report]', {
+      error: msg,
+      stack: err instanceof Error ? err.stack : undefined,
+      bodyKeys,
+    });
+    return NextResponse.json({ error: 'INVALID_REQUEST' }, { status: 400 });
   }
 }

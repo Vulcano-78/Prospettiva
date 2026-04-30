@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  outputFileTracingIncludes: {
+    '/api/genera-report': [
+      './node_modules/pdfkit/js/data/**/*',
+      './node_modules/fontkit/**/*',
+      './node_modules/linebreak/**/*',
+    ],
+  },
 };
 
 export default nextConfig;
