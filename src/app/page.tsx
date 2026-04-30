@@ -2,14 +2,33 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
+import { services } from '@/data/services';
 
 export default function HomePage() {
+  const router = useRouter();
+  const { addItem, itemCount } = useCart();
+
   useEffect(() => {
     if (window.location.hash) {
       history.replaceState(null, '', window.location.pathname);
       window.scrollTo(0, 0);
     }
   }, []);
+
+  const getService = (slug: string) => services.find(s => s.slug === slug);
+
+  const handleAddToCart = (slug: string) => {
+    const service = getService(slug);
+    if (service) addItem(service);
+  };
+
+  const handleBuyNow = (slug: string) => {
+    const service = getService(slug);
+    if (service) addItem(service);
+    router.push('/checkout/dati');
+  };
 
   return (
     <>
@@ -156,24 +175,72 @@ export default function HomePage() {
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <Link href="/catalogo/documenti-catastali" className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 hover:opacity-80 transition-opacity">
-              <div>
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">description</span> Catasto
                 </h3>
                 <p className="text-xs text-on-surface-variant">Visure e planimetrie ufficiali in tempo reale.</p>
               </div>
-            </Link>
-            <ul className="flex-grow divide-y divide-slate-100">
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
-                <div className="text-[10px] text-on-surface-variant">Per immobile o soggetto</div>
-              </li>
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Visura Catastale Storica</div>
-                <div className="text-[10px] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
-              </li>
-            </ul>
+            </div>
+            <div className="flex-grow overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                    <th className="py-2 font-bold">Servizio</th>
+                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
+                    <th className="py-2 font-bold text-center w-16">Qtà</th>
+                    <th className="py-2 font-bold text-right">Azioni</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
+                      <div className="text-[10px] text-on-surface-variant">Per immobile o soggetto</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€9.90</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => handleBuyNow('visura-catastale')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </button>
+                        <button onClick={() => handleBuyNow('visura-catastale')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Visura Catastale Storica</div>
+                      <div className="text-[10px] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€12.90</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleAddToCart('visura-catastale-storica')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </button>
+                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
@@ -183,24 +250,72 @@ export default function HomePage() {
 
           {/* 02 - Verifiche Ipotecarie */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <Link href="/catalogo/verifiche-ipotecarie" className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 hover:opacity-80 transition-opacity">
-              <div>
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">account_balance</span> Conservatoria
                 </h3>
                 <p className="text-xs text-on-surface-variant">Analisi gravami e trascrizioni pregiudizievoli.</p>
               </div>
-            </Link>
-            <ul className="flex-grow divide-y divide-slate-100">
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria</div>
-                <div className="text-[10px] text-on-surface-variant">Elenco sintetico formalità</div>
-              </li>
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Note e Titoli</div>
-                <div className="text-[10px] text-on-surface-variant">Sviluppo formalità</div>
-              </li>
-            </ul>
+            </div>
+            <div className="flex-grow overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                    <th className="py-2 font-bold">Servizio</th>
+                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
+                    <th className="py-2 font-bold text-center w-16">Qtà</th>
+                    <th className="py-2 font-bold text-right">Azioni</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria</div>
+                      <div className="text-[10px] text-on-surface-variant">Elenco sintetico formalità</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€19.90</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </button>
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Note e Titoli</div>
+                      <div className="text-[10px] text-on-surface-variant">Sviluppo formalità</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€12.90</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleAddToCart('visura-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </button>
+                        <button onClick={() => handleBuyNow('visura-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
@@ -210,24 +325,72 @@ export default function HomePage() {
 
           {/* 03 - Urbanistica */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <Link href="/catalogo/urbanistica" className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 hover:opacity-80 transition-opacity">
-              <div>
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">architecture</span> Urbanistica
                 </h3>
                 <p className="text-xs text-on-surface-variant">Conformità e titoli abilitativi comunali.</p>
               </div>
-            </Link>
-            <ul className="flex-grow divide-y divide-slate-100">
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Accesso agli Atti</div>
-                <div className="text-[10px] text-on-surface-variant">Pratiche edilizie</div>
-              </li>
-              <li className="py-4">
-                <div className="text-sm font-bold text-primary-container">Certificato C.D.U.</div>
-                <div className="text-[10px] text-on-surface-variant">Destinazione urbanistica</div>
-              </li>
-            </ul>
+            </div>
+            <div className="flex-grow overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                    <th className="py-2 font-bold">Servizio</th>
+                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
+                    <th className="py-2 font-bold text-center w-16">Qtà</th>
+                    <th className="py-2 font-bold text-right">Azioni</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Accesso agli Atti</div>
+                      <div className="text-[10px] text-on-surface-variant">Pratiche edilizie</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€45.00</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="group hover:bg-white transition-colors">
+                    <td className="py-4">
+                      <div className="text-sm font-bold text-primary-container">Certificato C.D.U.</div>
+                      <div className="text-[10px] text-on-surface-variant">Destinazione urbanistica</div>
+                    </td>
+                    <td className="py-4 text-right pr-4">
+                      <span className="text-xs font-semibold text-primary-container">€35.00</span>
+                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                    </td>
+                    <td className="py-4 px-1">
+                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
+                    </td>
+                    <td className="py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
+                        </Link>
+                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/urbanistica">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
@@ -237,34 +400,40 @@ export default function HomePage() {
 
           {/* 04 - Utility Gratuite */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <Link href="/catalogo/utility-gratuite" className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 hover:opacity-80 transition-opacity">
-              <div>
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                            <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">construction</span> Utility Gratuite
                 </h3>
                 <p className="text-xs text-on-surface-variant">Strumenti per l&apos;attività quotidiana.</p>
               </div>
-            </Link>
-            <ul className="flex-grow flex flex-col gap-3">
-              <li className="flex items-center gap-4 p-4 bg-white border border-slate-100">
-                <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400">
-                  <span className="material-symbols-outlined">calculate</span>
+            </div>
+            <div className="grid grid-cols-1 gap-3">
+              <Link href="/coming-soon/calcolatore-imu" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
+                    <span className="material-symbols-outlined">calculate</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-primary-container">Calcolo IMU/TARI</div>
+                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Simulatore imposte</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm font-bold text-primary-container">Calcolo IMU/TARI</div>
-                  <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Simulatore imposte</div>
+                <span className="text-secondary text-[10px] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
+              </Link>
+              <Link href="/coming-soon/checklist-mutuo" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
+                    <span className="material-symbols-outlined">description</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-primary-container">Modelli Contrattuali</div>
+                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Download legali</div>
+                  </div>
                 </div>
-              </li>
-              <li className="flex items-center gap-4 p-4 bg-white border border-slate-100">
-                <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400">
-                  <span className="material-symbols-outlined">description</span>
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-primary-container">Modelli Contrattuali</div>
-                  <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Download legali</div>
-                </div>
-              </li>
-            </ul>
+                <span className="text-secondary text-[10px] font-bold flex items-center gap-1">SCARICA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
+              </Link>
+            </div>
             <div className="pt-6 text-center mt-auto">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
