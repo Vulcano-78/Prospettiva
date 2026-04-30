@@ -27,7 +27,7 @@ export default function HomePage() {
   const handleBuyNow = (slug: string) => {
     const service = getService(slug);
     if (service) addItem(service);
-    router.push('/checkout/dati');
+    router.push('/carrello');
   };
 
   return (

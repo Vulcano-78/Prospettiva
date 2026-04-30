@@ -1,452 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
-import { useCart, CartItem } from '@/context/CartContext';
+import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
-import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
-import ComuneSelect from '@/components/forms/ComuneSelect';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
-function isVisura(slug: string) {
-  return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
-}
-
-function isEstrattoMappa(slug: string) {
-  return slug === 'estratto-mappa' || slug === 'elaborato-planimetrico';
-}
-function isProspettoCatastale(slug: string) { return slug === 'prospetto-catastale'; }
-function isRicercaPersona(slug: string) { return slug === 'ricerca-persona'; }
-function isRicercaNazionale(slug: string) { return slug === 'ricerca-nazionale'; }
-function isRicercaIndirizzo(slug: string) { return slug === 'ricerca-indirizzo'; }
-function isIspezioneIpotecariaNazionale(slug: string) { return slug === 'ispezione-ipotecaria-nazionale'; }
-function isElencoNoteIpotecarie(slug: string) { return slug === 'elenco-note-ipotecarie'; }
-
-const selectClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none';
-const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
-const labelClass = 'block text-[10px] font-bold uppercase tracking-widest text-[#516169]';
-
-function ProvinciaComune({ data, onChange, onProvinciaChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  return (
-    <>
-      <ProvinciaSelect
-        value={data.provincia || ''}
-        onChange={onProvinciaChange}
-      />
-      <ComuneSelect
-        provincia={data.provincia || ''}
-        value={data.comune || ''}
-        onChange={(v) => onChange('comune', v)}
-      />
-    </>
-  );
-}
-
-function TipoCatastoSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  return (
-    <div className="space-y-1.5">
-      <label className={labelClass}>Tipo Catasto *</label>
-      <div className="relative">
-        <select className={selectClass} value={value || 'F'} onChange={(e) => onChange(e.target.value)} required>
-          <option value="F">Fabbricati</option>
-          <option value="T">Terreni</option>
-          <option value="TF">Entrambi</option>
-        </select>
-        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Prospetto Catastale fields ─── */
-function ProspettoCatastaleFields({ data, onChange, onProvinciaChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
-      <div className="space-y-1.5">
-        <label className={labelClass}>Foglio *</label>
-        <input type="text" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Particella *</label>
-        <input type="text" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Subalterno</label>
-        <input type="text" className={inputClass} placeholder="Es. 1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
-      </div>
-      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-    </div>
-  );
-}
-
-/* ─── Ricerca Persona fields ─── */
-function RicercaPersonaFields({ data, onChange, onProvinciaChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="md:col-span-2 space-y-1.5">
-        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-        <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-      </div>
-      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-      <ProvinciaSelect value={data.provincia || ''} onChange={onProvinciaChange} />
-    </div>
-  );
-}
-
-/* ─── Ricerca Nazionale fields ─── */
-function RicercaNazionaleFields({ data, onChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="md:col-span-2 space-y-1.5">
-        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-        <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-      </div>
-      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-    </div>
-  );
-}
-
-/* ─── Ricerca per Indirizzo fields ─── */
-function RicercaIndirizzoFields({ data, onChange, onProvinciaChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
-      <TipoCatastoSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-      <div className="md:col-span-2 space-y-1.5">
-        <label className={labelClass}>Indirizzo *</label>
-        <input type="text" className={inputClass} placeholder="Via Roma 12" value={data.indirizzo || ''} onChange={(e) => onChange('indirizzo', e.target.value)} required />
-      </div>
-    </div>
-  );
-}
-
-/* ─── Estratto di Mappa fields ─── */
-function EstrattoMappaFields({ data, onChange, onProvinciaChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
-      <div className="space-y-1.5">
-        <label className={labelClass}>Foglio *</label>
-        <input type="text" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Particella *</label>
-        <input type="text" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
-      </div>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Sezione</label>
-        <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
-      </div>
-    </div>
-  );
-}
-
-/* ─── Visura-specific fields ─── */
-function VisuraFields({ item, data, onChange, onProvinciaChange }: {
-  item: CartItem;
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
-}) {
-  const [searchType, setSearchType] = useState<'immobile' | 'soggetto' | 'soggetto-giuridico'>(
-    (data._searchType as 'immobile' | 'soggetto' | 'soggetto-giuridico') || 'immobile'
-  );
-
-  const handleSearchTypeChange = (type: typeof searchType) => {
-    setSearchType(type);
-    onChange('_searchType', type);
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Modalita di ricerca</label>
-        <div className="grid grid-cols-3 gap-2">
-          {([
-            { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
-            { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
-            { value: 'soggetto-giuridico' as const, label: 'Sogg. Giuridico', icon: 'business' },
-          ]).map(opt => (
-            <button key={opt.value} type="button" onClick={() => handleSearchTypeChange(opt.value)}
-              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
-                searchType === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-              }`}>
-              <span className="material-symbols-outlined text-base">{opt.icon}</span>
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {searchType === 'immobile' && (
-          <>
-            <ProvinciaComune data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />
-            <div className="md:col-span-2 grid grid-cols-3 gap-3">
-              <div className="space-y-1.5">
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Foglio *</label>
-                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
-              </div>
-              <div className="space-y-1.5">
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Particella *</label>
-                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
-              </div>
-              <div className="space-y-1.5">
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Subalterno</label>
-                <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
-              </div>
-            </div>
-          </>
-        )}
-        {searchType === 'soggetto' && (
-          <>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Codice Fiscale *</label>
-              <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="RSSMRA85M01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-            <ProvinciaSelect value={data.provincia || ''} onChange={(v) => onChange('provincia', v)} />
-          </>
-        )}
-        {searchType === 'soggetto-giuridico' && (
-          <>
-            <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Partita IVA *</label>
-              <input type="text" className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-            <ProvinciaSelect value={data.provincia || ''} onChange={(v) => onChange('provincia', v)} />
-          </>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Tipo Catasto</label>
-          <div className="relative">
-            <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.tipo_catasto || 'F'} onChange={(e) => onChange('tipo_catasto', e.target.value)}>
-              <option value="F">Fabbricati</option>
-              <option value="T">Terreni</option>
-            </select>
-            <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-          </div>
-        </div>
-        <div className="space-y-1.5">
-          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Tipo Dettaglio</label>
-          <div className="relative">
-            <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.tipo_dettaglio || 'sintetica'} onChange={(e) => onChange('tipo_dettaglio', e.target.value)}>
-              <option value="sintetica">Sintetica</option>
-              <option value="analitica">Analitica</option>
-            </select>
-            <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Conservatoria dropdown (fetches from /api/territorio/conservatorie) ─── */
-type Conservatoria = { id: string; conservatoria: string };
-
-function ConservatoriaSelect({ value, onChange, conservatorie, loading }: {
-  value: string;
-  onChange: (value: string) => void;
-  conservatorie: Conservatoria[];
-  loading: boolean;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label className={labelClass}>Conservatoria *</label>
-      <div className="relative">
-        <select
-          className={selectClass}
-          value={value || ''}
-          onChange={(e) => onChange(e.target.value)}
-          required
-          disabled={loading}
-        >
-          <option value="">{loading ? 'Caricamento...' : 'Seleziona...'}</option>
-          {conservatorie.map(c => (
-            <option key={c.id} value={c.id}>{c.conservatoria}</option>
-          ))}
-        </select>
-        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-      </div>
-    </div>
-  );
-}
-
-function TipoCatastoFTSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  return (
-    <div className="space-y-1.5">
-      <label className={labelClass}>Tipo Catasto *</label>
-      <div className="relative">
-        <select className={selectClass} value={value || 'F'} onChange={(e) => onChange(e.target.value)} required>
-          <option value="F">Fabbricati</option>
-          <option value="T">Terreni</option>
-        </select>
-        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Ispezione Ipotecaria Nazionale fields ─── */
-function IspezioneIpotecariaNazionaleFields({ data, onChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="md:col-span-2 space-y-1.5">
-        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-        <input
-          type="text"
-          className={inputClass}
-          placeholder="RSSMRA85L01H501Z / 12345678901"
-          value={data.cf_piva || ''}
-          onChange={(e) => onChange('cf_piva', e.target.value)}
-          required
-        />
-      </div>
-    </div>
-  );
-}
-
-/* ─── Elenco Note Ipotecarie fields ─── */
-function ElencoNoteIpotecarieFields({ data, onChange }: {
-  data: Record<string, string>;
-  onChange: (name: string, value: string) => void;
-}) {
-  const [mode, setMode] = useState<'immobile' | 'soggetto'>(
-    (data._mode as 'immobile' | 'soggetto') || 'immobile'
-  );
-  const [conservatorie, setConservatorie] = useState<Conservatoria[]>([]);
-  const [loadingConservatorie, setLoadingConservatorie] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/territorio/conservatorie')
-      .then(r => r.json())
-      .then(json => {
-        if (cancelled) return;
-        const list: Conservatoria[] = Array.isArray(json)
-          ? json
-          : (Array.isArray(json?.data) ? json.data : []);
-        setConservatorie(list);
-      })
-      .catch(() => { if (!cancelled) setConservatorie([]); })
-      .finally(() => { if (!cancelled) setLoadingConservatorie(false); });
-    return () => { cancelled = true; };
-  }, []);
-
-  const handleModeChange = (m: 'immobile' | 'soggetto') => {
-    setMode(m);
-    onChange('_mode', m);
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <label className={labelClass}>Modalita di ricerca</label>
-        <div className="grid grid-cols-2 gap-2">
-          {([
-            { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
-            { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
-          ]).map(opt => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => handleModeChange(opt.value)}
-              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
-                mode === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-              }`}
-            >
-              <span className="material-symbols-outlined text-base">{opt.icon}</span>
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect
-          value={data.conservatoria || ''}
-          onChange={(v) => onChange('conservatoria', v)}
-          conservatorie={conservatorie}
-          loading={loadingConservatorie}
-        />
-        {mode === 'immobile' && (
-          <>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Comune *</label>
-              <input type="text" className={inputClass} placeholder="Es. Roma" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required />
-            </div>
-            <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
-            <div className="space-y-1.5">
-              <label className={labelClass}>Foglio *</label>
-              <input type="number" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
-            </div>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Particella *</label>
-              <input type="number" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
-            </div>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Subalterno</label>
-              <input type="number" className={inputClass} placeholder="Es. 1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Sezione</label>
-              <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Sezione Urbana</label>
-              <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione_urbana || ''} onChange={(e) => onChange('sezione_urbana', e.target.value)} />
-            </div>
-          </>
-        )}
-        {mode === 'soggetto' && (
-          <div className="md:col-span-1 space-y-1.5">
-            <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-            <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Main Page ─── */
 export default function CheckoutDataPage() {
   const router = useRouter();
-  const { items, updateItem, removeItem, getSubtotal, getIVA, getTotal } = useCart();
+  const { items, getSubtotal, getIVA, getTotal } = useCart();
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
   const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
@@ -462,7 +28,6 @@ export default function CheckoutDataPage() {
     citta: '',
     cap: '',
     provincia: '',
-    // Impresa / Professionista
     ragioneSociale: '',
     partitaIva: '',
     pec: '',
@@ -477,14 +42,12 @@ export default function CheckoutDataPage() {
     const { name, value } = e.target;
     setFormData(prev => {
       const next = { ...prev, [name]: value };
-      // Auto-copy P.IVA to CF unless CF was manually edited
       if (name === 'partitaIva' && !cfManuallyEdited) {
         next.codiceFiscale = value;
       }
       if (name === 'codiceFiscale') {
         setCfManuallyEdited(true);
       }
-      // Auto-copy email to emailDocumenti unless documenti email was manually edited
       if (name === 'email' && !emailDocumentiManuallyEdited) {
         next.emailDocumenti = value;
       }
@@ -495,13 +58,8 @@ export default function CheckoutDataPage() {
     });
   };
 
-  const handleItemFieldChange = (itemId: string, currentFormData: Record<string, string>, name: string, value: string) => {
-    updateItem(itemId, { ...currentFormData, [name]: value });
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Auto-fill SDI with 0000000 if both SDI and PEC are empty (Cassetto Fiscale)
     if (accountType !== 'privato' && !formData.codiceDestinatario && !formData.pec) {
       setFormData(prev => ({ ...prev, codiceDestinatario: '0000000' }));
     }
@@ -523,7 +81,6 @@ export default function CheckoutDataPage() {
   }
 
   const needsDelegate = items.some(item => item.service.requiresDelegate);
-  let sectionNum = 0;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
@@ -537,7 +94,7 @@ export default function CheckoutDataPage() {
             Dati
           </h1>
           <p className="text-[#44474e] text-sm">
-            Inserisci i dati necessari per elaborare la tua richiesta.
+            Inserisci i dati di fatturazione e per la consegna dei documenti.
           </p>
         </header>
 
@@ -545,132 +102,14 @@ export default function CheckoutDataPage() {
           {/* Left: Forms */}
           <div className="lg:col-span-2 space-y-8">
             <form onSubmit={handleSubmit} id="dati-form" className="space-y-8">
-              {/* Service-specific fields for each cart item */}
-              {items.map(item => {
-                sectionNum++;
-                const sectionContent = isVisura(item.service.slug) ? (
-                  <VisuraFields
-                    item={item}
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
-                  />
-                ) : isEstrattoMappa(item.service.slug) ? (
-                  <EstrattoMappaFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
-                  />
-                ) : isProspettoCatastale(item.service.slug) ? (
-                  <ProspettoCatastaleFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
-                  />
-                ) : isRicercaPersona(item.service.slug) ? (
-                  <RicercaPersonaFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value })}
-                  />
-                ) : isRicercaNazionale(item.service.slug) ? (
-                  <RicercaNazionaleFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                  />
-                ) : isRicercaIndirizzo(item.service.slug) ? (
-                  <RicercaIndirizzoFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
-                  />
-                ) : isIspezioneIpotecariaNazionale(item.service.slug) ? (
-                  <IspezioneIpotecariaNazionaleFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                  />
-                ) : isElencoNoteIpotecarie(item.service.slug) ? (
-                  <ElencoNoteIpotecarieFields
-                    data={item.formData}
-                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                  />
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {item.service.fields.map(field => {
-                      if (field.name === 'provincia') {
-                        return (
-                          <ProvinciaSelect
-                            key={field.name}
-                            label={`${field.label} ${field.required ? '*' : ''}`.trim()}
-                            value={item.formData[field.name] || ''}
-                            onChange={(v) => updateItem(item.id, { ...item.formData, provincia: v, comune: '' })}
-                            required={field.required}
-                          />
-                        );
-                      }
-                      if (field.name === 'comune') {
-                        return (
-                          <ComuneSelect
-                            key={field.name}
-                            label={`${field.label} ${field.required ? '*' : ''}`.trim()}
-                            provincia={item.formData.provincia || ''}
-                            value={item.formData[field.name] || ''}
-                            onChange={(v) => handleItemFieldChange(item.id, item.formData, field.name, v)}
-                            required={field.required}
-                          />
-                        );
-                      }
-                      return (
-                        <div key={field.name} className="space-y-1.5">
-                          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">
-                            {field.label} {field.required && '*'}
-                          </label>
-                          {field.type === 'select' ? (
-                            <div className="relative">
-                              <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required}>
-                                <option value="">Seleziona...</option>
-                                {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                              </select>
-                              <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                            </div>
-                          ) : (
-                            <input type={field.type} className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder={field.placeholder} value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required} />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-
-                return (
-                  <section key={item.id} className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-                    <div className="flex items-center justify-between mb-6">
-                      <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                        <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{sectionNum}</span>
-                        {item.service.name}
-                      </h2>
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="text-[#c4c6cf] hover:text-[#ba1a1a] transition-colors cursor-pointer p-1"
-                        title="Rimuovi servizio"
-                      >
-                        <span className="material-symbols-outlined text-xl">delete</span>
-                      </button>
-                    </div>
-                    {sectionContent}
-                  </section>
-                );
-              })}
 
               {/* Dati per la fatturazione */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{items.length + 1}</span>
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   Dati per la fatturazione
                 </h2>
 
-                {/* Account Type Selector */}
                 <div className="mb-6">
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-3">Tipo di intestatario</label>
                   <div className="grid grid-cols-3 gap-2">
@@ -736,9 +175,7 @@ export default function CheckoutDataPage() {
                       <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Email *
-                      </label>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
                     </div>
                   </div>
@@ -753,8 +190,6 @@ export default function CheckoutDataPage() {
                       </label>
                       <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} className="w-full" placeholder={accountType === 'impresa' ? 'Rossi S.r.l.' : 'Studio Rossi'} required />
                     </div>
-
-                    {/* Sede legale */}
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Indirizzo sede legale *</label>
                       <AddressAutocomplete
@@ -785,8 +220,6 @@ export default function CheckoutDataPage() {
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
                       <input type="text" name="sedeLegaleProvincia" value={formData.sedeLegaleProvincia} onChange={handleChange} className="w-full" placeholder="RM" required />
                     </div>
-
-                    {/* P.IVA e CF */}
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
                       <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
@@ -809,8 +242,6 @@ export default function CheckoutDataPage() {
                         required
                       />
                     </div>
-
-                    {/* SDI o PEC */}
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Destinatario (SDI)</label>
                       <input type="text" name="codiceDestinatario" value={formData.codiceDestinatario} onChange={handleChange} className="w-full" placeholder="0000000" maxLength={7} />
@@ -822,12 +253,8 @@ export default function CheckoutDataPage() {
                     <div className="md:col-span-2">
                       <p className="text-xs text-[#c4c6cf]">Se non inserisci nulla, troverai la fattura nel tuo Cassetto Fiscale</p>
                     </div>
-
-                    {/* Email */}
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Email *
-                      </label>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="info@azienda.it" required />
                     </div>
                   </div>
@@ -837,7 +264,7 @@ export default function CheckoutDataPage() {
               {/* Dati per l'invio della documentazione */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{items.length + 2}</span>
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
                   Dati per l&apos;invio della documentazione
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -877,7 +304,7 @@ export default function CheckoutDataPage() {
               {needsDelegate && (
                 <section className="bg-white rounded-2xl p-6 md:p-8 border border-amber-200/50 shadow-sm">
                   <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">{items.length + 3}</span>
+                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">3</span>
                     Delega Proprietario
                   </h2>
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">

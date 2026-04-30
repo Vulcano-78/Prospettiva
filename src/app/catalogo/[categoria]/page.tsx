@@ -83,7 +83,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   const handleBuyNow = (slug: string) => {
     const service = services.find(s => s.slug === slug);
     if (service) addItem(service);
-    router.push('/checkout/dati');
+    router.push('/carrello');
   };
 
   return (

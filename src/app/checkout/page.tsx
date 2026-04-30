@@ -12,7 +12,7 @@ export default function CheckoutPage() {
     if (items.length === 0) {
       router.push('/carrello');
     } else {
-      router.push('/checkout/dati');
+      router.push('/carrello');
     }
   }, [items, router]);
 
