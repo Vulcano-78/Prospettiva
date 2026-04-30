@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
@@ -22,6 +22,8 @@ function isProspettoCatastale(slug: string) { return slug === 'prospetto-catasta
 function isRicercaPersona(slug: string) { return slug === 'ricerca-persona'; }
 function isRicercaNazionale(slug: string) { return slug === 'ricerca-nazionale'; }
 function isRicercaIndirizzo(slug: string) { return slug === 'ricerca-indirizzo'; }
+function isIspezioneIpotecariaNazionale(slug: string) { return slug === 'ispezione-ipotecaria-nazionale'; }
+function isElencoNoteIpotecarie(slug: string) { return slug === 'elenco-note-ipotecarie'; }
 
 const selectClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none';
 const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
@@ -302,6 +304,177 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
   );
 }
 
+/* ─── Conservatoria dropdown (fetches from /api/territorio/conservatorie) ─── */
+type Conservatoria = { id: string; conservatoria: string };
+
+function ConservatoriaSelect({ value, onChange, conservatorie, loading }: {
+  value: string;
+  onChange: (value: string) => void;
+  conservatorie: Conservatoria[];
+  loading: boolean;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label className={labelClass}>Conservatoria *</label>
+      <div className="relative">
+        <select
+          className={selectClass}
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          required
+          disabled={loading}
+        >
+          <option value="">{loading ? 'Caricamento...' : 'Seleziona...'}</option>
+          {conservatorie.map(c => (
+            <option key={c.id} value={c.id}>{c.conservatoria}</option>
+          ))}
+        </select>
+        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+      </div>
+    </div>
+  );
+}
+
+function TipoCatastoFTSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="space-y-1.5">
+      <label className={labelClass}>Tipo Catasto *</label>
+      <div className="relative">
+        <select className={selectClass} value={value || 'F'} onChange={(e) => onChange(e.target.value)} required>
+          <option value="F">Fabbricati</option>
+          <option value="T">Terreni</option>
+        </select>
+        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Ispezione Ipotecaria Nazionale fields ─── */
+function IspezioneIpotecariaNazionaleFields({ data, onChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="md:col-span-2 space-y-1.5">
+        <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
+        <input
+          type="text"
+          className={inputClass}
+          placeholder="RSSMRA85L01H501Z / 12345678901"
+          value={data.cf_piva || ''}
+          onChange={(e) => onChange('cf_piva', e.target.value)}
+          required
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Elenco Note Ipotecarie fields ─── */
+function ElencoNoteIpotecarieFields({ data, onChange }: {
+  data: Record<string, string>;
+  onChange: (name: string, value: string) => void;
+}) {
+  const [mode, setMode] = useState<'immobile' | 'soggetto'>(
+    (data._mode as 'immobile' | 'soggetto') || 'immobile'
+  );
+  const [conservatorie, setConservatorie] = useState<Conservatoria[]>([]);
+  const [loadingConservatorie, setLoadingConservatorie] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/territorio/conservatorie')
+      .then(r => r.json())
+      .then(json => {
+        if (cancelled) return;
+        const list: Conservatoria[] = Array.isArray(json)
+          ? json
+          : (Array.isArray(json?.data) ? json.data : []);
+        setConservatorie(list);
+      })
+      .catch(() => { if (!cancelled) setConservatorie([]); })
+      .finally(() => { if (!cancelled) setLoadingConservatorie(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleModeChange = (m: 'immobile' | 'soggetto') => {
+    setMode(m);
+    onChange('_mode', m);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <label className={labelClass}>Modalita di ricerca</label>
+        <div className="grid grid-cols-2 gap-2">
+          {([
+            { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
+            { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
+          ]).map(opt => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => handleModeChange(opt.value)}
+              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+                mode === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <span className="material-symbols-outlined text-base">{opt.icon}</span>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ConservatoriaSelect
+          value={data.conservatoria || ''}
+          onChange={(v) => onChange('conservatoria', v)}
+          conservatorie={conservatorie}
+          loading={loadingConservatorie}
+        />
+        {mode === 'immobile' && (
+          <>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Comune *</label>
+              <input type="text" className={inputClass} placeholder="Es. Roma" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required />
+            </div>
+            <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
+            <div className="space-y-1.5">
+              <label className={labelClass}>Foglio *</label>
+              <input type="number" className={inputClass} placeholder="1" value={data.foglio || ''} onChange={(e) => onChange('foglio', e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Particella *</label>
+              <input type="number" className={inputClass} placeholder="1" value={data.particella || ''} onChange={(e) => onChange('particella', e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Subalterno</label>
+              <input type="number" className={inputClass} placeholder="Es. 1" value={data.subalterno || ''} onChange={(e) => onChange('subalterno', e.target.value)} />
+            </div>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Sezione</label>
+              <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione || ''} onChange={(e) => onChange('sezione', e.target.value)} />
+            </div>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Sezione Urbana</label>
+              <input type="text" className={inputClass} placeholder="Es. A" value={data.sezione_urbana || ''} onChange={(e) => onChange('sezione_urbana', e.target.value)} />
+            </div>
+          </>
+        )}
+        {mode === 'soggetto' && (
+          <div className="md:col-span-1 space-y-1.5">
+            <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
+            <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main Page ─── */
 export default function CheckoutDataPage() {
   const router = useRouter();
@@ -442,6 +615,16 @@ export default function CheckoutDataPage() {
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
                     onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                  />
+                ) : isIspezioneIpotecariaNazionale(item.service.slug) ? (
+                  <IspezioneIpotecariaNazionaleFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                  />
+                ) : isElencoNoteIpotecarie(item.service.slug) ? (
+                  <ElencoNoteIpotecarieFields
+                    data={item.formData}
+                    onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -284,16 +284,31 @@ export const services: Service[] = [
     ]
   },
   {
-    id: 'ispezione-nazionale',
-    slug: 'ispezione-nazionale',
-    name: 'Ispezione Nazionale',
+    id: 'ispezione-ipotecaria-nazionale',
+    slug: 'ispezione-ipotecaria-nazionale',
+    name: 'Ispezione Ipotecaria Nazionale',
     shortName: 'Ispezione Naz.',
-    description: 'Analisi completa in tutte le conservatorie d\'Italia.',
-    price: 49.90,
+    description: 'Verifica in quali conservatorie un soggetto ha iscrizioni o trascrizioni.',
+    price: 19.90,
     category: 'verifiche-ipotecarie',
     categoryIcon: 'language',
-    isActive: false,
-    fields: [codiceFiscale, emailField]
+    isActive: true,
+    fields: [
+      { name: 'cf_piva', label: 'Codice Fiscale o Partita IVA', type: 'text', placeholder: 'RSSMRA85L01H501Z / 12345678901', required: true },
+      emailField,
+    ],
+  },
+  {
+    id: 'elenco-note-ipotecarie',
+    slug: 'elenco-note-ipotecarie',
+    name: 'Elenco Note Ipotecarie',
+    shortName: 'Note Ipotecarie',
+    description: 'Elenco delle note e formalità ipotecarie di un immobile o soggetto.',
+    price: 12.90,
+    category: 'verifiche-ipotecarie',
+    categoryIcon: 'fact_check',
+    isActive: true,
+    fields: [emailField],
   },
 
   // URBANISTICA

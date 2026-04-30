@@ -140,6 +140,55 @@ export default function ConfirmationPage() {
             body: JSON.stringify(payload),
           }).catch(() => { /* silent fail */ });
         }
+
+        if (order.slug === 'ispezione-ipotecaria-nazionale') {
+          const fd = order.formData;
+          const payload: Record<string, string> = {
+            cf_piva: fd.cf_piva || '',
+            email: checkoutEmail,
+          };
+          fetch('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).catch(() => { /* silent fail */ });
+        }
+
+        if (order.slug === 'elenco-note-ipotecarie') {
+          const fd = order.formData;
+          const mode = fd._mode || 'immobile';
+          if (mode === 'immobile') {
+            const payload: Record<string, string | number> = {
+              entita: 'ispezione_immobile',
+              conservatoria: fd.conservatoria || '',
+              comune: (fd.comune || '').toUpperCase(),
+              tipo_catasto: fd.tipo_catasto || 'F',
+              foglio: Number(fd.foglio) || 0,
+              particella: Number(fd.particella) || 0,
+              email: checkoutEmail,
+            };
+            if (fd.subalterno) payload.subalterno = Number(fd.subalterno);
+            if (fd.sezione) payload.sezione = fd.sezione;
+            if (fd.sezione_urbana) payload.sezione_urbana = fd.sezione_urbana;
+            fetch('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            }).catch(() => { /* silent fail */ });
+          } else {
+            const payload: Record<string, string> = {
+              entita: 'ispezione_soggetto',
+              conservatoria: fd.conservatoria || '',
+              cf_piva: fd.cf_piva || '',
+              email: checkoutEmail,
+            };
+            fetch('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            }).catch(() => { /* silent fail */ });
+          }
+        }
       }
     } catch { /* localStorage or parse error */ }
   }, []);
