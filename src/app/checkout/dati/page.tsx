@@ -1,30 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
-import { province } from '@/data/province';
-
-const _comuniCache: Record<string, string[]> = {};
-
-function loadComuni(sigla: string): Promise<string[]> {
-  if (_comuniCache[sigla]) return Promise.resolve(_comuniCache[sigla]);
-  return fetch(`/api/territorio/${sigla}`)
-    .then(r => r.json())
-    .then(d => {
-      // Response: { data: { provincia, comuni: [{ comune, sezioni, codice_catastale }] } }
-      const raw = d?.data?.comuni ?? [];
-      const list: { comune?: string }[] = Array.isArray(raw) ? raw : [];
-      const nomi = list.map(c => (c.comune ?? '').toUpperCase()).filter(Boolean);
-      _comuniCache[sigla] = nomi;
-      return nomi;
-    })
-    .catch(() => []);
-}
+import { province, comuniPerProvincia } from '@/data/comuni';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
@@ -49,14 +32,7 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
   onChange: (name: string, value: string) => void;
   onProvinciaChange: (value: string) => void;
 }) {
-  const [comuni, setComuni] = useState<string[]>([]);
-  const [loadingComuni, setLoadingComuni] = useState(false);
-
-  useEffect(() => {
-    if (!data.provincia) { setComuni([]); return; }
-    setLoadingComuni(true);
-    loadComuni(data.provincia).then(c => { setComuni(c); setLoadingComuni(false); });
-  }, [data.provincia]);
+  const comuni = data.provincia ? (comuniPerProvincia[data.provincia] ?? []) : [];
 
   return (
     <>
@@ -73,9 +49,9 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
       <div className="space-y-1.5">
         <label className={labelClass}>Comune *</label>
         <div className="relative">
-          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia || loadingComuni}>
+          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
             <option value="">
-              {!data.provincia ? 'Seleziona prima la provincia' : loadingComuni ? 'Caricamento...' : 'Seleziona comune...'}
+              {!data.provincia ? 'Seleziona prima la provincia' : 'Seleziona comune...'}
             </option>
             {comuni.map(nome => <option key={nome} value={nome}>{nome}</option>)}
           </select>
