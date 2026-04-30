@@ -308,13 +308,14 @@ export default function CheckoutDataPage() {
   const { items, updateItem, removeItem, getSubtotal, getIVA, getTotal } = useCart();
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
-  const [showAltEmail, setShowAltEmail] = useState(false);
   const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
+  const [emailDocumentiManuallyEdited, setEmailDocumentiManuallyEdited] = useState(false);
   const [formData, setFormData] = useState({
     nome: '',
     cognome: '',
     email: '',
     emailDocumenti: '',
+    emailDocumentiAlt: '',
     codiceFiscale: '',
     indirizzo: '',
     citta: '',
@@ -342,6 +343,13 @@ export default function CheckoutDataPage() {
       if (name === 'codiceFiscale') {
         setCfManuallyEdited(true);
       }
+      // Auto-copy email to emailDocumenti unless documenti email was manually edited
+      if (name === 'email' && !emailDocumentiManuallyEdited) {
+        next.emailDocumenti = value;
+      }
+      if (name === 'emailDocumenti') {
+        setEmailDocumentiManuallyEdited(true);
+      }
       return next;
     });
   };
@@ -360,6 +368,9 @@ export default function CheckoutDataPage() {
       localStorage.setItem('checkoutEmail', formData.email);
       if (formData.emailDocumenti) {
         localStorage.setItem('checkoutEmailDocumenti', formData.emailDocumenti);
+      }
+      if (formData.emailDocumentiAlt) {
+        localStorage.setItem('checkoutEmailDocumentiAlt', formData.emailDocumentiAlt);
       }
     } catch {}
     router.push('/checkout/pagamento');
@@ -554,22 +565,6 @@ export default function CheckoutDataPage() {
                       </label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
                     </div>
-                    {!showAltEmail ? (
-                      <div className="md:col-span-2">
-                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#002147] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
-                          <span className="material-symbols-outlined text-sm">add</span>
-                          aggiungi email <span className="font-normal text-[#c4c6cf] ml-1">(per ricevere i documenti)</span>
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="md:col-span-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                          Email per i documenti
-                          <button type="button" onClick={() => { setShowAltEmail(false); setFormData(prev => ({ ...prev, emailDocumenti: '' })); }} className="font-normal normal-case tracking-normal text-[#ba1a1a] ml-2 hover:underline">rimuovi</button>
-                        </label>
-                        <input type="email" name="emailDocumenti" value={formData.emailDocumenti} onChange={handleChange} className="w-full" placeholder="altra.email@esempio.it" />
-                      </div>
-                    )}
                   </div>
                 )}
 
@@ -659,31 +654,54 @@ export default function CheckoutDataPage() {
                       </label>
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="info@azienda.it" required />
                     </div>
-                    {!showAltEmail ? (
-                      <div className="md:col-span-2">
-                        <button type="button" onClick={() => setShowAltEmail(true)} className="text-[#002147] text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer">
-                          <span className="material-symbols-outlined text-sm">add</span>
-                          aggiungi email <span className="font-normal text-[#c4c6cf] ml-1">(per ricevere i documenti)</span>
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="md:col-span-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                          Email per i documenti
-                          <button type="button" onClick={() => { setShowAltEmail(false); setFormData(prev => ({ ...prev, emailDocumenti: '' })); }} className="font-normal normal-case tracking-normal text-[#ba1a1a] ml-2 hover:underline">rimuovi</button>
-                        </label>
-                        <input type="email" name="emailDocumenti" value={formData.emailDocumenti} onChange={handleChange} className="w-full" placeholder="altra.email@esempio.it" />
-                      </div>
-                    )}
                   </div>
                 )}
+              </section>
+
+              {/* Dati per l'invio della documentazione */}
+              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{items.length + 2}</span>
+                  Dati per l&apos;invio della documentazione
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
+                    <input
+                      type="email"
+                      name="emailDocumenti"
+                      value={formData.emailDocumenti}
+                      onChange={handleChange}
+                      onFocus={() => {
+                        if (!emailDocumentiManuallyEdited) {
+                          setEmailDocumentiManuallyEdited(true);
+                          setFormData(prev => ({ ...prev, emailDocumenti: '' }));
+                        }
+                      }}
+                      className="w-full"
+                      placeholder="mario.rossi@email.it"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email aggiuntiva</label>
+                    <input
+                      type="email"
+                      name="emailDocumentiAlt"
+                      value={formData.emailDocumentiAlt}
+                      onChange={handleChange}
+                      className="w-full"
+                      placeholder="altra.email@esempio.it"
+                    />
+                  </div>
+                </div>
               </section>
 
               {/* Delegate Section */}
               {needsDelegate && (
                 <section className="bg-white rounded-2xl p-6 md:p-8 border border-amber-200/50 shadow-sm">
                   <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">{items.length + 2}</span>
+                    <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">{items.length + 3}</span>
                     Delega Proprietario
                   </h2>
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
