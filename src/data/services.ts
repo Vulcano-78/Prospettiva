@@ -63,25 +63,13 @@ export const categories: Category[] = [
   }
 ];
 
-export const provinces = [
-  'Agrigento', 'Alessandria', 'Ancona', 'Aosta', 'Arezzo', 'Ascoli Piceno', 'Asti', 'Avellino',
-  'Bari', 'Barletta-Andria-Trani', 'Belluno', 'Benevento', 'Bergamo', 'Biella', 'Bologna', 'Bolzano',
-  'Brescia', 'Brindisi', 'Cagliari', 'Caltanissetta', 'Campobasso', 'Caserta', 'Catania', 'Catanzaro',
-  'Chieti', 'Como', 'Cosenza', 'Cremona', 'Crotone', 'Cuneo', 'Enna', 'Fermo', 'Ferrara', 'Firenze',
-  'Foggia', 'Forli-Cesena', 'Frosinone', 'Genova', 'Gorizia', 'Grosseto', 'Imperia', 'Isernia',
-  'La Spezia', 'L\'Aquila', 'Latina', 'Lecce', 'Lecco', 'Livorno', 'Lodi', 'Lucca', 'Macerata',
-  'Mantova', 'Massa-Carrara', 'Matera', 'Messina', 'Milano', 'Modena', 'Monza e Brianza', 'Napoli',
-  'Novara', 'Nuoro', 'Oristano', 'Padova', 'Palermo', 'Parma', 'Pavia', 'Perugia', 'Pesaro e Urbino',
-  'Pescara', 'Piacenza', 'Pisa', 'Pistoia', 'Pordenone', 'Potenza', 'Prato', 'Ragusa', 'Ravenna',
-  'Reggio Calabria', 'Reggio Emilia', 'Rieti', 'Rimini', 'Roma', 'Rovigo', 'Salerno', 'Sassari',
-  'Savona', 'Siena', 'Siracusa', 'Sondrio', 'Sud Sardegna', 'Taranto', 'Teramo', 'Terni', 'Torino',
-  'Trapani', 'Trento', 'Treviso', 'Trieste', 'Udine', 'Varese', 'Venezia', 'Verbano-Cusio-Ossola',
-  'Vercelli', 'Verona', 'Vibo Valentia', 'Vicenza', 'Viterbo'
-];
+// Province e comuni sono ora caricati dinamicamente via /api/catasto/territorio
+// I campi 'provincia' e 'comune' sono renderizzati con ProvinciaSelect / ComuneSelect
+// (vedi src/components/forms e src/hooks/useTerritorio.ts).
 
 const baseImmobileFields: ServiceField[] = [
-  { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-  { name: 'comune', label: 'Comune', type: 'text', placeholder: 'Es. Roma', required: true },
+  { name: 'provincia', label: 'Provincia', type: 'select', required: true },
+  { name: 'comune', label: 'Comune', type: 'select', required: true },
   { name: 'foglio', label: 'Foglio', type: 'text', placeholder: 'Es. 42', required: true },
   { name: 'particella', label: 'Particella', type: 'text', placeholder: 'Es. 158', required: true },
 ];
@@ -129,7 +117,7 @@ export const services: Service[] = [
     isActive: true,
     fields: [
       codiceFiscale,
-      { name: 'provincia', label: 'Provincia (opzionale)', type: 'select', options: ['Tutte le province', ...provinces] },
+      { name: 'provincia', label: 'Provincia (opzionale)', type: 'select' },
       emailField
     ]
   },
@@ -144,8 +132,8 @@ export const services: Service[] = [
     categoryIcon: 'map',
     isActive: true,
     fields: [
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-      { name: 'comune', label: 'Comune', type: 'text', placeholder: 'Es. Roma', required: true },
+      { name: 'provincia', label: 'Provincia', type: 'select', required: true },
+      { name: 'comune', label: 'Comune', type: 'select', required: true },
       { name: 'foglio', label: 'Foglio', type: 'text', placeholder: 'Es. 42', required: true },
       { name: 'particella', label: 'Particella', type: 'text', placeholder: 'Es. 158', required: true },
       emailField
@@ -175,7 +163,7 @@ export const services: Service[] = [
     categoryIcon: 'person_pin',
     isActive: true,
     fields: [
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
+      { name: 'provincia', label: 'Provincia', type: 'select', required: true },
       codiceFiscale,
       emailField
     ]
@@ -191,8 +179,8 @@ export const services: Service[] = [
     categoryIcon: 'location_on',
     isActive: true,
     fields: [
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-      { name: 'comune', label: 'Comune', type: 'text', placeholder: 'Es. Roma', required: true },
+      { name: 'provincia', label: 'Provincia', type: 'select', required: true },
+      { name: 'comune', label: 'Comune', type: 'select', required: true },
       { name: 'indirizzo', label: 'Indirizzo', type: 'text', placeholder: 'Via Roma 12', required: true },
       emailField
     ]
@@ -221,8 +209,8 @@ export const services: Service[] = [
     isActive: true,
     fields: [
       { name: 'tipoCatasto', label: 'Tipo Catasto', type: 'select', options: ['Fabbricato', 'Terreno'], required: true },
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-      { name: 'comune', label: 'Comune', type: 'text', placeholder: 'Es. Roma', required: true },
+      { name: 'provincia', label: 'Provincia', type: 'select', required: true },
+      { name: 'comune', label: 'Comune', type: 'select', required: true },
       { name: 'foglio', label: 'Foglio', type: 'text', placeholder: 'Es. 42', required: true },
       { name: 'particella', label: 'Particella', type: 'text', placeholder: 'Es. 158', required: true },
       emailField
@@ -257,8 +245,8 @@ export const services: Service[] = [
     categoryIcon: 'grid_on',
     isActive: true,
     fields: [
-      { name: 'provincia', label: 'Provincia', type: 'select', options: provinces, required: true },
-      { name: 'comune', label: 'Comune', type: 'text', placeholder: 'Es. Roma', required: true },
+      { name: 'provincia', label: 'Provincia', type: 'select', required: true },
+      { name: 'comune', label: 'Comune', type: 'select', required: true },
       { name: 'foglio', label: 'Foglio', type: 'text', placeholder: 'Es. 42', required: true },
       { name: 'particella', label: 'Particella', type: 'text', placeholder: 'Es. 158', required: true },
       emailField

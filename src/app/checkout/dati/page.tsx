@@ -7,7 +7,8 @@ import ProgressBar from '@/components/ProgressBar';
 import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
-import { province, comuniPerProvincia } from '@/data/comuni';
+import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
+import ComuneSelect from '@/components/forms/ComuneSelect';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
@@ -34,51 +35,18 @@ function ProvinciaComune({ data, onChange, onProvinciaChange }: {
   onChange: (name: string, value: string) => void;
   onProvinciaChange: (value: string) => void;
 }) {
-  const comuni = data.provincia ? (comuniPerProvincia[data.provincia] ?? []) : [];
-
   return (
     <>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Provincia *</label>
-        <div className="relative">
-          <select className={selectClass} value={data.provincia || ''} onChange={(e) => onProvinciaChange(e.target.value)} required>
-            <option value="">Seleziona...</option>
-            {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-          </select>
-          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-        </div>
-      </div>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Comune *</label>
-        <div className="relative">
-          <select className={selectClass} value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required disabled={!data.provincia}>
-            <option value="">
-              {!data.provincia ? 'Seleziona prima la provincia' : 'Seleziona comune...'}
-            </option>
-            {comuni.map(c => <option key={c.nome} value={c.nome}>{c.nome}</option>)}
-          </select>
-          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-        </div>
-      </div>
+      <ProvinciaSelect
+        value={data.provincia || ''}
+        onChange={onProvinciaChange}
+      />
+      <ComuneSelect
+        provincia={data.provincia || ''}
+        value={data.comune || ''}
+        onChange={(v) => onChange('comune', v)}
+      />
     </>
-  );
-}
-
-function ProvinciaSelect({ value, onChange }: {
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label className={labelClass}>Provincia *</label>
-      <div className="relative">
-        <select className={selectClass} value={value} onChange={(e) => onChange(e.target.value)} required>
-          <option value="">Seleziona...</option>
-          {province.map(p => <option key={p.sigla} value={p.sigla}>{p.sigla} — {p.nome}</option>)}
-        </select>
-        <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-      </div>
-    </div>
   );
 }
 
@@ -628,24 +596,49 @@ export default function CheckoutDataPage() {
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {item.service.fields.map(field => (
-                      <div key={field.name} className="space-y-1.5">
-                        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">
-                          {field.label} {field.required && '*'}
-                        </label>
-                        {field.type === 'select' ? (
-                          <div className="relative">
-                            <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required}>
-                              <option value="">Seleziona...</option>
-                              {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                            </select>
-                            <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-                          </div>
-                        ) : (
-                          <input type={field.type} className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder={field.placeholder} value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required} />
-                        )}
-                      </div>
-                    ))}
+                    {item.service.fields.map(field => {
+                      if (field.name === 'provincia') {
+                        return (
+                          <ProvinciaSelect
+                            key={field.name}
+                            label={`${field.label} ${field.required ? '*' : ''}`.trim()}
+                            value={item.formData[field.name] || ''}
+                            onChange={(v) => updateItem(item.id, { ...item.formData, provincia: v, comune: '' })}
+                            required={field.required}
+                          />
+                        );
+                      }
+                      if (field.name === 'comune') {
+                        return (
+                          <ComuneSelect
+                            key={field.name}
+                            label={`${field.label} ${field.required ? '*' : ''}`.trim()}
+                            provincia={item.formData.provincia || ''}
+                            value={item.formData[field.name] || ''}
+                            onChange={(v) => handleItemFieldChange(item.id, item.formData, field.name, v)}
+                            required={field.required}
+                          />
+                        );
+                      }
+                      return (
+                        <div key={field.name} className="space-y-1.5">
+                          <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">
+                            {field.label} {field.required && '*'}
+                          </label>
+                          {field.type === 'select' ? (
+                            <div className="relative">
+                              <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required}>
+                                <option value="">Seleziona...</option>
+                                {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                              </select>
+                              <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+                            </div>
+                          ) : (
+                            <input type={field.type} className="w-full bg-white border border-slate-200 px-3 py-2 text-sm" placeholder={field.placeholder} value={item.formData[field.name] || ''} onChange={(e) => handleItemFieldChange(item.id, item.formData, field.name, e.target.value)} required={field.required} />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 );
 

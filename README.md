@@ -29,6 +29,19 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Environment variables
+
+Copy `.env.example` to `.env.local` for development. The relevant variables are:
+
+| Variable | Required | Description |
+|---|---|---|
+| `OPENAPI_TOKEN` | yes | Bearer token for the Openapi.it catasto API. Server-side only — never exposed to the browser. |
+| `OPENAPI_CATASTO_BASE_URL` | no | Base URL of the catasto provider. Defaults to the sandbox `https://test.catasto.openapi.it` when unset (with a server log warning). Set to `https://catasto.openapi.it` for production. |
+
+The territorio (province / comuni) lookups are proxied server-side through `/api/catasto/territorio` and `/api/catasto/territorio/[provincia]`, which read both variables. The token never reaches the client bundle.
+
+To configure on Vercel: Project Settings → Environment Variables → add `OPENAPI_CATASTO_BASE_URL` (Production = `https://catasto.openapi.it`, Preview/Development = sandbox URL or leave empty), then redeploy.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
