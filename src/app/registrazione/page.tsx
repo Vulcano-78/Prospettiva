@@ -21,6 +21,7 @@ export default function RegistrationPage() {
     partitaIva: '',
     ruolo: '',
     codiceSdi: '',
+    pec: '',
     sito: '',
     indirizzo: '',
     citta: '',
@@ -68,6 +69,7 @@ export default function RegistrationPage() {
           partita_iva: formData.partitaIva,
           ruolo: formData.ruolo,
           codice_sdi: formData.codiceSdi,
+          pec: formData.pec,
           sito: formData.sito,
           marketing: acceptMarketing,
           indirizzo: formData.indirizzo,
@@ -248,9 +250,15 @@ export default function RegistrationPage() {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI / PEC</label>
-                  <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="Codice SDI o indirizzo PEC" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
+                    <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                    <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
+                  </div>
                 </div>
               </section>
             )}

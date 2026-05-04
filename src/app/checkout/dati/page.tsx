@@ -46,30 +46,43 @@ export default function CheckoutDataPage() {
       if (!user) return;
       const meta = user.user_metadata ?? {};
       const email = user.email ?? '';
-      const accountT: AccountType =
+      const registeredType: AccountType =
         meta.account_type === 'professionista' ? 'professionista' : 'privato';
-      setAccountType(accountT);
-      setFormData(prev => ({
-        ...prev,
-        nome: meta.nome ?? prev.nome,
-        cognome: meta.cognome ?? prev.cognome,
+      setAccountType(registeredType);
+
+      // Prefill solo i campi del tipo con cui l'utente si è registrato.
+      // Se cambia tipo al checkout, i campi dell'altro tipo restano vuoti.
+      const base = {
+        nome: meta.nome ?? '',
+        cognome: meta.cognome ?? '',
         email,
         emailDocumenti: email,
-        ragioneSociale: meta.ragione_sociale ?? prev.ragioneSociale,
-        partitaIva: meta.partita_iva ?? prev.partitaIva,
-        codiceFiscale: meta.partita_iva ?? prev.codiceFiscale,
-        codiceDestinatario: meta.codice_sdi ?? prev.codiceDestinatario,
-        // Indirizzo per privato
-        indirizzo: meta.indirizzo ?? prev.indirizzo,
-        citta: meta.citta ?? prev.citta,
-        cap: meta.cap ?? prev.cap,
-        provincia: meta.provincia ?? prev.provincia,
-        // Sede legale per professionista/impresa
-        sedeLegaleIndirizzo: meta.indirizzo ?? prev.sedeLegaleIndirizzo,
-        sedeLegaleComune: meta.citta ?? prev.sedeLegaleComune,
-        sedeLegaleCap: meta.cap ?? prev.sedeLegaleCap,
-        sedeLegaleProvincia: meta.provincia ?? prev.sedeLegaleProvincia,
-      }));
+      };
+
+      if (registeredType === 'professionista') {
+        setFormData(prev => ({
+          ...prev,
+          ...base,
+          ragioneSociale: meta.ragione_sociale ?? '',
+          partitaIva: meta.partita_iva ?? '',
+          codiceFiscale: meta.partita_iva ?? '',
+          codiceDestinatario: meta.codice_sdi ?? '',
+          pec: meta.pec ?? '',
+          sedeLegaleIndirizzo: meta.indirizzo ?? '',
+          sedeLegaleComune: meta.citta ?? '',
+          sedeLegaleCap: meta.cap ?? '',
+          sedeLegaleProvincia: meta.provincia ?? '',
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          ...base,
+          indirizzo: meta.indirizzo ?? '',
+          citta: meta.citta ?? '',
+          cap: meta.cap ?? '',
+          provincia: meta.provincia ?? '',
+        }));
+      }
     });
   }, []);
 
