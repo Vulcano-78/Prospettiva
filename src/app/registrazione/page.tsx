@@ -115,7 +115,7 @@ export default function RegistrationPage() {
       });
     }
 
-    router.push('/dashboard');
+    router.push('/');
     router.refresh();
   };
 
