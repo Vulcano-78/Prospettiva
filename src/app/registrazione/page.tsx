@@ -279,10 +279,6 @@ export default function RegistrationPage() {
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI / PEC</label>
                   <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="Codice SDI o indirizzo PEC" />
                 </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Sito Web (Opzionale)</label>
-                  <input type="url" name="sito" value={formData.sito} onChange={handleChange} placeholder="https://www.studioverdi.it" />
-                </div>
               </section>
             )}
 

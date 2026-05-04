@@ -420,15 +420,6 @@ export default function DashboardPage() {
                           <span className="material-symbols-outlined absolute right-4 top-3 pointer-events-none text-slate-400">expand_more</span>
                         </div>
                       </div>
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Sito Web</label>
-                        <input
-                          type="url"
-                          value={editData.sito}
-                          onChange={e => setEditData(p => ({ ...p, sito: e.target.value }))}
-                          placeholder="https://www.studio.it"
-                        />
-                      </div>
                     </div>
                   </>
                 )}
@@ -473,12 +464,6 @@ export default function DashboardPage() {
                   <div>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ruolo</p>
                     <p className="font-semibold text-[#002147]">{meta.ruolo}</p>
-                  </div>
-                )}
-                {meta.sito && (
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Sito Web</p>
-                    <p className="font-semibold text-[#002147]">{meta.sito}</p>
                   </div>
                 )}
               </div>
