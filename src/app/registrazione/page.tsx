@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 type AccountType = 'professionista' | 'privato';
 
 export default function RegistrationPage() {
+  const router = useRouter();
   const [accountType, setAccountType] = useState<AccountType>('professionista');
   const [formData, setFormData] = useState({
     nome: '',
@@ -14,32 +16,87 @@ export default function RegistrationPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    // Professional fields
     ragioneSociale: '',
     partitaIva: '',
     ruolo: 'Agente Immobiliare',
     codiceSdi: '',
-    sito: ''
+    sito: '',
   });
-
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
     if (!acceptTerms) {
-      alert('Devi accettare i Termini e Condizioni.');
+      setError('Devi accettare i Termini e Condizioni.');
       return;
     }
     if (formData.password !== formData.confirmPassword) {
-      alert('Le password non coincidono.');
+      setError('Le password non coincidono.');
       return;
     }
-    alert('Registrazione simulata (demo). Nessun dato inviato.');
+    if (formData.password.length < 6) {
+      setError('La password deve essere di almeno 6 caratteri.');
+      return;
+    }
+
+    setLoading(true);
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          nome: formData.nome,
+          cognome: formData.cognome,
+          account_type: accountType,
+          ragione_sociale: formData.ragioneSociale,
+          partita_iva: formData.partitaIva,
+          ruolo: formData.ruolo,
+          codice_sdi: formData.codiceSdi,
+          sito: formData.sito,
+          marketing: acceptMarketing,
+        },
+      },
+    });
+
+    if (error) {
+      if (error.message.includes('already registered')) {
+        setError('Questa email è già registrata. Prova ad accedere.');
+      } else {
+        setError(error.message);
+      }
+      setLoading(false);
+      return;
+    }
+
+    // Processa ordine pendente dalla pagina conferma (se presente)
+    if (localStorage.getItem('pendingOrderAfterAuth')) {
+      const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
+      const orderEmail = localStorage.getItem('checkoutEmail') || '';
+      const emailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
+      localStorage.removeItem('pendingOrderAfterAuth');
+      localStorage.removeItem('pendingOrder');
+      localStorage.removeItem('checkoutEmail');
+      localStorage.removeItem('checkoutEmailDocumenti');
+      await fetch('/api/process-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orders, email: orderEmail, emailDocumenti }),
+      });
+    }
+
+    router.push('/dashboard');
+    router.refresh();
   };
 
   return (
@@ -51,13 +108,17 @@ export default function RegistrationPage() {
             <h1 className="text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
               Crea il tuo account
             </h1>
-            <p className="text-[#44474e]">
-              Inizia oggi a utilizzare gli strumenti di Prospettiva.io.
-            </p>
+            <p className="text-[#44474e]">Inizia oggi a utilizzare gli strumenti di Prospettiva.io.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Account Type Selection */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
+            {/* Account Type */}
             <section>
               <h2 className="text-xs font-bold text-[#002147] uppercase tracking-widest mb-4 text-center">
                 Seleziona il tipo di account
@@ -67,9 +128,7 @@ export default function RegistrationPage() {
                   type="button"
                   onClick={() => setAccountType('professionista')}
                   className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
-                    accountType === 'professionista'
-                      ? 'border-[#002147] bg-[#002147]/5'
-                      : 'border-slate-200 hover:border-[#002147]/30'
+                    accountType === 'professionista' ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
                   }`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
@@ -84,9 +143,7 @@ export default function RegistrationPage() {
                   type="button"
                   onClick={() => setAccountType('privato')}
                   className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
-                    accountType === 'privato'
-                      ? 'border-[#002147] bg-[#002147]/5'
-                      : 'border-slate-200 hover:border-[#002147]/30'
+                    accountType === 'privato' ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
                   }`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
@@ -99,13 +156,12 @@ export default function RegistrationPage() {
               </div>
             </section>
 
-            {/* Personal Data */}
+            {/* Dati Personali */}
             <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">1</div>
                 <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h3>
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Nome</label>
@@ -116,14 +172,12 @@ export default function RegistrationPage() {
                   <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} placeholder="Verdi" required />
                 </div>
               </div>
-
               <div>
                 <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">
                   Email {accountType === 'professionista' ? 'Professionale' : ''}
                 </label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="giuseppe.verdi@email.it" required />
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Password</label>
@@ -136,19 +190,17 @@ export default function RegistrationPage() {
               </div>
             </section>
 
-            {/* Professional Data */}
+            {/* Dati Professionali */}
             {accountType === 'professionista' && (
               <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Professionali</h3>
                 </div>
-
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale</label>
                   <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Studio Immobiliare Verdi S.r.l." />
                 </div>
-
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA</label>
@@ -168,12 +220,10 @@ export default function RegistrationPage() {
                     </div>
                   </div>
                 </div>
-
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI / PEC (Opzionale)</label>
                   <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="Codice SDI o indirizzo PEC" />
                 </div>
-
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Sito Web (Opzionale)</label>
                   <input type="url" name="sito" value={formData.sito} onChange={handleChange} placeholder="https://www.studioverdi.it" />
@@ -181,7 +231,7 @@ export default function RegistrationPage() {
               </section>
             )}
 
-            {/* Terms */}
+            {/* Termini */}
             <section className="bg-slate-50 rounded-xl p-6 space-y-4">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -189,13 +239,11 @@ export default function RegistrationPage() {
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
                   className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#002147] focus:ring-[#002147]"
-                  required
                 />
                 <span className="text-xs text-[#44474e]">
                   Accetto i <a href="#" className="text-[#002147] font-bold hover:underline">Termini e Condizioni</a> e la <a href="#" className="text-[#002147] font-bold hover:underline">Privacy Policy</a>.
                 </span>
               </label>
-
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -213,22 +261,19 @@ export default function RegistrationPage() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full bg-[#4463ee] text-white font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg"
+                disabled={loading}
+                className="w-full bg-[#4463ee] text-white font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg disabled:opacity-60"
               >
-                Crea il mio account
+                {loading ? 'Creazione account…' : 'Crea il mio account'}
               </button>
-
               <p className="text-center text-[#44474e] text-xs mt-6">
-                Hai gia un account?{' '}
-                <Link href="/login" className="text-[#002147] font-bold hover:underline">
-                  Accedi qui
-                </Link>
+                Hai già un account?{' '}
+                <Link href="/login" className="text-[#002147] font-bold hover:underline">Accedi qui</Link>
               </p>
             </div>
           </form>
         </div>
       </main>
-
     </div>
   );
 }

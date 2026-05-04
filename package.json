@@ -12,6 +12,8 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^6.2.0",
     "@stripe/stripe-js": "^9.2.0",
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.105.1",
     "@types/pdfkit": "^0.17.6",
     "next": "16.2.2",
     "pdfkit": "^0.18.0",
