@@ -182,9 +182,7 @@ export default function RegistrationPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">
-                  Email {accountType === 'professionista' ? 'Professionale' : ''}
-                </label>
+                <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Email</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="giuseppe.verdi@email.it" required />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -278,7 +276,7 @@ export default function RegistrationPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI / PEC (Opzionale)</label>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI / PEC</label>
                   <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="Codice SDI o indirizzo PEC" />
                 </div>
                 <div>
