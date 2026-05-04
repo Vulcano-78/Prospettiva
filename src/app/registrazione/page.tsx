@@ -88,6 +88,17 @@ export default function RegistrationPage() {
       return;
     }
 
+    // Auto-login dopo registrazione (la sessione non è attiva automaticamente se la conferma email è abilitata)
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+    if (signInError) {
+      setError('Account creato. Controlla la tua email per confermare, poi accedi.');
+      setLoading(false);
+      return;
+    }
+
     // Processa ordine pendente dalla pagina conferma (se presente)
     if (localStorage.getItem('pendingOrderAfterAuth')) {
       const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
