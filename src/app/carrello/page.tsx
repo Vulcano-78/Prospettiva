@@ -571,16 +571,6 @@ export default function CartPage() {
               })}
             </form>
 
-            <div className="flex justify-center">
-              <button
-                type="button"
-                onClick={clearCart}
-                className="text-[#44474e] hover:text-[#ba1a1a] text-sm font-medium transition-colors cursor-pointer"
-              >
-                Svuota carrello
-              </button>
-            </div>
-
             <div className="mt-2 flex flex-col items-center gap-3">
               <button
                 type="submit"
@@ -589,6 +579,13 @@ export default function CartPage() {
               >
                 <span>Continua</span>
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </button>
+              <button
+                type="button"
+                onClick={clearCart}
+                className="text-[#44474e] hover:text-[#ba1a1a] text-sm font-medium transition-colors cursor-pointer"
+              >
+                Svuota carrello
               </button>
             </div>
           </div>
