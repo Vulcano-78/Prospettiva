@@ -16,6 +16,7 @@ export default function CheckoutDataPage() {
   const { items, getSubtotal, getIVA, getTotal } = useCart();
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
+  const [richiedifattura, setRichiedifattura] = useState(false);
   const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
   const [emailDocumentiManuallyEdited, setEmailDocumentiManuallyEdited] = useState(false);
   const [formData, setFormData] = useState({
@@ -141,7 +142,7 @@ export default function CheckoutDataPage() {
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
-                  Dati per la fatturazione
+                  {accountType === 'privato' ? 'Dati per il pagamento' : 'Dati per la fatturazione'}
                 </h2>
 
                 <div className="mb-6">
@@ -175,7 +176,15 @@ export default function CheckoutDataPage() {
                       <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} className="w-full" placeholder="Rossi" required />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Indirizzo *</label>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
+                    </div>
+
+                    {/* Campi opzionali — obbligatori solo se richiedi fattura */}
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                        Indirizzo {richiedifattura ? '*' : '(opzionale)'}
+                      </label>
                       <AddressAutocomplete
                         value={formData.indirizzo}
                         onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
@@ -189,28 +198,49 @@ export default function CheckoutDataPage() {
                           }));
                         }}
                         placeholder="Inizia a digitare l'indirizzo..."
-                        required
+                        required={richiedifattura}
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Comune *</label>
-                      <input type="text" name="citta" value={formData.citta} onChange={handleChange} className="w-full" placeholder="Roma" required />
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                        Comune {richiedifattura ? '*' : '(opzionale)'}
+                      </label>
+                      <input type="text" name="citta" value={formData.citta} onChange={handleChange} className="w-full" placeholder="Roma" required={richiedifattura} />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">CAP *</label>
-                      <input type="text" name="cap" value={formData.cap} onChange={handleChange} className="w-full" placeholder="00100" required />
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                        CAP {richiedifattura ? '*' : '(opzionale)'}
+                      </label>
+                      <input type="text" name="cap" value={formData.cap} onChange={handleChange} className="w-full" placeholder="00100" required={richiedifattura} />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Provincia *</label>
-                      <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} className="w-full" placeholder="RM" required />
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                        Provincia {richiedifattura ? '*' : '(opzionale)'}
+                      </label>
+                      <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} className="w-full" placeholder="RM" required={richiedifattura} />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
-                      <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required />
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
+                        Codice Fiscale {richiedifattura ? '*' : '(opzionale)'}
+                      </label>
+                      <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required={richiedifattura} />
                     </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Email *</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
+
+                    {/* Toggle richiedi fattura */}
+                    <div className="md:col-span-2 pt-2 border-t border-slate-100">
+                      <label className="flex items-center justify-between cursor-pointer">
+                        <div>
+                          <p className="text-sm font-semibold text-[#002147]">Richiedi fattura</p>
+                          <p className="text-xs text-slate-400">Inserisci indirizzo e codice fiscale per ricevere la fattura</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setRichiedifattura(v => !v)}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${richiedifattura ? 'bg-[#4463ee]' : 'bg-slate-200'}`}
+                        >
+                          <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${richiedifattura ? 'translate-x-6' : 'translate-x-1'}`} />
+                        </button>
+                      </label>
                     </div>
                   </div>
                 )}
