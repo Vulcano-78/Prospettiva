@@ -177,18 +177,24 @@ export async function POST(request: NextRequest) {
 
     const orderRef = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`
 
+    let saved = false
     if (userId) {
-      await supabase.from('orders').insert({
+      const { error: insertError } = await supabase.from('orders').insert({
         order_ref: orderRef,
         email: user!.email!,
         user_id: userId,
         items: orders,
       })
+      if (insertError) {
+        console.error('[process-order] insert failed:', insertError.message, insertError.code)
+      } else {
+        saved = true
+      }
     }
 
     after(() => fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef))
 
-    return NextResponse.json({ orderRef, saved: !!userId })
+    return NextResponse.json({ orderRef, saved })
   } catch {
     return NextResponse.json({ error: 'Errore interno' }, { status: 500 })
   }
