@@ -44,15 +44,15 @@ function buildVisuraPayload(
   }
 }
 
-function post(url: string, payload: unknown) {
-  fetch(url, {
+function post(url: string, payload: unknown): Promise<void> {
+  return fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
-  }).catch(() => {})
+  }).then(() => {}).catch(() => {})
 }
 
-function fireWebhooks(
+async function fireWebhooks(
   orders: OrderItem[],
   email: string,
   emailDocumenti: string,
@@ -66,11 +66,13 @@ function fireWebhooks(
     'ricerca-indirizzo': 'ricerca_indirizzo',
   }
 
+  const promises: Promise<void>[] = []
+
   for (const order of orders) {
     const fd = order.formData
     const base: Record<string, string> = userId
       ? { user_id: userId, order_ref: orderRef }
-      : {}
+      : { order_ref: orderRef }
 
     if (order.slug === 'estratto-mappa') {
       const payload: Record<string, string> = {
@@ -82,7 +84,7 @@ function fireWebhooks(
         ...base,
       }
       if (fd.sezione) payload.sezione = fd.sezione
-      post('https://n8n.vulcano.tools/webhook-test/estratto-mappa', payload)
+      promises.push(post('https://n8n.vulcano.tools/webhook-test/estratto-mappa', payload))
     }
 
     if (order.slug === 'elaborato-planimetrico') {
@@ -95,7 +97,7 @@ function fireWebhooks(
         ...base,
       }
       if (fd.sezione) payload.sezione = fd.sezione
-      post('https://n8n.vulcano.tools/webhook/elaborato-planimetrico', payload)
+      promises.push(post('https://n8n.vulcano.tools/webhook/elaborato-planimetrico', payload))
     }
 
     if (order.slug in slugToTipoServizio) {
@@ -109,7 +111,7 @@ function fireWebhooks(
       if (fd.subalterno) payload.subalterno = fd.subalterno
       if (fd.cf_piva) payload.cf_piva = fd.cf_piva
       if (fd.indirizzo) payload.indirizzo = fd.indirizzo
-      post('https://n8n.vulcano.tools/webhook/richiesta-catastale', payload)
+      promises.push(post('https://n8n.vulcano.tools/webhook/richiesta-catastale', payload))
     }
 
     if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
@@ -118,15 +120,15 @@ function fireWebhooks(
       const url = searchType === 'soggetto' || searchType === 'soggetto-giuridico'
         ? 'https://n8n.vulcano.tools/webhook-test/visura-catastale-soggetto'
         : 'https://n8n.vulcano.tools/webhook-test/visura-catastale'
-      post(url, payload)
+      promises.push(post(url, payload))
     }
 
     if (order.slug === 'ispezione-ipotecaria-nazionale') {
-      post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria', {
+      promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria', {
         cf_piva: fd.cf_piva || '',
         email,
         ...base,
-      })
+      }))
     }
 
     if (order.slug === 'elenco-note-ipotecarie') {
@@ -145,18 +147,20 @@ function fireWebhooks(
         if (fd.subalterno) payload.subalterno = Number(fd.subalterno)
         if (fd.sezione) payload.sezione = fd.sezione
         if (fd.sezione_urbana) payload.sezione_urbana = fd.sezione_urbana
-        post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', payload)
+        promises.push(post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', payload))
       } else {
-        post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', {
+        promises.push(post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', {
           entita: 'ispezione_soggetto',
           conservatoria: fd.conservatoria || '',
           cf_piva: fd.cf_piva || '',
           email,
           ...base,
-        })
+        }))
       }
     }
   }
+
+  await Promise.all(promises)
 }
 
 export async function POST(request: NextRequest) {
@@ -182,7 +186,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
+    await fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
 
     return NextResponse.json({ orderRef, saved: !!userId })
   } catch {
