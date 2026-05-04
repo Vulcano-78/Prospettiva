@@ -7,7 +7,8 @@ function buildVisuraPayload(
   order: OrderItem,
   email: string,
   emailDocumenti: string | undefined,
-  userId: string | null
+  userId: string | null,
+  orderRef: string
 ) {
   const fd = order.formData
   const searchType = fd._searchType || 'immobile'
@@ -17,6 +18,7 @@ function buildVisuraPayload(
     tipo_visura: tipoVisura,
     tipo_dettaglio: fd.tipo_dettaglio || 'sintetica',
     email,
+    order_ref: orderRef,
   }
   if (emailDocumenti) base.email_documenti = emailDocumenti
   if (userId) base.user_id = userId
@@ -111,7 +113,7 @@ function fireWebhooks(
     }
 
     if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
-      const payload = buildVisuraPayload(order, email, emailDocumenti || undefined, userId)
+      const payload = buildVisuraPayload(order, email, emailDocumenti || undefined, userId, orderRef)
       const searchType = fd._searchType || 'immobile'
       const url = searchType === 'soggetto' || searchType === 'soggetto-giuridico'
         ? 'https://n8n.vulcano.tools/webhook-test/visura-catastale-soggetto'
