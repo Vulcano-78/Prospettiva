@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ProgressBar from '@/components/ProgressBar';
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
+import { createClient } from '@/lib/supabase/client';
 
 type AccountType = 'privato' | 'impresa' | 'professionista';
 
@@ -37,6 +38,29 @@ export default function CheckoutDataPage() {
     sedeLegaleComune: '',
     sedeLegaleProvincia: '',
   });
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      const meta = user.user_metadata ?? {};
+      const email = user.email ?? '';
+      const accountT: AccountType =
+        meta.account_type === 'professionista' ? 'professionista' : 'privato';
+      setAccountType(accountT);
+      setFormData(prev => ({
+        ...prev,
+        nome: meta.nome ?? prev.nome,
+        cognome: meta.cognome ?? prev.cognome,
+        email,
+        emailDocumenti: email,
+        ragioneSociale: meta.ragione_sociale ?? prev.ragioneSociale,
+        partitaIva: meta.partita_iva ?? prev.partitaIva,
+        codiceFiscale: meta.partita_iva ?? prev.codiceFiscale,
+        codiceDestinatario: meta.codice_sdi ?? prev.codiceDestinatario,
+      }));
+    });
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
