@@ -232,7 +232,7 @@ export default function DashboardPage() {
                             {ready ? 'Pronto' : 'In elaborazione'}
                           </span>
                         </div>
-                        <div>
+                        <div className="flex items-center gap-2">
                           {ready ? (
                             <button
                               onClick={async () => {
@@ -242,7 +242,7 @@ export default function DashboardPage() {
                                   .createSignedUrl(order.file_url!, 3600)
                                 if (data?.signedUrl) window.open(data.signedUrl, '_blank')
                               }}
-                              className="p-2 rounded-lg bg-slate-100 text-[#002147] hover:bg-[#002147] hover:text-white transition-colors block"
+                              className="p-2 rounded-lg bg-slate-100 text-[#002147] hover:bg-[#002147] hover:text-white transition-colors"
                             >
                               <span className="material-symbols-outlined">download</span>
                             </button>
@@ -251,6 +251,20 @@ export default function DashboardPage() {
                               <span className="material-symbols-outlined">download</span>
                             </div>
                           )}
+                          <button
+                            onClick={async () => {
+                              if (!confirm('Sei sicuro di voler eliminare questo ordine?')) return
+                              const supabase = createClient()
+                              if (order.file_url) {
+                                await supabase.storage.from('documenti').remove([order.file_url])
+                              }
+                              await supabase.from('orders').delete().eq('id', order.id)
+                              setOrders(prev => prev.filter(o => o.id !== order.id))
+                            }}
+                            className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                          >
+                            <span className="material-symbols-outlined">delete</span>
+                          </button>
                         </div>
                       </div>
                     </div>
