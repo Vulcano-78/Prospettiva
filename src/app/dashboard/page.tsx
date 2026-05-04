@@ -51,6 +51,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState<'documenti' | 'profilo'>('documenti');
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -137,14 +138,20 @@ export default function DashboardPage() {
           </div>
 
           <nav className="flex-1 space-y-1">
-            <a href="#documenti" className="flex items-center gap-3 px-4 py-3 text-[#002147] font-semibold bg-white shadow-sm rounded-xl border-r-2 border-[#4463ee]">
+            <button
+              onClick={() => setActiveSection('documenti')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'documenti' ? 'text-[#002147] font-semibold bg-white shadow-sm border-r-2 border-[#4463ee]' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-slate-100'}`}
+            >
               <span className="material-symbols-outlined">description</span>
               <span className="text-sm font-semibold">Documenti</span>
-            </a>
-            <a href="#profilo" className="flex items-center gap-3 px-4 py-3 text-slate-500 font-medium hover:text-[#002147] hover:bg-slate-100 rounded-xl transition-colors">
+            </button>
+            <button
+              onClick={() => setActiveSection('profilo')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'profilo' ? 'text-[#002147] font-semibold bg-white shadow-sm border-r-2 border-[#4463ee]' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-slate-100'}`}
+            >
               <span className="material-symbols-outlined">person</span>
               <span className="text-sm font-semibold">Dati Personali</span>
-            </a>
+            </button>
           </nav>
 
           <div className="mt-auto pt-6 border-t border-slate-100 space-y-1">
@@ -165,7 +172,7 @@ export default function DashboardPage() {
         <main className="flex-1 p-6 md:p-10 max-w-5xl">
 
           {/* Documenti */}
-          <section id="documenti" className="mb-12">
+          {activeSection === 'documenti' && <section className="mb-12">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
                 <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
@@ -272,10 +279,10 @@ export default function DashboardPage() {
                 })}
               </div>
             )}
-          </section>
+          </section>}
 
           {/* Dati Personali */}
-          <section id="profilo" className="bg-white rounded-xl p-6 border border-slate-100">
+          {activeSection === 'profilo' && <section className="bg-white rounded-xl p-6 border border-slate-100">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h2>
               {!editing ? (
@@ -482,7 +489,7 @@ export default function DashboardPage() {
                 )}
               </div>
             )}
-          </section>
+          </section>}
 
         </main>
       </div>
