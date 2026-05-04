@@ -47,7 +47,9 @@ export default function CheckoutDataPage() {
       const meta = user.user_metadata ?? {};
       const email = user.email ?? '';
       const registeredType: AccountType =
-        meta.account_type === 'professionista' ? 'professionista' : 'privato';
+        meta.account_type === 'impresa' ? 'impresa'
+        : meta.account_type === 'professionista' ? 'professionista'
+        : 'privato';
       setAccountType(registeredType);
 
       // Prefill solo i campi del tipo con cui l'utente si è registrato.
@@ -59,7 +61,7 @@ export default function CheckoutDataPage() {
         emailDocumenti: email,
       };
 
-      if (registeredType === 'professionista') {
+      if (registeredType === 'professionista' || registeredType === 'impresa') {
         setFormData(prev => ({
           ...prev,
           ...base,

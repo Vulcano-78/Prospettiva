@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import AddressAutocomplete from '@/components/AddressAutocomplete';
 
-type AccountType = 'professionista' | 'privato';
+type AccountType = 'professionista' | 'privato' | 'impresa';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -22,7 +22,6 @@ export default function RegistrationPage() {
     ruolo: '',
     codiceSdi: '',
     pec: '',
-    sito: '',
     indirizzo: '',
     citta: '',
     cap: '',
@@ -70,7 +69,6 @@ export default function RegistrationPage() {
           ruolo: formData.ruolo,
           codice_sdi: formData.codiceSdi,
           pec: formData.pec,
-          sito: formData.sito,
           marketing: acceptMarketing,
           indirizzo: formData.indirizzo,
           citta: formData.citta,
@@ -90,7 +88,6 @@ export default function RegistrationPage() {
       return;
     }
 
-    // Auto-login dopo registrazione (la sessione non è attiva automaticamente se la conferma email è abilitata)
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
@@ -101,7 +98,6 @@ export default function RegistrationPage() {
       return;
     }
 
-    // Processa ordine pendente dalla pagina conferma (se presente)
     if (localStorage.getItem('pendingOrderAfterAuth')) {
       const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
       const orderEmail = localStorage.getItem('checkoutEmail') || '';
@@ -120,6 +116,12 @@ export default function RegistrationPage() {
     router.push('/');
     router.refresh();
   };
+
+  const accountTypes = [
+    { value: 'professionista' as const, label: 'Professionista', icon: 'corporate_fare' },
+    { value: 'impresa' as const, label: 'Impresa', icon: 'business' },
+    { value: 'privato' as const, label: 'Privato', icon: 'home' },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
@@ -145,36 +147,24 @@ export default function RegistrationPage() {
               <h2 className="text-xs font-bold text-[#002147] uppercase tracking-widest mb-4 text-center">
                 Seleziona il tipo di account
               </h2>
-              <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
-                <button
-                  type="button"
-                  onClick={() => setAccountType('professionista')}
-                  className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
-                    accountType === 'professionista' ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                    accountType === 'professionista' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-400'
-                  }`}>
-                    <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>corporate_fare</span>
-                  </div>
-                  <span className="text-sm font-semibold text-[#002147]">Professionista</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setAccountType('privato')}
-                  className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
-                    accountType === 'privato' ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                    accountType === 'privato' ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-400'
-                  }`}>
-                    <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
-                  </div>
-                  <span className="text-sm font-semibold text-[#002147]">Privato</span>
-                </button>
+              <div className="grid grid-cols-3 gap-3">
+                {accountTypes.map(opt => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setAccountType(opt.value)}
+                    className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
+                      accountType === opt.value ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                      accountType === opt.value ? 'bg-[#002147] text-white' : 'bg-slate-100 text-slate-400'
+                    }`}>
+                      <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{opt.icon}</span>
+                    </div>
+                    <span className="text-sm font-semibold text-[#002147]">{opt.label}</span>
+                  </button>
+                ))}
               </div>
             </section>
 
@@ -258,6 +248,64 @@ export default function RegistrationPage() {
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
                     <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Dati Aziendali (Impresa) */}
+            {accountType === 'impresa' && (
+              <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
+                  <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Aziendali</h3>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Denominazione / Ragione Sociale *</label>
+                  <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Rossi S.r.l." required />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
+                    <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
+                    <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                  <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="azienda@pec.it" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo Sede Legale *</label>
+                  <AddressAutocomplete
+                    value={formData.indirizzo}
+                    onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
+                    onSelect={(s) => setFormData(prev => ({
+                      ...prev,
+                      indirizzo: s.address,
+                      citta: s.city,
+                      cap: s.postcode,
+                      provincia: s.region || prev.provincia,
+                    }))}
+                    placeholder="Inizia a digitare l'indirizzo..."
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-1">
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
+                    <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
+                    <input type="text" name="cap" value={formData.cap} onChange={handleChange} placeholder="00100" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
+                    <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} placeholder="RM" required />
                   </div>
                 </div>
               </section>
