@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import AddressAutocomplete from '@/components/AddressAutocomplete';
 import type { User } from '@supabase/supabase-js';
 
 type Order = {
@@ -51,6 +52,11 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [editData, setEditData] = useState<Record<string, string>>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -58,6 +64,20 @@ export default function DashboardPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) { router.push('/login'); return; }
       setUser(user);
+      const m = user.user_metadata ?? {};
+      setEditData({
+        nome: m.nome ?? '',
+        cognome: m.cognome ?? '',
+        indirizzo: m.indirizzo ?? '',
+        citta: m.citta ?? '',
+        cap: m.cap ?? '',
+        provincia: m.provincia ?? '',
+        ragione_sociale: m.ragione_sociale ?? '',
+        partita_iva: m.partita_iva ?? '',
+        codice_sdi: m.codice_sdi ?? '',
+        ruolo: m.ruolo ?? '',
+        sito: m.sito ?? '',
+      });
 
       supabase
         .from('orders')
@@ -70,6 +90,20 @@ export default function DashboardPage() {
         });
     });
   }, [router]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSaveError('');
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.updateUser({ data: editData });
+    if (error) {
+      setSaveError('Errore nel salvataggio. Riprova.');
+    } else {
+      setUser(data.user);
+      setEditing(false);
+    }
+    setSaving(false);
+  };
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -228,41 +262,227 @@ export default function DashboardPage() {
 
           {/* Dati Personali */}
           <section id="profilo" className="bg-white rounded-xl p-6 border border-slate-100">
-            <h2 className="text-lg font-extrabold text-[#002147] mb-6" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h2>
-            <div className="grid grid-cols-2 gap-y-5 gap-x-8">
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Nome e Cognome</p>
-                <p className="font-semibold text-[#002147]">{nomeCompleto}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Email</p>
-                <p className="font-semibold text-[#002147]">{user?.email ?? '—'}</p>
-              </div>
-              {meta.account_type && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Tipo Account</p>
-                  <p className="font-semibold text-[#002147] capitalize">{meta.account_type}</p>
-                </div>
-              )}
-              {meta.ragione_sociale && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
-                  <p className="font-semibold text-[#002147]">{meta.ragione_sociale}</p>
-                </div>
-              )}
-              {meta.partita_iva && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
-                  <p className="font-semibold text-[#002147]">{meta.partita_iva}</p>
-                </div>
-              )}
-              {meta.ruolo && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ruolo</p>
-                  <p className="font-semibold text-[#002147]">{meta.ruolo}</p>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h2>
+              {!editing ? (
+                <button
+                  onClick={() => setEditing(true)}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#4463ee] border border-[#4463ee] rounded-lg hover:bg-[#4463ee] hover:text-white transition-colors"
+                >
+                  <span className="material-symbols-outlined text-base">edit</span>
+                  Modifica
+                </button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setEditing(false)}
+                    className="px-4 py-2 text-sm font-semibold text-slate-500 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    Annulla
+                  </button>
+                  <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[#4463ee] text-white rounded-lg hover:brightness-110 transition-all disabled:opacity-60"
+                  >
+                    {saving ? 'Salvataggio…' : 'Salva'}
+                  </button>
                 </div>
               )}
             </div>
+
+            {saveError && (
+              <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg">{saveError}</div>
+            )}
+
+            {editing ? (
+              <form ref={formRef} className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Nome</label>
+                    <input
+                      type="text"
+                      value={editData.nome}
+                      onChange={e => setEditData(p => ({ ...p, nome: e.target.value }))}
+                      placeholder="Giuseppe"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Cognome</label>
+                    <input
+                      type="text"
+                      value={editData.cognome}
+                      onChange={e => setEditData(p => ({ ...p, cognome: e.target.value }))}
+                      placeholder="Verdi"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Indirizzo</label>
+                  <AddressAutocomplete
+                    value={editData.indirizzo}
+                    onChange={val => setEditData(p => ({ ...p, indirizzo: val }))}
+                    onSelect={s => setEditData(p => ({
+                      ...p,
+                      indirizzo: s.address,
+                      citta: s.city,
+                      cap: s.postcode,
+                      provincia: s.region || p.provincia,
+                    }))}
+                    placeholder="Inizia a digitare l'indirizzo…"
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-1">
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Comune</label>
+                    <input
+                      type="text"
+                      value={editData.citta}
+                      onChange={e => setEditData(p => ({ ...p, citta: e.target.value }))}
+                      placeholder="Roma"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">CAP</label>
+                    <input
+                      type="text"
+                      value={editData.cap}
+                      onChange={e => setEditData(p => ({ ...p, cap: e.target.value }))}
+                      placeholder="00100"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Provincia</label>
+                    <input
+                      type="text"
+                      value={editData.provincia}
+                      onChange={e => setEditData(p => ({ ...p, provincia: e.target.value }))}
+                      placeholder="RM"
+                    />
+                  </div>
+                </div>
+                {meta.account_type === 'professionista' && (
+                  <>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ragione Sociale</label>
+                      <input
+                        type="text"
+                        value={editData.ragione_sociale}
+                        onChange={e => setEditData(p => ({ ...p, ragione_sociale: e.target.value }))}
+                        placeholder="Studio Verdi S.r.l."
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Partita IVA</label>
+                        <input
+                          type="text"
+                          value={editData.partita_iva}
+                          onChange={e => setEditData(p => ({ ...p, partita_iva: e.target.value }))}
+                          placeholder="11 cifre"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Codice SDI / PEC</label>
+                        <input
+                          type="text"
+                          value={editData.codice_sdi}
+                          onChange={e => setEditData(p => ({ ...p, codice_sdi: e.target.value }))}
+                          placeholder="Codice SDI o PEC"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ruolo</label>
+                        <div className="relative">
+                          <select
+                            value={editData.ruolo}
+                            onChange={e => setEditData(p => ({ ...p, ruolo: e.target.value }))}
+                            className="appearance-none"
+                          >
+                            <option value="">Seleziona ruolo</option>
+                            <option>Agente Immobiliare</option>
+                            <option>Mediatore Immobiliare</option>
+                            <option>Sviluppatore Immobiliare</option>
+                            <option>Costruttore / Developer</option>
+                            <option>Architetto / Ingegnere</option>
+                            <option>Geometra</option>
+                            <option>Notaio</option>
+                            <option>Avvocato Immobiliarista</option>
+                            <option>Consulente Finanziario / Mutui</option>
+                            <option>Investitore Immobiliare</option>
+                            <option>Property Manager</option>
+                            <option>Amministratore di Condominio</option>
+                            <option>Perito / Valutatore Immobiliare</option>
+                            <option>Altro</option>
+                          </select>
+                          <span className="material-symbols-outlined absolute right-4 top-3 pointer-events-none text-slate-400">expand_more</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Sito Web</label>
+                        <input
+                          type="url"
+                          value={editData.sito}
+                          onChange={e => setEditData(p => ({ ...p, sito: e.target.value }))}
+                          placeholder="https://www.studio.it"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </form>
+            ) : (
+              <div className="grid grid-cols-2 gap-y-5 gap-x-8">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Nome e Cognome</p>
+                  <p className="font-semibold text-[#002147]">{nomeCompleto}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Email</p>
+                  <p className="font-semibold text-[#002147]">{user?.email ?? '—'}</p>
+                </div>
+                {(meta.indirizzo || meta.citta) && (
+                  <div className="col-span-2">
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Indirizzo</p>
+                    <p className="font-semibold text-[#002147]">
+                      {[meta.indirizzo, meta.citta, meta.cap, meta.provincia].filter(Boolean).join(', ')}
+                    </p>
+                  </div>
+                )}
+                {meta.account_type && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Tipo Account</p>
+                    <p className="font-semibold text-[#002147] capitalize">{meta.account_type}</p>
+                  </div>
+                )}
+                {meta.ragione_sociale && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
+                    <p className="font-semibold text-[#002147]">{meta.ragione_sociale}</p>
+                  </div>
+                )}
+                {meta.partita_iva && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
+                    <p className="font-semibold text-[#002147]">{meta.partita_iva}</p>
+                  </div>
+                )}
+                {meta.ruolo && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ruolo</p>
+                    <p className="font-semibold text-[#002147]">{meta.ruolo}</p>
+                  </div>
+                )}
+                {meta.sito && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Sito Web</p>
+                    <p className="font-semibold text-[#002147]">{meta.sito}</p>
+                  </div>
+                )}
+              </div>
+            )}
           </section>
 
         </main>

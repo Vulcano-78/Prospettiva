@@ -19,7 +19,7 @@ export default function RegistrationPage() {
     confirmPassword: '',
     ragioneSociale: '',
     partitaIva: '',
-    ruolo: 'Agente Immobiliare',
+    ruolo: '',
     codiceSdi: '',
     sito: '',
     indirizzo: '',
@@ -257,10 +257,20 @@ export default function RegistrationPage() {
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ruolo</label>
                     <div className="relative">
                       <select name="ruolo" value={formData.ruolo} onChange={handleChange} className="appearance-none">
+                        <option value="">Seleziona ruolo</option>
                         <option>Agente Immobiliare</option>
-                        <option>Architetto / Ingegnere</option>
-                        <option>Consulente Finanziario</option>
+                        <option>Mediatore Immobiliare</option>
                         <option>Sviluppatore Immobiliare</option>
+                        <option>Costruttore / Developer</option>
+                        <option>Architetto / Ingegnere</option>
+                        <option>Geometra</option>
+                        <option>Notaio</option>
+                        <option>Avvocato Immobiliarista</option>
+                        <option>Consulente Finanziario / Mutui</option>
+                        <option>Investitore Immobiliare</option>
+                        <option>Property Manager</option>
+                        <option>Amministratore di Condominio</option>
+                        <option>Perito / Valutatore Immobiliare</option>
                         <option>Altro</option>
                       </select>
                       <span className="material-symbols-outlined absolute right-4 top-3 pointer-events-none text-slate-400">expand_more</span>
