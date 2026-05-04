@@ -245,13 +245,13 @@ export default function RegistrationPage() {
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Professionali</h3>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale</label>
-                  <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Studio Immobiliare Verdi S.r.l." />
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale *</label>
+                  <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Studio Immobiliare Verdi S.r.l." required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA</label>
-                    <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" />
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
+                    <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ruolo</label>
