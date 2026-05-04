@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, after } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 type OrderItem = { slug: string; formData: Record<string, string> }
@@ -186,7 +186,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    await fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
+    after(() => fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef))
 
     return NextResponse.json({ orderRef, saved: !!userId })
   } catch {
