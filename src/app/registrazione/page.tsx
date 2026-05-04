@@ -250,6 +250,36 @@ export default function RegistrationPage() {
                     <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
                   </div>
                 </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo *</label>
+                  <AddressAutocomplete
+                    value={formData.indirizzo}
+                    onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
+                    onSelect={(s) => setFormData(prev => ({
+                      ...prev,
+                      indirizzo: s.address,
+                      citta: s.city,
+                      cap: s.postcode,
+                      provincia: s.region || prev.provincia,
+                    }))}
+                    placeholder="Inizia a digitare l'indirizzo..."
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-1">
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
+                    <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
+                    <input type="text" name="cap" value={formData.cap} onChange={handleChange} placeholder="00100" required />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
+                    <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} placeholder="RM" required />
+                  </div>
+                </div>
               </section>
             )}
 
