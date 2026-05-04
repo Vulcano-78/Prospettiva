@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import AddressAutocomplete from '@/components/AddressAutocomplete';
 
 type AccountType = 'professionista' | 'privato';
 
@@ -21,6 +22,10 @@ export default function RegistrationPage() {
     ruolo: 'Agente Immobiliare',
     codiceSdi: '',
     sito: '',
+    indirizzo: '',
+    citta: '',
+    cap: '',
+    provincia: '',
   });
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(false);
@@ -65,6 +70,10 @@ export default function RegistrationPage() {
           codice_sdi: formData.codiceSdi,
           sito: formData.sito,
           marketing: acceptMarketing,
+          indirizzo: formData.indirizzo,
+          citta: formData.citta,
+          cap: formData.cap,
+          provincia: formData.provincia,
         },
       },
     });
@@ -190,11 +199,49 @@ export default function RegistrationPage() {
               </div>
             </section>
 
+            {/* Indirizzo */}
+            <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
+                <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Indirizzo</h3>
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo *</label>
+                <AddressAutocomplete
+                  value={formData.indirizzo}
+                  onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
+                  onSelect={(s) => setFormData(prev => ({
+                    ...prev,
+                    indirizzo: s.address,
+                    citta: s.city,
+                    cap: s.postcode,
+                    provincia: s.region || prev.provincia,
+                  }))}
+                  placeholder="Inizia a digitare l'indirizzo..."
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
+                  <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
+                  <input type="text" name="cap" value={formData.cap} onChange={handleChange} placeholder="00100" required />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
+                  <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} placeholder="RM" required />
+                </div>
+              </div>
+            </section>
+
             {/* Dati Professionali */}
             {accountType === 'professionista' && (
               <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
+                  <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">3</div>
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Professionali</h3>
                 </div>
                 <div>

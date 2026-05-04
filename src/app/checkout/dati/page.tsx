@@ -58,6 +58,16 @@ export default function CheckoutDataPage() {
         partitaIva: meta.partita_iva ?? prev.partitaIva,
         codiceFiscale: meta.partita_iva ?? prev.codiceFiscale,
         codiceDestinatario: meta.codice_sdi ?? prev.codiceDestinatario,
+        // Indirizzo per privato
+        indirizzo: meta.indirizzo ?? prev.indirizzo,
+        citta: meta.citta ?? prev.citta,
+        cap: meta.cap ?? prev.cap,
+        provincia: meta.provincia ?? prev.provincia,
+        // Sede legale per professionista/impresa
+        sedeLegaleIndirizzo: meta.indirizzo ?? prev.sedeLegaleIndirizzo,
+        sedeLegaleComune: meta.citta ?? prev.sedeLegaleComune,
+        sedeLegaleCap: meta.cap ?? prev.sedeLegaleCap,
+        sedeLegaleProvincia: meta.provincia ?? prev.sedeLegaleProvincia,
       }));
     });
   }, []);
