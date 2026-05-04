@@ -173,8 +173,6 @@ export async function POST(request: NextRequest) {
 
     const orderRef = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`
 
-    fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
-
     if (userId) {
       await supabase.from('orders').insert({
         order_ref: orderRef,
@@ -183,6 +181,8 @@ export async function POST(request: NextRequest) {
         items: orders,
       })
     }
+
+    fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
 
     return NextResponse.json({ orderRef, saved: !!userId })
   } catch {
