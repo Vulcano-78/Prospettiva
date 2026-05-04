@@ -54,7 +54,8 @@ function fireWebhooks(
   orders: OrderItem[],
   email: string,
   emailDocumenti: string,
-  userId: string | null
+  userId: string | null,
+  orderRef: string
 ) {
   const slugToTipoServizio: Record<string, string> = {
     'prospetto-catastale': 'prospetto_catastale',
@@ -65,7 +66,9 @@ function fireWebhooks(
 
   for (const order of orders) {
     const fd = order.formData
-    const base: Record<string, string> = userId ? { user_id: userId } : {}
+    const base: Record<string, string> = userId
+      ? { user_id: userId, order_ref: orderRef }
+      : {}
 
     if (order.slug === 'estratto-mappa') {
       const payload: Record<string, string> = {
@@ -166,9 +169,9 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     const userId = user?.id ?? null
 
-    fireWebhooks(orders, email, emailDocumenti ?? '', userId)
-
     const orderRef = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`
+
+    fireWebhooks(orders, email, emailDocumenti ?? '', userId, orderRef)
 
     if (userId) {
       await supabase.from('orders').insert({

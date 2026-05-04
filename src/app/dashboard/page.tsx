@@ -200,14 +200,18 @@ export default function DashboardPage() {
                         </div>
                         <div>
                           {ready ? (
-                            <a
-                              href={order.file_url!}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                            <button
+                              onClick={async () => {
+                                const supabase = createClient()
+                                const { data } = await supabase.storage
+                                  .from('documenti')
+                                  .createSignedUrl(order.file_url!, 3600)
+                                if (data?.signedUrl) window.open(data.signedUrl, '_blank')
+                              }}
                               className="p-2 rounded-lg bg-slate-100 text-[#002147] hover:bg-[#002147] hover:text-white transition-colors block"
                             >
                               <span className="material-symbols-outlined">download</span>
-                            </a>
+                            </button>
                           ) : (
                             <div className="p-2 rounded-lg bg-slate-50 text-slate-300 cursor-not-allowed">
                               <span className="material-symbols-outlined">download</span>
