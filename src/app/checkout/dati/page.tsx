@@ -95,11 +95,12 @@ export default function CheckoutDataPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (accountType !== 'privato' && !formData.codiceDestinatario && !formData.pec) {
-      setFormData(prev => ({ ...prev, codiceDestinatario: '0000000' }));
-    }
+    const effectiveSdi = accountType === 'privato'
+      ? '0000000'
+      : (formData.codiceDestinatario || (!formData.pec ? '0000000' : ''));
     try {
       localStorage.setItem('checkoutEmail', formData.email);
+      localStorage.setItem('checkoutSdi', effectiveSdi);
       if (formData.emailDocumenti) {
         localStorage.setItem('checkoutEmailDocumenti', formData.emailDocumenti);
       }
@@ -180,10 +181,10 @@ export default function CheckoutDataPage() {
                       <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full" placeholder="mario.rossi@email.it" required />
                     </div>
 
-                    {/* Campi opzionali — obbligatori solo se richiedi fattura */}
+                    {/* Campi facoltativi — obbligatori solo se richiedi fattura */}
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Indirizzo {richiedifattura ? '*' : '(opzionale)'}
+                        Indirizzo{richiedifattura ? ' *' : ''}
                       </label>
                       <AddressAutocomplete
                         value={formData.indirizzo}
@@ -203,27 +204,31 @@ export default function CheckoutDataPage() {
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Comune {richiedifattura ? '*' : '(opzionale)'}
+                        Comune{richiedifattura ? ' *' : ''}
                       </label>
                       <input type="text" name="citta" value={formData.citta} onChange={handleChange} className="w-full" placeholder="Roma" required={richiedifattura} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        CAP {richiedifattura ? '*' : '(opzionale)'}
+                        CAP{richiedifattura ? ' *' : ''}
                       </label>
                       <input type="text" name="cap" value={formData.cap} onChange={handleChange} className="w-full" placeholder="00100" required={richiedifattura} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Provincia {richiedifattura ? '*' : '(opzionale)'}
+                        Provincia{richiedifattura ? ' *' : ''}
                       </label>
                       <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} className="w-full" placeholder="RM" required={richiedifattura} />
                     </div>
-                    <div className="md:col-span-2">
+                    <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">
-                        Codice Fiscale {richiedifattura ? '*' : '(opzionale)'}
+                        Codice Fiscale{richiedifattura ? ' *' : ''}
                       </label>
                       <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} className="w-full" placeholder="RSSMRA85L01H501Z" required={richiedifattura} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">PEC</label>
+                      <input type="email" name="pec" value={formData.pec} onChange={handleChange} className="w-full" placeholder="mario@pec.it" />
                     </div>
 
                     {/* Toggle richiedi fattura */}
@@ -311,7 +316,7 @@ export default function CheckoutDataPage() {
                       <input type="text" name="codiceDestinatario" value={formData.codiceDestinatario} onChange={handleChange} className="w-full" placeholder="0000000" maxLength={7} />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">oppure PEC</label>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">PEC</label>
                       <input type="email" name="pec" value={formData.pec} onChange={handleChange} className="w-full" placeholder="azienda@pec.it" />
                     </div>
                     <div className="md:col-span-2">
