@@ -36,3 +36,17 @@
 - Servizi minori: bug nei nodi "Update a row" e "HTTP Request Storage" — i campi avevano {{ ... }} ma senza = iniziale. n8n li trattava come stringa letterale, non espressione → 0 righe trovate → workflow si fermava silenziosamente. Fix: aggiungere = davanti alle espressioni {{ }} nei campi interessati
 - Causa "Succeeded senza email": Update a row trova 0 righe → n8n ferma esecuzione, Merge non riceve input, Send a message non parte. Nessun errore esplicito
 - Lezione: in n8n, campo con {{ }} senza = davanti = stringa letterale, non espressione. Sempre verificare che i campi dinamici abbiano = iniziale
+
+## 2026-05-06 (sera) — Bugfix conservatoria + ridisegno layout ipotecaria
+
+- Creato `/api/territorio/conservatorie` (proxy OpenAPI con cache 24h, env `OPENAPI_TOKEN`+`OPENAPI_BASE_URL`) e `src/data/conservatoria-provincia.ts` (mappa statica 130 voci)
+- Bug 1 — `ConservatoriaSelect` mandava `c.id` (MongoDB ObjectId) → OpenAPI rispondeva 406 "conservatoria not valid". Fix: `value={c.conservatoria}` (il nome)
+- Bug 2 — stale closure in `handleConservatoriaChange`: 3 `onChange` sequenziali con stesso snapshot di `formData`, l'ultima vinceva e azzerava `conservatoria`. Fix iniziale: prop `onConservatoriaChange` con singolo `updateItem` batched
+- Bug 3 — default `_mode` mismatch: form mostrava "Per Immobile" ma `_mode` non veniva scritto in `formData` finché l'utente non cliccava il toggle. `process-order` defaultava a 'soggetto' → ordini routati al webhook sbagliato con `cf_piva` vuoto. Fix: default a 'immobile' in `process-order`
+- Decisione UX: rimosso auto-set provincia da conservatoria (illudeva che bastasse un comune qualsiasi della provincia mostrata; in realtà una conservatoria copre solo alcuni comuni — es. Bassano del Grappa serve pochi comuni in VI, gli altri vanno a Vicenza). Provincia e comune ora indipendenti
+- Ridisegno layout `IspezioneIpotecariaFields` e `SingolaNotaFields` (ispirato a tuttovisure): conservatoria isolata in alto, divider, sotto mode switch + dati. Aggiunta terza modalità **Sogg. Giuridico** accanto a Immobile/Soggetto. Campi CF e P.IVA distinti (label/placeholder dedicati)
+- Backend aggiornato: `ispezione-ipotecaria` con `soggetto-giuridico` → webhook soggetto + `tipo_soggetto: 'giuridico'`; `singola-nota` con giuridico → `tipo_restrizione: 'soggetto_giuridico'`
+- Errore residuo OpenAPI 312 "comune not valid" è validazione corretta lato API (giurisdizione conservatoria non copre il comune scelto), non bug
+- Casino con `git add -A`: ho committato `.claude/worktrees/*` come submoduli + `README 2.md`. Rimossi subito. Aggiunto `.claude/` e `README 2.md` a `.gitignore`
+- Commit principali: `0aed16f` (stale closure), `7c447b7` (default mode), `20385e4` (no auto-provincia), `e8b009f` (layout 3-modalità + backend), `b7f96fa` (cleanup gitignore)
+- Lezione: mai `git add -A` in questo progetto — i worktree `.claude/` finiscono nel commit. Stagiare sempre file specifici

@@ -33,12 +33,20 @@ Tutti seguono il pattern: Webhook → Crea → Poll(If/Wait) → Scarica PDF →
 
 ## Allineamento sito ↔ n8n (conservatoria)
 
-Fatto oggi nel carrello e in `process-order/route.ts`:
-- `ispezione-ipotecaria`: switch Soggetto/Immobile + Conservatoria + (CF/PIVA | comune+tipo_catasto+foglio+particella)
-- `ispezione-ipotecaria-nazionale`: solo CF/PIVA
-- `elenco-note-ipotecarie` (= "Singola Nota"): switch Soggetto/Immobile + Conservatoria + Anno + Registro Generale + (tipo_restrizione+CF/PIVA | campi immobile)
+Layout carrello (definitivo dopo iterazioni 6 maggio sera):
+- Conservatoria isolata in alto, divider visivo, sotto mode switch + dati
+- 3 modalità: **Per Immobile** / **Per Soggetto** / **Sogg. Giuridico**
+- CF e P.IVA hanno campi distinti (label/placeholder dedicati)
+- Provincia e comune indipendenti dalla conservatoria (l'auto-set illudeva: una conservatoria copre solo certi comuni della sua provincia)
 
-Routing verso 5 webhook distinti (`/webhook/ispezione-ipotecaria-*`).
+`ispezione-ipotecaria`: Conservatoria + (Immobile: prov+com+catasto+foglio+particella+sub | Soggetto: CF | Sogg.Giuridico: P.IVA)
+`ispezione-ipotecaria-nazionale`: solo CF/PIVA
+`elenco-note-ipotecarie` (= "Singola Nota"): Conservatoria + Anno + Registro Generale + (modalità come sopra)
+
+Routing process-order:
+- soggetto / soggetto-giuridico → stesso webhook `*-soggetto`, distinti dal campo `tipo_soggetto: 'fisico' | 'giuridico'` (per ispezione) o `tipo_restrizione: 'soggetto_fisico' | 'soggetto_giuridico'` (per singola nota)
+- immobile → webhook `*-immobile`
+- ConservatoriaSelect manda il NOME (es. "ROMA 1"), non l'id. OpenAPI valida sul nome
 
 ## Infrastruttura
 
@@ -56,9 +64,9 @@ Routing verso 5 webhook distinti (`/webhook/ispezione-ipotecaria-*`).
 
 ## Cose aperte / dubbi
 
-- I 9 workflow n8n nuovi (4 visura + 5 conservatoria) sono `active: false`: vanno importati e attivati su n8n
-- URL webhook visura usa ancora path `-test` in `process-order` → cambiare in produzione
-- Endpoint `/api/territorio/conservatorie` non esiste (bug pre-esistente): al momento il campo Conservatoria nel carrello è input testuale come fallback. Va creata l'API quando si individua una fonte dati
-- Servizi Minori workflow: bug nei nodi Update a row e HTTP Request Storage — i campi avevano `{{ ... }}` ma **senza `=` iniziale**. n8n tratta il valore come stringa letterale invece di espressione → Update a row trova 0 righe → workflow si ferma senza errore. Fix: cliccare sull'icona `fx` del campo e aggiungere `=` davanti all'espressione
-- Process-order: routing visura usa `_searchType` in un solo webhook generico; coi nuovi 4 workflow va aggiornato per puntare ai webhook specifici (ordinaria/storica × immobile/soggetto)
-- Test end-to-end del flusso conservatoria nuovo non ancora fatto (browser + ordine reale)
+- Workflow `ispezione-ipotecaria-immobile` testato OK con dati validi. Da attivare/testare gli altri 4 ipotecari: `-soggetto`, `-nazionale`, `-singola-nota-soggetto`, `-singola-nota-immobile`
+- Workflow `ispezione-ipotecaria-soggetto` deve leggere il nuovo campo `tipo_soggetto: 'fisico' | 'giuridico'` per scegliere endpoint OpenAPI giusto (CF vs P.IVA)
+- `estratto-mappa` in `process-order` (riga 87) punta ancora a `webhook-test/` invece di `webhook/`
+- 4 webhook visura puntano ai path produzione corretti, da verificare/attivare lato n8n
+- Servizi Minori: ricordarsi del fix `=` davanti alle espressioni `{{ ... }}` (vedi LOG 2026-05-06 pomeriggio)
+- UX possibile per ipotecaria: filtrare i comuni in base alla giurisdizione effettiva della conservatoria (mappa conservatoria→comuni). Per ora utente sceglie liberamente, OpenAPI valida con errore 312 se mismatch
