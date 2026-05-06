@@ -272,7 +272,7 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria</div>
-                      <div className="text-[10px] text-on-surface-variant">Iscrizioni in tutte le conservatorie</div>
+                      <div className="text-[10px] text-on-surface-variant">Formalità ipotecarie per soggetto o immobile</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€19.90</span>
@@ -294,7 +294,7 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria Nazionale</div>
-                      <div className="text-[10px] text-on-surface-variant">Verifica a livello nazionale la presenza di formalità ipotecarie</div>
+                      <div className="text-[10px] text-on-surface-variant">Formalità a livello nazionale su un determinato soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€12.90</span>
