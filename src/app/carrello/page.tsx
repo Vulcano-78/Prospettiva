@@ -9,7 +9,7 @@ import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
 import ComuneSelect from '@/components/forms/ComuneSelect';
-import ComuneAutocomplete from '@/components/forms/ComuneAutocomplete';
+import { getProvinciaFromConservatoria } from '@/data/conservatoria-provincia';
 
 function isVisura(slug: string) {
   return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
@@ -415,11 +415,20 @@ function IspezioneIpotecariaFields({ data, onChange }: {
     onChange('_mode', m);
   };
 
+  const handleConservatoriaChange = (v: string) => {
+    onChange('conservatoria', v);
+    const prov = getProvinciaFromConservatoria(v);
+    if (prov) {
+      onChange('provincia', prov);
+      onChange('comune', '');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <ModeSwitch mode={mode} onChange={handleModeChange} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={handleConservatoriaChange} conservatorie={conservatorie} loading={loading} />
         {mode === 'soggetto' && (
           <div className="space-y-1.5">
             <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
@@ -454,11 +463,20 @@ function SingolaNotaFields({ data, onChange }: {
     }
   };
 
+  const handleConservatoriaChange = (v: string) => {
+    onChange('conservatoria', v);
+    const prov = getProvinciaFromConservatoria(v);
+    if (prov) {
+      onChange('provincia', prov);
+      onChange('comune', '');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <ModeSwitch mode={mode} onChange={handleModeChange} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={handleConservatoriaChange} conservatorie={conservatorie} loading={loading} />
         <div className="space-y-1.5">
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
