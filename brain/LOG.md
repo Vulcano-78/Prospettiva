@@ -27,3 +27,12 @@
 - Scoperto: `Servizi minori` workflow ha 3 bug di doppio `=` segnalati da correggere manualmente in n8n
 - Typecheck OK. Niente push, niente test browser
 
+
+## 2026-05-06 (pomeriggio) — Test end-to-end workflow n8n
+
+- Attivati e testati workflow n8n nuovi in sandbox
+- Visura catastale soggetto ordinaria: funzionante end-to-end dopo aver attivato workflow
+- Elaborato planimetrico: bloccato per credito sandbox insufficiente (wallet 4.4 < costo 6.9) → ricarica wallet sandbox OpenAPI.it
+- Servizi minori: bug nei nodi "Update a row" e "HTTP Request Storage" — i campi avevano {{ ... }} ma senza = iniziale. n8n li trattava come stringa letterale, non espressione → 0 righe trovate → workflow si fermava silenziosamente. Fix: aggiungere = davanti alle espressioni {{ }} nei campi interessati
+- Causa "Succeeded senza email": Update a row trova 0 righe → n8n ferma esecuzione, Merge non riceve input, Send a message non parte. Nessun errore esplicito
+- Lezione: in n8n, campo con {{ }} senza = davanti = stringa letterale, non espressione. Sempre verificare che i campi dinamici abbiano = iniziale

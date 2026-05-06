@@ -133,10 +133,11 @@ async function fireWebhooks(
 
     if (order.slug === 'ispezione-ipotecaria') {
       const mode = fd._mode || 'immobile'
-      if (mode === 'soggetto') {
+      if (mode === 'soggetto' || mode === 'soggetto-giuridico') {
         promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-soggetto', {
           conservatoria: fd.conservatoria || '',
           cf_piva: fd.cf_piva || '',
+          tipo_soggetto: mode === 'soggetto-giuridico' ? 'giuridico' : 'fisico',
           email,
           ...base,
         }))
@@ -157,9 +158,10 @@ async function fireWebhooks(
 
     if (order.slug === 'elenco-note-ipotecarie') {
       const mode = fd._mode || 'soggetto'
-      if (mode === 'soggetto') {
+      if (mode === 'soggetto' || mode === 'soggetto-giuridico') {
+        const tipoRestrizione = mode === 'soggetto-giuridico' ? 'soggetto_giuridico' : (fd.tipo_restrizione || 'soggetto_fisico')
         promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-singola-nota-soggetto', {
-          tipo_restrizione: fd.tipo_restrizione || 'soggetto_fisico',
+          tipo_restrizione: tipoRestrizione,
           conservatoria: fd.conservatoria || '',
           anno: Number(fd.anno) || 0,
           registro_generale: Number(fd.registro_generale) || 0,

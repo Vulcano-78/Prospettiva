@@ -59,6 +59,6 @@ Routing verso 5 webhook distinti (`/webhook/ispezione-ipotecaria-*`).
 - I 9 workflow n8n nuovi (4 visura + 5 conservatoria) sono `active: false`: vanno importati e attivati su n8n
 - URL webhook visura usa ancora path `-test` in `process-order` → cambiare in produzione
 - Endpoint `/api/territorio/conservatorie` non esiste (bug pre-esistente): al momento il campo Conservatoria nel carrello è input testuale come fallback. Va creata l'API quando si individua una fonte dati
-- Servizi Minori workflow: ha 3 bug di doppio `=` (`=={{`, `==https://`) da correggere manualmente in n8n
+- Servizi Minori workflow: bug nei nodi Update a row e HTTP Request Storage — i campi avevano `{{ ... }}` ma **senza `=` iniziale**. n8n tratta il valore come stringa letterale invece di espressione → Update a row trova 0 righe → workflow si ferma senza errore. Fix: cliccare sull'icona `fx` del campo e aggiungere `=` davanti all'espressione
 - Process-order: routing visura usa `_searchType` in un solo webhook generico; coi nuovi 4 workflow va aggiornato per puntare ai webhook specifici (ordinaria/storica × immobile/soggetto)
 - Test end-to-end del flusso conservatoria nuovo non ancora fatto (browser + ordine reale)

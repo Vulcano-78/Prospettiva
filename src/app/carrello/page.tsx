@@ -346,18 +346,23 @@ function useConservatorie() {
   return { conservatorie, loading };
 }
 
+type IpotecariaMode = 'immobile' | 'soggetto' | 'soggetto-giuridico';
+
+const IPOTECARIA_MODE_OPTIONS: Array<{ value: IpotecariaMode; label: string; icon: string }> = [
+  { value: 'immobile', label: 'Per Immobile', icon: 'home' },
+  { value: 'soggetto', label: 'Per Soggetto', icon: 'person' },
+  { value: 'soggetto-giuridico', label: 'Sogg. Giuridico', icon: 'business' },
+];
+
 function ModeSwitch({ mode, onChange }: {
-  mode: 'immobile' | 'soggetto';
-  onChange: (m: 'immobile' | 'soggetto') => void;
+  mode: IpotecariaMode;
+  onChange: (m: IpotecariaMode) => void;
 }) {
   return (
     <div className="space-y-2">
       <label className={labelClass}>Modalita di ricerca</label>
-      <div className="grid grid-cols-2 gap-2">
-        {([
-          { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },
-          { value: 'soggetto' as const, label: 'Per Soggetto', icon: 'person' },
-        ]).map(opt => (
+      <div className="grid grid-cols-3 gap-2">
+        {IPOTECARIA_MODE_OPTIONS.map(opt => (
           <button key={opt.value} type="button" onClick={() => onChange(opt.value)}
             className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
               mode === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -404,30 +409,39 @@ function IspezioneIpotecariaFields({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
 }) {
-  const [mode, setMode] = useState<'immobile' | 'soggetto'>(
-    (data._mode as 'immobile' | 'soggetto') || 'immobile'
+  const [mode, setMode] = useState<IpotecariaMode>(
+    (data._mode as IpotecariaMode) || 'immobile'
   );
   const { conservatorie, loading } = useConservatorie();
 
-  const handleModeChange = (m: 'immobile' | 'soggetto') => {
+  const handleModeChange = (m: IpotecariaMode) => {
     setMode(m);
     onChange('_mode', m);
   };
 
   return (
-    <div className="space-y-4">
-      <ModeSwitch mode={mode} onChange={handleModeChange} />
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
-        {mode === 'soggetto' && (
-          <div className="space-y-1.5">
-            <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-            <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-          </div>
-        )}
-        {mode === 'immobile' && (
-          <ImmobileFieldsBlock data={data} onChange={onChange} />
-        )}
+      </div>
+
+      <div className="pt-6 border-t border-slate-200 space-y-4">
+        <ModeSwitch mode={mode} onChange={handleModeChange} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} />}
+          {mode === 'soggetto' && (
+            <div className="md:col-span-2 space-y-1.5">
+              <label className={labelClass}>Codice Fiscale *</label>
+              <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+            </div>
+          )}
+          {mode === 'soggetto-giuridico' && (
+            <div className="md:col-span-2 space-y-1.5">
+              <label className={labelClass}>Partita IVA *</label>
+              <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -437,55 +451,52 @@ function SingolaNotaFields({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
 }) {
-  const [mode, setMode] = useState<'immobile' | 'soggetto'>(
-    (data._mode as 'immobile' | 'soggetto') || 'soggetto'
+  const [mode, setMode] = useState<IpotecariaMode>(
+    (data._mode as IpotecariaMode) || 'soggetto'
   );
   const { conservatorie, loading } = useConservatorie();
 
-  const handleModeChange = (m: 'immobile' | 'soggetto') => {
+  const handleModeChange = (m: IpotecariaMode) => {
     setMode(m);
     onChange('_mode', m);
-    if (m === 'immobile') {
-      onChange('tipo_restrizione', 'immobile');
-    } else if (!data.tipo_restrizione || data.tipo_restrizione === 'immobile') {
-      onChange('tipo_restrizione', 'soggetto_fisico');
-    }
+    const tipoRestrizione =
+      m === 'immobile' ? 'immobile' :
+      m === 'soggetto-giuridico' ? 'soggetto_giuridico' :
+      'soggetto_fisico';
+    onChange('tipo_restrizione', tipoRestrizione);
   };
 
   return (
-    <div className="space-y-4">
-      <ModeSwitch mode={mode} onChange={handleModeChange} />
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
         <div className="space-y-1.5">
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
         </div>
-        <div className="space-y-1.5">
+        <div className="md:col-span-2 space-y-1.5">
           <label className={labelClass}>Registro Generale *</label>
           <input type="number" className={inputClass} placeholder="Es. 12345" value={data.registro_generale || ''} onChange={(e) => onChange('registro_generale', e.target.value)} required />
         </div>
-        {mode === 'soggetto' && (
-          <>
-            <div className="space-y-1.5">
-              <label className={labelClass}>Tipo Soggetto *</label>
-              <div className="relative">
-                <select className={selectClass} value={data.tipo_restrizione || 'soggetto_fisico'} onChange={(e) => onChange('tipo_restrizione', e.target.value)} required>
-                  <option value="soggetto_fisico">Persona fisica</option>
-                  <option value="soggetto_giuridico">Persona giuridica</option>
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
-              </div>
-            </div>
+      </div>
+
+      <div className="pt-6 border-t border-slate-200 space-y-4">
+        <ModeSwitch mode={mode} onChange={handleModeChange} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} />}
+          {mode === 'soggetto' && (
             <div className="md:col-span-2 space-y-1.5">
-              <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
-              <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z / 12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+              <label className={labelClass}>Codice Fiscale *</label>
+              <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
             </div>
-          </>
-        )}
-        {mode === 'immobile' && (
-          <ImmobileFieldsBlock data={data} onChange={onChange} />
-        )}
+          )}
+          {mode === 'soggetto-giuridico' && (
+            <div className="md:col-span-2 space-y-1.5">
+              <label className={labelClass}>Partita IVA *</label>
+              <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
