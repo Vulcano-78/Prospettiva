@@ -17,7 +17,7 @@ export type Order = {
 };
 
 const slugToName: Record<string, string> = {
-  'visura-catastale': 'Visura Catastale',
+  'visura-catastale': 'Visura Catastale Ordinaria',
   'visura-catastale-storica': 'Visura Catastale Storica',
   'visura-per-soggetto': 'Visura per Soggetto',
   'estratto-mappa': 'Estratto Mappa Catastale',
@@ -28,17 +28,46 @@ const slugToName: Record<string, string> = {
   'elenco-immobili': 'Elenco degli Immobili',
   'planimetria': 'Planimetria Catastale',
   'elaborato-planimetrico': 'Elaborato Planimetrico',
-  'ispezione-ipotecaria-nazionale': 'Ispezione Ipotecaria',
-  'elenco-note-ipotecarie': 'Elenco Note Ipotecarie',
+  'ispezione-ipotecaria-nazionale': 'Ispezione Ipotecaria Nazionale',
+  'ispezione-ipotecaria': 'Ispezione Ipotecaria',
+  'elenco-note-ipotecarie': 'Singola Nota Ipotecaria',
   'certificato-urbanistico': 'Certificato Urbanistico',
   'attestato-ape': 'Attestato APE',
   'virtual-staging': 'Virtual Staging AI',
 };
 
+const searchTypeLabel: Record<string, string> = {
+  'immobile': 'per Immobile',
+  'soggetto': 'per Soggetto',
+  'soggetto-giuridico': 'per Soggetto Giuridico',
+};
+
+const modeLabel: Record<string, string> = {
+  'immobile': 'per Immobile',
+  'soggetto': 'per Soggetto',
+};
+
+function itemLabel(item: { slug: string; formData: Record<string, string> }): string {
+  const base = slugToName[item.slug] ?? item.slug;
+  const fd = item.formData ?? {};
+
+  if (item.slug === 'visura-catastale' || item.slug === 'visura-catastale-storica') {
+    const suffix = searchTypeLabel[fd._searchType] ?? '';
+    return suffix ? `${base} ${suffix}` : base;
+  }
+
+  if (item.slug === 'ispezione-ipotecaria' || item.slug === 'elenco-note-ipotecarie') {
+    const suffix = modeLabel[fd._mode] ?? '';
+    return suffix ? `${base} ${suffix}` : base;
+  }
+
+  return base;
+}
+
 function orderLabel(order: Order): string {
   const items = order.items ?? [];
   if (items.length === 0) return 'Documento';
-  const first = slugToName[items[0].slug] ?? items[0].slug;
+  const first = itemLabel(items[0]);
   return items.length > 1 ? `${first} + altri ${items.length - 1}` : first;
 }
 

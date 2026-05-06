@@ -117,25 +117,31 @@ async function fireWebhooks(
     if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
       const payload = buildVisuraPayload(order, email, emailDocumenti || undefined, userId, orderRef)
       const searchType = fd._searchType || 'immobile'
-      const url = searchType === 'soggetto' || searchType === 'soggetto-giuridico'
-        ? 'https://n8n.vulcano.tools/webhook-test/visura-catastale-soggetto'
-        : 'https://n8n.vulcano.tools/webhook-test/visura-catastale'
+      const tipoVisura = order.slug === 'visura-catastale-storica' ? 'storica' : 'ordinaria'
+      const tipoEntita = (searchType === 'soggetto' || searchType === 'soggetto-giuridico') ? 'soggetto' : 'immobile'
+      const url = `https://n8n.vulcano.tools/webhook/visura-catastale-${tipoEntita}-${tipoVisura}`
       promises.push(post(url, payload))
     }
 
-    if (order.slug === 'ispezione-ipotecaria') {
-      promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria', {
+    if (order.slug === 'ispezione-ipotecaria-nazionale') {
+      promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-nazionale', {
         cf_piva: fd.cf_piva || '',
         email,
         ...base,
       }))
     }
 
-    if (order.slug === 'elenco-note-ipotecarie') {
-      const mode = fd._mode || 'immobile'
-      if (mode === 'immobile') {
+    if (order.slug === 'ispezione-ipotecaria') {
+      const mode = fd._mode || 'soggetto'
+      if (mode === 'soggetto') {
+        promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-soggetto', {
+          conservatoria: fd.conservatoria || '',
+          cf_piva: fd.cf_piva || '',
+          email,
+          ...base,
+        }))
+      } else {
         const payload: Record<string, string | number> = {
-          entita: 'ispezione_immobile',
           conservatoria: fd.conservatoria || '',
           comune: (fd.comune || '').toUpperCase(),
           tipo_catasto: fd.tipo_catasto || 'F',
@@ -145,17 +151,36 @@ async function fireWebhooks(
           ...base,
         }
         if (fd.subalterno) payload.subalterno = Number(fd.subalterno)
-        if (fd.sezione) payload.sezione = fd.sezione
-        if (fd.sezione_urbana) payload.sezione_urbana = fd.sezione_urbana
-        promises.push(post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', payload))
-      } else {
-        promises.push(post('https://n8n.vulcano.tools/webhook/elenco-note-ipotecarie', {
-          entita: 'ispezione_soggetto',
+        promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-immobile', payload))
+      }
+    }
+
+    if (order.slug === 'elenco-note-ipotecarie') {
+      const mode = fd._mode || 'soggetto'
+      if (mode === 'soggetto') {
+        promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-singola-nota-soggetto', {
+          tipo_restrizione: fd.tipo_restrizione || 'soggetto_fisico',
           conservatoria: fd.conservatoria || '',
+          anno: Number(fd.anno) || 0,
+          registro_generale: Number(fd.registro_generale) || 0,
           cf_piva: fd.cf_piva || '',
           email,
           ...base,
         }))
+      } else {
+        const payload: Record<string, string | number> = {
+          conservatoria: fd.conservatoria || '',
+          anno: Number(fd.anno) || 0,
+          registro_generale: Number(fd.registro_generale) || 0,
+          comune: (fd.comune || '').toUpperCase(),
+          tipo_catasto: fd.tipo_catasto || 'F',
+          foglio: Number(fd.foglio) || 0,
+          particella: Number(fd.particella) || 0,
+          email,
+          ...base,
+        }
+        if (fd.subalterno) payload.subalterno = Number(fd.subalterno)
+        promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-singola-nota-immobile', payload))
       }
     }
   }
