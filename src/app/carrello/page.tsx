@@ -9,6 +9,7 @@ import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
 import ComuneSelect from '@/components/forms/ComuneSelect';
+import ComuneAutocomplete from '@/components/forms/ComuneAutocomplete';
 
 function isVisura(slug: string) {
   return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
@@ -375,14 +376,9 @@ function ImmobileFieldsBlock({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
 }) {
-  const handleProvinciaChange = (v: string) => {
-    onChange('provincia', v);
-    onChange('comune', '');
-  };
   return (
     <>
-      <ProvinciaSelect value={data.provincia || ''} onChange={handleProvinciaChange} />
-      <ComuneSelect value={data.comune || ''} provincia={data.provincia || ''} onChange={(v) => onChange('comune', v)} />
+      <ComuneAutocomplete value={data.comune || ''} onChange={(v) => onChange('comune', v)} />
       <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
       <div className="space-y-1.5">
         <label className={labelClass}>Foglio *</label>
