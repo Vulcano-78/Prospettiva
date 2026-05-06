@@ -86,8 +86,9 @@ export default function Header() {
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Visura Ipotecaria</div><div className="text-[10px] text-slate-400">Gravami e trascrizioni</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Nazionale</div><div className="text-[10px] text-slate-400">Tutte le conservatorie</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria Nazionale</div><div className="text-[10px] text-slate-400">Tutte le conservatorie</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria</div><div className="text-[10px] text-slate-400">Per soggetto o immobile</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Singola Nota Ipotecaria</div><div className="text-[10px] text-slate-400">Dettaglio nota specifica</div></div>
                         </div>
                       </div>
                       <div>
