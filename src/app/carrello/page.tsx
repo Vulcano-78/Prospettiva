@@ -375,12 +375,14 @@ function ImmobileFieldsBlock({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
 }) {
+  const handleProvinciaChange = (v: string) => {
+    onChange('provincia', v);
+    onChange('comune', '');
+  };
   return (
     <>
-      <div className="space-y-1.5">
-        <label className={labelClass}>Comune *</label>
-        <input type="text" className={inputClass} placeholder="Es. Roma" value={data.comune || ''} onChange={(e) => onChange('comune', e.target.value)} required />
-      </div>
+      <ProvinciaSelect value={data.provincia || ''} onChange={handleProvinciaChange} />
+      <ComuneSelect value={data.comune || ''} provincia={data.provincia || ''} onChange={(v) => onChange('comune', v)} />
       <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
       <div className="space-y-1.5">
         <label className={labelClass}>Foglio *</label>
@@ -403,7 +405,7 @@ function IspezioneIpotecariaFields({ data, onChange }: {
   onChange: (name: string, value: string) => void;
 }) {
   const [mode, setMode] = useState<'immobile' | 'soggetto'>(
-    (data._mode as 'immobile' | 'soggetto') || 'soggetto'
+    (data._mode as 'immobile' | 'soggetto') || 'immobile'
   );
   const { conservatorie, loading } = useConservatorie();
 
