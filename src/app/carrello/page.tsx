@@ -9,7 +9,6 @@ import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
 import ComuneSelect from '@/components/forms/ComuneSelect';
-import { getProvinciaFromConservatoria } from '@/data/conservatoria-provincia';
 
 function isVisura(slug: string) {
   return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
@@ -401,10 +400,9 @@ function ImmobileFieldsBlock({ data, onChange }: {
   );
 }
 
-function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
+function IspezioneIpotecariaFields({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
-  onConservatoriaChange: (conservatoria: string, provincia: string) => void;
 }) {
   const [mode, setMode] = useState<'immobile' | 'soggetto'>(
     (data._mode as 'immobile' | 'soggetto') || 'immobile'
@@ -416,15 +414,11 @@ function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
     onChange('_mode', m);
   };
 
-  const handleConservatoriaChange = (v: string) => {
-    onConservatoriaChange(v, getProvinciaFromConservatoria(v));
-  };
-
   return (
     <div className="space-y-4">
       <ModeSwitch mode={mode} onChange={handleModeChange} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={handleConservatoriaChange} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
         {mode === 'soggetto' && (
           <div className="space-y-1.5">
             <label className={labelClass}>Codice Fiscale o Partita IVA *</label>
@@ -439,10 +433,9 @@ function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
   );
 }
 
-function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
+function SingolaNotaFields({ data, onChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
-  onConservatoriaChange: (conservatoria: string, provincia: string) => void;
 }) {
   const [mode, setMode] = useState<'immobile' | 'soggetto'>(
     (data._mode as 'immobile' | 'soggetto') || 'soggetto'
@@ -459,15 +452,11 @@ function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
     }
   };
 
-  const handleConservatoriaChange = (v: string) => {
-    onConservatoriaChange(v, getProvinciaFromConservatoria(v));
-  };
-
   return (
     <div className="space-y-4">
       <ModeSwitch mode={mode} onChange={handleModeChange} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={handleConservatoriaChange} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
         <div className="space-y-1.5">
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
@@ -603,17 +592,11 @@ export default function CartPage() {
                   <IspezioneIpotecariaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onConservatoriaChange={(conservatoria, provincia) =>
-                      updateItem(item.id, { ...item.formData, conservatoria, provincia, comune: '' })
-                    }
                   />
                 ) : isElencoNoteIpotecarie(item.service.slug) ? (
                   <SingolaNotaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onConservatoriaChange={(conservatoria, provincia) =>
-                      updateItem(item.id, { ...item.formData, conservatoria, provincia, comune: '' })
-                    }
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
