@@ -304,7 +304,7 @@ function ConservatoriaSelect({ value, onChange, conservatorie, loading }: {
         <select className={selectClass} value={value || ''} onChange={(e) => onChange(e.target.value)} required disabled={loading}>
           <option value="">{loading ? 'Caricamento...' : 'Seleziona...'}</option>
           {conservatorie.map(c => (
-            <option key={c.id} value={c.id}>{c.conservatoria}</option>
+            <option key={c.id} value={c.conservatoria}>{c.conservatoria}</option>
           ))}
         </select>
         <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
