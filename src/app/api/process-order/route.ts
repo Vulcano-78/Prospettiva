@@ -132,7 +132,7 @@ async function fireWebhooks(
     }
 
     if (order.slug === 'ispezione-ipotecaria') {
-      const mode = fd._mode || 'soggetto'
+      const mode = fd._mode || 'immobile'
       if (mode === 'soggetto') {
         promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-soggetto', {
           conservatoria: fd.conservatoria || '',
