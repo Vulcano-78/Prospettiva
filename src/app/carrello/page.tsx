@@ -401,9 +401,10 @@ function ImmobileFieldsBlock({ data, onChange }: {
   );
 }
 
-function IspezioneIpotecariaFields({ data, onChange }: {
+function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onConservatoriaChange: (conservatoria: string, provincia: string) => void;
 }) {
   const [mode, setMode] = useState<'immobile' | 'soggetto'>(
     (data._mode as 'immobile' | 'soggetto') || 'immobile'
@@ -416,12 +417,7 @@ function IspezioneIpotecariaFields({ data, onChange }: {
   };
 
   const handleConservatoriaChange = (v: string) => {
-    onChange('conservatoria', v);
-    const prov = getProvinciaFromConservatoria(v);
-    if (prov) {
-      onChange('provincia', prov);
-      onChange('comune', '');
-    }
+    onConservatoriaChange(v, getProvinciaFromConservatoria(v));
   };
 
   return (
@@ -443,9 +439,10 @@ function IspezioneIpotecariaFields({ data, onChange }: {
   );
 }
 
-function SingolaNotaFields({ data, onChange }: {
+function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onConservatoriaChange: (conservatoria: string, provincia: string) => void;
 }) {
   const [mode, setMode] = useState<'immobile' | 'soggetto'>(
     (data._mode as 'immobile' | 'soggetto') || 'soggetto'
@@ -455,7 +452,6 @@ function SingolaNotaFields({ data, onChange }: {
   const handleModeChange = (m: 'immobile' | 'soggetto') => {
     setMode(m);
     onChange('_mode', m);
-    // Reimposta tipo_restrizione coerentemente con la modalita
     if (m === 'immobile') {
       onChange('tipo_restrizione', 'immobile');
     } else if (!data.tipo_restrizione || data.tipo_restrizione === 'immobile') {
@@ -464,12 +460,7 @@ function SingolaNotaFields({ data, onChange }: {
   };
 
   const handleConservatoriaChange = (v: string) => {
-    onChange('conservatoria', v);
-    const prov = getProvinciaFromConservatoria(v);
-    if (prov) {
-      onChange('provincia', prov);
-      onChange('comune', '');
-    }
+    onConservatoriaChange(v, getProvinciaFromConservatoria(v));
   };
 
   return (
@@ -612,11 +603,17 @@ export default function CartPage() {
                   <IspezioneIpotecariaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onConservatoriaChange={(conservatoria, provincia) =>
+                      updateItem(item.id, { ...item.formData, conservatoria, provincia, comune: '' })
+                    }
                   />
                 ) : isElencoNoteIpotecarie(item.service.slug) ? (
                   <SingolaNotaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onConservatoriaChange={(conservatoria, provincia) =>
+                      updateItem(item.id, { ...item.formData, conservatoria, provincia, comune: '' })
+                    }
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
