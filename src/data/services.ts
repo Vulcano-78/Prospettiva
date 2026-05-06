@@ -255,8 +255,8 @@ export const services: Service[] = [
 
   // VERIFICHE IPOTECARIE
   {
-    id: 'ispezione-ipotecaria-nazionale',
-    slug: 'ispezione-ipotecaria-nazionale',
+    id: 'ispezione-ipotecaria',
+    slug: 'ispezione-ipotecaria',
     name: 'Ispezione Ipotecaria',
     shortName: 'Ispezione Ipotecaria',
     description: 'Verifica, a livello nazionale o di conservatoria, la presenza di trascrizioni, iscrizioni o annotazioni a carico di un determinato soggetto o immobile.',
@@ -270,8 +270,8 @@ export const services: Service[] = [
     ],
   },
   {
-    id: 'ispezione-ipotecaria-nazionale-new',
-    slug: 'ispezione-ipotecaria-nazionale-new',
+    id: 'ispezione-ipotecaria-nazionale',
+    slug: 'ispezione-ipotecaria-nazionale',
     name: 'Ispezione Ipotecaria Nazionale',
     shortName: 'Ispezione Ipotecaria Nazionale',
     description: 'Verifica a livello nazionale la presenza di formalità ipotecarie a carico di un soggetto o immobile.',

@@ -283,17 +283,17 @@ export default function HomePage() {
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
-                        <button onClick={() => handleAddToCart('ispezione-ipotecaria-nazionale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleAddToCart('ispezione-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Elenco Note Ipotecarie</div>
+                      <div className="text-sm font-bold text-primary-container">Ispezione Singola Nota</div>
                       <div className="text-[10px] text-on-surface-variant">Note e formalità di un immobile o soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">

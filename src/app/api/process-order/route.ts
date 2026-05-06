@@ -123,7 +123,7 @@ async function fireWebhooks(
       promises.push(post(url, payload))
     }
 
-    if (order.slug === 'ispezione-ipotecaria-nazionale') {
+    if (order.slug === 'ispezione-ipotecaria') {
       promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria', {
         cf_piva: fd.cf_piva || '',
         email,
