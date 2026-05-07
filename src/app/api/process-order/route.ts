@@ -160,41 +160,40 @@ async function fireWebhooks(
       const mode = fd._mode || 'soggetto'
       const tipoRegistro = fd.tipo_registro || 'generale'
       if (mode === 'soggetto' || mode === 'soggetto-giuridico') {
-        const tipoRestrizione = mode === 'soggetto-giuridico' ? 'soggettogiuridico' : 'soggettofisico'
         const payload: Record<string, string | number> = {
-          tiporestrizione: tipoRestrizione,
-          tiporegistro: tipoRegistro,
+          tipo_restrizione: 'soggetto',
+          tipo_registro: tipoRegistro,
           conservatoria: fd.conservatoria || '',
           anno: Number(fd.anno) || 0,
-          cfpiva: (fd.cf_piva || '').toUpperCase(),
+          cf_piva: (fd.cf_piva || '').toUpperCase(),
           email,
           ...base,
         }
         if (tipoRegistro === 'particolare') {
-          payload.registroparticolare = Number(fd.registro_particolare) || 0
-          payload.tiponota = fd.tipo_nota || ''
+          payload.registro_particolare = Number(fd.registro_particolare) || 0
+          payload.tipo_nota = fd.tipo_nota || ''
         } else {
-          payload.registrogenerale = Number(fd.registro_generale) || 0
+          payload.registro_generale = Number(fd.registro_generale) || 0
         }
         promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-singola-nota-soggetto', payload))
       } else {
         const payload: Record<string, string | number> = {
-          tiporestrizione: 'immobile',
-          tiporegistro: tipoRegistro,
+          tipo_restrizione: 'immobile',
+          tipo_registro: tipoRegistro,
           conservatoria: fd.conservatoria || '',
           anno: Number(fd.anno) || 0,
           comune: (fd.comune || '').toUpperCase(),
-          tipocatasto: fd.tipo_catasto || 'F',
+          tipo_catasto: fd.tipo_catasto || 'F',
           foglio: Number(fd.foglio) || 0,
           particella: Number(fd.particella) || 0,
           email,
           ...base,
         }
         if (tipoRegistro === 'particolare') {
-          payload.registroparticolare = Number(fd.registro_particolare) || 0
-          payload.tiponota = fd.tipo_nota || ''
+          payload.registro_particolare = Number(fd.registro_particolare) || 0
+          payload.tipo_nota = fd.tipo_nota || ''
         } else {
-          payload.registrogenerale = Number(fd.registro_generale) || 0
+          payload.registro_generale = Number(fd.registro_generale) || 0
         }
         if (fd.subalterno) payload.subalterno = Number(fd.subalterno)
         promises.push(post('https://n8n.vulcano.tools/webhook/ispezione-ipotecaria-singola-nota-immobile', payload))
