@@ -21,6 +21,7 @@ export interface Service {
   requiresDelegate?: boolean;
   isActive: boolean;
   isFeatured?: boolean;
+  href?: string;
 }
 
 export interface Category {
@@ -339,6 +340,19 @@ export const services: Service[] = [
   },
 
   // STRUMENTI GRATUITI
+  {
+    id: 'conto-economico',
+    slug: 'conto-economico',
+    name: 'Conto Economico',
+    shortName: 'Conto Economico',
+    description: 'Calcola costi, ricavi, utile, ROI e ROE di un\'operazione immobiliare.',
+    price: 0,
+    category: 'strumenti-gratuiti',
+    categoryIcon: 'calculate',
+    isActive: true,
+    href: '/utility/conto-economico',
+    fields: []
+  },
   {
     id: 'calcolatore-imu',
     slug: 'calcolatore-imu',
