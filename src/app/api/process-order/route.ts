@@ -160,9 +160,7 @@ async function fireWebhooks(
       const mode = fd._mode || 'soggetto'
       const tipoRegistro = fd.tipo_registro || 'generale'
       if (mode === 'soggetto' || mode === 'soggetto-giuridico') {
-        const tipoRestrizione = mode === 'soggetto-giuridico' ? 'soggetto_giuridico' : 'soggetto_fisico'
         const payload: Record<string, string | number> = {
-          tipo_restrizione: tipoRestrizione,
           tipo_registro: tipoRegistro,
           conservatoria: fd.conservatoria || '',
           anno: Number(fd.anno) || 0,
