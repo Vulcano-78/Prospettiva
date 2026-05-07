@@ -355,6 +355,38 @@ const IPOTECARIA_MODE_OPTIONS: Array<{ value: IpotecariaMode; label: string; ico
   { value: 'soggetto-giuridico', label: 'Sogg. Giuridico', icon: 'business' },
 ];
 
+type TipoRegistro = 'generale' | 'particolare';
+
+const TIPO_NOTA_OPTIONS = [
+  { value: 'trascrizioni', label: 'Trascrizioni' },
+  { value: 'iscrizioni', label: 'Iscrizioni' },
+  { value: 'annotazioni', label: 'Annotazioni' },
+  { value: 'privilegi_agrari', label: 'Privilegi Agrari' },
+  { value: 'privilegi_speciali', label: 'Privilegi Speciali' },
+  { value: 'privilegi_minerali', label: 'Privilegi Minerali' },
+];
+
+function TipoRegistroSwitch({ value, onChange }: {
+  value: TipoRegistro;
+  onChange: (v: TipoRegistro) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <label className={labelClass}>Tipo registro</label>
+      <div className="grid grid-cols-2 gap-2">
+        {(['generale', 'particolare'] as TipoRegistro[]).map(v => (
+          <button key={v} type="button" onClick={() => onChange(v)}
+            className={`py-2.5 px-4 border rounded-lg transition-all text-xs font-bold ${
+              value === v ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+            }`}>
+            {v.charAt(0).toUpperCase() + v.slice(1)}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ModeSwitch({ mode, onChange }: {
   mode: IpotecariaMode;
   onChange: (m: IpotecariaMode) => void;
@@ -468,6 +500,9 @@ function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
   const [mode, setMode] = useState<IpotecariaMode>(
     (data._mode as IpotecariaMode) || 'soggetto'
   );
+  const [tipoRegistro, setTipoRegistro] = useState<TipoRegistro>(
+    (data.tipo_registro as TipoRegistro) || 'generale'
+  );
   const { conservatorie, loading } = useConservatorie();
 
   const handleModeChange = (m: IpotecariaMode) => {
@@ -480,6 +515,11 @@ function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
     onChange('tipo_restrizione', tipoRestrizione);
   };
 
+  const handleTipoRegistroChange = (v: TipoRegistro) => {
+    setTipoRegistro(v);
+    onChange('tipo_registro', v);
+  };
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -487,10 +527,33 @@ function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
         </div>
-        <div className="space-y-1.5">
-          <label className={labelClass}>Registro Generale *</label>
-          <input type="number" className={inputClass} placeholder="Es. 12345" value={data.registro_generale || ''} onChange={(e) => onChange('registro_generale', e.target.value)} required />
-        </div>
+        <TipoRegistroSwitch value={tipoRegistro} onChange={handleTipoRegistroChange} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {tipoRegistro === 'generale' ? (
+          <div className="space-y-1.5">
+            <label className={labelClass}>Registro Generale *</label>
+            <input type="number" className={inputClass} placeholder="Es. 12345" value={data.registro_generale || ''} onChange={(e) => onChange('registro_generale', e.target.value)} required />
+          </div>
+        ) : (
+          <>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Registro Particolare *</label>
+              <input type="number" className={inputClass} placeholder="Es. 12345" value={data.registro_particolare || ''} onChange={(e) => onChange('registro_particolare', e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <label className={labelClass}>Tipo Nota *</label>
+              <div className="relative">
+                <select className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none" value={data.tipo_nota || ''} onChange={(e) => onChange('tipo_nota', e.target.value)} required>
+                  <option value="">Seleziona tipo nota...</option>
+                  {TIPO_NOTA_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <ModeSwitch mode={mode} onChange={handleModeChange} />
