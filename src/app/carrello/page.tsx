@@ -376,17 +376,14 @@ function ModeSwitch({ mode, onChange }: {
   );
 }
 
-function ImmobileFieldsBlock({ data, onChange }: {
+function ImmobileFieldsBlock({ data, onChange, onProvinciaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
 }) {
-  const handleProvinciaChange = (v: string) => {
-    onChange('provincia', v);
-    onChange('comune', '');
-  };
   return (
     <>
-      <ProvinciaSelect value={data.provincia || ''} onChange={handleProvinciaChange} />
+      <ProvinciaSelect value={data.provincia || ''} onChange={onProvinciaChange} />
       <ComuneSelect value={data.comune || ''} provincia={data.provincia || ''} onChange={(v) => onChange('comune', v)} />
       <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
       <div className="space-y-1.5">
@@ -405,9 +402,10 @@ function ImmobileFieldsBlock({ data, onChange }: {
   );
 }
 
-function IspezioneIpotecariaFields({ data, onChange }: {
+function IspezioneIpotecariaFields({ data, onChange, onProvinciaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
 }) {
   const [mode, setMode] = useState<IpotecariaMode>(
     (data._mode as IpotecariaMode) || 'immobile'
@@ -428,7 +426,7 @@ function IspezioneIpotecariaFields({ data, onChange }: {
       <div className="pt-6 border-t border-slate-200 space-y-4">
         <ModeSwitch mode={mode} onChange={handleModeChange} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} />}
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />}
           {mode === 'soggetto' && (
             <div className="md:col-span-2 space-y-1.5">
               <label className={labelClass}>Codice Fiscale *</label>
@@ -447,9 +445,10 @@ function IspezioneIpotecariaFields({ data, onChange }: {
   );
 }
 
-function SingolaNotaFields({ data, onChange }: {
+function SingolaNotaFields({ data, onChange, onProvinciaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
+  onProvinciaChange: (value: string) => void;
 }) {
   const [mode, setMode] = useState<IpotecariaMode>(
     (data._mode as IpotecariaMode) || 'soggetto'
@@ -483,7 +482,7 @@ function SingolaNotaFields({ data, onChange }: {
       <div className="pt-6 border-t border-slate-200 space-y-4">
         <ModeSwitch mode={mode} onChange={handleModeChange} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} />}
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />}
           {mode === 'soggetto' && (
             <div className="md:col-span-2 space-y-1.5">
               <label className={labelClass}>Codice Fiscale *</label>
@@ -603,11 +602,13 @@ export default function CartPage() {
                   <IspezioneIpotecariaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
                   />
                 ) : isElencoNoteIpotecarie(item.service.slug) ? (
                   <SingolaNotaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
+                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
