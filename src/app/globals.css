@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 :root {
@@ -357,9 +357,16 @@ input[type="url"]:not([class*="border"]):not([class*="bg-"]),
 select:not([class*="border"]):not([class*="bg-"]),
 textarea:not([class*="border"]):not([class*="bg-"]) {
   border: none;
-  padding: 0.5rem 0;
-  background: transparent;
-  transition: none;
+  padding: 0.75rem 1rem;
+  background: #eef0f3;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+input:not([class*="border"]):not([class*="bg-"]):focus,
+select:not([class*="border"]):not([class*="bg-"]):focus,
+textarea:not([class*="border"]):not([class*="bg-"]):focus {
+  background: #e4e7ec;
 }
 
 input::placeholder,
