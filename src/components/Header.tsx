@@ -46,6 +46,7 @@ export default function Header() {
   const meta = user?.user_metadata ?? {};
   const nome = meta.nome as string | undefined;
   const displayName = nome || user?.email?.split('@')[0] || 'Account';
+  const isAdmin = (user?.email || '').toLowerCase() === 'profili.vulcano@gmail.com';
 
   return (
     <div className="fixed top-0 w-full z-50 px-2 pt-1">
@@ -160,6 +161,16 @@ export default function Header() {
                       <span className="material-symbols-outlined text-base">dashboard</span>
                       Dashboard
                     </Link>
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#4463EE] font-semibold hover:bg-slate-50 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-base">shield_person</span>
+                        Admin
+                      </Link>
+                    )}
                     <div className="h-px bg-slate-100 my-1" />
                     <button
                       onClick={handleLogout}
@@ -202,6 +213,9 @@ export default function Header() {
             {user ? (
               <>
                 <Link href="/dashboard" className="block text-[#002147] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+                {isAdmin && (
+                  <Link href="/admin" className="block text-[#4463EE] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Admin</Link>
+                )}
                 <button onClick={handleLogout} className="block text-red-500 font-medium py-2 w-full text-left">Esci</button>
               </>
             ) : (
