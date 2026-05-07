@@ -183,7 +183,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Visure e planimetrie ufficiali in tempo reale.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto">
+            <div className="flex-grow overflow-x-auto hidden md:block">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -241,11 +241,15 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center">
+            <div className="pt-6 text-center hidden md:block">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
+            <Link href="/catalogo/documenti-catastali" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
+              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
+              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </Link>
           </div>
 
           {/* 02 - Verifiche Ipotecarie */}
@@ -258,7 +262,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Analisi gravami e trascrizioni pregiudizievoli.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto">
+            <div className="flex-grow overflow-x-auto hidden md:block">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -316,11 +320,15 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center">
+            <div className="pt-6 text-center hidden md:block">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
+            <Link href="/catalogo/verifiche-ipotecarie" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
+              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
+              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </Link>
           </div>
 
           {/* 03 - Urbanistica */}
@@ -333,7 +341,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Conformità e titoli abilitativi comunali.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto">
+            <div className="flex-grow overflow-x-auto hidden md:block">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -391,11 +399,15 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center">
+            <div className="pt-6 text-center hidden md:block">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/urbanistica">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
+            <Link href="/catalogo/urbanistica" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
+              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
+              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </Link>
           </div>
 
           {/* 04 - Utility Gratuite */}
@@ -408,7 +420,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Strumenti per l&apos;attività quotidiana.</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-3 hidden md:grid">
               <Link href="/coming-soon/calcolatore-imu" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
@@ -434,11 +446,15 @@ export default function HomePage() {
                 <span className="text-secondary text-[10px] font-bold flex items-center gap-1">SCARICA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
               </Link>
             </div>
-            <div className="pt-6 text-center mt-auto">
+            <div className="pt-6 text-center mt-auto hidden md:block">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
+            <Link href="/catalogo/utility-gratuite" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
+              <span className="text-sm font-bold text-primary-container">Esplora le utility</span>
+              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </Link>
           </div>
         </div>
         </div>
