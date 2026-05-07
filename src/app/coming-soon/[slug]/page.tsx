@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -10,6 +11,34 @@ export default function ComingSoonPage() {
   const params = useParams();
   const slug = params.slug as string;
   const service = getServiceBySlug(slug);
+
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errMsg, setErrMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrMsg('');
+    try {
+      const res = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, slug }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        setErrMsg(j?.error || 'Errore');
+        setStatus('error');
+        return;
+      }
+      setStatus('success');
+      setEmail('');
+    } catch {
+      setErrMsg('Errore di rete');
+      setStatus('error');
+    }
+  };
 
   const serviceName = service?.name || 'Nuovo Servizio';
   const serviceDescription = service?.description || 'Un nuovo strumento professionale sta per arrivare.';
@@ -45,21 +74,33 @@ export default function ComingSoonPage() {
                 <p className="font-bold text-[#002147]">Saremo pronti a breve.</p>
                 <p className="text-sm text-[#44474e]">Inserisci la tua email per essere avvisato quando sara disponibile.</p>
               </div>
-              <form className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  className="flex-grow"
-                  placeholder="La tua email"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-[#4463ee] text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2"
-                >
-                  Avvisami
-                  <span className="material-symbols-outlined text-sm">send</span>
-                </button>
-              </form>
+              {status === 'success' ? (
+                <div className="flex items-center gap-2 text-green-700 bg-green-50 border border-green-200 px-4 py-3 rounded-xl text-sm">
+                  <span className="material-symbols-outlined text-lg">check_circle</span>
+                  Ti avviseremo non appena disponibile.
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    className="flex-grow border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#4463ee]"
+                    placeholder="La tua email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === 'loading'}
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="bg-[#4463ee] text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {status === 'loading' ? 'Invio...' : 'Avvisami'}
+                    <span className="material-symbols-outlined text-sm">send</span>
+                  </button>
+                </form>
+              )}
+              {status === 'error' && <p className="text-xs text-red-600">{errMsg}</p>}
             </div>
 
             {/* Back Link */}

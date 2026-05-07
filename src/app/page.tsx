@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services } from '@/data/services';
+import SuggestionForm from '@/components/SuggestionForm';
 
 export default function HomePage() {
   const router = useRouter();
@@ -517,6 +518,7 @@ export default function HomePage() {
               Scopri cosa sta arrivando<span className="hidden md:inline"> →</span>
             </a>
           </div>
+          <SuggestionForm />
         </div>
       </section>
 
