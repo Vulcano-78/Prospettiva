@@ -176,10 +176,10 @@ export default function HomePage() {
         {/* Mobile cards */}
         <div className="md:hidden relative grid grid-cols-1 gap-4">
           {[
-            { href: '/catalogo/documenti-catastali', icon: 'description', title: 'Catasto', desc: 'Visure e planimetrie ufficiali in tempo reale.', tag: 'Documenti ufficiali' },
-            { href: '/catalogo/verifiche-ipotecarie', icon: 'account_balance', title: 'Conservatoria', desc: 'Analisi gravami e trascrizioni pregiudizievoli.', tag: 'Verifiche ipotecarie' },
-            { href: '/catalogo/urbanistica', icon: 'architecture', title: 'Urbanistica', desc: 'Conformità e titoli abilitativi comunali.', tag: 'Pratiche comunali' },
-            { href: '/catalogo/utility-gratuite', icon: 'construction', title: 'Utility Gratuite', desc: 'Strumenti per l’attività quotidiana.', tag: 'Tool gratuiti' },
+            { href: '/catalogo/documenti-catastali', icon: 'description', title: 'Catasto', desc: 'Visure e planimetrie ufficiali in tempo reale.', tag: 'Documenti ufficiali', cta: 'Esplora' },
+            { href: '/catalogo/verifiche-ipotecarie', icon: 'account_balance', title: 'Conservatoria', desc: 'Analisi gravami e trascrizioni pregiudizievoli.', tag: 'Verifiche ipotecarie', cta: 'Esplora' },
+            { href: '/coming-soon/urbanistica', icon: 'architecture', title: 'Urbanistica', desc: 'Conformità e titoli abilitativi comunali.', tag: 'Coming Soon', cta: 'Avvisami', comingSoon: true },
+            { href: '/catalogo/utility-gratuite', icon: 'construction', title: 'Utility Gratuite', desc: 'Strumenti per l’attività quotidiana.', tag: 'Tool gratuiti', cta: 'Esplora' },
           ].map(c => (
             <Link key={c.href} href={c.href} className="group relative block bg-white border border-slate-200 hover:border-secondary/40 hover:shadow-xl shadow-sm transition-all duration-300 overflow-hidden">
               <span className="material-symbols-outlined absolute -bottom-6 -right-4 text-primary-container/[0.04] pointer-events-none select-none group-hover:text-secondary/[0.08] transition-colors" style={{ fontSize: '160px' }}>{c.icon}</span>
@@ -193,9 +193,13 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="relative px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
-                <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
+                {c.comingSoon ? (
+                  <span className="bg-secondary/10 text-secondary text-[10px] font-bold tracking-widest px-2 py-0.5 uppercase">{c.tag}</span>
+                ) : (
+                  <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
+                )}
                 <span className="flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                  Esplora <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
+                  {c.cta} <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
                 </span>
               </div>
             </Link>
@@ -354,8 +358,9 @@ export default function HomePage() {
           </div>
 
           {/* 03 - Urbanistica */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+          <div className="workflow-box p-6 flex flex-col h-full bg-white relative overflow-hidden">
+            <span className="material-symbols-outlined absolute -bottom-8 -right-6 text-primary-container/[0.04] pointer-events-none select-none" style={{ fontSize: '220px' }}>architecture</span>
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 relative">
                             <div>
                 <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-secondary text-xl">architecture</span> Urbanistica
@@ -363,67 +368,13 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Conformità e titoli abilitativi comunali.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
-                    <th className="py-2 font-bold">Servizio</th>
-                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-2 font-bold text-center w-16">Qtà</th>
-                    <th className="py-2 font-bold text-right">Azioni</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Accesso agli Atti</div>
-                      <div className="text-[10px] text-on-surface-variant">Pratiche edilizie</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€45.00</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Certificato C.D.U.</div>
-                      <div className="text-[10px] text-on-surface-variant">Destinazione urbanistica</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€35.00</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link href="/coming-soon/certificato-urbanistico" className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </Link>
-                        <Link href="/coming-soon/certificato-urbanistico" className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center">Acquista</Link>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="pt-6 text-center">
-              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/urbanistica">
-                VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
+            <div className="flex-grow flex flex-col items-center justify-center text-center py-10 relative">
+              <span className="inline-block bg-secondary/10 text-secondary text-[10px] font-bold tracking-widest px-3 py-1 mb-4 uppercase">Coming Soon</span>
+              <p className="text-sm text-on-surface-variant max-w-xs mb-6">
+                Stiamo lavorando ai servizi di urbanistica: accesso agli atti, certificati di destinazione urbanistica e altre pratiche comunali.
+              </p>
+              <Link href="/coming-soon/urbanistica" className="inline-flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider hover:gap-2 transition-all">
+                Avvisami quando disponibile <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>
           </div>
