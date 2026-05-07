@@ -21,6 +21,7 @@ const TIPO_LABEL: Record<string, string> = {
   visura_catastale: 'Visura Catastale',
   estratto_mappa: 'Estratto di Mappa',
   elaborato_planimetrico: 'Elaborato Planimetrico',
+  ispezione_ipotecaria_nazionale: 'Ispezione Ipotecaria Nazionale',
 };
 
 function buildPdf(
@@ -107,7 +108,55 @@ function buildPdf(
     // ── Risultati ────────────────────────────────────────────────────
     drawSectionTitle('Risultati');
 
-    if (Array.isArray(dati)) {
+    // Renderer specializzato per ispezione ipotecaria nazionale
+    if (tipoReport === 'ispezione_ipotecaria_nazionale') {
+      type Conservatoria = { conservatoria: string; trascrizioni: string; iscrizioni: string; annotazioni: string };
+      type Soggetto = { cognome?: string; nome?: string; cf?: string; data_nascita?: string; luogo_nascita?: string; sesso?: string; conservatorie?: Conservatoria[] };
+      const soggetti: Soggetto[] = Array.isArray(dati) ? dati as Soggetto[] : [];
+
+      if (soggetti.length === 0) {
+        doc.fillColor(GREY).font(FONT_REGULAR).fontSize(9).text('Nessun soggetto trovato.', 58, y);
+        y += 20;
+      }
+
+      soggetti.forEach((s, si) => {
+        if (y > doc.page.height - 120) { doc.addPage(); y = 50; }
+
+        // Intestazione soggetto
+        doc.rect(50, y, contentWidth, 24).fill(BLUE);
+        doc.fillColor(WHITE).font(FONT_BOLD).fontSize(9)
+          .text(`${s.cognome ?? ''} ${s.nome ?? ''}`.trim(), 58, y + 7, { width: contentWidth / 2 });
+        doc.fillColor(WHITE).font(FONT_REGULAR).fontSize(9)
+          .text(`CF: ${s.cf ?? '—'}`, 58 + contentWidth / 2, y + 7, { width: contentWidth / 2 - 8, align: 'right' });
+        y += 32;
+
+        const infoRows = [
+          ['Data di nascita', s.data_nascita ?? '—'],
+          ['Luogo di nascita', s.luogo_nascita ?? '—'],
+          ['Sesso', s.sesso ?? '—'],
+        ];
+        infoRows.forEach(([label, value], i) => drawRow(label, value, i % 2 === 0));
+        y += 10;
+
+        // Tabella conservatorie
+        const conss = s.conservatorie ?? [];
+        if (conss.length > 0) {
+          if (y > doc.page.height - 80) { doc.addPage(); y = 50; }
+          doc.fillColor(GREY).font(FONT_BOLD).fontSize(8).text('CONSERVATORIE CON FORMALITÀ', 58, y);
+          y += 14;
+          drawTableHeader(['Conservatoria', 'Trascrizioni', 'Iscrizioni', 'Annotazioni']);
+          conss.forEach((c, i) => {
+            if (y > doc.page.height - 80) { doc.addPage(); y = 50; }
+            drawTableRow([c.conservatoria ?? '—', c.trascrizioni ?? '—', c.iscrizioni ?? '—', c.annotazioni ?? '—'], i % 2 === 0);
+          });
+        } else {
+          doc.fillColor(GREY).font(FONT_REGULAR).fontSize(9).text('Nessuna conservatoria trovata per questo soggetto.', 58, y);
+          y += 16;
+        }
+
+        if (si < soggetti.length - 1) y += 20;
+      });
+    } else if (Array.isArray(dati)) {
       if (dati.length === 0) {
         doc.fillColor(GREY).font(FONT_REGULAR).fontSize(9).text('Nessun risultato trovato.', 58, y);
         y += 20;
