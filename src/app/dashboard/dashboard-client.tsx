@@ -16,6 +16,48 @@ export type Order = {
   created_at: string;
 };
 
+export type ContoEconomico = {
+  id: string;
+  titolo: string;
+  regime: 'persona_fisica' | 'societa';
+  data: {
+    descrizione?: string;
+    mq?: string;
+    unita?: string;
+    voci?: Record<string, string>;
+    rivendita1?: string;
+    rivendita2?: string;
+    esposizione?: string;
+  };
+  created_at: string;
+};
+
+function ceNum(v: string | undefined): number {
+  if (!v) return 0;
+  const n = parseFloat(v.replace(',', '.'));
+  return Number.isFinite(n) ? n : 0;
+}
+
+function ceTotali(c: ContoEconomico) {
+  const voci = c.data.voci ?? {};
+  const totaleCosti = Object.values(voci).reduce((s, v) => s + ceNum(v), 0);
+  const totaleRivendita = ceNum(c.data.rivendita1) + ceNum(c.data.rivendita2);
+  const utile = totaleRivendita - totaleCosti;
+  const expo = ceNum(c.data.esposizione);
+  const roi = totaleCosti > 0 ? (utile / totaleCosti) * 100 : NaN;
+  const roe = expo > 0 ? (utile / expo) * 100 : NaN;
+  return { totaleCosti, totaleRivendita, utile, roi, roe };
+}
+
+function fmtEur(n: number): string {
+  return new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+}
+
+function fmtPct(n: number): string {
+  if (!Number.isFinite(n)) return '—';
+  return `${n.toFixed(1).replace('.', ',')}%`;
+}
+
 const slugToName: Record<string, string> = {
   'visura-catastale': 'Visura Catastale Ordinaria',
   'visura-catastale-storica': 'Visura Catastale Storica',
@@ -80,13 +122,15 @@ const supabase = createClient();
 type Props = {
   initialUser: User;
   initialOrders: Order[];
+  initialConti: ContoEconomico[];
 };
 
-export default function DashboardClient({ initialUser, initialOrders }: Props) {
+export default function DashboardClient({ initialUser, initialOrders, initialConti }: Props) {
   const router = useRouter();
   const [user, setUser] = useState<User>(initialUser);
   const [orders, setOrders] = useState<Order[]>(initialOrders);
-  const [activeSection, setActiveSection] = useState<'documenti' | 'profilo'>('documenti');
+  const [conti, setConti] = useState<ContoEconomico[]>(initialConti);
+  const [activeSection, setActiveSection] = useState<'documenti' | 'conti' | 'profilo'>('documenti');
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -157,6 +201,13 @@ export default function DashboardClient({ initialUser, initialOrders }: Props) {
             >
               <span className="material-symbols-outlined">description</span>
               <span className="text-sm font-semibold">Documenti</span>
+            </button>
+            <button
+              onClick={() => setActiveSection('conti')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'conti' ? 'text-[#002147] font-semibold bg-white shadow-sm' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-white/60'}`}
+            >
+              <span className="material-symbols-outlined">calculate</span>
+              <span className="text-sm font-semibold">Conti Economici</span>
             </button>
             <button
               onClick={() => setActiveSection('profilo')}
@@ -278,6 +329,81 @@ export default function DashboardClient({ initialUser, initialOrders }: Props) {
                             <span className="material-symbols-outlined">delete</span>
                           </button>
                         </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>}
+
+          {/* Conti Economici */}
+          {activeSection === 'conti' && <section className="mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Conti Economici
+                </h2>
+                <p className="text-slate-500 text-sm">Calcoli salvati dall&apos;utility gratuita.</p>
+              </div>
+              <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-5 py-3 rounded-xl hover:brightness-110 transition-all text-sm">
+                <span className="material-symbols-outlined text-base">add</span>
+                Nuovo CE
+              </Link>
+            </div>
+
+            {conti.length === 0 ? (
+              <div className="bg-white rounded-xl border border-slate-100 p-12 text-center">
+                <span className="material-symbols-outlined text-4xl text-slate-300 mb-3 block">calculate</span>
+                <p className="font-bold text-[#002147] mb-1">Nessun conto economico salvato</p>
+                <p className="text-sm text-slate-500 mb-6">Calcola e salva la prima operazione.</p>
+                <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all text-sm">
+                  Apri utility
+                  <span className="material-symbols-outlined text-base">arrow_forward</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {conti.map(ce => {
+                  const t = ceTotali(ce);
+                  return (
+                    <div key={ce.id} className="bg-white p-5 rounded-xl border border-slate-100 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-[#002147] shrink-0">
+                          <span className="material-symbols-outlined">calculate</span>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-bold text-[#002147] truncate">{ce.titolo}</h3>
+                          <p className="text-xs text-slate-500">
+                            {ce.regime === 'societa' ? 'Società' : 'Persona Fisica'} · {formatDate(ce.created_at)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="hidden md:flex items-center gap-5 text-right">
+                          <div>
+                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Utile</p>
+                            <p className={`text-sm font-bold ${t.utile >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtEur(t.utile)}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">ROI</p>
+                            <p className="text-sm font-bold text-[#002147]">{fmtPct(t.roi)}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">ROE</p>
+                            <p className="text-sm font-bold text-[#002147]">{fmtPct(t.roe)}</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={async () => {
+                            if (!confirm('Eliminare questo conto economico?')) return;
+                            const res = await fetch(`/api/conti-economici?id=${ce.id}`, { method: 'DELETE' });
+                            if (res.ok) setConti(prev => prev.filter(x => x.id !== ce.id));
+                          }}
+                          className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                        >
+                          <span className="material-symbols-outlined">delete</span>
+                        </button>
                       </div>
                     </div>
                   );
