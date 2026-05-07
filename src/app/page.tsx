@@ -172,7 +172,37 @@ export default function HomePage() {
         </div>
         <div className="relative">
         <div className="absolute inset-0 -mb-16" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)', left: '50%', transform: 'translateX(-50%)', width: '100vw' }}></div>
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        {/* Mobile cards */}
+        <div className="md:hidden relative grid grid-cols-1 gap-4">
+          {[
+            { href: '/catalogo/documenti-catastali', icon: 'description', title: 'Catasto', desc: 'Visure e planimetrie ufficiali in tempo reale.', tag: 'Documenti ufficiali' },
+            { href: '/catalogo/verifiche-ipotecarie', icon: 'account_balance', title: 'Conservatoria', desc: 'Analisi gravami e trascrizioni pregiudizievoli.', tag: 'Verifiche ipotecarie' },
+            { href: '/catalogo/urbanistica', icon: 'architecture', title: 'Urbanistica', desc: 'Conformità e titoli abilitativi comunali.', tag: 'Pratiche comunali' },
+            { href: '/catalogo/utility-gratuite', icon: 'construction', title: 'Utility Gratuite', desc: 'Strumenti per l’attività quotidiana.', tag: 'Tool gratuiti' },
+          ].map(c => (
+            <Link key={c.href} href={c.href} className="group relative block bg-white border border-slate-200 hover:border-secondary/40 hover:shadow-xl shadow-sm transition-all duration-300 overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-secondary via-primary-container to-secondary"></div>
+              <div className="p-5 pt-6 flex items-start gap-4">
+                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-secondary/15 to-primary-container/5 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-secondary" style={{ fontSize: '30px' }}>{c.icon}</span>
+                </div>
+                <div className="flex-grow min-w-0 pt-0.5">
+                  <h3 className="text-lg font-bold text-primary-container leading-tight mb-1">{c.title}</h3>
+                  <p className="text-xs text-on-surface-variant leading-snug">{c.desc}</p>
+                </div>
+              </div>
+              <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
+                <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
+                <span className="flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                  Esplora <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="relative hidden md:grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 01 - Documenti Catastali */}
           <div className="workflow-box p-6 flex flex-col h-full bg-white">
             <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
@@ -183,7 +213,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Visure e planimetrie ufficiali in tempo reale.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto hidden md:block">
+            <div className="flex-grow overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -241,15 +271,11 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center hidden md:block">
+            <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
-            <Link href="/catalogo/documenti-catastali" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
-              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
-              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-            </Link>
           </div>
 
           {/* 02 - Verifiche Ipotecarie */}
@@ -262,7 +288,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Analisi gravami e trascrizioni pregiudizievoli.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto hidden md:block">
+            <div className="flex-grow overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -320,15 +346,11 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center hidden md:block">
+            <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
-            <Link href="/catalogo/verifiche-ipotecarie" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
-              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
-              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-            </Link>
           </div>
 
           {/* 03 - Urbanistica */}
@@ -341,7 +363,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Conformità e titoli abilitativi comunali.</p>
               </div>
             </div>
-            <div className="flex-grow overflow-x-auto hidden md:block">
+            <div className="flex-grow overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
@@ -399,15 +421,11 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="pt-6 text-center hidden md:block">
+            <div className="pt-6 text-center">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/urbanistica">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
-            <Link href="/catalogo/urbanistica" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
-              <span className="text-sm font-bold text-primary-container">Esplora i servizi</span>
-              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-            </Link>
           </div>
 
           {/* 04 - Utility Gratuite */}
@@ -420,7 +438,7 @@ export default function HomePage() {
                 <p className="text-xs text-on-surface-variant">Strumenti per l&apos;attività quotidiana.</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-3 hidden md:grid">
+            <div className="grid grid-cols-1 gap-3">
               <Link href="/coming-soon/calcolatore-imu" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
@@ -446,15 +464,11 @@ export default function HomePage() {
                 <span className="text-secondary text-[10px] font-bold flex items-center gap-1">SCARICA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
               </Link>
             </div>
-            <div className="pt-6 text-center mt-auto hidden md:block">
+            <div className="pt-6 text-center mt-auto">
               <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
-            <Link href="/catalogo/utility-gratuite" className="md:hidden flex items-center justify-between bg-slate-50 hover:bg-slate-100 active:bg-slate-200 px-5 py-4 transition-colors group">
-              <span className="text-sm font-bold text-primary-container">Esplora le utility</span>
-              <span className="material-symbols-outlined text-secondary group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-            </Link>
           </div>
         </div>
         </div>
