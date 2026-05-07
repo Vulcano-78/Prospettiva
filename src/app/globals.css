@@ -342,7 +342,7 @@ select,
 textarea {
   width: 100%;
   outline: none;
-  font-size: 0.875rem;
+  font-size: 16px; /* >= 16px previene auto-zoom iOS Safari sul focus */
   font-family: inherit;
   color: var(--color-on-surface);
   background: white;
