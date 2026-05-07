@@ -358,7 +358,7 @@ select:not([class*="border"]):not([class*="bg-"]),
 textarea:not([class*="border"]):not([class*="bg-"]) {
   border: none;
   padding: 0.75rem 1rem;
-  background: #eef0f3;
+  background: #f8f9fa;
   border-radius: 6px;
   transition: background 0.15s;
 }
@@ -366,7 +366,7 @@ textarea:not([class*="border"]):not([class*="bg-"]) {
 input:not([class*="border"]):not([class*="bg-"]):focus,
 select:not([class*="border"]):not([class*="bg-"]):focus,
 textarea:not([class*="border"]):not([class*="bg-"]):focus {
-  background: #e4e7ec;
+  background: #f3f4f5;
 }
 
 input::placeholder,
