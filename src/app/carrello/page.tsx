@@ -438,28 +438,23 @@ function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      <ModeSwitch mode={mode} onChange={handleModeChange} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ConservatoriaSelect value={data.conservatoria || ''} onChange={onConservatoriaChange} conservatorie={conservatorie} loading={loading} />
-      </div>
-
-      <div className="pt-6 border-t border-slate-200 space-y-4">
-        <ModeSwitch mode={mode} onChange={handleModeChange} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
-          {mode === 'soggetto' && (
-            <div className="md:col-span-2 space-y-1.5">
-              <label className={labelClass}>Codice Fiscale *</label>
-              <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-          )}
-          {mode === 'soggetto-giuridico' && (
-            <div className="md:col-span-2 space-y-1.5">
-              <label className={labelClass}>Partita IVA *</label>
-              <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-          )}
-        </div>
+        {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
+        {mode === 'soggetto' && (
+          <div className="space-y-1.5">
+            <label className={labelClass}>Codice Fiscale *</label>
+            <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+          </div>
+        )}
+        {mode === 'soggetto-giuridico' && (
+          <div className="space-y-1.5">
+            <label className={labelClass}>Partita IVA *</label>
+            <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -486,36 +481,35 @@ function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={onConservatoriaChange} conservatorie={conservatorie} loading={loading} />
         <div className="space-y-1.5">
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
         </div>
-        <div className="md:col-span-2 space-y-1.5">
+        <div className="space-y-1.5">
           <label className={labelClass}>Registro Generale *</label>
           <input type="number" className={inputClass} placeholder="Es. 12345" value={data.registro_generale || ''} onChange={(e) => onChange('registro_generale', e.target.value)} required />
         </div>
       </div>
 
-      <div className="pt-6 border-t border-slate-200 space-y-4">
-        <ModeSwitch mode={mode} onChange={handleModeChange} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
-          {mode === 'soggetto' && (
-            <div className="md:col-span-2 space-y-1.5">
-              <label className={labelClass}>Codice Fiscale *</label>
-              <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-          )}
-          {mode === 'soggetto-giuridico' && (
-            <div className="md:col-span-2 space-y-1.5">
-              <label className={labelClass}>Partita IVA *</label>
-              <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
-            </div>
-          )}
-        </div>
+      <ModeSwitch mode={mode} onChange={handleModeChange} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={onConservatoriaChange} conservatorie={conservatorie} loading={loading} />
+        {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
+        {mode === 'soggetto' && (
+          <div className="space-y-1.5">
+            <label className={labelClass}>Codice Fiscale *</label>
+            <input type="text" className={inputClass} placeholder="RSSMRA85L01H501Z" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+          </div>
+        )}
+        {mode === 'soggetto-giuridico' && (
+          <div className="space-y-1.5">
+            <label className={labelClass}>Partita IVA *</label>
+            <input type="text" className={inputClass} placeholder="12345678901" value={data.cf_piva || ''} onChange={(e) => onChange('cf_piva', e.target.value)} required />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -27,9 +27,9 @@ export async function GET(
   }
 
   const json = await res.json()
-  // Response can be option 0 (::props) or option 1 (plain object)
-  const data = json.data ?? json
-  const comuni: { comune: string; codice_catastale?: string }[] = data?.comuni ?? []
+  // data is an array: [{ conservatoria, comuni: [...] }]
+  const entry = Array.isArray(json.data) ? json.data[0] : json.data
+  const comuni: { comune: string; codice_catastale?: string }[] = entry?.comuni ?? []
 
   return NextResponse.json(comuni)
 }
