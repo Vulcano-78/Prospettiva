@@ -153,7 +153,7 @@ export default function RegistrationPage() {
                     key={opt.value}
                     type="button"
                     onClick={() => setAccountType(opt.value)}
-                    className={`relative flex items-center gap-2.5 p-3 rounded-lg border transition-all ${
+                    className={`relative flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-2.5 p-3 rounded-lg border transition-all min-w-0 ${
                       accountType === opt.value ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
                     }`}
                   >
@@ -162,7 +162,7 @@ export default function RegistrationPage() {
                     }`}>
                       <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{opt.icon}</span>
                     </div>
-                    <span className="text-sm font-semibold text-[#002147]">{opt.label}</span>
+                    <span className="text-xs sm:text-sm font-semibold text-[#002147] text-center sm:text-left leading-tight">{opt.label}</span>
                   </button>
                 ))}
               </div>
@@ -174,7 +174,7 @@ export default function RegistrationPage() {
                 <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">1</div>
                 <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Nome</label>
                   <input type="text" name="nome" value={formData.nome} onChange={handleChange} placeholder="Giuseppe" required />
@@ -188,7 +188,7 @@ export default function RegistrationPage() {
                 <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Email</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="giuseppe.verdi@email.it" required />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Password</label>
                   <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="••••••••" required />
@@ -211,7 +211,7 @@ export default function RegistrationPage() {
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale *</label>
                   <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Studio Immobiliare Verdi S.r.l." required />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
@@ -240,7 +240,7 @@ export default function RegistrationPage() {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
                     <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
@@ -266,7 +266,7 @@ export default function RegistrationPage() {
                     required
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="col-span-1">
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
                     <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
@@ -294,7 +294,7 @@ export default function RegistrationPage() {
                   <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Denominazione / Ragione Sociale *</label>
                   <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Rossi S.r.l." required />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
@@ -324,7 +324,7 @@ export default function RegistrationPage() {
                     required
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="col-span-1">
                     <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
                     <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />

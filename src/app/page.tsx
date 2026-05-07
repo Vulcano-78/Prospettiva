@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services } from '@/data/services';
 import SuggestionForm from '@/components/SuggestionForm';
+import NotifyMeInline from '@/components/NotifyMeInline';
 
 export default function HomePage() {
   const router = useRouter();
@@ -437,9 +438,7 @@ export default function HomePage() {
               Trasforma schizzi tecnici e stanze vuote in ambienti arredati da designer professionisti. Carica la planimetria e lascia che l&apos;AI faccia la magia istantaneamente.
             </p>
             <div className="text-center md:text-left">
-              <Link href="/coming-soon/virtual-staging" className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all" style={{ borderRadius: '6px' }}>
-                Entra in lista d&apos;attesa →
-              </Link>
+              <NotifyMeInline slug="virtual-staging" />
             </div>
           </div>
           <div className="relative">
