@@ -49,7 +49,7 @@ export default function ComingSoonPage() {
                 <input
                   type="email"
                   className="flex-grow"
-                  placeholder="La tua email professionale"
+                  placeholder="La tua email"
                   required
                 />
                 <button
