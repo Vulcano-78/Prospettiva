@@ -182,8 +182,8 @@ export default function HomePage() {
             { href: '/catalogo/utility-gratuite', icon: 'construction', title: 'Utility Gratuite', desc: 'Strumenti per l’attività quotidiana.', tag: 'Tool gratuiti' },
           ].map(c => (
             <Link key={c.href} href={c.href} className="group relative block bg-white border border-slate-200 hover:border-secondary/40 hover:shadow-xl shadow-sm transition-all duration-300 overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-secondary via-primary-container to-secondary"></div>
-              <div className="p-5 pt-6 flex items-start gap-4">
+              <span className="material-symbols-outlined absolute -bottom-6 -right-4 text-primary-container/[0.04] pointer-events-none select-none group-hover:text-secondary/[0.08] transition-colors" style={{ fontSize: '160px' }}>{c.icon}</span>
+              <div className="relative p-5 flex items-start gap-4">
                 <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-secondary/15 to-primary-container/5 flex items-center justify-center">
                   <span className="material-symbols-outlined text-secondary" style={{ fontSize: '30px' }}>{c.icon}</span>
                 </div>
@@ -192,7 +192,7 @@ export default function HomePage() {
                   <p className="text-xs text-on-surface-variant leading-snug">{c.desc}</p>
                 </div>
               </div>
-              <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
+              <div className="relative px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
                 <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
                 <span className="flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
                   Esplora <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
