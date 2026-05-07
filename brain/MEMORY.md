@@ -33,20 +33,21 @@ Tutti seguono il pattern: Webhook → Crea → Poll(If/Wait) → Scarica PDF →
 
 ## Allineamento sito ↔ n8n (conservatoria)
 
-Layout carrello (definitivo dopo iterazioni 6 maggio sera):
-- Conservatoria isolata in alto, divider visivo, sotto mode switch + dati
+Layout carrello (definitivo 7 maggio):
+- Mode switch in cima, poi grid con conservatoria + comune side-by-side (modalità immobile)
 - 3 modalità: **Per Immobile** / **Per Soggetto** / **Sogg. Giuridico**
 - CF e P.IVA hanno campi distinti (label/placeholder dedicati)
-- Provincia e comune indipendenti dalla conservatoria (l'auto-set illudeva: una conservatoria copre solo certi comuni della sua provincia)
+- NIENTE provincia in modalità immobile: i comuni sono filtrati direttamente dalla conservatoria selezionata via `/api/territorio/conservatorie/{id}`
 
-`ispezione-ipotecaria`: Conservatoria + (Immobile: prov+com+catasto+foglio+particella+sub | Soggetto: CF | Sogg.Giuridico: P.IVA)
+`ispezione-ipotecaria`: Conservatoria + (Immobile: comune+catasto+foglio+particella+sub | Soggetto: CF | Sogg.Giuridico: P.IVA)
 `ispezione-ipotecaria-nazionale`: solo CF/PIVA
-`elenco-note-ipotecarie` (= "Singola Nota"): Conservatoria + Anno + Registro Generale + (modalità come sopra)
+`elenco-note-ipotecarie` (= "Singola Nota"): Anno + Tipo Registro (Generale/Particolare) + (Generale: registro_generale | Particolare: registro_particolare + tipo_nota) + Conservatoria + (modalità come sopra)
 
 Routing process-order:
-- soggetto / soggetto-giuridico → stesso webhook `*-soggetto`, distinti dal campo `tipo_soggetto: 'fisico' | 'giuridico'` (per ispezione) o `tipo_restrizione: 'soggetto_fisico' | 'soggetto_giuridico'` (per singola nota)
-- immobile → webhook `*-immobile`
+- soggetto / soggetto-giuridico → stesso webhook `*-soggetto`, distinti dal campo `tipo_soggetto: 'fisico' | 'giuridico'` (per ispezione) o `tipo_restrizione: 'soggetto'` con CF/P.IVA che fa la differenza (per singola nota)
+- immobile → webhook `*-immobile` con `tipo_restrizione: 'immobile'`
 - ConservatoriaSelect manda il NOME (es. "ROMA 1"), non l'id. OpenAPI valida sul nome
+- Tutti i campi a OpenAPI: con underscore (`tipo_restrizione`, `tipo_registro`, `cf_piva`, ecc.)
 
 ## Infrastruttura
 
@@ -62,11 +63,17 @@ Routing process-order:
 - Un workflow n8n per servizio (eccetto Servizi Minori che restano unificati)
 - Lavorare sempre su `main`, niente branch intermedi
 
+## OpenAPI Catasto — vincoli importanti
+
+- `/ipotecarie-dettaglio-nota`: `tipo_restrizione` accetta SOLO `"soggetto"` o `"immobile"` (NON `soggetto_fisico`/`soggetto_giuridico` come dice il PDF). L'API distingue fisico/giuridico automaticamente dal formato CF/P.IVA. Tutti i campi con underscore (`tipo_restrizione`, `tipo_registro`, `registro_generale`, `cf_piva`)
+- `/ipotecarie-ispezione_nazionale`: NON genera PDF (`documento: null`). Restituisce dati JSON in `risultato.soggetti[]`. Per ottenere un PDF serve generarlo via `/api/genera-report`
+- `/territorio/conservatorie/{id}`: ritorna lista comuni associati alla conservatoria. Risposta: `data` è ARRAY (`data[0].comuni`), non oggetto
+- Errore 312 "comune not valid" = comune scelto non rientra nella giurisdizione della conservatoria (validazione corretta lato API). Mitigato lato sito filtrando i comuni mostrati in base alla conservatoria selezionata
+
 ## Cose aperte / dubbi
 
-- Workflow `ispezione-ipotecaria-immobile` testato OK con dati validi. Da attivare/testare gli altri 4 ipotecari: `-soggetto`, `-nazionale`, `-singola-nota-soggetto`, `-singola-nota-immobile`
-- Workflow `ispezione-ipotecaria-soggetto` deve leggere il nuovo campo `tipo_soggetto: 'fisico' | 'giuridico'` per scegliere endpoint OpenAPI giusto (CF vs P.IVA)
+- Workflow ispezione ipotecaria nazionale (PDF via genera-report): testato `risultato.soggetti` con renderer specializzato in `genera-report`, JSON pronto sul Desktop, da attivare/testare in n8n
+- Da attivare/testare in n8n: `-soggetto` (per soggetto), `-immobile` (elenco note), `-nazionale`. `-singola-nota-soggetto` ✅ funziona, `-singola-nota-immobile` da testare
 - `estratto-mappa` in `process-order` (riga 87) punta ancora a `webhook-test/` invece di `webhook/`
 - 4 webhook visura puntano ai path produzione corretti, da verificare/attivare lato n8n
 - Servizi Minori: ricordarsi del fix `=` davanti alle espressioni `{{ ... }}` (vedi LOG 2026-05-06 pomeriggio)
-- UX possibile per ipotecaria: filtrare i comuni in base alla giurisdizione effettiva della conservatoria (mappa conservatoria→comuni). Per ora utente sceglie liberamente, OpenAPI valida con errore 312 se mismatch

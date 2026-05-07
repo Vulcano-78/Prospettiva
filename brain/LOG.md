@@ -50,3 +50,16 @@
 - Casino con `git add -A`: ho committato `.claude/worktrees/*` come submoduli + `README 2.md`. Rimossi subito. Aggiunto `.claude/` e `README 2.md` a `.gitignore`
 - Commit principali: `0aed16f` (stale closure), `7c447b7` (default mode), `20385e4` (no auto-provincia), `e8b009f` (layout 3-modalità + backend), `b7f96fa` (cleanup gitignore)
 - Lezione: mai `git add -A` in questo progetto — i worktree `.claude/` finiscono nel commit. Stagiare sempre file specifici
+
+
+## 2026-05-07 — Ipotecaria: filtro comuni da conservatoria + decoding API singola nota
+
+- Sessione partita per fix bug provincia non si seleziona in conservatoria → era la stessa stale closure di ieri (`ImmobileFieldsBlock` faceva due `onChange` sequenziali). Fix: prop `onProvinciaChange` atomico
+- Decisione UX: rimuovere completamente provincia per ipotecaria. Creato endpoint `/api/territorio/conservatorie/[id]` che proxia OpenAPI e ritorna i comuni della conservatoria. Hook `useComuniConservatoria`. ImmobileFieldsBlock ora popola il dropdown comuni dalla conservatoria scelta. Layout: conservatoria + comune side-by-side
+- Ispezione ipotecaria nazionale dava errore 293 "document file missing" → scoperto che l'endpoint NON genera PDF, restituisce JSON in `risultato.soggetti`. Riscritto workflow nazionale per chiamare `/api/genera-report` (come servizi minori), con renderer specializzato `ispezione_ipotecaria_nazionale` aggiunto a `genera-report/route.ts` (header soggetto + tabella conservatorie con trascrizioni/iscrizioni/annotazioni)
+- Singola nota: aggiunto al form `tipo_registro` (Generale/Particolare) + `tipo_nota` select (6 opzioni: trascrizioni, iscrizioni, annotazioni, privilegi_agrari/speciali/minerali). process-order manda i campi giusti
+- ODISSEA `tipo_restrizione`: speso ~3 ore tra interpretazioni del PDF. Risolto solo con curl diretto a sandbox: l'API `/ipotecarie-dettaglio-nota` accetta SOLO `tipo_restrizione: "soggetto"` o `"immobile"` (NIENTE `_fisico`/`_giuridico`!). Il PDF è fuorviante. La distinzione fisico/giuridico la fa OpenAPI dal formato CF/P.IVA. Tutti i campi richiedono underscore. Risposta API restituisce `soggetto_fisico`/`soggetto_giuridico` come dato derivato
+- Lezione: prima di girare in tondo a interpretare error message ambigui, fare un curl diretto all'API per scoprire i valori validi. Il sandbox è la fonte autoritativa
+- Workflow JSON aggiornati sul Desktop: nazionale, singola-nota-soggetto, singola-nota-immobile. Body template diretto (no Code node, no IIFE che n8n non valutava bene)
+- Test confermato: singola nota soggetto registro generale ✅ funziona. Da testare: nazionale, immobile, particolare
+- Commit principali: `0c4f91e` (stale closure), `4691a6f` (filtro comuni da conservatoria), `6974164` (fix data array + layout), `bc28b4f` (renderer nazionale in genera-report), `2e15a7b` (singola nota: tipo_registro+tipo_nota), `b05e7bc` (tipo_restrizione = soggetto/immobile, fine odissea)
