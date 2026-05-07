@@ -18,6 +18,8 @@ let provinceCache: Provincia[] | null = null;
 let provincePromise: Promise<Provincia[]> | null = null;
 const comuniCache = new Map<string, Comune[]>();
 const comuniPromises = new Map<string, Promise<Comune[]>>();
+const comuniConservatoriaCache = new Map<string, Comune[]>();
+const comuniConservatoriaPromises = new Map<string, Promise<Comune[]>>();
 
 function unwrapList<T>(json: unknown, keys: string[]): T[] {
   if (Array.isArray(json)) return json as T[];
@@ -81,6 +83,77 @@ function fetchComuni(provincia: string): Promise<Comune[]> {
     });
   comuniPromises.set(provincia, p);
   return p;
+}
+
+function fetchComuniConservatoria(conservatoria: string): Promise<Comune[]> {
+  const existing = comuniConservatoriaPromises.get(conservatoria);
+  if (existing) return existing;
+  const p = fetch(`/api/territorio/conservatorie/${encodeURIComponent(conservatoria)}`)
+    .then(async (r) => {
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        throw new Error(body?.error || `HTTP ${r.status}`);
+      }
+      const json = await r.json();
+      const list = Array.isArray(json) ? json : [];
+      comuniConservatoriaCache.set(conservatoria, list);
+      return list;
+    })
+    .catch((err) => {
+      comuniConservatoriaPromises.delete(conservatoria);
+      throw err;
+    });
+  comuniConservatoriaPromises.set(conservatoria, p);
+  return p;
+}
+
+export function useComuniConservatoria(conservatoria: string | null) {
+  const initial = conservatoria ? comuniConservatoriaCache.get(conservatoria) ?? [] : [];
+  const [comuni, setComuni] = useState<Comune[]>(initial);
+  const [isLoading, setIsLoading] = useState(
+    !!conservatoria && !comuniConservatoriaCache.has(conservatoria)
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [retryToken, setRetryToken] = useState(0);
+
+  useEffect(() => {
+    if (!conservatoria) {
+      setComuni([]);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+    const cached = comuniConservatoriaCache.get(conservatoria);
+    if (cached && retryToken === 0) {
+      setComuni(cached);
+      setIsLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setIsLoading(true);
+    setError(null);
+    fetchComuniConservatoria(conservatoria)
+      .then((list) => {
+        if (cancelled) return;
+        setComuni(list);
+        setIsLoading(false);
+      })
+      .catch((err: Error) => {
+        if (cancelled) return;
+        setError(err.message);
+        setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [conservatoria, retryToken]);
+
+  return {
+    comuni,
+    isLoading,
+    error,
+    retry: () => setRetryToken((t) => t + 1),
+  };
 }
 
 export function useProvince() {

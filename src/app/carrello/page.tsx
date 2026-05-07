@@ -9,6 +9,7 @@ import { useCart, CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/services';
 import ProvinciaSelect from '@/components/forms/ProvinciaSelect';
 import ComuneSelect from '@/components/forms/ComuneSelect';
+import { useComuniConservatoria } from '@/hooks/useTerritorio';
 
 function isVisura(slug: string) {
   return slug === 'visura-catastale' || slug === 'visura-catastale-storica';
@@ -376,15 +377,34 @@ function ModeSwitch({ mode, onChange }: {
   );
 }
 
-function ImmobileFieldsBlock({ data, onChange, onProvinciaChange }: {
+function ImmobileFieldsBlock({ data, onChange, conservatoria }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
+  conservatoria: string;
 }) {
+  const { comuni, isLoading } = useComuniConservatoria(conservatoria || null);
   return (
     <>
-      <ProvinciaSelect value={data.provincia || ''} onChange={onProvinciaChange} />
-      <ComuneSelect value={data.comune || ''} provincia={data.provincia || ''} onChange={(v) => onChange('comune', v)} />
+      <div className="space-y-1.5">
+        <label className={labelClass}>Comune *</label>
+        <div className="relative">
+          <select
+            className="w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none disabled:bg-slate-50 disabled:text-slate-400"
+            value={data.comune || ''}
+            onChange={(e) => onChange('comune', e.target.value)}
+            required
+            disabled={!conservatoria || isLoading}
+          >
+            <option value="">
+              {!conservatoria ? 'Seleziona prima la conservatoria' : isLoading ? 'Caricamento...' : 'Seleziona comune...'}
+            </option>
+            {comuni.map((c) => (
+              <option key={c.comune} value={c.comune}>{c.comune}</option>
+            ))}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-2 pointer-events-none text-slate-400 text-base">expand_more</span>
+        </div>
+      </div>
       <TipoCatastoFTSelect value={data.tipo_catasto} onChange={(v) => onChange('tipo_catasto', v)} />
       <div className="space-y-1.5">
         <label className={labelClass}>Foglio *</label>
@@ -402,10 +422,10 @@ function ImmobileFieldsBlock({ data, onChange, onProvinciaChange }: {
   );
 }
 
-function IspezioneIpotecariaFields({ data, onChange, onProvinciaChange }: {
+function IspezioneIpotecariaFields({ data, onChange, onConservatoriaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
+  onConservatoriaChange: (value: string) => void;
 }) {
   const [mode, setMode] = useState<IpotecariaMode>(
     (data._mode as IpotecariaMode) || 'immobile'
@@ -420,13 +440,13 @@ function IspezioneIpotecariaFields({ data, onChange, onProvinciaChange }: {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={onConservatoriaChange} conservatorie={conservatorie} loading={loading} />
       </div>
 
       <div className="pt-6 border-t border-slate-200 space-y-4">
         <ModeSwitch mode={mode} onChange={handleModeChange} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />}
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
           {mode === 'soggetto' && (
             <div className="md:col-span-2 space-y-1.5">
               <label className={labelClass}>Codice Fiscale *</label>
@@ -445,10 +465,10 @@ function IspezioneIpotecariaFields({ data, onChange, onProvinciaChange }: {
   );
 }
 
-function SingolaNotaFields({ data, onChange, onProvinciaChange }: {
+function SingolaNotaFields({ data, onChange, onConservatoriaChange }: {
   data: Record<string, string>;
   onChange: (name: string, value: string) => void;
-  onProvinciaChange: (value: string) => void;
+  onConservatoriaChange: (value: string) => void;
 }) {
   const [mode, setMode] = useState<IpotecariaMode>(
     (data._mode as IpotecariaMode) || 'soggetto'
@@ -468,7 +488,7 @@ function SingolaNotaFields({ data, onChange, onProvinciaChange }: {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ConservatoriaSelect value={data.conservatoria || ''} onChange={(v) => onChange('conservatoria', v)} conservatorie={conservatorie} loading={loading} />
+        <ConservatoriaSelect value={data.conservatoria || ''} onChange={onConservatoriaChange} conservatorie={conservatorie} loading={loading} />
         <div className="space-y-1.5">
           <label className={labelClass}>Anno *</label>
           <input type="number" className={inputClass} placeholder="2024" value={data.anno || ''} onChange={(e) => onChange('anno', e.target.value)} required />
@@ -482,7 +502,7 @@ function SingolaNotaFields({ data, onChange, onProvinciaChange }: {
       <div className="pt-6 border-t border-slate-200 space-y-4">
         <ModeSwitch mode={mode} onChange={handleModeChange} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} onProvinciaChange={onProvinciaChange} />}
+          {mode === 'immobile' && <ImmobileFieldsBlock data={data} onChange={onChange} conservatoria={data.conservatoria || ''} />}
           {mode === 'soggetto' && (
             <div className="md:col-span-2 space-y-1.5">
               <label className={labelClass}>Codice Fiscale *</label>
@@ -602,13 +622,13 @@ export default function CartPage() {
                   <IspezioneIpotecariaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                    onConservatoriaChange={(value) => updateItem(item.id, { ...item.formData, conservatoria: value, comune: '' })}
                   />
                 ) : isElencoNoteIpotecarie(item.service.slug) ? (
                   <SingolaNotaFields
                     data={item.formData}
                     onChange={(name, value) => handleItemFieldChange(item.id, item.formData, name, value)}
-                    onProvinciaChange={(value) => updateItem(item.id, { ...item.formData, provincia: value, comune: '' })}
+                    onConservatoriaChange={(value) => updateItem(item.id, { ...item.formData, conservatoria: value, comune: '' })}
                   />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
