@@ -1,4 +1,6 @@
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+import crypto from 'crypto'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -9,6 +11,12 @@ function getAdminEmails(): string[] {
     .split(',')
     .map(e => e.trim().toLowerCase())
     .filter(Boolean)
+}
+
+function expectedSessionToken(): string | null {
+  const pw = process.env.ADMIN_PASSWORD
+  if (!pw) return null
+  return crypto.createHash('sha256').update(pw).digest('hex')
 }
 
 function formatDate(iso: string): string {
@@ -25,6 +33,13 @@ export default async function AdminPage() {
   const admins = getAdminEmails()
   if (!user || !admins.includes((user.email || '').toLowerCase())) {
     redirect('/')
+  }
+
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin_session')?.value
+  const expected = expectedSessionToken()
+  if (!expected || session !== expected) {
+    redirect('/admin/login')
   }
 
   const admin = createAdminClient()
