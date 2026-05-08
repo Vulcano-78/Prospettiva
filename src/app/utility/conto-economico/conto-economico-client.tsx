@@ -51,8 +51,17 @@ const VOCI_INIT: Voci = {
 };
 
 function num(v: string): number {
-  const n = parseFloat(v.replace(',', '.'));
+  const n = parseFloat(v.replace(/\./g, '').replace(',', '.'));
   return Number.isFinite(n) ? n : 0;
+}
+
+function fmtInput(v: string): string {
+  const cleaned = v.replace(/[^\d,]/g, '');
+  const [intRaw, ...decRest] = cleaned.split(',');
+  const intPart = (intRaw || '').replace(/^0+(?=\d)/, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  if (decRest.length === 0) return intPart;
+  const dec = decRest.join('').slice(0, 2);
+  return `${intPart || '0'},${dec}`;
 }
 
 function fmtEur(n: number): string {
@@ -188,7 +197,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                         type="text"
                         inputMode="decimal"
                         value={voci[v.key]}
-                        onChange={e => setVoci(p => ({ ...p, [v.key]: e.target.value }))}
+                        onChange={e => setVoci(p => ({ ...p, [v.key]: fmtInput(e.target.value) }))}
                         placeholder="0"
                         className="pr-8"
                       />
@@ -206,14 +215,14 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 1</label>
                   <div className="relative">
-                    <input type="text" inputMode="decimal" value={rivendita1} onChange={e => setRivendita1(e.target.value)} placeholder="0" className="pr-8" />
+                    <input type="text" inputMode="decimal" value={rivendita1} onChange={e => setRivendita1(fmtInput(e.target.value))} placeholder="0" className="pr-8" />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 2</label>
                   <div className="relative">
-                    <input type="text" inputMode="decimal" value={rivendita2} onChange={e => setRivendita2(e.target.value)} placeholder="0" className="pr-8" />
+                    <input type="text" inputMode="decimal" value={rivendita2} onChange={e => setRivendita2(fmtInput(e.target.value))} placeholder="0" className="pr-8" />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                 </div>
@@ -223,7 +232,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                     <span className="text-slate-400 font-normal normal-case tracking-normal ml-1">(capitale realmente impegnato)</span>
                   </label>
                   <div className="relative">
-                    <input type="text" inputMode="decimal" value={esposizione} onChange={e => setEsposizione(e.target.value)} placeholder="0" className="pr-8" />
+                    <input type="text" inputMode="decimal" value={esposizione} onChange={e => setEsposizione(fmtInput(e.target.value))} placeholder="0" className="pr-8" />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                 </div>

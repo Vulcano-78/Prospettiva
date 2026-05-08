@@ -34,7 +34,7 @@ export type ContoEconomico = {
 
 function ceNum(v: string | undefined): number {
   if (!v) return 0;
-  const n = parseFloat(v.replace(',', '.'));
+  const n = parseFloat(v.replace(/\./g, '').replace(',', '.'));
   return Number.isFinite(n) ? n : 0;
 }
 
