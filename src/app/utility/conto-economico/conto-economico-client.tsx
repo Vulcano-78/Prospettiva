@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 const VOCI_DEFAULTS_KEY = 'ce_voci_defaults_v1';
+const RISTR_MQ_KEY = 'ce_ristr_mq_v1';
 
 type Voci = {
   acquisto: string;
@@ -78,6 +79,8 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
   const [mq, setMq] = useState('');
   const [unita, setUnita] = useState('');
   const [voci, setVoci] = useState<Voci>(VOCI_INIT);
+  const [ristrMq, setRistrMq] = useState('');
+  const [lastRistrEdit, setLastRistrEdit] = useState<'mq' | 'tot' | null>(null);
   const [rivendita1, setRivendita1] = useState('');
   const [rivendita2, setRivendita2] = useState('');
   const [esposizione, setEsposizione] = useState('');
@@ -94,6 +97,8 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
         const saved = JSON.parse(raw) as Partial<Voci>;
         setVoci(p => ({ ...p, ...saved, acquisto: '' }));
       }
+      const rm = localStorage.getItem(RISTR_MQ_KEY);
+      if (rm) setRistrMq(rm);
     } catch {}
     setDefaultsLoaded(true);
   }, []);
@@ -107,16 +112,63 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
     } catch {}
   }, [voci, defaultsLoaded]);
 
+  useEffect(() => {
+    if (!defaultsLoaded) return;
+    try { localStorage.setItem(RISTR_MQ_KEY, ristrMq); } catch {}
+  }, [ristrMq, defaultsLoaded]);
+
+  // Recompute Ristrutturazione when mq changes, based on last-edited side
+  useEffect(() => {
+    const m = num(mq);
+    if (m <= 0) return;
+    if (lastRistrEdit === 'mq') {
+      const tot = num(ristrMq) * m;
+      setVoci(p => ({ ...p, ristrutturazione: tot > 0 ? fmtInput(String(Math.round(tot))) : '' }));
+    } else if (lastRistrEdit === 'tot') {
+      const tot = num(voci.ristrutturazione);
+      const per = tot / m;
+      setRistrMq(per > 0 ? fmtInput(String(Math.round(per))) : '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mq]);
+
+  const handleRistrMq = (raw: string) => {
+    const f = fmtInput(raw);
+    setRistrMq(f);
+    setLastRistrEdit('mq');
+    const m = num(mq);
+    if (m > 0) {
+      const tot = num(f) * m;
+      setVoci(p => ({ ...p, ristrutturazione: tot > 0 ? fmtInput(String(Math.round(tot))) : '' }));
+    }
+  };
+
+  const handleRistrTot = (raw: string) => {
+    const f = fmtInput(raw);
+    setVoci(p => ({ ...p, ristrutturazione: f }));
+    setLastRistrEdit('tot');
+    const m = num(mq);
+    if (m > 0) {
+      const per = num(f) / m;
+      setRistrMq(per > 0 ? fmtInput(String(Math.round(per))) : '');
+    }
+  };
+
   const handleSvuota = () => {
     setTitolo('');
     setDescrizione('');
     setMq('');
     setUnita('');
     setVoci(VOCI_INIT);
+    setRistrMq('');
+    setLastRistrEdit(null);
     setRivendita1('');
     setRivendita2('');
     setEsposizione('');
-    try { localStorage.removeItem(VOCI_DEFAULTS_KEY); } catch {}
+    try {
+      localStorage.removeItem(VOCI_DEFAULTS_KEY);
+      localStorage.removeItem(RISTR_MQ_KEY);
+    } catch {}
   };
 
   const calc = useMemo(() => {
@@ -220,15 +272,47 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 <button
                   type="button"
                   onClick={handleSvuota}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-[#002147] uppercase tracking-wider transition-colors"
+                  className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider transition-colors"
                 >
-                  <span className="material-symbols-outlined text-[14px] leading-none">delete_sweep</span>
                   Svuota campi
                 </button>
               </div>
               <p className="text-[11px] text-slate-400 mb-4">I costi restano memorizzati per il prossimo conto economico.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {VOCI_CONFIG.map(v => (
+
+                {/* Ristrutturazione: €/mq + totale auto-sincronizzati */}
+                <div className="md:col-span-2 grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={ristrMq}
+                        onChange={e => handleRistrMq(e.target.value)}
+                        placeholder="0"
+                        className="pr-8"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (totale)</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={voci.ristrutturazione}
+                        onChange={e => handleRistrTot(e.target.value)}
+                        placeholder="0"
+                        className="pr-8"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                    </div>
+                  </div>
+                </div>
+
+                {VOCI_CONFIG.filter(v => v.key !== 'ristrutturazione').map(v => (
                   <div key={v.key}>
                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{v.label}</label>
                     <div className="relative">
