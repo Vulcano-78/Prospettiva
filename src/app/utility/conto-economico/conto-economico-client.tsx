@@ -95,7 +95,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
       const raw = localStorage.getItem(VOCI_DEFAULTS_KEY);
       if (raw) {
         const saved = JSON.parse(raw) as Partial<Voci>;
-        setVoci(p => ({ ...p, ...saved, acquisto: '' }));
+        setVoci(p => ({ ...p, ...saved, acquisto: '', ristrutturazione: '' }));
       }
       const rm = localStorage.getItem(RISTR_MQ_KEY);
       if (rm) setRistrMq(rm);
@@ -105,8 +105,8 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
   useEffect(() => {
     if (!defaultsLoaded) return;
-    const { acquisto: _a, ...rest } = voci;
-    void _a;
+    const { acquisto: _a, ristrutturazione: _r, ...rest } = voci;
+    void _a; void _r;
     try {
       localStorage.setItem(VOCI_DEFAULTS_KEY, JSON.stringify(rest));
     } catch {}
