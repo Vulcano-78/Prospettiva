@@ -22,6 +22,7 @@ type Voci = {
   pulizia_cantiere: string;
   utenze: string;
   imprevisti: string;
+  altro: string;
 };
 
 const VOCI_CONFIG: { key: keyof Voci; label: string }[] = [
@@ -39,13 +40,14 @@ const VOCI_CONFIG: { key: keyof Voci; label: string }[] = [
   { key: 'pulizia_cantiere', label: 'Pulizia cantiere' },
   { key: 'utenze', label: 'Utenze' },
   { key: 'imprevisti', label: 'Imprevisti' },
+  { key: 'altro', label: 'Altro' },
 ];
 
 const VOCI_INIT: Voci = {
   acquisto: '', ristrutturazione: '', rendering_home_staging: '',
   imposte: '', notaio: '', avvocato: '', geometra: '', agibilita: '',
   cambio_dest_uso: '', agenzia_in: '', agenzia_out: '', condom_riscald: '',
-  pulizia_cantiere: '', utenze: '', imprevisti: '',
+  pulizia_cantiere: '', utenze: '', imprevisti: '', altro: '',
 };
 
 function num(v: string): number {
