@@ -5,8 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 const VOCI_DEFAULTS_KEY = 'ce_voci_defaults_v1';
 
-type Regime = 'persona_fisica' | 'societa';
-
 type Voci = {
   acquisto: string;
   ristrutturazione: string;
@@ -23,11 +21,9 @@ type Voci = {
   pulizia_cantiere: string;
   utenze: string;
   imprevisti: string;
-  altro: string;
 };
 
 const VOCI_CONFIG: { key: keyof Voci; label: string }[] = [
-  { key: 'acquisto', label: 'Acquisto' },
   { key: 'ristrutturazione', label: 'Ristrutturazione' },
   { key: 'rendering_home_staging', label: 'Rendering / Home Staging' },
   { key: 'imposte', label: 'Imposte' },
@@ -42,14 +38,13 @@ const VOCI_CONFIG: { key: keyof Voci; label: string }[] = [
   { key: 'pulizia_cantiere', label: 'Pulizia cantiere' },
   { key: 'utenze', label: 'Utenze' },
   { key: 'imprevisti', label: 'Imprevisti' },
-  { key: 'altro', label: 'Altro' },
 ];
 
 const VOCI_INIT: Voci = {
   acquisto: '', ristrutturazione: '', rendering_home_staging: '',
   imposte: '', notaio: '', avvocato: '', geometra: '', agibilita: '',
   cambio_dest_uso: '', agenzia_in: '', agenzia_out: '', condom_riscald: '',
-  pulizia_cantiere: '', utenze: '', imprevisti: '', altro: '',
+  pulizia_cantiere: '', utenze: '', imprevisti: '',
 };
 
 function num(v: string): number {
@@ -79,7 +74,6 @@ function fmtPct(n: number): string {
 
 export default function ContoEconomicoClient({ isLogged }: { userEmail: string | null; isLogged: boolean }) {
   const [titolo, setTitolo] = useState('');
-  const [regime, setRegime] = useState<Regime>('persona_fisica');
   const [descrizione, setDescrizione] = useState('');
   const [mq, setMq] = useState('');
   const [unita, setUnita] = useState('');
@@ -148,7 +142,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         titolo: titolo || `CE ${new Date().toLocaleDateString('it-IT')}`,
-        regime,
+        regime: 'persona_fisica',
         data: { descrizione, mq, unita, voci, rivendita1, rivendita2, esposizione },
       }),
     });
@@ -200,39 +194,39 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Unità da creare</label>
                   <input type="text" inputMode="numeric" value={unita} onChange={e => setUnita(e.target.value)} placeholder="0" />
                 </div>
-                <div className="md:col-span-2">
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Acquisto tramite</label>
-                  <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
-                    {(['persona_fisica', 'societa'] as const).map(r => (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => setRegime(r)}
-                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
-                          regime === r ? 'bg-white shadow-sm text-[#002147]' : 'text-slate-500 hover:text-[#002147]'
-                        }`}
-                      >
-                        {r === 'persona_fisica' ? 'Persona Fisica' : 'Società'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+              </div>
+            </section>
+
+            {/* Acquisto */}
+            <section className="bg-white rounded-xl border border-slate-100 p-6">
+              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Acquisto</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={voci.acquisto}
+                  onChange={e => setVoci(p => ({ ...p, acquisto: fmtInput(e.target.value) }))}
+                  placeholder="0"
+                  className="pr-8"
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
               </div>
             </section>
 
             {/* Costi */}
             <section className="bg-white rounded-xl border border-slate-100 p-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between gap-3 mb-2">
                 <h2 className="text-sm font-extrabold text-[#002147] uppercase tracking-widest">Costi</h2>
                 <button
                   type="button"
                   onClick={handleSvuota}
-                  className="text-[10px] uppercase tracking-widest font-bold text-slate-400 hover:text-[#002147] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-[#002147] uppercase tracking-wider transition-colors"
                 >
+                  <span className="material-symbols-outlined text-[14px] leading-none">delete_sweep</span>
                   Svuota campi
                 </button>
               </div>
-              <p className="text-[11px] text-slate-400 mb-4 -mt-2">I costi (escluso Acquisto) restano memorizzati per il prossimo conto economico.</p>
+              <p className="text-[11px] text-slate-400 mb-4">I costi restano memorizzati per il prossimo conto economico.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {VOCI_CONFIG.map(v => (
                   <div key={v.key}>
