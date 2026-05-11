@@ -80,3 +80,14 @@
 - Webhook payload invariato (continua a portare `tipo_servizio_label` al root).
 - Bundle: non implementati. Quando arriveranno → espansione lato server in `/api/process-order` (un webhook per servizio nel bundle).
 - Niente backfill: gli ordini esistenti sono di test, vanno via al lancio.
+
+## 2026-05-11 — Stripe: webhook autoritativo + server-side total
+- Estratta tutta la logica di fulfillment (INSERT orders + n8n) in `src/lib/order-fulfillment.ts`. Funzione `fulfillOrder` idempotente via UNIQUE su `orders.stripe_payment_intent_id`.
+- `/api/create-payment-intent` rifatto: il client manda solo `orders[]` + email; il server ricalcola il totale da `services.ts` e mette tutto nei metadata del PaymentIntent (items_count + item_0..N). Niente più fiducia al client su `amount`.
+- Nuovo `/api/stripe-webhook`: verifica firma con `STRIPE_WEBHOOK_SECRET`, su `payment_intent.succeeded` chiama `fulfillOrder` via `after()`. È la sorgente autoritativa del fulfillment.
+- `/api/process-order` rifatto: ora accetta SOLO `paymentIntentId`, lo verifica con Stripe (status=succeeded), ricostruisce orders dai metadata, fa fulfill idempotente. Resta come fallback browser-side per la pagina /conferma e per associare l'ordine all'utente se questo si è loggato dopo aver pagato come guest.
+- `/checkout/pagamento`: invia orders+email invece di amount.
+- `/conferma`: invia paymentIntentId estratto dalla query Stripe; rimosso `sendBeacon` su unload (ora c'è il webhook).
+- `/login`: rimosso il path `pendingOrderAfterAuth` (process-order non accetta più orders dal client).
+- SQL da eseguire: `sql/orders_stripe_payment_intent.sql` (ALTER TABLE + UNIQUE INDEX).
+- Da configurare su Vercel: `STRIPE_WEBHOOK_SECRET`. Da configurare in Stripe Dashboard: endpoint webhook → `https://prospettiva.io/api/stripe-webhook`, evento `payment_intent.succeeded`.

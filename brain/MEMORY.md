@@ -55,6 +55,7 @@ Routing process-order:
 - **Vercel**: regione `fra1`
 - **DB**: tabella `orders` con RLS, indice su `(user_id, created_at DESC)`
 - **Storage**: bucket `documenti` (privato), signed URL
+- **Stripe**: PaymentIntent dinamico, prezzo SEMPRE ricalcolato server-side da `services.ts`. Webhook `payment_intent.succeeded` su `/api/stripe-webhook` è la sorgente autoritativa del fulfillment. Logica condivisa in `src/lib/order-fulfillment.ts` (`fulfillOrder` idempotente). Idempotenza via UNIQUE su `orders.stripe_payment_intent_id`
 
 ## Decisioni in vigore
 
