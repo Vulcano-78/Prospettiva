@@ -86,7 +86,7 @@ export const services: Service[] = [
     slug: 'visura-catastale',
     name: 'Visura Catastale',
     shortName: 'Visura Catastale',
-    description: 'Richiedi documenti ufficiali (ordinari o storici) per soggetti o immobili, in formato sintetico o analitico.',
+    description: 'Richiedi documenti ufficiali per soggetti o immobili, in formato sintetico o analitico.',
     longDescription: 'Richiedi il documento ufficiale dell\'Agenzia delle Entrate con la massima semplicita. Ricezione immediata via email.',
     price: 5.90,
     category: 'documenti-catastali',
@@ -383,6 +383,19 @@ export const services: Service[] = [
     categoryIcon: 'calculate',
     isActive: true,
     href: '/utility/conto-economico',
+    fields: []
+  },
+  {
+    id: 'calcolatore-costi-compravendita',
+    slug: 'calcolatore-costi-compravendita',
+    name: 'Calcolatore Costi Compravendita',
+    shortName: 'Costi Compravendita',
+    description: 'Imposte di registro, ipotecaria, catastale, IVA e notaio: stima in 30 secondi.',
+    price: 0,
+    category: 'strumenti-gratuiti',
+    categoryIcon: 'request_quote',
+    isActive: true,
+    href: '/utility/calcolatore-costi-compravendita',
     fields: []
   },
   {

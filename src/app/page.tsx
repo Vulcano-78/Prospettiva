@@ -236,7 +236,7 @@ export default function HomePage() {
                       <div className="text-[10px] text-on-surface-variant">Per immobile o soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€9.90</span>
+                      <span className="text-xs font-semibold text-primary-container">€5.90</span>
                       <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
@@ -258,7 +258,7 @@ export default function HomePage() {
                       <div className="text-[10px] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
                     </td>
                     <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€12.90</span>
+                      <span className="text-xs font-semibold text-primary-container">€8.90</span>
                       <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
@@ -311,7 +311,7 @@ export default function HomePage() {
                       <div className="text-[10px] text-on-surface-variant">Formalità ipotecarie per soggetto o immobile</div>
                     </td>
                     <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€19.90</span>
+                      <span className="text-xs font-semibold text-primary-container">€29.90</span>
                       <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
@@ -333,7 +333,7 @@ export default function HomePage() {
                       <div className="text-[10px] text-on-surface-variant">Formalità a livello nazionale su un determinato soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€12.90</span>
+                      <span className="text-xs font-semibold text-primary-container">€36.90</span>
                       <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
