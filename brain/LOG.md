@@ -73,3 +73,10 @@
 - Bundle Compravendita Pro non esiste ancora in `services.ts` → CTA finale punta a `/catalogo/documenti-catastali`. Da creare quando ci sarà il prodotto bundle.
 - Tracking: `window.dataLayer.push` (GTM-ready), eventi `calcolo_completato`, `click_cta_visura`, `click_cta_bundle`.
 - Niente modifiche a Supabase: tool client-side puro.
+
+## 2026-05-11 — Email refactor n8n: tipo_servizio_label persistente
+- Estratto `buildTipoServizioLabel` in `src/lib/tipo-servizio-label.ts`. Mapping completo dei 14 servizi del listino + 2 extra (planimetria, elenco-immobili). Tiene conto di `_searchType`/`_mode` per le varianti immobile/soggetto/giuridico.
+- `/api/process-order` ora arricchisce ogni item di `items[]` con `tipo_servizio_label` PRIMA di INSERT su `orders`. Così quando n8n rilegge da Supabase post-PDF, ogni item porta la sua label. Multi-servizio safe: niente colonna a livello riga, label dentro JSONB.
+- Webhook payload invariato (continua a portare `tipo_servizio_label` al root).
+- Bundle: non implementati. Quando arriveranno → espansione lato server in `/api/process-order` (un webhook per servizio nel bundle).
+- Niente backfill: gli ordini esistenti sono di test, vanno via al lancio.

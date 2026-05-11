@@ -74,7 +74,8 @@ Routing process-order:
 
 - Workflow ispezione ipotecaria nazionale (PDF via genera-report): testato `risultato.soggetti` con renderer specializzato in `genera-report`, JSON pronto sul Desktop, da attivare/testare in n8n
 - Da attivare/testare in n8n: `-soggetto` (per soggetto), `-immobile` (elenco note), `-nazionale`. `-singola-nota-soggetto` ✅ funziona, `-singola-nota-immobile` da testare
-- Bundle Compravendita Pro: presente nel listino Excel a €45,90 ma NON ancora in `services.ts`. La CTA del nuovo calcolatore costi compravendita punta provvisoriamente a `/catalogo/documenti-catastali`.
+- Bundle Compravendita Pro: presente nel listino Excel a €45,90 ma NON ancora in `services.ts`. La CTA del nuovo calcolatore costi compravendita punta provvisoriamente a `/catalogo/documenti-catastali`. Quando si attiva, l'espansione sarà lato server in `/api/process-order` (N webhook).
+- `tipo_servizio_label` (mapping slug → label IT) è in `src/lib/tipo-servizio-label.ts`. Viene scritto in `orders.items[i]` come campo JSONB (no schema change) e nel payload webhook al root. n8n può leggerlo dal Webhook trigger (per workflow nuovi) oppure da `items[].tipo_servizio_label` dopo rilettura da Supabase.
 - `estratto-mappa` in `process-order` (riga 87) punta ancora a `webhook-test/` invece di `webhook/`
 - 4 webhook visura puntano ai path produzione corretti, da verificare/attivare lato n8n
 - Servizi Minori: ricordarsi del fix `=` davanti alle espressioni `{{ ... }}` (vedi LOG 2026-05-06 pomeriggio)
