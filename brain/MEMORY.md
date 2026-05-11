@@ -71,6 +71,23 @@ Routing process-order:
 - `/territorio/conservatorie/{id}`: ritorna lista comuni associati alla conservatoria. Risposta: `data` è ARRAY (`data[0].comuni`), non oggetto
 - Errore 312 "comune not valid" = comune scelto non rientra nella giurisdizione della conservatoria (validazione corretta lato API). Mitigato lato sito filtrando i comuni mostrati in base alla conservatoria selezionata
 
+## Da fare al lancio (switch test → live)
+
+1. **Stripe Dashboard**: toggle in alto a destra → **Live mode** (esci dal sandbox)
+2. **Crea webhook in Live mode**:
+   - URL: `https://prospettiva.io/api/stripe-webhook` (NON più `.vercel.app`)
+   - Eventi: `payment_intent.succeeded` + `payment_intent.payment_failed`
+   - Copia il nuovo `whsec_...` (sarà DIVERSO da quello di test)
+3. **Stripe Dashboard → API keys** (in modalità Live): copia `pk_live_...` e `sk_live_...`
+4. **Vercel → Settings → Environment Variables (Production)**: sovrascrivi le 3 env:
+   - `STRIPE_SECRET_KEY` ← `sk_live_...`
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` ← `pk_live_...`
+   - `STRIPE_WEBHOOK_SECRET` ← nuovo `whsec_...` live
+   - Le env Preview/Development restano con le test keys (così i deploy preview continuano a funzionare in sandbox)
+5. **Vercel → Deployments**: Redeploy della production (senza Build Cache)
+6. **Test live**: fai un acquisto vero con €0,50 di tasca tua per verificare il flusso completo
+7. **Dominio**: verifica che `prospettiva.io` sia collegato a Vercel come custom domain prima di tutto questo
+
 ## Cose aperte / dubbi
 
 - Workflow ispezione ipotecaria nazionale (PDF via genera-report): testato `risultato.soggetti` con renderer specializzato in `genera-report`, JSON pronto sul Desktop, da attivare/testare in n8n
