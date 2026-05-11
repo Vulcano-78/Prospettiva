@@ -169,7 +169,7 @@ export default function CheckoutDataPage() {
                       { value: 'impresa', label: 'Impresa', icon: 'business' },
                       { value: 'professionista', label: 'Professionista', icon: 'work' },
                     ] as const).map(opt => (
-                      <button key={opt.value} type="button" onClick={() => { setAccountType(opt.value); setCfManuallyEdited(false); }}
+                      <button key={opt.value} type="button" onClick={() => { setAccountType(opt.value); setPivaManuallyEdited(false); }}
                         className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
                           accountType === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}>
