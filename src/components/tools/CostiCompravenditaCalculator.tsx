@@ -219,7 +219,7 @@ export default function CostiCompravenditaCalculator() {
                     </div>
                   </div>
                   <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#4463EE] text-white text-[11px] font-bold uppercase tracking-widest px-3 py-2 rounded-md">
-                    5,90 € <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    Acquista <span className="material-symbols-outlined text-sm">arrow_forward</span>
                   </span>
                 </button>
               )}
