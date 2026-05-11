@@ -129,62 +129,54 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
               </div>
             </div>
 
-            {/* MOBILE: card list */}
-            <ul className="md:hidden divide-y divide-slate-100 -mx-2">
-              {categoryServices.map((service) => (
-                <li key={service.id} className="px-2 py-5">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-[15px] font-bold text-primary-container leading-tight mb-1">{service.shortName}</h3>
-                      <p className="text-[12px] text-on-surface-variant leading-snug">{service.description}</p>
-                    </div>
-                    <div className="flex-shrink-0 text-right">
-                      {service.price > 0 ? (
-                        <>
-                          <div className="text-base font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
-                          <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
-                        </>
-                      ) : (
-                        <div className="text-sm font-bold text-[#4463EE] uppercase tracking-wider">Gratis</div>
-                      )}
-                    </div>
-                  </div>
+            {/* MOBILE: lista pulita, riga tappabile */}
+            <ul className="md:hidden divide-y divide-slate-100 -mx-1">
+              {categoryServices.map((service) => {
+                const isActive = service.isActive;
+                const isFree = service.price === 0;
 
-                  {service.isActive ? (
-                    service.price > 0 ? (
-                      <div className="grid grid-cols-[auto_1fr] gap-2">
-                        <button
-                          onClick={() => handleAddToCart(service.slug)}
-                          aria-label="Aggiungi al carrello"
-                          className="h-11 w-11 flex items-center justify-center border border-slate-300 text-slate-500 hover:bg-slate-100 bg-slate-50 rounded-md cursor-pointer"
-                        >
-                          <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </button>
-                        <button
-                          onClick={() => handleBuyNow(service.slug)}
-                          className="h-11 bg-[#002147] text-white text-[12px] font-bold uppercase tracking-widest rounded-md hover:bg-[#0a3060] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                          Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
-                        </button>
-                      </div>
-                    ) : (
-                      <Link
-                        href={service.href ?? `/coming-soon/${service.slug}`}
-                        className="block h-11 bg-[#4463EE] text-white text-[12px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all text-center leading-[44px]"
-                      >
-                        Apri →
-                      </Link>
-                    )
-                  ) : (
-                    <Link
-                      href={`/coming-soon/${service.slug}`}
-                      className="block h-11 bg-slate-100 text-slate-400 text-[12px] font-bold uppercase tracking-widest rounded-md text-center leading-[44px]"
+                const handleRowClick = () => {
+                  if (!isActive) {
+                    router.push(`/coming-soon/${service.slug}`);
+                  } else if (isFree) {
+                    router.push(service.href ?? `/coming-soon/${service.slug}`);
+                  } else {
+                    handleBuyNow(service.slug);
+                  }
+                };
+
+                return (
+                  <li key={service.id}>
+                    <button
+                      type="button"
+                      onClick={handleRowClick}
+                      className="w-full text-left px-2 py-4 flex items-start gap-3 active:bg-slate-50 transition-colors"
                     >
-                      In arrivo
-                    </Link>
-                  )}
-                </li>
-              ))}
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-[15px] font-bold text-primary-container leading-tight mb-1">{service.shortName}</h3>
+                        <p className="text-[12px] text-on-surface-variant leading-snug">{service.description}</p>
+                      </div>
+                      <div className="flex-shrink-0 flex items-center gap-2 pt-0.5">
+                        <div className="text-right">
+                          {isFree ? (
+                            <div className={`text-[13px] font-bold uppercase tracking-wider ${isActive ? 'text-[#4463EE]' : 'text-slate-300'}`}>
+                              {isActive ? 'Gratis' : 'In arrivo'}
+                            </div>
+                          ) : isActive ? (
+                            <>
+                              <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
+                              <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
+                            </>
+                          ) : (
+                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300">In arrivo</div>
+                          )}
+                        </div>
+                        <span className={`material-symbols-outlined text-lg ${isActive ? 'text-slate-300' : 'text-slate-200'}`}>chevron_right</span>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
 
             {/* DESKTOP: tabella */}
