@@ -163,26 +163,35 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                       {service.description}
                     </p>
 
-                    {/* Zona 3: CTA discreta a destra (ghost outlined) */}
-                    <div className="flex justify-end">
+                    {/* Zona 3: azioni compatte a destra */}
+                    <div className="flex justify-end items-center gap-2">
                       {isActive ? (
                         isFree ? (
                           <Link
                             href={service.href ?? `/coming-soon/${service.slug}`}
-                            className="inline-flex items-center gap-1.5 h-9 px-4 border border-[#4463EE] text-[#4463EE] text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-[#4463EE] hover:text-white transition-colors"
+                            className="inline-flex items-center gap-1.5 h-9 px-4 bg-[#4463EE] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
                           >
                             Apri <span className="material-symbols-outlined text-base">arrow_forward</span>
                           </Link>
                         ) : (
-                          <button
-                            onClick={() => handleBuyNow(service.slug)}
-                            className="inline-flex items-center gap-1.5 h-9 px-4 border border-[#002147] text-[#002147] text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-[#002147] hover:text-white transition-colors cursor-pointer"
-                          >
-                            Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
-                          </button>
+                          <>
+                            <button
+                              onClick={() => handleAddToCart(service.slug)}
+                              aria-label="Aggiungi al carrello"
+                              className="inline-flex items-center justify-center h-9 w-9 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
+                            >
+                              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
+                            </button>
+                            <button
+                              onClick={() => handleBuyNow(service.slug)}
+                              className="inline-flex items-center gap-1.5 h-9 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
+                            >
+                              Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
+                            </button>
+                          </>
                         )
                       ) : (
-                        <span className="inline-flex items-center h-9 px-4 border border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-full">
+                        <span className="inline-flex items-center h-9 px-4 bg-slate-100 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-md">
                           In arrivo
                         </span>
                       )}
