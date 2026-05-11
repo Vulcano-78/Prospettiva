@@ -72,7 +72,7 @@ export default function CheckoutClientePage() {
         {currentStep === 1 && (
           <>
             <header className="mb-8 text-center">
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 Riepilogo Ordine
               </h1>
               <p className="text-[#44474e] text-sm">
@@ -136,7 +136,7 @@ export default function CheckoutClientePage() {
         {currentStep === 2 && (
           <>
             <header className="mb-8 text-center">
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 I tuoi dati
               </h1>
               <p className="text-[#44474e] text-sm">
@@ -146,7 +146,7 @@ export default function CheckoutClientePage() {
 
             <form className="space-y-8">
               <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
-                <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   Dati Personali
                 </h2>
@@ -181,7 +181,7 @@ export default function CheckoutClientePage() {
 
               {needsDelegate && (
                 <section className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm space-y-5">
-                  <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                     <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">2</span>
                     Delega Proprietario
                   </h2>
@@ -217,7 +217,7 @@ export default function CheckoutClientePage() {
         {currentStep === 3 && (
           <>
             <header className="mb-8 text-center">
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 Pagamento
               </h1>
               <p className="text-[#44474e] text-sm">

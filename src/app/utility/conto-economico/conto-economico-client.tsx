@@ -214,7 +214,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
         <div className="mb-8">
           <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Conto Economico
           </h1>
           <p className="text-slate-500 text-sm md:text-base max-w-2xl">
@@ -382,7 +382,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
               <div className="mt-6 pt-6 border-t border-white/10 space-y-3">
                 <div className="flex items-baseline justify-between">
                   <span className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">Utile lordo</span>
-                  <span className={`text-2xl font-extrabold ${calc.utile >= 0 ? 'text-emerald-300' : 'text-red-300'}`} style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <span className={`text-2xl font-extrabold ${calc.utile >= 0 ? 'text-emerald-300' : 'text-red-300'}`} style={{ fontFamily: 'var(--font-headline)' }}>
                     {fmtEur(calc.utile)}
                   </span>
                 </div>

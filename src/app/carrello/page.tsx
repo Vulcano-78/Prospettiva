@@ -620,7 +620,7 @@ export default function CartPage() {
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         <header className="mb-8 md:mb-10 text-center">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Carrello
           </h1>
           <p className="text-[#44474e] text-sm">
@@ -736,7 +736,7 @@ export default function CartPage() {
                 return (
                   <section key={item.id} className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
-                      <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                      <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                         <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">{sectionNum}</span>
                         {item.service.name}
                       </h2>
@@ -777,7 +777,7 @@ export default function CartPage() {
           {/* Right: Order Summary */}
           <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-3">
             <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
-              <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo
               </h2>

@@ -60,7 +60,7 @@ export default function ComingSoonPage() {
               <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold tracking-widest uppercase">
                 Prossimamente
               </span>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-[#002147] leading-tight tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-4xl md:text-5xl font-extrabold text-[#002147] leading-tight tracking-tight" style={{ fontFamily: 'var(--font-headline)' }}>
                 {serviceName}
               </h1>
               <p className="text-lg text-[#44474e] leading-relaxed">

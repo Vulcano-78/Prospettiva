@@ -109,7 +109,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
         ]} />
         <div className="text-center mb-4">
           <h1 className="text-[2.625rem] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
-          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-body)' }}>
             {config.description}
           </p>
         </div>

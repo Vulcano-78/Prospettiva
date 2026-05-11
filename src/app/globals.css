@@ -59,10 +59,10 @@ html, body {
   --color-error: var(--color-error);
   --color-success: var(--color-success);
 
-  --font-headline: 'Manrope', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'Fira Code', monospace;
-  --font-label: 'Inter', sans-serif;
+  --font-headline: var(--font-manrope), 'Manrope', sans-serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
+  --font-mono: var(--font-fira-code), 'Fira Code', monospace;
+  --font-label: var(--font-inter), 'Inter', sans-serif;
 }
 
 @layer base {
@@ -74,7 +74,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   background-color: white;
   color: var(--color-on-surface);
   min-height: 100vh;
@@ -83,7 +83,7 @@ body {
 }
 
 h1, h2, h3, h4, .brand-logo {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-headline);
   font-weight: 800;
   letter-spacing: -0.02em;
 }

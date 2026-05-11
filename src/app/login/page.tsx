@@ -51,7 +51,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
 
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h1 className="text-3xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
               Bentornato
             </h1>
             <p className="text-[#44474e]">Accedi al tuo account Prospettiva.io</p>

@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm bg-white border border-slate-200 p-8 shadow-sm">
         <div className="mb-6">
           <p className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-2">Admin</p>
-          <h1 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
             Accesso protetto
           </h1>
           <p className="text-sm text-on-surface-variant mt-2">

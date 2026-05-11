@@ -168,7 +168,7 @@ export default function HomePage() {
       <div className="pt-2 md:pt-16 pb-16 px-8 max-w-7xl mx-auto">
         <div className="text-left md:text-center mb-14">
           <h2 className="text-4xl md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
-          <p className="text-on-surface-variant text-base md:text-lg font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-on-surface-variant text-base md:text-lg font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'var(--font-body)' }}>
             Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
           </p>
         </div>
@@ -462,7 +462,7 @@ export default function HomePage() {
                 <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-8 w-full max-w-sm text-center">
                   <div className="mb-6">
                     <span className="material-symbols-outlined text-white text-5xl mb-4">upload_file</span>
-                    <h4 className="text-white text-xl font-bold mb-2">Upload Your Floor Plan</h4>
+                    <p className="text-white text-xl font-bold mb-2">Upload Your Floor Plan</p>
                     <p className="text-white/60 text-sm">PDF, JPEG, or DWG supported</p>
                   </div>
                   <div className="flex flex-col gap-3">

@@ -20,7 +20,7 @@ export default function CategorySection({ category }: CategorySectionProps) {
           <span className="material-symbols-outlined text-[#002147] text-xl">{category.icon}</span>
         </div>
         <div>
-          <h2 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h2 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
             {category.name}
           </h2>
           <p className="text-[#516169] text-xs mt-1">{category.description}</p>

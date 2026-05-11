@@ -141,7 +141,7 @@ export default function CheckoutDataPage() {
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         <header className="mb-8 md:mb-10 text-center">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Dati
           </h1>
           <p className="text-[#44474e] text-sm">
@@ -156,7 +156,7 @@ export default function CheckoutDataPage() {
 
               {/* Dati per la fatturazione */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   {accountType === 'privato' ? 'Dati per il pagamento' : 'Dati per la fatturazione'}
                 </h2>
@@ -355,7 +355,7 @@ export default function CheckoutDataPage() {
 
               {/* Dati per l'invio della documentazione */}
               <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
                   Dati per l&apos;invio della documentazione
                 </h2>
@@ -395,7 +395,7 @@ export default function CheckoutDataPage() {
               {/* Delegate Section */}
               {needsDelegate && (
                 <section className="bg-white rounded-2xl p-6 md:p-8 border border-amber-200/50 shadow-sm">
-                  <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                     <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">3</span>
                     Delega Proprietario
                   </h2>
@@ -430,7 +430,7 @@ export default function CheckoutDataPage() {
           {/* Right: Order Summary */}
           <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-3">
             <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
-              <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo
               </h2>

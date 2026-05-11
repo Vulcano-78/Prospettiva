@@ -95,7 +95,7 @@ export default function CostiCompravenditaCalculator() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <header className="mb-8">
           <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Calcolatore Costi Compravendita
           </h1>
           <p className="text-slate-500 text-sm md:text-base max-w-2xl">

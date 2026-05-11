@@ -51,7 +51,7 @@ export default function PreparaOrdinePage() {
         <section className="mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'var(--font-headline)' }}>
                 Prepara un ordine per il tuo cliente
               </h1>
               <p className="text-base text-[#44474e]">
@@ -102,7 +102,7 @@ export default function PreparaOrdinePage() {
               </Link>
 
               <div className="mt-12 p-6 bg-[#002147] rounded-2xl text-white">
-                <p className="font-bold text-base mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>Hai bisogno di aiuto?</p>
+                <p className="font-bold text-base mb-2" style={{ fontFamily: 'var(--font-headline)' }}>Hai bisogno di aiuto?</p>
                 <p className="text-xs text-blue-200 mb-4">Un nostro esperto e pronto ad assisterti nella scelta.</p>
                 <button className="bg-white/10 hover:bg-white/20 w-full py-2 rounded-lg text-sm font-bold border border-white/20 transition-all">
                   Contatta Supporto
@@ -116,7 +116,7 @@ export default function PreparaOrdinePage() {
             {/* Packages */}
             <section id="packages">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Pacchetti preconfezionati</h2>
+                <h2 className="text-xl font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Pacchetti preconfezionati</h2>
                 <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Soluzioni veloci</span>
               </div>
 
@@ -150,7 +150,7 @@ export default function PreparaOrdinePage() {
 
             {/* Individual Services */}
             <section id="services">
-              <h2 className="text-xl font-bold text-[#002147] mb-6" style={{ fontFamily: 'Manrope, sans-serif' }}>Servizi singoli</h2>
+              <h2 className="text-xl font-bold text-[#002147] mb-6" style={{ fontFamily: 'var(--font-headline)' }}>Servizi singoli</h2>
 
               {/* Category Tabs */}
               <div className="flex items-center border-b border-slate-200 mb-8 overflow-x-auto">
@@ -219,7 +219,7 @@ export default function PreparaOrdinePage() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
               <div>
-                <span className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <span className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
                   {selectedServices.length} servizi selezionati
                 </span>
                 <span className="block text-[0.625rem] text-slate-400 uppercase tracking-widest font-bold mt-1">

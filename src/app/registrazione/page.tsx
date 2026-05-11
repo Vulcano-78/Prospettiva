@@ -129,7 +129,7 @@ export default function RegistrationPage() {
         <div className="max-w-xl mx-auto">
 
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h1 className="text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
               Crea il tuo account
             </h1>
             <p className="text-[#44474e]">Inizia oggi a utilizzare gli strumenti di Prospettiva.io.</p>
@@ -172,7 +172,7 @@ export default function RegistrationPage() {
             <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">1</div>
-                <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h3>
+                <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Personali</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -205,7 +205,7 @@ export default function RegistrationPage() {
               <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
-                  <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Professionali</h3>
+                  <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Professionali</h3>
                 </div>
                 <div>
                   <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale *</label>
@@ -288,7 +288,7 @@ export default function RegistrationPage() {
               <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
-                  <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Aziendali</h3>
+                  <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Aziendali</h3>
                 </div>
                 <div>
                   <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Denominazione / Ragione Sociale *</label>

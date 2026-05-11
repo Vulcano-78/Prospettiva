@@ -63,7 +63,7 @@ export default async function AdminPage() {
       <div className="max-w-6xl mx-auto">
         <header className="mb-10">
           <p className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-2">Admin</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
             Dashboard
           </h1>
           <p className="text-sm text-on-surface-variant mt-2">

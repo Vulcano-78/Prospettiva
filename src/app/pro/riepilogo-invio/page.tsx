@@ -51,7 +51,7 @@ export default function RiepilogoInvioPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
               <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147] tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147] tracking-tight" style={{ fontFamily: 'var(--font-headline)' }}>
                   Rivedi e Invia
                 </h1>
                 <p className="text-[#44474e] mt-1">Controlla i dettagli prima di procedere con l&apos;invio al cliente.</p>
@@ -70,7 +70,7 @@ export default function RiepilogoInvioPage() {
               <section>
                 <div className="flex items-center gap-3 mb-6">
                   <span className="w-8 h-8 rounded-full bg-[#002147] text-white flex items-center justify-center font-bold text-sm">1</span>
-                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dettagli Ordine</h2>
+                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dettagli Ordine</h2>
                 </div>
 
                 <div className="bg-slate-50 rounded-2xl p-1 border border-slate-100 space-y-2">
@@ -114,7 +114,7 @@ export default function RiepilogoInvioPage() {
               <section>
                 <div className="flex items-center gap-3 mb-6">
                   <span className="w-8 h-8 rounded-full bg-[#002147] text-white flex items-center justify-center font-bold text-sm">2</span>
-                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Destinatario</h2>
+                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Destinatario</h2>
                 </div>
 
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
@@ -168,7 +168,7 @@ export default function RiepilogoInvioPage() {
               <section>
                 <div className="flex items-center gap-3 mb-6">
                   <span className="w-8 h-8 rounded-full bg-[#002147] text-white flex items-center justify-center font-bold text-sm">3</span>
-                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Totale &amp; Invio</h2>
+                  <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Totale &amp; Invio</h2>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

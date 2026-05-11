@@ -301,7 +301,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           {activeSection === 'documenti' && <section className="mb-12">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
-                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'var(--font-headline)' }}>
                   I miei documenti
                 </h2>
                 <p className="text-slate-500 text-sm">Storico degli ordini e download dei documenti.</p>
@@ -427,7 +427,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           {activeSection === 'conti' && <section className="mb-12">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
-                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'var(--font-headline)' }}>
                   Conti Economici
                 </h2>
                 <p className="text-slate-500 text-sm">Calcoli salvati dall&apos;utility gratuita.</p>
@@ -501,7 +501,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           {/* Dati Personali */}
           {activeSection === 'profilo' && <section className="bg-white rounded-xl p-6 border border-slate-100">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Personali</h2>
+              <h2 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Personali</h2>
               {!editing ? (
                 <button
                   onClick={() => setEditing(true)}

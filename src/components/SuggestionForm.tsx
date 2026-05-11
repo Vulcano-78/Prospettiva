@@ -39,7 +39,7 @@ export default function SuggestionForm() {
       {!open ? (
         <div className="flex flex-col items-center text-center gap-3">
           <p className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Stai cercando qualcosa che non c&apos;è?</p>
-          <h3 className="text-2xl font-bold text-primary-container" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h3 className="text-2xl font-bold text-primary-container" style={{ fontFamily: 'var(--font-headline)' }}>
             Dicci di cosa hai bisogno
           </h3>
           <p className="text-sm text-on-surface-variant max-w-md">

@@ -18,7 +18,7 @@ export default function PrivacyPage() {
 
         {/* Header */}
         <header className="mb-8 md:mb-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Privacy Policy
           </h1>
           <p className="text-[#44474e] text-sm">Ultimo aggiornamento: 14 aprile 2026</p>
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         <div className="space-y-8">
           {/* Section 1 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
               Titolare del trattamento
             </h2>
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
 
           {/* Section 2 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
               Tipologie di dati raccolti
             </h2>
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
 
           {/* Section 3 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">3</span>
               Finalita del trattamento
             </h2>
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
 
           {/* Section 4 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">4</span>
               Base giuridica del trattamento
             </h2>
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
 
           {/* Section 5 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">5</span>
               Conservazione dei dati
             </h2>
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
 
           {/* Section 6 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">6</span>
               Diritti dell&apos;interessato
             </h2>

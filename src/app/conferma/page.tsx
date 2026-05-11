@@ -109,7 +109,7 @@ export default function ConfirmationPage() {
               <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-2">
                 Pagamento confermato
               </span>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 Il tuo ordine è in elaborazione
               </h1>
               <p className="text-sm text-[#44474e]">
@@ -124,7 +124,7 @@ export default function ConfirmationPage() {
                     <span className="material-symbols-outlined text-[#4463ee]" style={{ fontVariationSettings: "'FILL' 1" }}>folder_open</span>
                   </div>
                   <div>
-                    <h2 className="font-extrabold text-[#002147] mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                    <h2 className="font-extrabold text-[#002147] mb-1" style={{ fontFamily: 'var(--font-headline)' }}>
                       Salva nella tua dashboard
                     </h2>
                     <p className="text-sm text-[#44474e]">
@@ -200,7 +200,7 @@ export default function ConfirmationPage() {
             <span className="block text-xs font-bold uppercase tracking-widest text-[#516169] mb-4">
               Ordine Confermato
             </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'var(--font-headline)' }}>
               La tua richiesta è in elaborazione.
             </h1>
             <p className="text-base text-[#44474e] max-w-xl mx-auto">
@@ -215,7 +215,7 @@ export default function ConfirmationPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-[#516169] mb-1">Tempo Stimato</p>
-                    <p className="text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Entro 60 minuti</p>
+                    <p className="text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Entro 60 minuti</p>
                   </div>
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <span className="material-symbols-outlined text-[#002147]">schedule</span>
@@ -248,7 +248,7 @@ export default function ConfirmationPage() {
               <div className="bg-[#002147] text-white rounded-2xl p-8 shadow-xl flex flex-col justify-between">
                 <div>
                   <span className="material-symbols-outlined text-[#4463ee] text-4xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>folder_open</span>
-                  <h2 className="text-2xl font-extrabold mb-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  <h2 className="text-2xl font-extrabold mb-3" style={{ fontFamily: 'var(--font-headline)' }}>
                     Documento salvato
                   </h2>
                   <p className="text-[#708ab5] text-sm leading-relaxed mb-6">
@@ -264,7 +264,7 @@ export default function ConfirmationPage() {
               </div>
             ) : (
               <div className="bg-[#002147] text-white rounded-2xl p-8 shadow-xl">
-                <h2 className="text-2xl font-extrabold mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-2xl font-extrabold mb-4" style={{ fontFamily: 'var(--font-headline)' }}>
                   Il tuo Archivio Documentale
                 </h2>
                 <p className="text-[#708ab5] mb-6 text-sm leading-relaxed">
@@ -303,7 +303,7 @@ export default function ConfirmationPage() {
 
           <div className="mt-12 bg-white border border-slate-100 rounded-xl p-6 text-center">
             <span className="material-symbols-outlined text-3xl text-[#4463ee] mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
-            <h3 className="font-bold text-[#002147] mb-1" style={{ fontFamily: 'Manrope, sans-serif' }}>Serve aiuto?</h3>
+            <h3 className="font-bold text-[#002147] mb-1" style={{ fontFamily: 'var(--font-headline)' }}>Serve aiuto?</h3>
             <p className="text-sm text-[#44474e] mb-3">Il nostro supporto tecnico è a tua disposizione per qualsiasi chiarimento.</p>
             <a href="mailto:info@prospettiva.io" className="text-[#002147] font-bold text-sm hover:underline">
               Contatta assistenza

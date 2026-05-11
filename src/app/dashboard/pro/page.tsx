@@ -16,7 +16,7 @@ export default function DashboardProPage() {
         {/* Sidebar */}
         <aside className="hidden lg:flex w-64 flex-col py-8 px-6 bg-gradient-to-b from-white to-slate-50 border-r border-slate-100">
           <div className="mb-10">
-            <Link href="/" className="text-xl font-bold tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <Link href="/" className="text-xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="text-[#002147]">Prospettiva</span>
               <span className="text-[#4463ee]">.io</span>
             </Link>
@@ -63,7 +63,7 @@ export default function DashboardProPage() {
           {/* Hero CTA */}
           <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#002147] to-[#00325a] p-8 md:p-10 text-white shadow-xl">
             <div className="relative z-10 max-w-2xl">
-              <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4" style={{ fontFamily: 'var(--font-headline)' }}>
                 Potenzia la tua consulenza con strumenti digitali avanzati.
               </h2>
               <p className="text-blue-200 text-base mb-6 leading-relaxed">
@@ -113,7 +113,7 @@ export default function DashboardProPage() {
           <section>
             <div className="flex items-end justify-between mb-6">
               <div>
-                <h3 className="text-xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Ordini inviati ai clienti</h3>
+                <h3 className="text-xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Ordini inviati ai clienti</h3>
                 <p className="text-slate-500 text-sm mt-1">Gestisci e monitora le proposte inviate.</p>
               </div>
               <div className="flex gap-1 p-1 bg-slate-100 rounded-xl">
@@ -182,7 +182,7 @@ export default function DashboardProPage() {
                   <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#002147] shadow-sm">
                     <span className="material-symbols-outlined">business</span>
                   </div>
-                  <h4 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati aziendali</h4>
+                  <h4 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati aziendali</h4>
                 </div>
                 <button className="text-xs font-bold text-[#002147] underline underline-offset-4 hover:text-[#4463ee]">Modifica</button>
               </div>
@@ -208,7 +208,7 @@ export default function DashboardProPage() {
                   <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#002147] shadow-sm">
                     <span className="material-symbols-outlined">receipt</span>
                   </div>
-                  <h4 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Ultime Fatture</h4>
+                  <h4 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Ultime Fatture</h4>
                 </div>
                 <button className="text-xs font-bold text-[#002147] underline underline-offset-4 hover:text-[#4463ee]">Vedi tutte</button>
               </div>

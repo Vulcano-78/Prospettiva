@@ -17,7 +17,7 @@ export default function GdprPage() {
 
         {/* Header */}
         <header className="mb-8 md:mb-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
             Informativa GDPR
           </h1>
           <p className="text-[#44474e] text-sm">Regolamento (UE) 2016/679 — Ultimo aggiornamento: 14 aprile 2026</p>
@@ -29,7 +29,7 @@ export default function GdprPage() {
             <div className="flex items-start gap-3 mb-4">
               <span className="material-symbols-outlined text-[#4463ee] text-2xl mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>
               <div>
-                <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
                   Il tuo diritto alla protezione dei dati
                 </h2>
                 <p className="text-sm text-[#44474e] mt-1 leading-relaxed">
@@ -41,7 +41,7 @@ export default function GdprPage() {
 
           {/* Section 1 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
               Principi del trattamento
             </h2>
@@ -70,7 +70,7 @@ export default function GdprPage() {
 
           {/* Section 2 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
               I tuoi diritti
             </h2>
@@ -99,7 +99,7 @@ export default function GdprPage() {
 
           {/* Section 3 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">3</span>
               Misure di sicurezza
             </h2>
@@ -117,7 +117,7 @@ export default function GdprPage() {
 
           {/* Section 4 */}
           <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
-            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">4</span>
               Contatti e reclami
             </h2>
