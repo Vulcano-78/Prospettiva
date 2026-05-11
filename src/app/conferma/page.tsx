@@ -18,20 +18,9 @@ export default function ConfirmationPage() {
   const [orderRef, setOrderRef] = useState('');
   const [savedToDashboard, setSavedToDashboard] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(BEACON_TIMEOUT);
-  const orderDataRef = useRef<{
-    orders: { slug: string; formData: Record<string, string> }[];
-    email: string;
-    emailDocumenti: string;
-  } | null>(null);
 
-  // Leggi i dati dal localStorage una sola volta
+  // Pulisci il carrello una sola volta (i dati dell'ordine sono in Stripe).
   useEffect(() => {
-    const raw = localStorage.getItem('pendingOrder');
-    const email = localStorage.getItem('checkoutEmail') || '';
-    const emailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
-    if (raw) {
-      orderDataRef.current = { orders: JSON.parse(raw), email, emailDocumenti };
-    }
     if (items.length > 0) clearCart();
   }, [clearCart, items.length]);
 
@@ -40,21 +29,26 @@ export default function ConfirmationPage() {
     processed.current = true;
     setPageState('processing');
 
-    const data = orderDataRef.current;
-    if (!data) {
-      setPageState('done');
-      return;
-    }
+    // Stripe mette payment_intent come query param sul return_url.
+    const params = new URLSearchParams(window.location.search);
+    const paymentIntentId = params.get('payment_intent');
 
     localStorage.removeItem('pendingOrder');
     localStorage.removeItem('checkoutEmail');
     localStorage.removeItem('checkoutEmailDocumenti');
 
+    if (!paymentIntentId) {
+      // Nessun PI: niente da confermare. Probabilmente l'utente è arrivato qui
+      // senza passare dal flusso Stripe. Mostra solo "done" senza orderRef.
+      setPageState('done');
+      return;
+    }
+
     try {
       const res = await fetch('/api/process-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ paymentIntentId }),
       });
       const json = await res.json();
       setOrderRef(json.orderRef || '');
@@ -88,20 +82,8 @@ export default function ConfirmationPage() {
     return () => clearTimeout(t);
   }, [pageState, secondsLeft, processOrder]);
 
-  // Beacon su chiusura tab (fallback guest)
-  useEffect(() => {
-    const handleUnload = () => {
-      if (processed.current) return;
-      const data = orderDataRef.current;
-      if (!data) return;
-      navigator.sendBeacon(
-        '/api/process-order',
-        new Blob([JSON.stringify(data)], { type: 'application/json' })
-      );
-    };
-    window.addEventListener('beforeunload', handleUnload);
-    return () => window.removeEventListener('beforeunload', handleUnload);
-  }, []);
+  // Safety net pagamento → fulfillment: ora è il webhook Stripe server-side
+  // (vedi /api/stripe-webhook), quindi non serve più sendBeacon su unload.
 
   const handleGuestChoice = () => processOrder();
 

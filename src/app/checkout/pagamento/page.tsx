@@ -119,12 +119,16 @@ export default function PaymentPage() {
   useEffect(() => {
     if (items.length === 0) return;
 
+    const email = (typeof window !== 'undefined' && localStorage.getItem('checkoutEmail')) || '';
+    const emailDocumenti = (typeof window !== 'undefined' && localStorage.getItem('checkoutEmailDocumenti')) || '';
+
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: getTotal(),
-        items: items.map(i => ({ name: i.service.name, price: i.service.price })),
+        orders: items.map(item => ({ slug: item.service.slug, formData: item.formData })),
+        email,
+        emailDocumenti,
       }),
     })
       .then(res => res.json())
@@ -136,7 +140,7 @@ export default function PaymentPage() {
         }
       })
       .catch(() => setInitError('Impossibile inizializzare il pagamento. Riprova.'));
-  }, [items, getTotal]);
+  }, [items]);
 
   if (items.length === 0) {
     router.push('/carrello');

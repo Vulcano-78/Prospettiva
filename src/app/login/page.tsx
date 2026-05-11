@@ -25,26 +25,14 @@ export default function LoginPage() {
         return;
       }
 
-      // Processa ordine pendente dalla pagina conferma (se presente).
-      // Eventuali errori qui non devono bloccare la navigazione al dashboard.
-      if (localStorage.getItem('pendingOrderAfterAuth')) {
-        const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
-        const orderEmail = localStorage.getItem('checkoutEmail') || '';
-        const emailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
-        localStorage.removeItem('pendingOrderAfterAuth');
-        localStorage.removeItem('pendingOrder');
-        localStorage.removeItem('checkoutEmail');
-        localStorage.removeItem('checkoutEmailDocumenti');
-        try {
-          await fetch('/api/process-order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orders, email: orderEmail, emailDocumenti }),
-          });
-        } catch (err) {
-          console.error('process-order failed', err);
-        }
-      }
+      // Pulizia stato pendente del checkout.
+      // L'associazione ordine-utente (per chi paga da guest e poi si logga) viene
+      // gestita dal webhook Stripe / process-order al ritorno su /conferma:
+      // se l'utente è loggato a quel punto, l'orders.user_id viene aggiornato.
+      localStorage.removeItem('pendingOrderAfterAuth');
+      localStorage.removeItem('pendingOrder');
+      localStorage.removeItem('checkoutEmail');
+      localStorage.removeItem('checkoutEmailDocumenti');
 
       // Hard navigation: forza il reload completo così che il middleware
       // legga subito il cookie di sessione e il dashboard server-side veda l'utente.
