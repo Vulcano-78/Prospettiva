@@ -1,42 +1,8 @@
 import { NextRequest, NextResponse, after } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { buildTipoServizioLabel } from '@/lib/tipo-servizio-label'
 
 type OrderItem = { slug: string; formData: Record<string, string> }
-
-// Etichetta human-readable del servizio, usata nelle email n8n come {{ $json.tipo_servizio_label }}.
-// Tiene conto delle varianti (per immobile / per soggetto / giuridico).
-function tipoServizioLabel(order: OrderItem): string {
-  const fd = order.formData
-  const searchType = fd._searchType || fd._mode || 'immobile'
-  const suffixVisura =
-    searchType === 'soggetto-giuridico' ? 'per Soggetto Giuridico'
-    : searchType === 'soggetto' ? 'per Soggetto'
-    : 'per Immobile'
-  const suffixIspezione =
-    searchType === 'soggetto-giuridico' ? 'per Soggetto Giuridico'
-    : searchType === 'soggetto' ? 'per Soggetto'
-    : 'per Immobile'
-
-  switch (order.slug) {
-    case 'visura-catastale': return `Visura Catastale ${suffixVisura}`
-    case 'visura-catastale-storica': return `Visura Catastale Storica ${suffixVisura}`
-    case 'visura-per-soggetto': return 'Visura per Soggetto'
-    case 'visura-per-soggetto-storica': return 'Visura per Soggetto Storica'
-    case 'estratto-mappa': return 'Estratto Mappa Catastale'
-    case 'elaborato-planimetrico': return 'Elaborato Planimetrico'
-    case 'prospetto-catastale': return 'Prospetto Catastale'
-    case 'ricerca-persona': return 'Ricerca per Persona'
-    case 'ricerca-nazionale': return 'Ricerca Nazionale'
-    case 'ricerca-indirizzo': return 'Ricerca per Indirizzo'
-    case 'elenco-immobili': return 'Elenco degli Immobili'
-    case 'planimetria': return 'Planimetria Catastale'
-    case 'ispezione-ipotecaria': return `Ispezione Ipotecaria ${suffixIspezione}`
-    case 'ispezione-ipotecaria-immobile': return 'Ispezione Ipotecaria per Immobile'
-    case 'ispezione-ipotecaria-nazionale': return 'Ispezione Ipotecaria Nazionale'
-    case 'elenco-note-ipotecarie': return `Ispezione Ipotecaria di una Singola Nota ${suffixIspezione}`
-    default: return order.slug
-  }
-}
 
 function buildVisuraPayload(
   order: OrderItem,
@@ -53,7 +19,7 @@ function buildVisuraPayload(
     tipo_catasto: fd.tipo_catasto || 'F',
     tipo_visura: tipoVisura,
     tipo_dettaglio: fd.tipo_dettaglio || 'sintetica',
-    tipo_servizio_label: tipoServizioLabel(order),
+    tipo_servizio_label: buildTipoServizioLabel(order),
     data_richiesta_iso: dataRichiestaIso,
     email,
     order_ref: orderRef,
@@ -111,7 +77,7 @@ async function fireWebhooks(
     const fd = order.formData
     const base: Record<string, string> = {
       order_ref: orderRef,
-      tipo_servizio_label: tipoServizioLabel(order),
+      tipo_servizio_label: buildTipoServizioLabel(order),
       data_richiesta_iso: dataRichiestaIso,
       ...(userId ? { user_id: userId } : {}),
     }
@@ -260,13 +226,21 @@ export async function POST(request: NextRequest) {
 
     const orderRef = `PRSP-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${new Date().getFullYear()}`
 
+    // Arricchisco ogni item con tipo_servizio_label così quando n8n rilegge
+    // orders.items da Supabase, ogni item ha la sua label senza dover replicare
+    // la mappatura slug→label in n8n. Multi-servizio safe: ogni item ha la propria.
+    const enrichedItems = orders.map((o: OrderItem) => ({
+      ...o,
+      tipo_servizio_label: buildTipoServizioLabel(o),
+    }))
+
     let saved = false
     if (userId) {
       const { error: insertError } = await supabase.from('orders').insert({
         order_ref: orderRef,
         email: user!.email!,
         user_id: userId,
-        items: orders,
+        items: enrichedItems,
       })
       if (insertError) {
         console.error('[process-order] insert failed:', insertError.message, insertError.code)
