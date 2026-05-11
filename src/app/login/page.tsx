@@ -2,11 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,33 +15,46 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      setError('Email o password non corretti.');
+      if (error) {
+        setError('Email o password non corretti.');
+        setLoading(false);
+        return;
+      }
+
+      // Processa ordine pendente dalla pagina conferma (se presente).
+      // Eventuali errori qui non devono bloccare la navigazione al dashboard.
+      if (localStorage.getItem('pendingOrderAfterAuth')) {
+        const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
+        const orderEmail = localStorage.getItem('checkoutEmail') || '';
+        const emailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
+        localStorage.removeItem('pendingOrderAfterAuth');
+        localStorage.removeItem('pendingOrder');
+        localStorage.removeItem('checkoutEmail');
+        localStorage.removeItem('checkoutEmailDocumenti');
+        try {
+          await fetch('/api/process-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orders, email: orderEmail, emailDocumenti }),
+          });
+        } catch (err) {
+          console.error('process-order failed', err);
+        }
+      }
+
+      // Hard navigation: forza il reload completo così che il middleware
+      // legga subito il cookie di sessione e il dashboard server-side veda l'utente.
+      // Evita lo stato "in corso..." quando router.push non rinegozia i cookie.
+      window.location.assign('/dashboard');
+    } catch (err) {
+      console.error('login failed', err);
+      setError('Errore di rete. Riprova tra qualche secondo.');
       setLoading(false);
-      return;
     }
-
-    // Processa ordine pendente dalla pagina conferma (se presente)
-    if (localStorage.getItem('pendingOrderAfterAuth')) {
-      const orders = JSON.parse(localStorage.getItem('pendingOrder') || '[]');
-      const orderEmail = localStorage.getItem('checkoutEmail') || '';
-      const emailDocumenti = localStorage.getItem('checkoutEmailDocumenti') || '';
-      localStorage.removeItem('pendingOrderAfterAuth');
-      localStorage.removeItem('pendingOrder');
-      localStorage.removeItem('checkoutEmail');
-      localStorage.removeItem('checkoutEmailDocumenti');
-      await fetch('/api/process-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orders, email: orderEmail, emailDocumenti }),
-      });
-    }
-
-    router.push('/dashboard');
-    router.refresh();
   };
 
   return (
