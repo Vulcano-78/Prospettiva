@@ -141,18 +141,12 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                       <h3 className="text-[15px] font-bold text-primary-container leading-tight flex-1 min-w-0">
                         {service.shortName}
                       </h3>
-                      <div className="flex-shrink-0 text-right">
-                        {isFree ? (
-                          <div className={`text-[13px] font-bold uppercase tracking-wider ${isActive ? 'text-[#4463EE]' : 'text-slate-300'}`}>
-                            Gratis
-                          </div>
-                        ) : (
-                          <>
-                            <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
-                            <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
-                          </>
-                        )}
-                      </div>
+                      {!isFree && (
+                        <div className="flex-shrink-0 text-right">
+                          <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
+                          <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Zona 2: descrizione (min-height fisso, line-clamp 2 righe) */}
@@ -169,7 +163,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                         isFree ? (
                           <Link
                             href={service.href ?? `/coming-soon/${service.slug}`}
-                            className="inline-flex items-center gap-1.5 h-9 px-4 bg-[#4463EE] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
+                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
                           >
                             Apri <span className="material-symbols-outlined text-base">arrow_forward</span>
                           </Link>
@@ -178,20 +172,20 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                             <button
                               onClick={() => handleAddToCart(service.slug)}
                               aria-label="Aggiungi al carrello"
-                              className="inline-flex items-center justify-center h-9 w-9 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
+                              className="inline-flex items-center justify-center h-10 w-12 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
                             >
-                              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
+                              <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
                             </button>
                             <button
                               onClick={() => handleBuyNow(service.slug)}
-                              className="inline-flex items-center gap-1.5 h-9 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
+                              className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
                             >
                               Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
                             </button>
                           </>
                         )
                       ) : (
-                        <span className="inline-flex items-center h-9 px-4 bg-slate-100 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-md">
+                        <span className="inline-flex items-center h-10 px-4 bg-slate-100 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-md">
                           In arrivo
                         </span>
                       )}
