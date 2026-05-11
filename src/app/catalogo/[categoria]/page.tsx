@@ -229,20 +229,18 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                               <>
                                 <button
                                   onClick={() => handleAddToCart(service.slug)}
-                                  className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer"
+                                  aria-label="Aggiungi al carrello"
+                                  className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors"
                                 >
                                   <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                                 </button>
-                                <button onClick={() => handleBuyNow(service.slug)} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                                <button onClick={() => handleBuyNow(service.slug)} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
                               </>
                             ) : (
-                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Apri</Link>
+                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center rounded-md transition-all">Apri</Link>
                             )
                           ) : (
-                            <>
-                              <Link href={`/coming-soon/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                              <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-3 uppercase flex items-center">In arrivo</Link>
-                            </>
+                            <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-3 uppercase flex items-center rounded-md">In arrivo</Link>
                           )}
                         </div>
                       </td>
