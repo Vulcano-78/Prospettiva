@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="text-lg font-[800] text-white mb-4 brand-logo">prospettiva<span className="text-[#4463EE]">.io</span></div>
 
         {/* Legal Links */}
-        <div className="flex flex-wrap justify-center gap-6 mb-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-2 sm:gap-6 mb-4">
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/cookie">Cookie Policy</Link>
           <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/termini">Termini e Condizioni</Link>
