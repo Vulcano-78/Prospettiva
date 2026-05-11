@@ -41,7 +41,6 @@ const TOOLTIPS: Record<string, string> = {
   ipotecaria: 'Imposta dovuta per la trascrizione dell\'atto nei registri immobiliari.',
   catastale: 'Imposta per la voltura catastale a favore del nuovo proprietario.',
   iva: 'IVA applicata solo quando il venditore è un\'impresa con vendita imponibile. Aliquote: 4% prima casa, 10% seconda casa, 22% lusso.',
-  notaio: 'Onorari del notaio + diritti e visure. Range orientativo per acquisti residenziali medi.',
   valore: 'Valore catastale = rendita catastale × 1,05 × moltiplicatore (110 prima casa, 120 altre). È la base imponibile per il calcolo delle imposte sull\'acquisto da privato.',
 };
 
@@ -153,15 +152,15 @@ export default function CostiCompravenditaCalculator() {
             </section>
 
             {/* Categoria + prezzo + rendita */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
-              <h2 className="text-sm font-extrabold text-[#002147] uppercase tracking-widest">Immobile</h2>
+            <section className="bg-white rounded-xl border border-slate-100 p-6">
+              <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Immobile</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Categoria catastale</label>
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value as CategoriaCatastale)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                   >
                     <optgroup label="Standard">
                       {CATEGORIE_STANDARD.map(c => <option key={c} value={c}>{c}</option>)}
@@ -179,7 +178,7 @@ export default function CostiCompravenditaCalculator() {
                       placeholder="200.000"
                       value={prezzoStr}
                       onChange={(e) => setPrezzoStr(formatInputNumber(e.target.value, false))}
-                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
@@ -187,28 +186,42 @@ export default function CostiCompravenditaCalculator() {
                     <p className="text-[11px] text-red-600 mt-1">Inserisci un prezzo di almeno 10.000 €.</p>
                   )}
                 </div>
+                {renditaRichiesta && (
+                  <div className="md:col-span-2">
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rendita catastale</label>
+                    <div className="relative">
+                      <input
+                        inputMode="decimal"
+                        placeholder="450,00"
+                        value={renditaStr}
+                        onChange={(e) => setRenditaStr(formatInputNumber(e.target.value, true))}
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {renditaRichiesta && (
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rendita catastale</label>
-                  <div className="relative">
-                    <input
-                      inputMode="decimal"
-                      placeholder="450,00"
-                      value={renditaStr}
-                      onChange={(e) => setRenditaStr(formatInputNumber(e.target.value, true))}
-                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                <button
+                  type="button"
+                  onClick={handleAddVisura}
+                  className="mt-4 w-full flex items-center justify-between gap-3 rounded-lg border border-[#4463EE]/30 bg-[#4463EE]/5 hover:bg-[#4463EE]/10 hover:border-[#4463EE] transition-colors p-4 text-left"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#4463EE] text-white flex items-center justify-center">
+                      <span className="material-symbols-outlined text-lg">description</span>
+                    </span>
+                    <div className="min-w-0">
+                      <div className="text-sm font-bold text-[#002147]">Non conosci la rendita catastale?</div>
+                      <div className="text-[12px] text-slate-500">Richiedi la visura catastale ufficiale in pochi minuti.</div>
+                    </div>
                   </div>
-                  <p className="text-[12px] text-slate-500 mt-2">
-                    Non conosci la rendita catastale?{' '}
-                    <button type="button" onClick={handleAddVisura} className="text-[#4463EE] font-semibold underline-offset-2 hover:underline">
-                      Richiedi la visura catastale a 5,90 € →
-                    </button>
-                  </p>
-                </div>
+                  <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#4463EE] text-white text-[11px] font-bold uppercase tracking-widest px-3 py-2 rounded-md">
+                    5,90 € <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  </span>
+                </button>
               )}
             </section>
           </div>
@@ -269,21 +282,13 @@ export default function CostiCompravenditaCalculator() {
                       value={formatEur(result.iva)}
                     />
                   )}
-                  <Row
-                    label="Notaio (stima orientativa)"
-                    tip={TOOLTIPS.notaio}
-                    tipKey="notaio"
-                    openTip={openTip}
-                    setOpenTip={setOpenTip}
-                    value={`${formatEur(result.notaioMin, 0)} – ${formatEur(result.notaioMax, 0)}`}
-                  />
-
                   <div className="border-t border-slate-100 pt-3 mt-3">
                     <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-lg p-3">
                       <div className="text-[10px] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
                       <div className="text-lg font-extrabold text-[#002147]">
-                        {formatEur(result.totaleAccessoriMin, 0)} – {formatEur(result.totaleAccessoriMax, 0)}
+                        {formatEur(result.totaleAccessori)}
                       </div>
+                      <div className="text-[10px] text-slate-500 mt-1">Imposte e IVA. Onorario notarile escluso.</div>
                     </div>
                   </div>
 

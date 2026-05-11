@@ -11,9 +11,6 @@ export type CategoriaCatastale =
 export const CATEGORIE_STANDARD: CategoriaCatastale[] = ['A/2', 'A/3', 'A/4', 'A/5', 'A/6', 'A/7', 'A/11', 'C/2', 'C/6', 'C/7'];
 export const CATEGORIE_LUSSO: CategoriaCatastale[] = ['A/1', 'A/8', 'A/9'];
 
-export const NOTAIO_MIN = 2000;
-export const NOTAIO_MAX = 3500;
-
 export interface InputCompravendita {
   tipoVenditore: TipoVenditore;
   destinazione: Destinazione;
@@ -29,10 +26,7 @@ export interface RisultatoCompravendita {
   iva: number;
   valoreCatastale: number | null; // solo caso privato
   totaleImposte: number;
-  notaioMin: number;
-  notaioMax: number;
-  totaleAccessoriMin: number;
-  totaleAccessoriMax: number;
+  totaleAccessori: number; // imposte + IVA
   aliquotaApplicata: number; // pct effettiva (registro per privato, IVA per impresa)
   agevolazionePrimaCasaApplicata: boolean;
 }
@@ -74,8 +68,7 @@ export function calcolaCostiCompravendita(input: InputCompravendita): RisultatoC
   }
 
   const totaleImposte = imposteRegistro + impostaIpotecaria + impostaCatastale;
-  const totaleAccessoriMin = totaleImposte + iva + NOTAIO_MIN;
-  const totaleAccessoriMax = totaleImposte + iva + NOTAIO_MAX;
+  const totaleAccessori = totaleImposte + iva;
 
   return {
     imposteRegistro,
@@ -84,10 +77,7 @@ export function calcolaCostiCompravendita(input: InputCompravendita): RisultatoC
     iva,
     valoreCatastale,
     totaleImposte,
-    notaioMin: NOTAIO_MIN,
-    notaioMax: NOTAIO_MAX,
-    totaleAccessoriMin,
-    totaleAccessoriMax,
+    totaleAccessori,
     aliquotaApplicata,
     agevolazionePrimaCasaApplicata: primaCasaEffettiva,
   };
