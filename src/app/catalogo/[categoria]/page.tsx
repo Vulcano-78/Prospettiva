@@ -129,51 +129,64 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
               </div>
             </div>
 
-            {/* MOBILE: lista pulita, riga tappabile */}
-            <ul className="md:hidden divide-y divide-slate-100 -mx-1">
+            {/* MOBILE: tre zone fisse — titolo+prezzo / descrizione / CTA */}
+            <ul className="md:hidden divide-y divide-slate-100">
               {categoryServices.map((service) => {
                 const isActive = service.isActive;
                 const isFree = service.price === 0;
-
-                const handleRowClick = () => {
-                  if (!isActive) {
-                    router.push(`/coming-soon/${service.slug}`);
-                  } else if (isFree) {
-                    router.push(service.href ?? `/coming-soon/${service.slug}`);
-                  } else {
-                    handleBuyNow(service.slug);
-                  }
-                };
-
                 return (
-                  <li key={service.id}>
-                    <button
-                      type="button"
-                      onClick={handleRowClick}
-                      className="w-full text-left px-2 py-4 flex items-start gap-3 active:bg-slate-50 transition-colors"
+                  <li key={service.id} className="py-5 flex flex-col gap-3">
+                    {/* Zona 1: titolo + prezzo (allineamento fisso) */}
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-[15px] font-bold text-primary-container leading-tight flex-1 min-w-0">
+                        {service.shortName}
+                      </h3>
+                      <div className="flex-shrink-0 text-right">
+                        {isFree ? (
+                          <div className={`text-[13px] font-bold uppercase tracking-wider ${isActive ? 'text-[#4463EE]' : 'text-slate-300'}`}>
+                            Gratis
+                          </div>
+                        ) : (
+                          <>
+                            <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
+                            <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Zona 2: descrizione (min-height fisso, line-clamp 2 righe) */}
+                    <p
+                      className="text-[12px] text-on-surface-variant leading-snug min-h-[2.6em] overflow-hidden"
+                      style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                     >
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-[15px] font-bold text-primary-container leading-tight mb-1">{service.shortName}</h3>
-                        <p className="text-[12px] text-on-surface-variant leading-snug">{service.description}</p>
-                      </div>
-                      <div className="flex-shrink-0 flex items-center gap-2 pt-0.5">
-                        <div className="text-right">
-                          {isFree ? (
-                            <div className={`text-[13px] font-bold uppercase tracking-wider ${isActive ? 'text-[#4463EE]' : 'text-slate-300'}`}>
-                              {isActive ? 'Gratis' : 'In arrivo'}
-                            </div>
-                          ) : isActive ? (
-                            <>
-                              <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
-                              <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
-                            </>
-                          ) : (
-                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300">In arrivo</div>
-                          )}
-                        </div>
-                        <span className={`material-symbols-outlined text-lg ${isActive ? 'text-slate-300' : 'text-slate-200'}`}>chevron_right</span>
-                      </div>
-                    </button>
+                      {service.description}
+                    </p>
+
+                    {/* Zona 3: CTA discreta a destra (ghost outlined) */}
+                    <div className="flex justify-end">
+                      {isActive ? (
+                        isFree ? (
+                          <Link
+                            href={service.href ?? `/coming-soon/${service.slug}`}
+                            className="inline-flex items-center gap-1.5 h-9 px-4 border border-[#4463EE] text-[#4463EE] text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-[#4463EE] hover:text-white transition-colors"
+                          >
+                            Apri <span className="material-symbols-outlined text-base">arrow_forward</span>
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => handleBuyNow(service.slug)}
+                            className="inline-flex items-center gap-1.5 h-9 px-4 border border-[#002147] text-[#002147] text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-[#002147] hover:text-white transition-colors cursor-pointer"
+                          >
+                            Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
+                          </button>
+                        )
+                      ) : (
+                        <span className="inline-flex items-center h-9 px-4 border border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-full">
+                          In arrivo
+                        </span>
+                      )}
+                    </div>
                   </li>
                 );
               })}
