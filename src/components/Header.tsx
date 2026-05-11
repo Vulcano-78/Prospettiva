@@ -67,18 +67,25 @@ export default function Header() {
               {catalogOpen && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 pt-10 z-50 w-[860px]">
                   <div className="bg-white border border-slate-200 shadow-xl p-8" style={{ borderRadius: '6px', position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '720px' }}>
-                    <div className="grid grid-cols-5 gap-6">
+                    <div className="grid grid-cols-3 gap-8">
                       <div>
                         <Link href="/catalogo/documenti-catastali" className="inline-block">
                           <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Catasto</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Visura Catastale</div><div className="text-[0.625rem] text-slate-400">Per immobile o soggetto</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Visura Catastale</div><div className="text-[0.625rem] text-slate-400">Sintetica o analitica</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Visura Catastale Storica</div><div className="text-[0.625rem] text-slate-400">Variazioni nel tempo</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Visura per Soggetto</div><div className="text-[0.625rem] text-slate-400">Immobili intestati</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Visura per Soggetto Storica</div><div className="text-[0.625rem] text-slate-400">Storico intestazioni</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca Nazionale</div><div className="text-[0.625rem] text-slate-400">Proprietà su tutta Italia</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca per Persona</div><div className="text-[0.625rem] text-slate-400">Su base provinciale</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca per Indirizzo</div><div className="text-[0.625rem] text-slate-400">Immobili a un indirizzo</div></div>
                           <div><div className="text-sm font-semibold text-[#002147]">Estratto Mappa</div><div className="text-[0.625rem] text-slate-400">Confini e particelle</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Planimetria</div><div className="text-[0.625rem] text-slate-400">Copia conforme</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca Nazionale</div><div className="text-[0.625rem] text-slate-400">Proprietà su tutto il territorio</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Elaborato Planimetrico</div><div className="text-[0.625rem] text-slate-400">Grafico catastale completo</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Planimetria</div><div className="text-[0.625rem] text-slate-400">Disegno tecnico depositato</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Elaborato Planimetrico</div><div className="text-[0.625rem] text-slate-400">Fabbricato con subalterni</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Prospetto Catastale</div><div className="text-[0.625rem] text-slate-400">Dati immobile e intestatari</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Elenco degli Immobili</div><div className="text-[0.625rem] text-slate-400">Categoria, rendita, consistenza</div></div>
                         </div>
                       </div>
                       <div>
@@ -87,38 +94,20 @@ export default function Header() {
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria Nazionale</div><div className="text-[0.625rem] text-slate-400">Tutte le conservatorie</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria per Immobile</div><div className="text-[0.625rem] text-slate-400">Formalità sull'immobile</div></div>
                           <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria</div><div className="text-[0.625rem] text-slate-400">Per soggetto o immobile</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Singola Nota Ipotecaria</div><div className="text-[0.625rem] text-slate-400">Dettaglio nota specifica</div></div>
-                        </div>
-                      </div>
-                      <div>
-                        <Link href="/catalogo/urbanistica" className="inline-block">
-                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Urbanistica</h4>
-                        </Link>
-                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
-                        <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Certificato C.D.U.</div><div className="text-[0.625rem] text-slate-400">Destinazione urbanistica</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Attestato APE</div><div className="text-[0.625rem] text-slate-400">Prestazione energetica</div></div>
-                        </div>
-                      </div>
-                      <div>
-                        <Link href="/coming-soon/virtual-staging" className="inline-block">
-                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Marketing AI</h4>
-                        </Link>
-                        <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
-                        <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Virtual Staging AI</div><div className="text-[0.625rem] text-slate-400">Arredamento fotorealistico</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria Nazionale</div><div className="text-[0.625rem] text-slate-400">Tutte le conservatorie</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Singola Nota</div><div className="text-[0.625rem] text-slate-400">Dettaglio formalità</div></div>
                         </div>
                       </div>
                       <div>
                         <Link href="/catalogo/utility-gratuite" className="inline-block">
-                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Utility Gratuite</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Strumenti Gratuiti</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Calcolatore IMU</div><div className="text-[0.625rem] text-slate-400">Simulatore imposte</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Checklist Mutuo</div><div className="text-[0.625rem] text-slate-400">Documenti finanziamento</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Conto Economico</div><div className="text-[0.625rem] text-slate-400">Costi, ricavi, ROI, ROE</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Calcolatore Costi Compravendita</div><div className="text-[0.625rem] text-slate-400">Imposte e notaio</div></div>
                         </div>
                       </div>
                     </div>
