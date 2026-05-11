@@ -63,3 +63,13 @@
 - Workflow JSON aggiornati sul Desktop: nazionale, singola-nota-soggetto, singola-nota-immobile. Body template diretto (no Code node, no IIFE che n8n non valutava bene)
 - Test confermato: singola nota soggetto registro generale ✅ funziona. Da testare: nazionale, immobile, particolare
 - Commit principali: `0c4f91e` (stale closure), `4691a6f` (filtro comuni da conservatoria), `6974164` (fix data array + layout), `bc28b4f` (renderer nazionale in genera-report), `2e15a7b` (singola nota: tipo_registro+tipo_nota), `b05e7bc` (tipo_restrizione = soggetto/immobile, fine odissea)
+
+## 2026-05-11 — Allineamento prezzi home + nuovo calcolatore compravendita
+- Home (`src/app/page.tsx`): allineati i prezzi mostrati alle pagine di catalogo / Excel listino. Visura €9.90→€5.90, Visura storica €12.90→€8.90, Ispezione Ipotecaria (soggetto) €19.90→€29.90, Ispezione Ipotecaria Nazionale €12.90→€36.90.
+- Visura Catastale: rimosso "(ordinari o storici)" dalla description in `services.ts`.
+- Nuovo tool gratuito: `/utility/calcolatore-costi-compravendita`. Calcola imposte (registro, ipo, cat), IVA quando venditore=impresa, range notaio €2k–€3.5k, totale accessori. Categorie lusso (A/1, A/8, A/9) non beneficiano dell'agevolazione prima casa.
+- File nuovi: `src/lib/calcoli/costi-compravendita.ts` (logica pura, 5 test case in commento), `src/components/tools/CostiCompravenditaCalculator.tsx` (client), `src/app/utility/calcolatore-costi-compravendita/page.tsx` (server + JSON-LD WebApplication).
+- Aggiunto al catalogo `strumenti-gratuiti` in `services.ts`. CTA visura nel calcolatore = addItem('visura-catastale') + /carrello (no route `/prodotti/` esistente).
+- Bundle Compravendita Pro non esiste ancora in `services.ts` → CTA finale punta a `/catalogo/documenti-catastali`. Da creare quando ci sarà il prodotto bundle.
+- Tracking: `window.dataLayer.push` (GTM-ready), eventi `calcolo_completato`, `click_cta_visura`, `click_cta_bundle`.
+- Niente modifiche a Supabase: tool client-side puro.
