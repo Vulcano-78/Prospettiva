@@ -290,12 +290,12 @@ export const services: Service[] = [
   {
     id: 'ispezione-ipotecaria',
     slug: 'ispezione-ipotecaria',
-    name: 'Ispezione Ipotecaria per Soggetto',
-    shortName: 'Ispezione Ipotecaria Soggetto',
-    description: "Documento ufficiale dell'Agenzia delle Entrate con l'elenco delle formalità (trascrizioni, iscrizioni e annotazioni) a carico di un determinato soggetto.",
+    name: 'Ispezione Ipotecaria',
+    shortName: 'Ispezione Ipotecaria',
+    description: "Documento ufficiale dell'Agenzia delle Entrate con l'elenco delle formalità (trascrizioni, iscrizioni e annotazioni) a carico di un immobile o di un soggetto. Scegli la modalità in carrello.",
     price: 29.90,
     category: 'verifiche-ipotecarie',
-    categoryIcon: 'language',
+    categoryIcon: 'account_balance',
     isActive: true,
     fields: [
       { name: 'cf_piva', label: 'Codice Fiscale o Partita IVA', type: 'text', placeholder: 'RSSMRA85L01H501Z / 12345678901', required: true },

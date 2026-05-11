@@ -59,6 +59,13 @@ const categoryServiceOrder: Record<string, string[]> = {
     'calcolatore-imu',
     'checklist-mutuo',
   ],
+  // 'ispezione-ipotecaria' è la voce unificata (immobile/soggetto scelti in carrello).
+  // 'ispezione-ipotecaria-immobile' resta in services.ts come slug legacy, escluso dal catalogo.
+  'verifiche-ipotecarie': [
+    'ispezione-ipotecaria',
+    'ispezione-ipotecaria-nazionale',
+    'elenco-note-ipotecarie',
+  ],
 };
 
 export default function CatalogoCategoriaPage({ params }: { params: Promise<{ categoria: string }> }) {
