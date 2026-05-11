@@ -17,7 +17,7 @@ export default function CheckoutDataPage() {
 
   const [accountType, setAccountType] = useState<AccountType>('privato');
   const [richiedifattura, setRichiedifattura] = useState(false);
-  const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
+  const [pivaManuallyEdited, setPivaManuallyEdited] = useState(false);
   const [emailDocumentiManuallyEdited, setEmailDocumentiManuallyEdited] = useState(false);
   const [formData, setFormData] = useState({
     nome: '',
@@ -67,7 +67,7 @@ export default function CheckoutDataPage() {
           ...base,
           ragioneSociale: meta.ragione_sociale ?? '',
           partitaIva: meta.partita_iva ?? '',
-          codiceFiscale: meta.partita_iva ?? '',
+          codiceFiscale: registeredType === 'impresa' ? (meta.partita_iva ?? '') : '',
           codiceDestinatario: meta.codice_sdi ?? '',
           pec: meta.pec ?? '',
           sedeLegaleIndirizzo: meta.indirizzo ?? '',
@@ -92,11 +92,11 @@ export default function CheckoutDataPage() {
     const { name, value } = e.target;
     setFormData(prev => {
       const next = { ...prev, [name]: value };
-      if (name === 'partitaIva' && !cfManuallyEdited) {
-        next.codiceFiscale = value;
+      if (name === 'codiceFiscale' && accountType === 'impresa' && !pivaManuallyEdited) {
+        next.partitaIva = value;
       }
-      if (name === 'codiceFiscale') {
-        setCfManuallyEdited(true);
+      if (name === 'partitaIva') {
+        setPivaManuallyEdited(true);
       }
       if (name === 'email' && !emailDocumentiManuallyEdited) {
         next.emailDocumenti = value;
@@ -305,22 +305,30 @@ export default function CheckoutDataPage() {
                       <input type="text" name="sedeLegaleProvincia" value={formData.sedeLegaleProvincia} onChange={handleChange} className="w-full" placeholder="RM" required />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
-                      <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} className="w-full" placeholder="12345678901" required />
-                    </div>
-                    <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Codice Fiscale *</label>
                       <input
                         type="text"
                         name="codiceFiscale"
                         value={formData.codiceFiscale}
                         onChange={handleChange}
-                        onFocus={() => {
-                          if (!cfManuallyEdited) {
-                            setCfManuallyEdited(true);
-                            setFormData(prev => ({ ...prev, codiceFiscale: '' }));
+                        className="w-full"
+                        placeholder={accountType === 'impresa' ? '12345678901' : 'RSSMRA85L01H501Z'}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#516169] mb-2">Partita IVA *</label>
+                      <input
+                        type="text"
+                        name="partitaIva"
+                        value={formData.partitaIva}
+                        onChange={handleChange}
+                        onFocus={accountType === 'impresa' ? () => {
+                          if (!pivaManuallyEdited) {
+                            setPivaManuallyEdited(true);
+                            setFormData(prev => ({ ...prev, partitaIva: '' }));
                           }
-                        }}
+                        } : undefined}
                         className="w-full"
                         placeholder="12345678901"
                         required
