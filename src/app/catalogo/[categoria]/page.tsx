@@ -227,6 +227,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                           {service.isActive ? (
                             service.price > 0 ? (
                               <>
+                                <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
                                 <button
                                   onClick={() => handleAddToCart(service.slug)}
                                   aria-label="Aggiungi al carrello"
