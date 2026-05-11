@@ -3,12 +3,48 @@ import { createClient } from '@/lib/supabase/server'
 
 type OrderItem = { slug: string; formData: Record<string, string> }
 
+// Etichetta human-readable del servizio, usata nelle email n8n come {{ $json.tipo_servizio_label }}.
+// Tiene conto delle varianti (per immobile / per soggetto / giuridico).
+function tipoServizioLabel(order: OrderItem): string {
+  const fd = order.formData
+  const searchType = fd._searchType || fd._mode || 'immobile'
+  const suffixVisura =
+    searchType === 'soggetto-giuridico' ? 'per Soggetto Giuridico'
+    : searchType === 'soggetto' ? 'per Soggetto'
+    : 'per Immobile'
+  const suffixIspezione =
+    searchType === 'soggetto-giuridico' ? 'per Soggetto Giuridico'
+    : searchType === 'soggetto' ? 'per Soggetto'
+    : 'per Immobile'
+
+  switch (order.slug) {
+    case 'visura-catastale': return `Visura Catastale ${suffixVisura}`
+    case 'visura-catastale-storica': return `Visura Catastale Storica ${suffixVisura}`
+    case 'visura-per-soggetto': return 'Visura per Soggetto'
+    case 'visura-per-soggetto-storica': return 'Visura per Soggetto Storica'
+    case 'estratto-mappa': return 'Estratto Mappa Catastale'
+    case 'elaborato-planimetrico': return 'Elaborato Planimetrico'
+    case 'prospetto-catastale': return 'Prospetto Catastale'
+    case 'ricerca-persona': return 'Ricerca per Persona'
+    case 'ricerca-nazionale': return 'Ricerca Nazionale'
+    case 'ricerca-indirizzo': return 'Ricerca per Indirizzo'
+    case 'elenco-immobili': return 'Elenco degli Immobili'
+    case 'planimetria': return 'Planimetria Catastale'
+    case 'ispezione-ipotecaria': return `Ispezione Ipotecaria ${suffixIspezione}`
+    case 'ispezione-ipotecaria-immobile': return 'Ispezione Ipotecaria per Immobile'
+    case 'ispezione-ipotecaria-nazionale': return 'Ispezione Ipotecaria Nazionale'
+    case 'elenco-note-ipotecarie': return `Ispezione Ipotecaria di una Singola Nota ${suffixIspezione}`
+    default: return order.slug
+  }
+}
+
 function buildVisuraPayload(
   order: OrderItem,
   email: string,
   emailDocumenti: string | undefined,
   userId: string | null,
-  orderRef: string
+  orderRef: string,
+  dataRichiestaIso: string
 ) {
   const fd = order.formData
   const searchType = fd._searchType || 'immobile'
@@ -17,6 +53,8 @@ function buildVisuraPayload(
     tipo_catasto: fd.tipo_catasto || 'F',
     tipo_visura: tipoVisura,
     tipo_dettaglio: fd.tipo_dettaglio || 'sintetica',
+    tipo_servizio_label: tipoServizioLabel(order),
+    data_richiesta_iso: dataRichiestaIso,
     email,
     order_ref: orderRef,
   }
@@ -67,12 +105,16 @@ async function fireWebhooks(
   }
 
   const promises: Promise<void>[] = []
+  const dataRichiestaIso = new Date().toISOString()
 
   for (const order of orders) {
     const fd = order.formData
-    const base: Record<string, string> = userId
-      ? { user_id: userId, order_ref: orderRef }
-      : { order_ref: orderRef }
+    const base: Record<string, string> = {
+      order_ref: orderRef,
+      tipo_servizio_label: tipoServizioLabel(order),
+      data_richiesta_iso: dataRichiestaIso,
+      ...(userId ? { user_id: userId } : {}),
+    }
 
     if (order.slug === 'estratto-mappa') {
       const payload: Record<string, string> = {
@@ -115,7 +157,7 @@ async function fireWebhooks(
     }
 
     if (order.slug === 'visura-catastale' || order.slug === 'visura-catastale-storica') {
-      const payload = buildVisuraPayload(order, email, emailDocumenti || undefined, userId, orderRef)
+      const payload = buildVisuraPayload(order, email, emailDocumenti || undefined, userId, orderRef, dataRichiestaIso)
       const searchType = fd._searchType || 'immobile'
       const tipoVisura = order.slug === 'visura-catastale-storica' ? 'storica' : 'ordinaria'
       const tipoEntita = (searchType === 'soggetto' || searchType === 'soggetto-giuridico') ? 'soggetto' : 'immobile'
