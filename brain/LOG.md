@@ -91,3 +91,11 @@
 - `/login`: rimosso il path `pendingOrderAfterAuth` (process-order non accetta più orders dal client).
 - SQL da eseguire: `sql/orders_stripe_payment_intent.sql` (ALTER TABLE + UNIQUE INDEX).
 - Da configurare su Vercel: `STRIPE_WEBHOOK_SECRET`. Da configurare in Stripe Dashboard: endpoint webhook → `https://prospettiva.io/api/stripe-webhook`, evento `payment_intent.succeeded`.
+
+## 2026-05-11 — Stripe webhook attivo in sandbox: verificato end-to-end
+- Lezione importante: in Stripe i **Sandbox** sono ambienti isolati con keys proprie, separati dalla vecchia "test mode" del main account. Il webhook va creato dentro lo specifico sandbox di cui Vercel ha le keys.
+- Setup finale (sandbox, sito in test):
+  - Su Vercel: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` e `STRIPE_WEBHOOK_SECRET` allineati allo stesso sandbox.
+  - Webhook "Prospettiva fulfillment (test)" su `https://prospettiva.vercel.app/api/stripe-webhook`, eventi `payment_intent.succeeded` + `payment_intent.payment_failed`.
+- Test pagamento da carta 4242 (€5,90 visura): event delivered 200 OK, riga in `orders` con `stripe_payment_intent_id` corretto, fulfillment via webhook autoritativo confermato.
+- Per il lancio: ricreare webhook in modalità Live con URL `https://prospettiva.io/api/stripe-webhook`, ottenere nuovo `whsec_...` live, switchare le 3 env Vercel.
