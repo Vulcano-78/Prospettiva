@@ -27,7 +27,7 @@ function isElencoNoteIpotecarie(slug: string) { return slug === 'elenco-note-ipo
 
 const selectClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm appearance-none';
 const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
-const labelClass = 'block text-[10px] font-bold uppercase tracking-widest text-[#516169]';
+const labelClass = 'block text-[0.625rem] font-bold uppercase tracking-widest text-[#516169]';
 
 function ProvinciaComune({ data, onChange, onProvinciaChange }: {
   data: Record<string, string>;
@@ -193,7 +193,7 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold uppercase tracking-widest text-[#516169]">Modalita di ricerca</label>
+        <label className="block text-[0.625rem] font-bold uppercase tracking-widest text-[#516169]">Modalita di ricerca</label>
         <div className="grid grid-cols-3 gap-2">
           {([
             { value: 'immobile' as const, label: 'Per Immobile', icon: 'home' },

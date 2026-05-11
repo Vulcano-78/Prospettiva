@@ -92,7 +92,7 @@ export default function CheckoutClientePage() {
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <h3 className="font-bold text-[#002147]">{service.name}</h3>
                       {service.requiresDelegate && (
-                        <span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded uppercase">
+                        <span className="bg-amber-100 text-amber-800 text-[0.5625rem] font-bold px-2 py-0.5 rounded uppercase">
                           Delega richiesta
                         </span>
                       )}
@@ -153,27 +153,27 @@ export default function CheckoutClientePage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Nome</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">Nome</label>
                     <input type="text" name="nome" value={formData.nome} onChange={handleChange} required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Cognome</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">Cognome</label>
                     <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} required />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Email</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">Email</label>
                   <input type="email" name="email" value={formData.email} onChange={handleChange} required />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Telefono</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">Telefono</label>
                     <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Codice Fiscale</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">Codice Fiscale</label>
                     <input type="text" name="codiceFiscale" value={formData.codiceFiscale} onChange={handleChange} required />
                   </div>
                 </div>
@@ -234,20 +234,20 @@ export default function CheckoutClientePage() {
               {/* Simulated Payment Form */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
+                  <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">
                     Numero carta
                   </label>
                   <input type="text" placeholder="1234 5678 9012 3456" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">
                       Scadenza
                     </label>
                     <input type="text" placeholder="MM/AA" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
+                    <label className="block text-[0.625rem] font-bold text-slate-500 uppercase tracking-widest mb-2">
                       CVV
                     </label>
                     <input type="text" placeholder="123" />

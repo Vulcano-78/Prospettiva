@@ -63,17 +63,17 @@ export default function PreparaOrdinePage() {
             <div className="flex items-center gap-3 bg-slate-100 p-4 rounded-xl">
               <div className="flex flex-col items-center">
                 <div className="w-8 h-8 rounded-full bg-[#4463ee] text-white flex items-center justify-center font-bold text-sm mb-1">1</div>
-                <span className="text-[10px] font-bold uppercase tracking-tight text-[#002147]">Prepari il pacchetto</span>
+                <span className="text-[0.625rem] font-bold uppercase tracking-tight text-[#002147]">Prepari il pacchetto</span>
               </div>
               <div className="w-12 h-[2px] bg-slate-300 mb-4"></div>
               <div className="flex flex-col items-center opacity-40">
                 <div className="w-8 h-8 rounded-full bg-slate-300 text-slate-600 flex items-center justify-center font-bold text-sm mb-1">2</div>
-                <span className="text-[10px] font-bold uppercase tracking-tight">Riepilogo</span>
+                <span className="text-[0.625rem] font-bold uppercase tracking-tight">Riepilogo</span>
               </div>
               <div className="w-12 h-[2px] bg-slate-300 mb-4"></div>
               <div className="flex flex-col items-center opacity-40">
                 <div className="w-8 h-8 rounded-full bg-slate-300 text-slate-600 flex items-center justify-center font-bold text-sm mb-1">3</div>
-                <span className="text-[10px] font-bold uppercase tracking-tight">Invio</span>
+                <span className="text-[0.625rem] font-bold uppercase tracking-tight">Invio</span>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default function PreparaOrdinePage() {
           {/* Sidebar */}
           <aside className="w-1/4 hidden lg:block">
             <div className="sticky top-28 space-y-2">
-              <h3 className="text-[11px] font-black text-[#002147] uppercase tracking-widest mb-4 px-4">Esplora</h3>
+              <h3 className="text-[0.6875rem] font-black text-[#002147] uppercase tracking-widest mb-4 px-4">Esplora</h3>
 
               <Link
                 href="#packages"
@@ -185,7 +185,7 @@ export default function PreparaOrdinePage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <h4 className="font-bold text-[#002147]">{service.name}</h4>
                         {service.requiresDelegate && (
-                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">
+                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[0.5625rem] font-bold uppercase tracking-wider">
                             Delega richiesta
                           </span>
                         )}
@@ -222,14 +222,14 @@ export default function PreparaOrdinePage() {
                 <span className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   {selectedServices.length} servizi selezionati
                 </span>
-                <span className="block text-[10px] text-slate-400 uppercase tracking-widest font-bold mt-1">
+                <span className="block text-[0.625rem] text-slate-400 uppercase tracking-widest font-bold mt-1">
                   La tua configurazione
                 </span>
               </div>
               <div className="hidden md:block h-12 w-[1px] bg-slate-200"></div>
               <div>
                 <span className="text-3xl font-extrabold text-[#002147]">{formatPrice(getTotal())}</span>
-                <span className="block text-[10px] text-slate-400 uppercase tracking-widest font-bold mt-1">
+                <span className="block text-[0.625rem] text-slate-400 uppercase tracking-widest font-bold mt-1">
                   Totale + IVA
                 </span>
               </div>

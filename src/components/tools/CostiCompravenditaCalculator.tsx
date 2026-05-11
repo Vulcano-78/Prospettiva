@@ -94,7 +94,7 @@ export default function CostiCompravenditaCalculator() {
     <div className="min-h-screen bg-[#f8f9fa] pt-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <header className="mb-8">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
+          <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
             Calcolatore Costi Compravendita
           </h1>
@@ -120,7 +120,7 @@ export default function CostiCompravenditaCalculator() {
                     className={`text-left rounded-lg border p-4 transition-colors ${tipoVenditore === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                   >
                     <div className="text-sm font-bold text-[#002147]">{opt.label}</div>
-                    <div className="text-[11px] text-slate-500 mt-0.5">{opt.sub}</div>
+                    <div className="text-[0.6875rem] text-slate-500 mt-0.5">{opt.sub}</div>
                   </button>
                 ))}
               </div>
@@ -140,12 +140,12 @@ export default function CostiCompravenditaCalculator() {
                     className={`text-left rounded-lg border p-4 transition-colors ${destinazione === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                   >
                     <div className="text-sm font-bold text-[#002147]">{opt.label}</div>
-                    <div className="text-[11px] text-slate-500 mt-0.5">{opt.sub}</div>
+                    <div className="text-[0.6875rem] text-slate-500 mt-0.5">{opt.sub}</div>
                   </button>
                 ))}
               </div>
               {destinazione === 'prima_casa' && CATEGORIE_LUSSO.includes(categoria) && (
-                <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 mt-3 rounded-lg p-3">
+                <p className="text-[0.6875rem] text-amber-700 bg-amber-50 border border-amber-200 mt-3 rounded-lg p-3">
                   Le categorie di lusso (A/1, A/8, A/9) non possono beneficiare dell&apos;agevolazione prima casa: applichiamo le aliquote ordinarie.
                 </p>
               )}
@@ -156,11 +156,11 @@ export default function CostiCompravenditaCalculator() {
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Immobile</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Categoria catastale</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Categoria catastale</label>
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value as CategoriaCatastale)}
-                    className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                    className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                   >
                     <optgroup label="Standard">
                       {CATEGORIE_STANDARD.map(c => <option key={c} value={c}>{c}</option>)}
@@ -171,31 +171,31 @@ export default function CostiCompravenditaCalculator() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Prezzo di acquisto</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Prezzo di acquisto</label>
                   <div className="relative">
                     <input
                       inputMode="decimal"
                       placeholder="200.000"
                       value={prezzoStr}
                       onChange={(e) => setPrezzoStr(formatInputNumber(e.target.value, false))}
-                      className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                      className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                   {prezzoStr && !prezzoValido && (
-                    <p className="text-[11px] text-red-600 mt-1">Inserisci un prezzo di almeno 10.000 €.</p>
+                    <p className="text-[0.6875rem] text-red-600 mt-1">Inserisci un prezzo di almeno 10.000 €.</p>
                   )}
                 </div>
                 {renditaRichiesta && (
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rendita catastale</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Rendita catastale</label>
                     <div className="relative">
                       <input
                         inputMode="decimal"
                         placeholder="450,00"
                         value={renditaStr}
                         onChange={(e) => setRenditaStr(formatInputNumber(e.target.value, true))}
-                        className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                        className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                       />
                       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                     </div>
@@ -215,10 +215,10 @@ export default function CostiCompravenditaCalculator() {
                     </span>
                     <div className="min-w-0">
                       <div className="text-sm font-bold text-[#002147]">Non conosci la rendita catastale?</div>
-                      <div className="text-[12px] text-slate-500">Richiedi la visura catastale ufficiale in pochi minuti.</div>
+                      <div className="text-xs text-slate-500">Richiedi la visura catastale ufficiale in pochi minuti.</div>
                     </div>
                   </div>
-                  <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#4463EE] text-white text-[11px] font-bold uppercase tracking-widest px-3 py-2 rounded-md">
+                  <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#4463EE] text-white text-[0.6875rem] font-bold uppercase tracking-widest px-3 py-2 rounded-md">
                     Acquista <span className="material-symbols-outlined text-sm">arrow_forward</span>
                   </span>
                 </button>
@@ -284,15 +284,15 @@ export default function CostiCompravenditaCalculator() {
                   )}
                   <div className="border-t border-slate-100 pt-3 mt-3">
                     <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-lg p-3">
-                      <div className="text-[10px] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
+                      <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
                       <div className="text-lg font-extrabold text-[#002147]">
                         {formatEur(result.totaleAccessori)}
                       </div>
-                      <div className="text-[10px] text-slate-500 mt-1">Imposte e IVA. Onorario notarile escluso.</div>
+                      <div className="text-[0.625rem] text-slate-500 mt-1">Imposte e IVA. Onorario notarile escluso.</div>
                     </div>
                   </div>
 
-                  <p className="text-[11px] text-slate-400 leading-relaxed pt-2">
+                  <p className="text-[0.6875rem] text-slate-400 leading-relaxed pt-2">
                     Calcolo orientativo basato sulla normativa vigente al 2026. Per il calcolo definitivo consultare il notaio incaricato.
                   </p>
                 </div>
@@ -306,10 +306,10 @@ export default function CostiCompravenditaCalculator() {
                 className="mt-4 block bg-[#4463EE] text-white p-5 hover:bg-[#3753d4] transition-colors"
               >
                 <div className="text-sm font-bold mb-1">Pronto a procedere con l&apos;acquisto?</div>
-                <div className="text-[12px] text-white/80 mb-3">
+                <div className="text-xs text-white/80 mb-3">
                   Tutti i documenti ufficiali per la compravendita in un unico posto.
                 </div>
-                <div className="text-[11px] font-bold uppercase tracking-widest inline-flex items-center gap-1">
+                <div className="text-[0.6875rem] font-bold uppercase tracking-widest inline-flex items-center gap-1">
                   Esplora i documenti catastali <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </div>
               </Link>
@@ -342,7 +342,7 @@ function Row({
             type="button"
             aria-label={`Info: ${label}`}
             onClick={() => setOpenTip(isOpen ? null : tipKey)}
-            className="flex-shrink-0 w-4 h-4 rounded-full border border-slate-300 text-slate-400 text-[10px] leading-none hover:text-[#4463EE] hover:border-[#4463EE]"
+            className="flex-shrink-0 w-4 h-4 rounded-full border border-slate-300 text-slate-400 text-[0.625rem] leading-none hover:text-[#4463EE] hover:border-[#4463EE]"
           >
             ?
           </button>
@@ -350,7 +350,7 @@ function Row({
         <span className={`text-sm font-bold ${muted ? 'text-slate-500' : 'text-[#002147]'} text-right whitespace-nowrap`}>{value}</span>
       </div>
       {isOpen && (
-        <p className="text-[11px] text-slate-500 bg-slate-50 rounded-md p-2 mt-1.5 leading-relaxed">{tip}</p>
+        <p className="text-[0.6875rem] text-slate-500 bg-slate-50 rounded-md p-2 mt-1.5 leading-relaxed">{tip}</p>
       )}
     </div>
   );

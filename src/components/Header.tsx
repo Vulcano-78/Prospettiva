@@ -70,55 +70,55 @@ export default function Header() {
                     <div className="grid grid-cols-5 gap-6">
                       <div>
                         <Link href="/catalogo/documenti-catastali" className="inline-block">
-                          <h4 className="text-[10px] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Catasto</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Catasto</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Visura Catastale</div><div className="text-[10px] text-slate-400">Per immobile o soggetto</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Estratto Mappa</div><div className="text-[10px] text-slate-400">Confini e particelle</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Planimetria</div><div className="text-[10px] text-slate-400">Copia conforme</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca Nazionale</div><div className="text-[10px] text-slate-400">Proprietà su tutto il territorio</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Elaborato Planimetrico</div><div className="text-[10px] text-slate-400">Grafico catastale completo</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Visura Catastale</div><div className="text-[0.625rem] text-slate-400">Per immobile o soggetto</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Estratto Mappa</div><div className="text-[0.625rem] text-slate-400">Confini e particelle</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Planimetria</div><div className="text-[0.625rem] text-slate-400">Copia conforme</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ricerca Nazionale</div><div className="text-[0.625rem] text-slate-400">Proprietà su tutto il territorio</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Elaborato Planimetrico</div><div className="text-[0.625rem] text-slate-400">Grafico catastale completo</div></div>
                         </div>
                       </div>
                       <div>
                         <Link href="/catalogo/verifiche-ipotecarie" className="inline-block">
-                          <h4 className="text-[10px] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Conservatoria</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Conservatoria</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria Nazionale</div><div className="text-[10px] text-slate-400">Tutte le conservatorie</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria</div><div className="text-[10px] text-slate-400">Per soggetto o immobile</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Singola Nota Ipotecaria</div><div className="text-[10px] text-slate-400">Dettaglio nota specifica</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria Nazionale</div><div className="text-[0.625rem] text-slate-400">Tutte le conservatorie</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Ispezione Ipotecaria</div><div className="text-[0.625rem] text-slate-400">Per soggetto o immobile</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Singola Nota Ipotecaria</div><div className="text-[0.625rem] text-slate-400">Dettaglio nota specifica</div></div>
                         </div>
                       </div>
                       <div>
                         <Link href="/catalogo/urbanistica" className="inline-block">
-                          <h4 className="text-[10px] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Urbanistica</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Urbanistica</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Certificato C.D.U.</div><div className="text-[10px] text-slate-400">Destinazione urbanistica</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Attestato APE</div><div className="text-[10px] text-slate-400">Prestazione energetica</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Certificato C.D.U.</div><div className="text-[0.625rem] text-slate-400">Destinazione urbanistica</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Attestato APE</div><div className="text-[0.625rem] text-slate-400">Prestazione energetica</div></div>
                         </div>
                       </div>
                       <div>
                         <Link href="/coming-soon/virtual-staging" className="inline-block">
-                          <h4 className="text-[10px] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Marketing AI</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Marketing AI</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Virtual Staging AI</div><div className="text-[10px] text-slate-400">Arredamento fotorealistico</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Virtual Staging AI</div><div className="text-[0.625rem] text-slate-400">Arredamento fotorealistico</div></div>
                         </div>
                       </div>
                       <div>
                         <Link href="/catalogo/utility-gratuite" className="inline-block">
-                          <h4 className="text-[10px] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Utility Gratuite</h4>
+                          <h4 className="text-[0.625rem] font-black text-[#4463EE] uppercase tracking-widest mb-2 hover:text-[#002147] transition-colors">Utility Gratuite</h4>
                         </Link>
                         <div className="h-px mb-3" style={{ background: 'linear-gradient(to right, #c4c6cf, transparent)' }}></div>
                         <div className="flex flex-col gap-3">
-                          <div><div className="text-sm font-semibold text-[#002147]">Calcolatore IMU</div><div className="text-[10px] text-slate-400">Simulatore imposte</div></div>
-                          <div><div className="text-sm font-semibold text-[#002147]">Checklist Mutuo</div><div className="text-[10px] text-slate-400">Documenti finanziamento</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Calcolatore IMU</div><div className="text-[0.625rem] text-slate-400">Simulatore imposte</div></div>
+                          <div><div className="text-sm font-semibold text-[#002147]">Checklist Mutuo</div><div className="text-[0.625rem] text-slate-400">Documenti finanziamento</div></div>
                         </div>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ export default function Header() {
             <Link href="/carrello" className="relative text-[#002147] hover:text-[#4463EE] transition-colors mr-1">
               <span className="material-symbols-outlined text-2xl">shopping_cart</span>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-2 bg-[#4463EE] text-white text-[9px] font-black w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-2 bg-[#4463EE] text-white text-[0.5625rem] font-black w-4 h-4 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -195,7 +195,7 @@ export default function Header() {
             <Link href="/carrello" className="relative p-2 text-[#002147]">
               <span className="material-symbols-outlined text-2xl">shopping_cart</span>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#4463EE] text-white text-[9px] font-black w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#4463EE] text-white text-[0.5625rem] font-black w-4 h-4 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}

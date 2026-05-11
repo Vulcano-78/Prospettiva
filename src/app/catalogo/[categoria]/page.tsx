@@ -108,7 +108,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
           { label: config.title },
         ]} />
         <div className="text-center mb-4">
-          <h1 className="text-[42px] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
+          <h1 className="text-[2.625rem] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
           <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             {config.description}
           </p>
@@ -138,20 +138,20 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                   <li key={service.id} className="py-5 flex flex-col gap-3">
                     {/* Zona 1: titolo + prezzo (allineamento fisso) */}
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[15px] font-bold text-primary-container leading-tight flex-1 min-w-0">
+                      <h3 className="text-[0.9375rem] font-bold text-primary-container leading-tight flex-1 min-w-0">
                         {service.shortName}
                       </h3>
                       {!isFree && (
                         <div className="flex-shrink-0 text-right">
-                          <div className="text-[15px] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
-                          <div className="text-[9px] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
+                          <div className="text-[0.9375rem] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
+                          <div className="text-[0.5625rem] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
                         </div>
                       )}
                     </div>
 
                     {/* Zona 2: descrizione (min-height fisso, line-clamp 2 righe) */}
                     <p
-                      className="text-[12px] text-on-surface-variant leading-snug min-h-[2.6em] overflow-hidden"
+                      className="text-xs text-on-surface-variant leading-snug min-h-[2.6em] overflow-hidden"
                       style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                     >
                       {service.description}
@@ -163,7 +163,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                         isFree ? (
                           <Link
                             href={service.href ?? `/coming-soon/${service.slug}`}
-                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
+                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
                           >
                             Apri <span className="material-symbols-outlined text-base">arrow_forward</span>
                           </Link>
@@ -178,14 +178,14 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                             </button>
                             <button
                               onClick={() => handleBuyNow(service.slug)}
-                              className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[11px] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
+                              className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
                             >
                               Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
                             </button>
                           </>
                         )
                       ) : (
-                        <span className="inline-flex items-center h-10 px-4 bg-slate-100 text-slate-400 text-[11px] font-bold uppercase tracking-widest rounded-md">
+                        <span className="inline-flex items-center h-10 px-4 bg-slate-100 text-slate-400 text-[0.6875rem] font-bold uppercase tracking-widest rounded-md">
                           In arrivo
                         </span>
                       )}
@@ -199,7 +199,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-3 font-bold">Servizio</th>
                     <th className="py-3 font-bold text-right pr-4">Prezzo</th>
                     <th className="py-3 font-bold text-center w-16">Qtà</th>
@@ -211,13 +211,13 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                     <tr key={service.id} className="group hover:bg-slate-50/50 transition-colors">
                       <td className="py-4">
                         <div className="text-sm font-bold text-primary-container">{service.shortName}</div>
-                        <div className="text-[11px] text-on-surface-variant">{service.description}</div>
+                        <div className="text-[0.6875rem] text-on-surface-variant">{service.description}</div>
                       </td>
                       <td className="py-4 text-right pr-4">
                         {service.price > 0 ? (
                           <>
                             <span className="text-sm font-semibold text-primary-container">€{service.price.toFixed(2)}</span>
-                            <span className="text-[9px] text-on-surface-variant/60 block">escl. IVA</span>
+                            <span className="text-[0.5625rem] text-on-surface-variant/60 block">escl. IVA</span>
                           </>
                         ) : (
                           <span className="text-sm font-semibold text-[#4463EE]">Gratis</span>
@@ -241,15 +241,15 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                                 >
                                   <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                                 </button>
-                                <button onClick={() => handleBuyNow(service.slug)} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                                <button onClick={() => handleBuyNow(service.slug)} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                               </>
                             ) : (
-                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Apri</Link>
+                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-3 hover:bg-slate-300 uppercase flex items-center">Apri</Link>
                             )
                           ) : (
                             <>
-                              <Link href={`/coming-soon/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
-                              <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[10px] font-bold h-8 px-3 uppercase flex items-center">In arrivo</Link>
+                              <Link href={`/coming-soon/${service.slug}`} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1">Dettagli</Link>
+                              <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-3 uppercase flex items-center">In arrivo</Link>
                             </>
                           )}
                         </div>

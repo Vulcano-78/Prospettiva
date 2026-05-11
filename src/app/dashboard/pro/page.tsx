@@ -20,7 +20,7 @@ export default function DashboardProPage() {
               <span className="text-[#002147]">Prospettiva</span>
               <span className="text-[#4463ee]">.io</span>
             </Link>
-            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Professional Suite</span>
+            <span className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mt-1">Professional Suite</span>
           </div>
 
           <nav className="flex-1 space-y-1">
@@ -82,7 +82,7 @@ export default function DashboardProPage() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-              <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Totale Ordini</p>
+              <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Totale Ordini</p>
               <p className="text-3xl font-extrabold text-[#002147]">124</p>
               <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-emerald-600">
                 <span className="material-symbols-outlined text-sm">trending_up</span>
@@ -90,7 +90,7 @@ export default function DashboardProPage() {
               </div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-              <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Fatturato Netto</p>
+              <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Fatturato Netto</p>
               <p className="text-3xl font-extrabold text-[#002147]">&euro;12.450</p>
               <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-emerald-600">
                 <span className="material-symbols-outlined text-sm">trending_up</span>
@@ -99,7 +99,7 @@ export default function DashboardProPage() {
             </div>
             <div className="md:col-span-2 bg-[#002147] p-6 rounded-xl shadow-lg text-white flex justify-between items-center">
               <div>
-                <p className="text-[10px] uppercase tracking-widest font-bold opacity-70 mb-2">Prossima Scadenza</p>
+                <p className="text-[0.625rem] uppercase tracking-widest font-bold opacity-70 mb-2">Prossima Scadenza</p>
                 <p className="text-lg font-bold">Fatturazione Trimestrale</p>
                 <p className="text-sm opacity-80">15 Settembre 2026</p>
               </div>
@@ -128,12 +128,12 @@ export default function DashboardProPage() {
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-100">
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Data</th>
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Cliente</th>
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Servizi</th>
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 text-right">Totale</th>
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 text-center">Stato</th>
-                    <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 text-right">Azioni</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400">Data</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400">Cliente</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400">Servizi</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400 text-right">Totale</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400 text-center">Stato</th>
+                    <th className="px-6 py-4 text-[0.625rem] font-extrabold uppercase tracking-widest text-slate-400 text-right">Azioni</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -143,13 +143,13 @@ export default function DashboardProPage() {
                       <td className="px-6 py-5">
                         <div>
                           <span className="text-sm font-bold text-[#002147]">{order.client}</span>
-                          <span className="block text-[11px] text-slate-500">P.IVA {order.piva}</span>
+                          <span className="block text-[0.6875rem] text-slate-500">P.IVA {order.piva}</span>
                         </div>
                       </td>
                       <td className="px-6 py-5 text-sm text-slate-500 italic">{order.services}</td>
                       <td className="px-6 py-5 text-sm font-bold text-[#002147] text-right">&euro; {order.total.toFixed(2)}</td>
                       <td className="px-6 py-5 text-center">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.625rem] font-bold uppercase ${
                           order.status === 'paid' ? 'bg-emerald-100 text-emerald-800' :
                           order.status === 'pending' ? 'bg-amber-100 text-amber-800' :
                           'bg-red-100 text-red-800'
@@ -188,15 +188,15 @@ export default function DashboardProPage() {
               </div>
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
+                  <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
                   <p className="text-sm font-semibold text-[#002147]">Valeri &amp; Associati Consulting</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
+                  <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
                   <p className="text-sm font-semibold text-[#002147]">IT 01234567890</p>
                 </div>
                 <div className="col-span-2">
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Sede Legale</p>
+                  <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Sede Legale</p>
                   <p className="text-sm font-semibold text-[#002147]">Via del Corso 12, 00186 Roma (RM)</p>
                 </div>
               </div>
@@ -218,7 +218,7 @@ export default function DashboardProPage() {
                     <span className="material-symbols-outlined text-[#002147]/40">picture_as_pdf</span>
                     <div>
                       <p className="text-sm font-bold text-[#002147]">Fattura #PRO-2026-08</p>
-                      <p className="text-[10px] text-slate-500">01/08/2026 - Abbonamento Suite</p>
+                      <p className="text-[0.625rem] text-slate-500">01/08/2026 - Abbonamento Suite</p>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-[#002147]">&euro; 290,00</span>
@@ -228,7 +228,7 @@ export default function DashboardProPage() {
                     <span className="material-symbols-outlined text-[#002147]/40">picture_as_pdf</span>
                     <div>
                       <p className="text-sm font-bold text-[#002147]">Fattura #PRO-2026-07</p>
-                      <p className="text-[10px] text-slate-500">01/07/2026 - Abbonamento Suite</p>
+                      <p className="text-[0.625rem] text-slate-500">01/07/2026 - Abbonamento Suite</p>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-[#002147]">&euro; 290,00</span>

@@ -5,7 +5,7 @@ export default function GdprPage() {
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       <div className="w-full pt-20 px-8 max-w-[1440px] mx-auto">
         <nav className="mb-4">
-          <ol className="flex items-center gap-1.5 text-[11px] text-[#74777f]">
+          <ol className="flex items-center gap-1.5 text-[0.6875rem] text-[#74777f]">
             <li><Link href="/" className="hover:text-[#002147] transition-colors">Home</Link></li>
             <li>/</li>
             <li className="font-bold text-[#002147]">GDPR</li>

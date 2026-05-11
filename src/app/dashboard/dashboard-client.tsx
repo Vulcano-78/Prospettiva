@@ -250,7 +250,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
         {/* Sidebar */}
         <aside className="hidden lg:flex w-64 flex-col py-8 px-6 bg-gradient-to-b from-white to-slate-50 border-r border-slate-100">
           <div className="mb-10">
-            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Area Personale</span>
+            <span className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest">Area Personale</span>
             {nomeCompleto !== '—' && (
               <p className="mt-2 text-sm font-bold text-[#002147] truncate">{nomeCompleto}</p>
             )}
@@ -384,8 +384,8 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="hidden md:block">
-                          <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Stato</p>
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${ready ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                          <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Stato</p>
+                          <span className={`px-3 py-1 rounded-full text-[0.625rem] font-bold ${ready ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                             {ready ? 'Pronto' : 'In elaborazione'}
                           </span>
                         </div>
@@ -468,15 +468,15 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                       <div className="flex items-center gap-6">
                         <div className="hidden md:flex items-center gap-5 text-right">
                           <div>
-                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Utile</p>
+                            <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400">Utile</p>
                             <p className={`text-sm font-bold ${t.utile >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtEur(t.utile)}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">ROI</p>
+                            <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400">ROI</p>
                             <p className="text-sm font-bold text-[#002147]">{fmtPct(t.roi)}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">ROE</p>
+                            <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400">ROE</p>
                             <p className="text-sm font-bold text-[#002147]">{fmtPct(t.roe)}</p>
                           </div>
                         </div>
@@ -537,7 +537,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
               <form ref={formRef} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Nome</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Nome</label>
                     <input
                       type="text"
                       value={editData.nome}
@@ -546,7 +546,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Cognome</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Cognome</label>
                     <input
                       type="text"
                       value={editData.cognome}
@@ -556,7 +556,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Indirizzo</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Indirizzo</label>
                   <AddressAutocomplete
                     value={editData.indirizzo}
                     onChange={val => setEditData(p => ({ ...p, indirizzo: val }))}
@@ -572,7 +572,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="col-span-1">
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Comune</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Comune</label>
                     <input
                       type="text"
                       value={editData.citta}
@@ -581,7 +581,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">CAP</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">CAP</label>
                     <input
                       type="text"
                       value={editData.cap}
@@ -590,7 +590,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Provincia</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Provincia</label>
                     <input
                       type="text"
                       value={editData.provincia}
@@ -602,7 +602,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 {meta.account_type === 'professionista' && (
                   <>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ragione Sociale</label>
+                      <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Ragione Sociale</label>
                       <input
                         type="text"
                         value={editData.ragione_sociale}
@@ -612,7 +612,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Partita IVA</label>
+                        <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Partita IVA</label>
                         <input
                           type="text"
                           value={editData.partita_iva}
@@ -621,7 +621,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Codice SDI / PEC</label>
+                        <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Codice SDI / PEC</label>
                         <input
                           type="text"
                           value={editData.codice_sdi}
@@ -632,7 +632,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ruolo</label>
+                        <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Ruolo</label>
                         <div className="relative">
                           <select
                             value={editData.ruolo}
@@ -665,16 +665,16 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
             ) : (
               <div className="grid grid-cols-2 gap-y-5 gap-x-8">
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Nome e Cognome</p>
+                  <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Nome e Cognome</p>
                   <p className="font-semibold text-[#002147]">{nomeCompleto}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Email</p>
+                  <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Email</p>
                   <p className="font-semibold text-[#002147]">{user.email ?? '—'}</p>
                 </div>
                 {(meta.indirizzo || meta.citta) && (
                   <div className="col-span-2">
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Indirizzo</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Indirizzo</p>
                     <p className="font-semibold text-[#002147]">
                       {[meta.indirizzo, meta.citta, meta.cap, meta.provincia].filter(Boolean).join(', ')}
                     </p>
@@ -682,25 +682,25 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 )}
                 {meta.account_type && (
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Tipo Account</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Tipo Account</p>
                     <p className="font-semibold text-[#002147] capitalize">{meta.account_type}</p>
                   </div>
                 )}
                 {meta.ragione_sociale && (
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Ragione Sociale</p>
                     <p className="font-semibold text-[#002147]">{meta.ragione_sociale}</p>
                   </div>
                 )}
                 {meta.partita_iva && (
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Partita IVA</p>
                     <p className="font-semibold text-[#002147]">{meta.partita_iva}</p>
                   </div>
                 )}
                 {meta.ruolo && (
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Ruolo</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-1">Ruolo</p>
                     <p className="font-semibold text-[#002147]">{meta.ruolo}</p>
                   </div>
                 )}

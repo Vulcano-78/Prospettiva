@@ -74,15 +74,15 @@ export default async function AdminPage() {
         {/* KPI */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
           <div className="bg-white border border-slate-200 p-5">
-            <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Notifiche totali</p>
+            <p className="text-[0.625rem] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Notifiche totali</p>
             <p className="text-3xl font-extrabold text-[#002147]">{notifications.length}</p>
           </div>
           <div className="bg-white border border-slate-200 p-5">
-            <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Suggerimenti totali</p>
+            <p className="text-[0.625rem] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Suggerimenti totali</p>
             <p className="text-3xl font-extrabold text-[#002147]">{suggestions.length}</p>
           </div>
           <div className="bg-white border border-slate-200 p-5">
-            <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Servizi richiesti</p>
+            <p className="text-[0.625rem] uppercase tracking-widest text-on-surface-variant font-bold mb-2">Servizi richiesti</p>
             <p className="text-3xl font-extrabold text-[#002147]">{slugCounts.length}</p>
           </div>
         </div>

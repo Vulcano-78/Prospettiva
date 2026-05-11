@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import comuniList from '@/data/comuni-italiani.json';
 
-const labelClass = 'block text-[10px] font-bold uppercase tracking-widest text-[#516169]';
+const labelClass = 'block text-[0.625rem] font-bold uppercase tracking-widest text-[#516169]';
 const inputClass = 'w-full bg-white border border-slate-200 px-3 py-2 text-sm';
 
 interface Props {

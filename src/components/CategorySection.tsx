@@ -17,7 +17,7 @@ export default function CategorySection({ category }: CategorySectionProps) {
     <section className="scroll-mt-28 category-panel" id={category.id}>
       <div className="flex items-center gap-5 mb-8 pb-2">
         <div className="category-pill shadow-sm">
-          <span className="material-symbols-outlined text-[#002147] text-[20px]">{category.icon}</span>
+          <span className="material-symbols-outlined text-[#002147] text-xl">{category.icon}</span>
         </div>
         <div>
           <h2 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>

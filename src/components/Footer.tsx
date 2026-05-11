@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright + P.IVA */}
-        <div className="text-white/40 text-[10px] font-body">
+        <div className="text-white/40 text-[0.625rem] font-body">
           © 2026 Nuvó S.r.l. - Tutti i diritti riservati. <span className="mx-1">|</span> P.IVA 17463031009
         </div>
       </div>

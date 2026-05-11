@@ -48,14 +48,14 @@ export default function HomePage() {
 
             {/* Mobile hero image */}
             <div className="lg:hidden mb-6">
-              <div className="glass-code-box flex flex-col overflow-hidden text-[10px]">
+              <div className="glass-code-box flex flex-col overflow-hidden text-[0.625rem]">
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/20 bg-white/30">
                   <div className="flex gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
                   </div>
-                  <span className="ml-auto text-[8px] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847</span>
+                  <span className="ml-auto text-[0.5rem] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847</span>
                 </div>
                 <div className="p-4 font-mono leading-relaxed text-slate-700 overflow-x-auto">
                   <table className="w-full">
@@ -108,9 +108,9 @@ export default function HomePage() {
                   <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                   <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                 </div>
-                <span className="ml-auto text-[10px] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847 — Milano, Via Brera 14</span>
+                <span className="ml-auto text-[0.625rem] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847 — Milano, Via Brera 14</span>
               </div>
-              <div className="p-6 font-mono text-[11px] leading-relaxed text-slate-700 overflow-x-auto">
+              <div className="p-6 font-mono text-[0.6875rem] leading-relaxed text-slate-700 overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="text-slate-400 border-b border-slate-200/50">
@@ -152,10 +152,10 @@ export default function HomePage() {
                 </table>
               </div>
               <div className="bg-white/40 backdrop-blur-md px-6 py-3 flex justify-between items-center border-t border-white/20">
-                <span className="text-slate-500 text-[10px] font-mono tracking-wider">3 / 5 pratiche evase</span>
+                <span className="text-slate-500 text-[0.625rem] font-mono tracking-wider">3 / 5 pratiche evase</span>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#4463EE]"></div>
-                  <span className="text-[#4463EE] text-[10px] font-mono uppercase font-bold">● live</span>
+                  <span className="text-[#4463EE] text-[0.625rem] font-mono uppercase font-bold">● live</span>
                 </div>
               </div>
             </div>
@@ -196,11 +196,11 @@ export default function HomePage() {
               </div>
               <div className="relative px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
                 {c.comingSoon ? (
-                  <span className="bg-secondary/10 text-secondary text-[10px] font-bold tracking-widest px-2 py-0.5 uppercase">{c.tag}</span>
+                  <span className="bg-secondary/10 text-secondary text-[0.625rem] font-bold tracking-widest px-2 py-0.5 uppercase">{c.tag}</span>
                 ) : (
-                  <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
+                  <span className="text-[0.625rem] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
                 )}
-                <span className="flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+                <span className="flex items-center gap-1 text-secondary text-[0.6875rem] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
                   {c.cta} <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
                 </span>
               </div>
@@ -222,7 +222,7 @@ export default function HomePage() {
             <div className="flex-grow overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-2 font-bold">Servizio</th>
                     <th className="py-2 font-bold text-right pr-4">Prezzo</th>
                     <th className="py-2 font-bold text-center w-16">Qtà</th>
@@ -233,44 +233,44 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
-                      <div className="text-[10px] text-on-surface-variant">Per immobile o soggetto</div>
+                      <div className="text-[0.625rem] text-on-surface-variant">Per immobile o soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€5.90</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleBuyNow('visura-catastale')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleBuyNow('visura-catastale')} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
                         <button onClick={() => handleAddToCart('visura-catastale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <button onClick={() => handleBuyNow('visura-catastale')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                        <button onClick={() => handleBuyNow('visura-catastale')} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Visura Catastale Storica</div>
-                      <div className="text-[10px] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
+                      <div className="text-[0.625rem] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€8.90</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
                         <button onClick={() => handleAddToCart('visura-catastale-storica')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
@@ -278,7 +278,7 @@ export default function HomePage() {
               </table>
             </div>
             <div className="pt-6 text-center">
-              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
+              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
@@ -297,7 +297,7 @@ export default function HomePage() {
             <div className="flex-grow overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="text-[10px] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
+                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-2 font-bold">Servizio</th>
                     <th className="py-2 font-bold text-right pr-4">Prezzo</th>
                     <th className="py-2 font-bold text-center w-16">Qtà</th>
@@ -308,44 +308,44 @@ export default function HomePage() {
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria</div>
-                      <div className="text-[10px] text-on-surface-variant">Formalità ipotecarie per soggetto o immobile</div>
+                      <div className="text-[0.625rem] text-on-surface-variant">Formalità ipotecarie per soggetto o immobile</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€29.90</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
                         <button onClick={() => handleAddToCart('ispezione-ipotecaria')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
                   <tr className="group hover:bg-white transition-colors">
                     <td className="py-4">
                       <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria Nazionale</div>
-                      <div className="text-[10px] text-on-surface-variant">Formalità a livello nazionale su un determinato soggetto</div>
+                      <div className="text-[0.625rem] text-on-surface-variant">Formalità a livello nazionale su un determinato soggetto</div>
                     </td>
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€36.90</span>
-                      <span className="text-[8px] text-on-surface-variant/60 block">escl. IVA</span>
+                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
                     </td>
                     <td className="py-4 px-1">
                       <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="text-slate-400 hover:text-slate-700 text-[10px] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
                         <button onClick={() => handleAddToCart('ispezione-ipotecaria-nazionale')} className="border border-slate-300 text-slate-500 h-8 w-[60px] flex items-center justify-center hover:bg-slate-100 bg-slate-50 cursor-pointer">
                           <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
                         </button>
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="bg-slate-200 text-slate-600 text-[10px] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
+                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="bg-slate-200 text-slate-600 text-[0.625rem] font-bold h-8 px-2 hover:bg-slate-300 uppercase flex items-center cursor-pointer">Acquista</button>
                       </div>
                     </td>
                   </tr>
@@ -353,7 +353,7 @@ export default function HomePage() {
               </table>
             </div>
             <div className="pt-6 text-center">
-              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
+              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
                 VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
@@ -371,11 +371,11 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex-grow flex flex-col items-center justify-center text-center py-10 relative">
-              <span className="inline-block bg-secondary/10 text-secondary text-[10px] font-bold tracking-widest px-3 py-1 mb-4 uppercase">Coming Soon</span>
+              <span className="inline-block bg-secondary/10 text-secondary text-[0.625rem] font-bold tracking-widest px-3 py-1 mb-4 uppercase">Coming Soon</span>
               <p className="text-sm text-on-surface-variant max-w-xs mb-6">
                 Stiamo lavorando ai servizi di urbanistica: accesso agli atti, certificati di destinazione urbanistica e altre pratiche comunali.
               </p>
-              <Link href="/coming-soon/urbanistica" className="inline-flex items-center gap-1 text-secondary text-[11px] font-bold uppercase tracking-wider hover:gap-2 transition-all">
+              <Link href="/coming-soon/urbanistica" className="inline-flex items-center gap-1 text-secondary text-[0.6875rem] font-bold uppercase tracking-wider hover:gap-2 transition-all">
                 Avvisami quando disponibile <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>
@@ -399,10 +399,10 @@ export default function HomePage() {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-primary-container">Conto Economico</div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Costi · Ricavi · ROI</div>
+                    <div className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider font-semibold">Costi · Ricavi · ROI</div>
                   </div>
                 </div>
-                <span className="text-secondary text-[10px] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
+                <span className="text-secondary text-[0.625rem] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
               </Link>
               <Link href="/utility/calcolatore-costi-compravendita" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
                 <div className="flex items-center gap-4">
@@ -411,14 +411,14 @@ export default function HomePage() {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-primary-container">Costi Compravendita</div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Imposte · IVA · Registro</div>
+                    <div className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider font-semibold">Imposte · IVA · Registro</div>
                   </div>
                 </div>
-                <span className="text-secondary text-[10px] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
+                <span className="text-secondary text-[0.625rem] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
               </Link>
             </div>
             <div className="pt-6 text-center mt-auto">
-              <Link className="text-on-surface-variant text-[11px] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
+              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
                 VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
               </Link>
             </div>
@@ -432,7 +432,7 @@ export default function HomePage() {
       <section className="navy-glow py-24 px-8 overflow-hidden" id="come-funziona">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="inline-block bg-secondary text-white text-[10px] font-bold tracking-widest px-3 py-1 mb-6 uppercase">Nuovo · Marketing AI</span>
+            <span className="inline-block bg-secondary text-white text-[0.625rem] font-bold tracking-widest px-3 py-1 mb-6 uppercase">Nuovo · Marketing AI</span>
             <h2 className="text-4xl md:text-5xl text-white mb-6 leading-tight">Esplora in totale libertà.</h2>
             <p className="text-white/60 text-lg mb-10 max-w-md">
               Trasforma schizzi tecnici e stanze vuote in ambienti arredati da designer professionisti. Carica la planimetria e lascia che l&apos;AI faccia la magia istantaneamente.
@@ -477,13 +477,13 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="absolute top-4 left-4 z-40">
-                <span className="text-[9px] text-secondary font-mono uppercase tracking-[0.2em] bg-slate-900/80 px-2 py-1 border border-secondary/30">AI_ACTIVE_OVERLAY</span>
+                <span className="text-[0.5625rem] text-secondary font-mono uppercase tracking-[0.2em] bg-slate-900/80 px-2 py-1 border border-secondary/30">AI_ACTIVE_OVERLAY</span>
               </div>
             </div>
             <div className="absolute -bottom-6 -right-6 hidden md:block z-50">
               <div className="bg-secondary p-8 w-48 h-48 flex flex-col justify-end shadow-2xl border border-white/10">
                 <span className="text-white text-4xl font-bold">94%</span>
-                <span className="text-white/80 text-[10px] leading-tight uppercase font-medium">Conversione media annunci stagizzati</span>
+                <span className="text-white/80 text-[0.625rem] leading-tight uppercase font-medium">Conversione media annunci stagizzati</span>
               </div>
             </div>
           </div>

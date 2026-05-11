@@ -213,7 +213,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
         <div className="mb-8">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
+          <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
             Conto Economico
           </h1>
@@ -233,19 +233,19 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Operazione</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Titolo</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Titolo</label>
                   <input type="text" value={titolo} onChange={e => setTitolo(e.target.value)} placeholder="Es. Via Roma 12" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Descrizione</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Descrizione</label>
                   <input type="text" value={descrizione} onChange={e => setDescrizione(e.target.value)} placeholder="Breve descrizione" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Metri quadri</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Metri quadri</label>
                   <input type="text" inputMode="decimal" value={mq} onChange={e => setMq(e.target.value)} placeholder="0" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Unità da creare</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Unità da creare</label>
                   <input type="text" inputMode="numeric" value={unita} onChange={e => setUnita(e.target.value)} placeholder="0" />
                 </div>
               </div>
@@ -253,7 +253,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
             {/* Acquisto */}
             <section className="bg-white rounded-xl border border-slate-100 p-6">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Acquisto</label>
+              <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Acquisto</label>
               <div className="relative">
                 <input
                   type="text"
@@ -274,18 +274,18 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 <button
                   type="button"
                   onClick={handleSvuota}
-                  className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider transition-colors"
+                  className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[0.6875rem] font-bold text-slate-500 uppercase tracking-wider transition-colors"
                 >
                   Svuota campi
                 </button>
               </div>
-              <p className="text-[11px] text-slate-400 mb-4">I costi restano memorizzati per il prossimo conto economico.</p>
+              <p className="text-[0.6875rem] text-slate-400 mb-4">I costi restano memorizzati per il prossimo conto economico.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* Ristrutturazione: €/mq + totale auto-sincronizzati */}
                 <div className="md:col-span-2 grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -299,7 +299,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (totale)</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (totale)</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -316,7 +316,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
                 {VOCI_CONFIG.filter(v => v.key !== 'ristrutturazione').map(v => (
                   <div key={v.key}>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{v.label}</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">{v.label}</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -338,21 +338,21 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Ricavi</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 1</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 1</label>
                   <div className="relative">
                     <input type="text" inputMode="decimal" value={rivendita1} onChange={e => setRivendita1(fmtInput(e.target.value))} placeholder="0" className="pr-8" />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 2</label>
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Rivendita 2</label>
                   <div className="relative">
                     <input type="text" inputMode="decimal" value={rivendita2} onChange={e => setRivendita2(fmtInput(e.target.value))} placeholder="0" className="pr-8" />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                  <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">
                     Esposizione finanziaria
                     <span className="text-slate-400 font-normal normal-case tracking-normal ml-1">(capitale realmente impegnato)</span>
                   </label>
@@ -368,7 +368,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
           {/* Riepilogo sticky */}
           <aside className="lg:sticky lg:top-24 lg:self-start space-y-4">
             <div className="bg-[#002147] text-white rounded-xl p-6">
-              <p className="text-[10px] uppercase tracking-widest font-bold text-white/50 mb-4">Riepilogo</p>
+              <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50 mb-4">Riepilogo</p>
 
               <div className="space-y-3 text-sm">
                 <Row label="Costi (escluso acquisto)" value={fmtEur(calc.altriCosti)} />
@@ -381,18 +381,18 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
               <div className="mt-6 pt-6 border-t border-white/10 space-y-3">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-white/50">Utile lordo</span>
+                  <span className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">Utile lordo</span>
                   <span className={`text-2xl font-extrabold ${calc.utile >= 0 ? 'text-emerald-300' : 'text-red-300'}`} style={{ fontFamily: 'Manrope, sans-serif' }}>
                     {fmtEur(calc.utile)}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="bg-white/5 rounded-lg p-3">
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">ROI</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">ROI</p>
                     <p className="text-lg font-bold mt-1">{fmtPct(calc.roi)}</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-3">
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">ROE</p>
+                    <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">ROE</p>
                     <p className="text-lg font-bold mt-1">{fmtPct(calc.roe)}</p>
                   </div>
                 </div>

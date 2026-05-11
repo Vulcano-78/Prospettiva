@@ -176,25 +176,25 @@ export default function RegistrationPage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Nome</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Nome</label>
                   <input type="text" name="nome" value={formData.nome} onChange={handleChange} placeholder="Giuseppe" required />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Cognome</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Cognome</label>
                   <input type="text" name="cognome" value={formData.cognome} onChange={handleChange} placeholder="Verdi" required />
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Email</label>
+                <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Email</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="giuseppe.verdi@email.it" required />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Password</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Password</label>
                   <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="••••••••" required />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Conferma Password</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Conferma Password</label>
                   <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="••••••••" required />
                 </div>
               </div>
@@ -208,16 +208,16 @@ export default function RegistrationPage() {
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Professionali</h3>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale *</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Ragione Sociale *</label>
                   <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Studio Immobiliare Verdi S.r.l." required />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Ruolo</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Ruolo</label>
                     <div className="relative">
                       <select name="ruolo" value={formData.ruolo} onChange={handleChange} className="appearance-none">
                         <option value="">Seleziona ruolo</option>
@@ -242,16 +242,16 @@ export default function RegistrationPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
                     <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
                     <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo *</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo *</label>
                   <AddressAutocomplete
                     value={formData.indirizzo}
                     onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
@@ -268,15 +268,15 @@ export default function RegistrationPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="col-span-1">
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
                     <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
                     <input type="text" name="cap" value={formData.cap} onChange={handleChange} placeholder="00100" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
                     <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} placeholder="RM" required />
                   </div>
                 </div>
@@ -291,25 +291,25 @@ export default function RegistrationPage() {
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'Manrope, sans-serif' }}>Dati Aziendali</h3>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Denominazione / Ragione Sociale *</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Denominazione / Ragione Sociale *</label>
                   <input type="text" name="ragioneSociale" value={formData.ragioneSociale} onChange={handleChange} placeholder="Rossi S.r.l." required />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Partita IVA *</label>
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
                     <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
                   <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="azienda@pec.it" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo Sede Legale *</label>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo Sede Legale *</label>
                   <AddressAutocomplete
                     value={formData.indirizzo}
                     onChange={(val) => setFormData(prev => ({ ...prev, indirizzo: val }))}
@@ -326,15 +326,15 @@ export default function RegistrationPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="col-span-1">
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Comune *</label>
                     <input type="text" name="citta" value={formData.citta} onChange={handleChange} placeholder="Roma" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">CAP *</label>
                     <input type="text" name="cap" value={formData.cap} onChange={handleChange} placeholder="00100" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Provincia *</label>
                     <input type="text" name="provincia" value={formData.provincia} onChange={handleChange} placeholder="RM" required />
                   </div>
                 </div>

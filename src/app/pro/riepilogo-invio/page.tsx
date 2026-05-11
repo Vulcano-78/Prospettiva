@@ -85,12 +85,12 @@ export default function RiepilogoInvioPage() {
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <h4 className="font-bold text-[#002147]">{service.name}</h4>
                           {service.requiresDelegate && (
-                            <span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            <span className="bg-amber-100 text-amber-800 text-[0.5625rem] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                               Delega richiesta
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded italic">
+                        <span className="text-[0.625rem] text-slate-500 bg-slate-100 px-2 py-0.5 rounded italic">
                           {service.details}
                         </span>
                       </div>
@@ -120,7 +120,7 @@ export default function RiepilogoInvioPage() {
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="md:col-span-2">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+                      <label className="block text-[0.625rem] font-black uppercase tracking-widest text-slate-500 mb-2">
                         Nome e Cognome cliente
                       </label>
                       <input
@@ -134,7 +134,7 @@ export default function RiepilogoInvioPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+                      <label className="block text-[0.625rem] font-black uppercase tracking-widest text-slate-500 mb-2">
                         Email di ricezione
                       </label>
                       <input
@@ -148,7 +148,7 @@ export default function RiepilogoInvioPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+                      <label className="block text-[0.625rem] font-black uppercase tracking-widest text-slate-500 mb-2">
                         Cellulare (WhatsApp)
                       </label>
                       <input
@@ -230,9 +230,9 @@ export default function RiepilogoInvioPage() {
                     <div className="flex items-center justify-center gap-4 pt-4">
                       <div className="flex items-center text-emerald-600 gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
                         <span className="material-symbols-outlined text-base">verified_user</span>
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Protocollo Sicuro</span>
+                        <span className="text-[0.625rem] font-bold uppercase tracking-widest">Protocollo Sicuro</span>
                       </div>
-                      <span className="text-[10px] text-slate-500 max-w-[180px] leading-tight">
+                      <span className="text-[0.625rem] text-slate-500 max-w-[180px] leading-tight">
                         Pagamenti gestiti tramite crittografia 256-bit
                       </span>
                     </div>
@@ -243,7 +243,7 @@ export default function RiepilogoInvioPage() {
           </div>
 
           <div className="bg-slate-50 px-8 py-4 border-t border-slate-100 text-center">
-            <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest">
+            <span className="text-[0.625rem] text-slate-400 font-semibold uppercase tracking-widest">
               Prospettiva.io Pro - Servizi Catastali Evoluti
             </span>
           </div>
