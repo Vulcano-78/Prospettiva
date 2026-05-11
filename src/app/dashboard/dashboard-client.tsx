@@ -132,6 +132,8 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
   const [conti, setConti] = useState<ContoEconomico[]>(initialConti);
   const [activeSection, setActiveSection] = useState<'documenti' | 'conti' | 'profilo'>('documenti');
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
@@ -175,6 +177,66 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
     if (filter === 'processing') return !o.file_url;
     return true;
   });
+
+  const visibleSelectedCount = filteredOrders.filter(o => selectedIds.has(o.id)).length;
+  const allVisibleSelected = filteredOrders.length > 0 && visibleSelectedCount === filteredOrders.length;
+
+  const toggleSelectAll = () => {
+    if (allVisibleSelected) {
+      setSelectedIds(prev => {
+        const next = new Set(prev);
+        for (const o of filteredOrders) next.delete(o.id);
+        return next;
+      });
+    } else {
+      setSelectedIds(prev => {
+        const next = new Set(prev);
+        for (const o of filteredOrders) next.add(o.id);
+        return next;
+      });
+    }
+  };
+
+  const toggleOne = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const handleDeleteOne = async (order: Order) => {
+    if (!confirm('Sei sicuro di voler eliminare questo ordine?')) return;
+    if (order.file_url) {
+      await supabase.storage.from('documenti').remove([order.file_url]);
+    }
+    await supabase.from('orders').delete().eq('id', order.id);
+    setOrders(prev => prev.filter(o => o.id !== order.id));
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      next.delete(order.id);
+      return next;
+    });
+  };
+
+  const handleDeleteSelected = async () => {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+    if (!confirm(`Eliminare ${ids.length} ${ids.length === 1 ? 'documento' : 'documenti'}? L'operazione non è reversibile.`)) return;
+    setDeleting(true);
+    try {
+      const toDelete = orders.filter(o => selectedIds.has(o.id));
+      const filePaths = toDelete.map(o => o.file_url).filter((p): p is string => !!p);
+      if (filePaths.length > 0) {
+        await supabase.storage.from('documenti').remove(filePaths);
+      }
+      await supabase.from('orders').delete().in('id', ids);
+      setOrders(prev => prev.filter(o => !selectedIds.has(o.id)));
+      setSelectedIds(new Set());
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const meta = user.user_metadata ?? {};
   const nome = meta.nome ?? '';
@@ -277,11 +339,41 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
               </div>
             ) : (
               <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-100">
+                  <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={allVisibleSelected}
+                      ref={el => { if (el) el.indeterminate = visibleSelectedCount > 0 && !allVisibleSelected; }}
+                      onChange={toggleSelectAll}
+                      className="w-4 h-4 rounded border-slate-300 text-[#002147] focus:ring-[#002147]"
+                    />
+                    <span className="text-sm font-semibold text-[#002147]">
+                      {visibleSelectedCount > 0 ? `${visibleSelectedCount} selezionat${visibleSelectedCount === 1 ? 'o' : 'i'}` : 'Seleziona tutto'}
+                    </span>
+                  </label>
+                  <button
+                    onClick={handleDeleteSelected}
+                    disabled={selectedIds.size === 0 || deleting}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-40 disabled:hover:bg-red-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="material-symbols-outlined text-sm">delete</span>
+                    {deleting ? 'Eliminazione…' : `Elimina selezionati`}
+                  </button>
+                </div>
                 {filteredOrders.map(order => {
                   const ready = !!order.file_url;
+                  const isSelected = selectedIds.has(order.id);
                   return (
-                    <div key={order.id} className="bg-white p-5 rounded-xl border border-slate-100 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
+                    <div key={order.id} className={`bg-white p-5 rounded-xl border flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow ${isSelected ? 'border-[#4463ee]' : 'border-slate-100'}`}>
                       <div className="flex items-center gap-4">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleOne(order.id)}
+                          className="w-4 h-4 rounded border-slate-300 text-[#002147] focus:ring-[#002147] cursor-pointer"
+                          aria-label={`Seleziona ${orderLabel(order)}`}
+                        />
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${ready ? 'bg-blue-50 text-[#002147]' : 'bg-amber-50 text-amber-600'}`}>
                           <span className="material-symbols-outlined">{ready ? 'description' : 'pending_actions'}</span>
                         </div>
@@ -316,15 +408,9 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                             </div>
                           )}
                           <button
-                            onClick={async () => {
-                              if (!confirm('Sei sicuro di voler eliminare questo ordine?')) return
-                              if (order.file_url) {
-                                await supabase.storage.from('documenti').remove([order.file_url])
-                              }
-                              await supabase.from('orders').delete().eq('id', order.id)
-                              setOrders(prev => prev.filter(o => o.id !== order.id))
-                            }}
+                            onClick={() => handleDeleteOne(order)}
                             className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                            aria-label="Elimina ordine"
                           >
                             <span className="material-symbols-outlined">delete</span>
                           </button>
