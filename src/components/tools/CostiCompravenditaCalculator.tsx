@@ -160,7 +160,7 @@ export default function CostiCompravenditaCalculator() {
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value as CategoriaCatastale)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                    className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                   >
                     <optgroup label="Standard">
                       {CATEGORIE_STANDARD.map(c => <option key={c} value={c}>{c}</option>)}
@@ -178,7 +178,7 @@ export default function CostiCompravenditaCalculator() {
                       placeholder="200.000"
                       value={prezzoStr}
                       onChange={(e) => setPrezzoStr(formatInputNumber(e.target.value, false))}
-                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                      className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
@@ -195,7 +195,7 @@ export default function CostiCompravenditaCalculator() {
                         placeholder="450,00"
                         value={renditaStr}
                         onChange={(e) => setRenditaStr(formatInputNumber(e.target.value, true))}
-                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                        className="w-full h-[46px] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                       />
                       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                     </div>

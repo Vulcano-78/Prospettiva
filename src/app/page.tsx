@@ -404,14 +404,14 @@ export default function HomePage() {
                 </div>
                 <span className="text-secondary text-[10px] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
               </Link>
-              <Link href="/coming-soon/calcolatore-imu" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
+              <Link href="/utility/calcolatore-costi-compravendita" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
                     <span className="material-symbols-outlined">request_quote</span>
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-primary-container">Calcolo IMU/TARI</div>
-                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Simulatore imposte</div>
+                    <div className="text-sm font-bold text-primary-container">Costi Compravendita</div>
+                    <div className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Imposte · IVA · Registro</div>
                   </div>
                 </div>
                 <span className="text-secondary text-[10px] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>

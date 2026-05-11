@@ -53,6 +53,12 @@ const categoryServiceOrder: Record<string, string[]> = {
     'ricerca-nazionale',
     'ricerca-indirizzo',
   ],
+  'utility-gratuite': [
+    'conto-economico',
+    'calcolatore-costi-compravendita',
+    'calcolatore-imu',
+    'checklist-mutuo',
+  ],
 };
 
 export default function CatalogoCategoriaPage({ params }: { params: Promise<{ categoria: string }> }) {

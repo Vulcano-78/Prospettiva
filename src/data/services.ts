@@ -407,7 +407,7 @@ export const services: Service[] = [
     price: 0,
     category: 'strumenti-gratuiti',
     categoryIcon: 'calculate',
-    isActive: true,
+    isActive: false,
     fields: []
   },
   {
@@ -419,7 +419,7 @@ export const services: Service[] = [
     price: 0,
     category: 'strumenti-gratuiti',
     categoryIcon: 'checklist',
-    isActive: true,
+    isActive: false,
     fields: []
   }
 ];
