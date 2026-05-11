@@ -786,7 +786,6 @@ export default function CartPage() {
                   <div key={item.id} className="flex justify-between items-start gap-3 py-2 border-b border-slate-100 last:border-0">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-[#191c1d] font-medium truncate">{item.service.name}</p>
-                      <p className="text-xs text-[#74777f]">Qty: {item.quantity}</p>
                     </div>
                     <span className="text-sm font-bold text-[#002147] whitespace-nowrap">{formatPrice(item.service.price)}</span>
                   </div>

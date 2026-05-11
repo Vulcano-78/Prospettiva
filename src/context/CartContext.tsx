@@ -7,7 +7,6 @@ export interface CartItem {
   id: string;
   service: Service;
   formData: Record<string, string>;
-  quantity: number;
 }
 
 interface CartContextType {
@@ -32,7 +31,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       id: `${service.id}-${Date.now()}`,
       service,
       formData,
-      quantity: 1
     };
     setItems(prev => [...prev, newItem]);
   }, []);
@@ -52,7 +50,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const getSubtotal = useCallback(() => {
-    return items.reduce((sum, item) => sum + item.service.price * item.quantity, 0);
+    return items.reduce((sum, item) => sum + item.service.price, 0);
   }, [items]);
 
   const getIVA = useCallback(() => {
@@ -63,7 +61,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return getSubtotal() + getIVA();
   }, [getSubtotal, getIVA]);
 
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const itemCount = items.length;
 
   return (
     <CartContext.Provider value={{

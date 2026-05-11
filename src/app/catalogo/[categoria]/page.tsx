@@ -202,7 +202,6 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                   <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-3 font-bold">Servizio</th>
                     <th className="py-3 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-3 font-bold text-center w-16">Qtà</th>
                     <th className="py-3 font-bold text-right">Azioni</th>
                   </tr>
                 </thead>
@@ -221,13 +220,6 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                           </>
                         ) : (
                           <span className="text-sm font-semibold text-[#4463EE]">Gratis</span>
-                        )}
-                      </td>
-                      <td className="py-4 px-1">
-                        {service.isActive && service.price > 0 ? (
-                          <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
-                        ) : (
-                          <span className="text-slate-300 text-xs">—</span>
                         )}
                       </td>
                       <td className="py-4 text-right">

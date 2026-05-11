@@ -225,7 +225,6 @@ export default function HomePage() {
                   <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-2 font-bold">Servizio</th>
                     <th className="py-2 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-2 font-bold text-center w-16">Qtà</th>
                     <th className="py-2 font-bold text-right">Azioni</th>
                   </tr>
                 </thead>
@@ -238,9 +237,6 @@ export default function HomePage() {
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€5.90</span>
                       <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -260,9 +256,6 @@ export default function HomePage() {
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€8.90</span>
                       <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -300,7 +293,6 @@ export default function HomePage() {
                   <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
                     <th className="py-2 font-bold">Servizio</th>
                     <th className="py-2 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-2 font-bold text-center w-16">Qtà</th>
                     <th className="py-2 font-bold text-right">Azioni</th>
                   </tr>
                 </thead>
@@ -313,9 +305,6 @@ export default function HomePage() {
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€29.90</span>
                       <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -335,9 +324,6 @@ export default function HomePage() {
                     <td className="py-4 text-right pr-4">
                       <span className="text-xs font-semibold text-primary-container">€36.90</span>
                       <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 px-1">
-                      <input className="qty-input w-full h-8 border border-slate-200 text-center text-xs focus:ring-0 focus:border-secondary" min="1" type="number" defaultValue="1" />
                     </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
