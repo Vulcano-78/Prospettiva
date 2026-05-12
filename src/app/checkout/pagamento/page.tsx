@@ -150,7 +150,7 @@ export default function PaymentPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
       {/* Progress Bar — full width, centered on page */}
-      <div className="w-full pt-20 mb-4 md:mb-6">
+      <div className="w-full pt-16 mb-4 md:mb-6">
         <ProgressBar currentStep={3} />
       </div>
 

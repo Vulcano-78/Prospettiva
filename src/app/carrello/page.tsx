@@ -614,7 +614,7 @@ export default function CartPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="w-full pt-20 mb-4 md:mb-6">
+      <div className="w-full pt-16 mb-4 md:mb-6">
         <ProgressBar currentStep={1} />
       </div>
 

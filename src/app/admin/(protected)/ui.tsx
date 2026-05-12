@@ -2,7 +2,7 @@ import React from 'react';
 
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: React.ReactNode }) {
   return (
-    <header className="mb-8 flex items-end justify-between gap-4 flex-wrap">
+    <header className="mb-6 flex items-end justify-between gap-4 flex-wrap">
       <div>
         <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold mb-1">Admin</p>
         <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>

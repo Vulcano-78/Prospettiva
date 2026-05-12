@@ -107,7 +107,7 @@ export default function CostiCompravenditaCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] pt-20">
+    <div className="min-h-screen bg-[#f8f9fa] pt-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <header className="mb-8">
           <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>

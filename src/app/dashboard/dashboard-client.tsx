@@ -341,9 +341,9 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
         </aside>
 
         {/* Main */}
-        <main className="flex-1 min-w-0 px-5 sm:px-8 py-8 pt-16 lg:pt-8 max-w-7xl">
+        <main className="flex-1 min-w-0 px-5 sm:px-8 py-5 pt-14 lg:pt-5 max-w-7xl">
           {/* Header coerente con admin */}
-          <header className="mb-8">
+          <header className="mb-6">
             <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold mb-1">Area personale</p>
             <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
               {sectionMeta[activeSection].title}

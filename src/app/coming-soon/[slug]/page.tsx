@@ -45,7 +45,7 @@ export default function ComingSoonPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="w-full pt-20 px-8 max-w-[1440px] mx-auto">
+      <div className="w-full pt-16 px-8 max-w-[1440px] mx-auto">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
           { label: serviceName },

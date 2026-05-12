@@ -125,7 +125,7 @@ export default function RegistrationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-20 pb-12 px-6">
+      <main className="flex-grow pt-16 pb-12 px-6">
         <div className="max-w-xl mx-auto">
 
           <div className="text-center mb-10">
