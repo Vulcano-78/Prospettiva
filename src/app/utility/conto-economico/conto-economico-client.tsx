@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const VOCI_DEFAULTS_KEY = 'ce_voci_defaults_v1';
 const RISTR_MQ_KEY = 'ce_ristr_mq_v1';
@@ -119,9 +119,11 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
   const [esposizione, setEsposizione] = useState('');
 
   const [saving, setSaving] = useState(false);
-  const [savedMsg, setSavedMsg] = useState('');
   const [saveError, setSaveError] = useState('');
   const [defaultsLoaded, setDefaultsLoaded] = useState(false);
+  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const skipDirtyRef = useRef(true);
 
   useEffect(() => {
     try {
@@ -226,6 +228,9 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
       localStorage.removeItem(AGENZIA_IN_PCT_KEY);
       localStorage.removeItem(AGENZIA_OUT_PCT_KEY);
     } catch {}
+    setCurrentId(null);
+    setIsDirty(false);
+    skipDirtyRef.current = true;
   };
 
   // Agenzia acquisto: importo = acquisto × pct
@@ -258,26 +263,64 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
     return { acquisto, altriCosti, totaleCosti, totaleRivendita, utile, roi, roe };
   }, [voci, rivendita1, rivendita2, esposizione]);
 
-  const handleSave = async () => {
+  const hasContent = useMemo(() => {
+    if (titolo.trim()) return true;
+    if (num(voci.acquisto) > 0) return true;
+    if (num(rivendita1) > 0 || num(rivendita2) > 0) return true;
+    return false;
+  }, [titolo, voci.acquisto, rivendita1, rivendita2]);
+
+  const handleSave = useCallback(async () => {
+    if (saving) return;
     setSaving(true);
     setSaveError('');
-    setSavedMsg('');
-    const res = await fetch('/api/conti-economici', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        titolo: titolo || `CE ${new Date().toLocaleDateString('it-IT')}`,
-        regime: 'persona_fisica',
-        data: { descrizione, mq, unita, voci, rivendita1, rivendita2, esposizione },
-      }),
-    });
-    if (!res.ok) {
-      setSaveError('Errore nel salvataggio. Riprova.');
-    } else {
-      setSavedMsg('Salvato in dashboard.');
+    const payload = {
+      titolo: titolo || `CE ${new Date().toLocaleDateString('it-IT')}`,
+      regime: 'persona_fisica' as const,
+      data: { descrizione, mq, unita, voci, rivendita1, rivendita2, esposizione },
+    };
+    try {
+      const res = currentId
+        ? await fetch('/api/conti-economici', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: currentId, ...payload }),
+          })
+        : await fetch('/api/conti-economici', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+      if (!res.ok) {
+        setSaveError('Errore nel salvataggio.');
+      } else {
+        const json = await res.json().catch(() => null);
+        if (!currentId && json?.item?.id) setCurrentId(json.item.id);
+        setIsDirty(false);
+      }
+    } catch {
+      setSaveError('Errore di rete.');
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
-  };
+  }, [saving, currentId, titolo, descrizione, mq, unita, voci, rivendita1, rivendita2, esposizione]);
+
+  // Mark dirty su ogni modifica utente (skip primo passaggio dopo load defaults)
+  useEffect(() => {
+    if (!defaultsLoaded) return;
+    if (skipDirtyRef.current) {
+      skipDirtyRef.current = false;
+      return;
+    }
+    setIsDirty(true);
+  }, [titolo, descrizione, mq, unita, voci, rivendita1, rivendita2, esposizione, defaultsLoaded]);
+
+  // Autosave debounced ~5s dopo l'ultima modifica
+  useEffect(() => {
+    if (!isLogged || !isDirty || !hasContent || saving) return;
+    const t = setTimeout(() => { handleSave(); }, 5000);
+    return () => clearTimeout(t);
+  }, [isLogged, isDirty, hasContent, saving, handleSave]);
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] pt-14">
@@ -518,31 +561,55 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
             </div>
 
             {isLogged ? (
-              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-3">
+              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-2">
                 <button
                   onClick={handleSave}
-                  disabled={saving}
-                  className="w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 transition-all disabled:opacity-60 text-sm"
+                  disabled={saving || (!isDirty && !!currentId) || !hasContent}
+                  aria-live="polite"
+                  className={`w-full font-bold py-3 rounded-xl transition-all text-sm inline-flex items-center justify-center gap-2 ${
+                    saving
+                      ? 'bg-[#4463ee] text-white opacity-70 cursor-wait'
+                      : isDirty || !currentId
+                        ? 'bg-[#4463ee] text-white hover:brightness-110'
+                        : 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
+                  } disabled:cursor-not-allowed`}
                 >
-                  {saving ? 'Salvataggio…' : 'Salva in dashboard'}
+                  {saving ? (
+                    <>
+                      <span className="material-symbols-outlined text-base animate-spin">progress_activity</span>
+                      Salvataggio…
+                    </>
+                  ) : isDirty || !currentId ? (
+                    <>
+                      <span className="material-symbols-outlined text-base">save</span>
+                      Salva
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-base">check_circle</span>
+                      Salvato
+                    </>
+                  )}
                 </button>
-                {savedMsg && <p className="text-xs text-emerald-600 text-center">{savedMsg}</p>}
                 {saveError && <p className="text-xs text-red-600 text-center">{saveError}</p>}
-                <Link href="/dashboard" className="block text-center text-xs text-slate-500 hover:text-[#002147]">
+                <Link href="/dashboard" className="block text-center text-xs text-slate-500 hover:text-[#002147] pt-1">
                   Vai alla dashboard
                 </Link>
               </div>
             ) : (
-              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-2">
+              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-3">
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Accedi per salvare i tuoi conti economici e ritrovarli nella dashboard.
                 </p>
                 <Link href="/login" className="block w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl text-center text-sm hover:brightness-110 transition-all">
                   Accedi
                 </Link>
-                <Link href="/registrazione" className="block text-center text-xs text-slate-500 hover:text-[#002147] py-1">
-                  Non hai un account? Registrati
-                </Link>
+                <p className="text-center text-xs text-slate-500 pt-1">
+                  Non hai un account?{' '}
+                  <Link href="/registrazione" className="text-[#4463ee] font-bold underline underline-offset-2 hover:text-[#002147]">
+                    Registrati
+                  </Link>
+                </p>
               </div>
             )}
           </aside>
