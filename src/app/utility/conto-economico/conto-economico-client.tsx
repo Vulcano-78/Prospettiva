@@ -606,7 +606,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 </Link>
                 <p className="text-center text-xs text-slate-500 pt-1">
                   Non hai un account?{' '}
-                  <Link href="/registrazione" className="text-[#4463ee] font-bold underline underline-offset-2 hover:text-[#002147]">
+                  <Link href="/registrazione" className="text-[#4463ee] font-bold hover:text-[#002147]">
                     Registrati
                   </Link>
                 </p>
