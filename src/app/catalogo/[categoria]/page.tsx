@@ -129,14 +129,39 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
               </div>
             </div>
 
-            {/* MOBILE: tre zone fisse — titolo+prezzo / descrizione / CTA */}
-            <ul className="md:hidden divide-y divide-slate-100">
+            {/* MOBILE: cards staccate per utility gratuite, righe con CTA per servizi a pagamento */}
+            <ul className={`md:hidden ${categoryServices.every((s) => s.price === 0) ? 'flex flex-col gap-3' : 'divide-y divide-slate-100'}`}>
               {categoryServices.map((service) => {
                 const isActive = service.isActive;
                 const isFree = service.price === 0;
+
+                if (isFree && isActive) {
+                  return (
+                    <li key={service.id}>
+                      <Link
+                        href={service.href ?? `/coming-soon/${service.slug}`}
+                        className="group block rounded-2xl bg-white border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.12)] hover:shadow-[0_2px_4px_rgba(15,23,42,0.06),0_16px_32px_-12px_rgba(68,99,238,0.25)] hover:border-secondary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-200 p-4"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-[0.9375rem] font-bold text-primary-container leading-tight group-hover:text-secondary transition-colors">
+                              {service.shortName}
+                            </h3>
+                            <p className="text-xs text-on-surface-variant leading-snug mt-1.5">
+                              {service.description}
+                            </p>
+                          </div>
+                          <span className="material-symbols-outlined flex-shrink-0 text-slate-300 group-hover:text-secondary group-hover:translate-x-0.5 transition-all text-xl mt-0.5">
+                            arrow_forward
+                          </span>
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                }
+
                 return (
                   <li key={service.id} className="py-5 flex flex-col gap-3">
-                    {/* Zona 1: titolo + prezzo (allineamento fisso) */}
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="text-[0.9375rem] font-bold text-primary-container leading-tight flex-1 min-w-0">
                         {service.shortName}
@@ -149,7 +174,6 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                       )}
                     </div>
 
-                    {/* Zona 2: descrizione (min-height fisso, line-clamp 2 righe) */}
                     <p
                       className="text-xs text-on-surface-variant leading-snug min-h-[2.6em] overflow-hidden"
                       style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
@@ -157,33 +181,23 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                       {service.description}
                     </p>
 
-                    {/* Zona 3: azioni compatte a destra */}
                     <div className="flex justify-end items-center gap-2">
                       {isActive ? (
-                        isFree ? (
-                          <Link
-                            href={service.href ?? `/coming-soon/${service.slug}`}
-                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all"
+                        <>
+                          <button
+                            onClick={() => handleAddToCart(service.slug)}
+                            aria-label="Aggiungi al carrello"
+                            className="inline-flex items-center justify-center h-10 w-12 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
                           >
-                            Apri <span className="material-symbols-outlined text-base">arrow_forward</span>
-                          </Link>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => handleAddToCart(service.slug)}
-                              aria-label="Aggiungi al carrello"
-                              className="inline-flex items-center justify-center h-10 w-12 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
-                            >
-                              <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
-                            </button>
-                            <button
-                              onClick={() => handleBuyNow(service.slug)}
-                              className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
-                            >
-                              Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
-                            </button>
-                          </>
-                        )
+                            <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
+                          </button>
+                          <button
+                            onClick={() => handleBuyNow(service.slug)}
+                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
+                          >
+                            Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
+                          </button>
+                        </>
                       ) : (
                         <span className="inline-flex items-center h-10 px-4 bg-slate-100 text-slate-400 text-[0.6875rem] font-bold uppercase tracking-widest rounded-md">
                           In arrivo
