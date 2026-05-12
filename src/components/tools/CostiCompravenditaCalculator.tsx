@@ -300,24 +300,22 @@ export default function CostiCompravenditaCalculator() {
                   )}
                   <div className="border-t border-slate-100 pt-3 mt-3">
                     <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-lg p-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
-                          <div className="text-lg font-extrabold text-[#002147]">
-                            {formatEur(result.totaleAccessori)}
-                          </div>
+                      <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="text-lg font-extrabold text-[#002147]">
+                          {formatEur(result.totaleAccessori)}
                         </div>
                         <button
                           type="button"
                           onClick={handleCopyTotale}
                           aria-label="Copia totale costi accessori"
-                          className={`flex-shrink-0 inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border text-[0.625rem] font-bold uppercase tracking-widest transition-colors ${
+                          className={`flex-shrink-0 inline-flex items-center gap-1 h-6 px-2 rounded-md border text-[0.5625rem] font-bold uppercase tracking-wider transition-colors ${
                             copied
                               ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
                               : 'bg-white border-[#4463EE]/30 text-[#4463EE] hover:bg-[#4463EE]/10 hover:border-[#4463EE]'
                           }`}
                         >
-                          <span className="material-symbols-outlined text-sm">
+                          <span className="material-symbols-outlined" style={{ fontSize: '0.75rem' }}>
                             {copied ? 'check' : 'content_copy'}
                           </span>
                           {copied ? 'Copiato' : 'Copia'}
