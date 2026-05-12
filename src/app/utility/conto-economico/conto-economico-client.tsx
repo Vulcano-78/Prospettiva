@@ -351,14 +351,16 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 </button>
               </div>
               <p className="text-[0.6875rem] text-slate-400 mb-4">
-                I costi in <span className="font-bold text-slate-600">grassetto</span> restano memorizzati per il prossimo conto economico.
+                I costi contrassegnati con <span className="text-[#4463EE] font-bold">*</span> restano memorizzati per il prossimo conto economico.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* Ristrutturazione: €/mq + totale auto-sincronizzati */}
                 <div className="md:col-span-2 grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[0.625rem] font-extrabold text-[#002147] uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
+                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                      Ristrutturazione (€/mq) <span className="text-[#4463EE]">*</span>
+                    </label>
                     <div className="relative">
                       <input
                         type="text"
@@ -393,7 +395,9 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                     const setPct = v.key === 'agenzia_in' ? setAgenziaInPct : setAgenziaOutPct;
                     return (
                       <div key={v.key}>
-                        <label className="block text-[0.625rem] font-extrabold text-[#002147] uppercase tracking-widest mb-2">{v.label}</label>
+                        <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                          {v.label} <span className="text-[#4463EE]">*</span>
+                        </label>
                         <div className="grid grid-cols-[5rem_1fr] gap-2">
                           <div className="relative">
                             <input
@@ -414,7 +418,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                               readOnly
                               tabIndex={-1}
                               placeholder="0"
-                              className="pr-8 bg-slate-50 text-slate-600 cursor-not-allowed"
+                              className="pr-8"
                               aria-label={`${v.label} importo calcolato`}
                             />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
@@ -426,7 +430,10 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                   const isMemorized = MEMORIZED_KEYS.has(v.key);
                   return (
                     <div key={v.key}>
-                      <label className={`block text-[0.625rem] uppercase tracking-widest mb-2 ${isMemorized ? 'font-extrabold text-[#002147]' : 'font-bold text-slate-400'}`}>{v.label}</label>
+                      <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        {v.label}
+                        {isMemorized && <span className="text-[#4463EE] ml-1">*</span>}
+                      </label>
                       <div className="relative">
                         <input
                           type="text"
