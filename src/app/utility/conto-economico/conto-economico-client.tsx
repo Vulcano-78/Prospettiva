@@ -5,6 +5,21 @@ import { useEffect, useMemo, useState } from 'react';
 
 const VOCI_DEFAULTS_KEY = 'ce_voci_defaults_v1';
 const RISTR_MQ_KEY = 'ce_ristr_mq_v1';
+const AGENZIA_IN_PCT_KEY = 'ce_agenzia_in_pct_v1';
+const AGENZIA_OUT_PCT_KEY = 'ce_agenzia_out_pct_v1';
+
+// Voci i cui valori vengono memorizzati come default per il prossimo CE.
+// (Esclude: acquisto, ristrutturazione totale, importi agenzia, voci specifiche
+// del singolo immobile come imposte, agibilità, cambio d'uso, imprevisti, altro.)
+const MEMORIZED_KEYS = new Set<keyof Voci>([
+  'rendering_home_staging',
+  'notaio',
+  'avvocato',
+  'geometra',
+  'condom_riscald',
+  'pulizia_cantiere',
+  'utenze',
+]);
 
 type Voci = {
   acquisto: string;
@@ -64,6 +79,20 @@ function fmtInput(v: string): string {
   return `${intPart || '0'},${dec}`;
 }
 
+function fmtPctInput(v: string): string {
+  const cleaned = v.replace(/[^\d,]/g, '');
+  const [intRaw, ...decRest] = cleaned.split(',');
+  const intPart = (intRaw || '').replace(/^0+(?=\d)/, '');
+  if (decRest.length === 0) return intPart;
+  const dec = decRest.join('').slice(0, 2);
+  return `${intPart || '0'},${dec}`;
+}
+
+function formatImportoEur(n: number): string {
+  if (!Number.isFinite(n) || n <= 0) return '';
+  return fmtInput(String(Math.round(n)));
+}
+
 function fmtEur(n: number): string {
   return new Intl.NumberFormat('it-IT', {
     style: 'currency', currency: 'EUR', maximumFractionDigits: 0,
@@ -83,6 +112,8 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
   const [voci, setVoci] = useState<Voci>(VOCI_INIT);
   const [ristrMq, setRistrMq] = useState('');
   const [lastRistrEdit, setLastRistrEdit] = useState<'mq' | 'tot' | null>(null);
+  const [agenziaInPct, setAgenziaInPct] = useState('');
+  const [agenziaOutPct, setAgenziaOutPct] = useState('');
   const [rivendita1, setRivendita1] = useState('');
   const [rivendita2, setRivendita2] = useState('');
   const [esposizione, setEsposizione] = useState('');
@@ -97,20 +128,30 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
       const raw = localStorage.getItem(VOCI_DEFAULTS_KEY);
       if (raw) {
         const saved = JSON.parse(raw) as Partial<Voci>;
-        setVoci(p => ({ ...p, ...saved, acquisto: '', ristrutturazione: '' }));
+        const filtered: Partial<Voci> = {};
+        for (const k of Object.keys(saved) as (keyof Voci)[]) {
+          if (MEMORIZED_KEYS.has(k) && typeof saved[k] === 'string') {
+            filtered[k] = saved[k];
+          }
+        }
+        setVoci(p => ({ ...p, ...filtered }));
       }
       const rm = localStorage.getItem(RISTR_MQ_KEY);
       if (rm) setRistrMq(rm);
+      const ain = localStorage.getItem(AGENZIA_IN_PCT_KEY);
+      if (ain) setAgenziaInPct(ain);
+      const aout = localStorage.getItem(AGENZIA_OUT_PCT_KEY);
+      if (aout) setAgenziaOutPct(aout);
     } catch {}
     setDefaultsLoaded(true);
   }, []);
 
   useEffect(() => {
     if (!defaultsLoaded) return;
-    const { acquisto: _a, ristrutturazione: _r, ...rest } = voci;
-    void _a; void _r;
+    const toSave: Partial<Voci> = {};
+    for (const k of MEMORIZED_KEYS) toSave[k] = voci[k];
     try {
-      localStorage.setItem(VOCI_DEFAULTS_KEY, JSON.stringify(rest));
+      localStorage.setItem(VOCI_DEFAULTS_KEY, JSON.stringify(toSave));
     } catch {}
   }, [voci, defaultsLoaded]);
 
@@ -118,6 +159,16 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
     if (!defaultsLoaded) return;
     try { localStorage.setItem(RISTR_MQ_KEY, ristrMq); } catch {}
   }, [ristrMq, defaultsLoaded]);
+
+  useEffect(() => {
+    if (!defaultsLoaded) return;
+    try { localStorage.setItem(AGENZIA_IN_PCT_KEY, agenziaInPct); } catch {}
+  }, [agenziaInPct, defaultsLoaded]);
+
+  useEffect(() => {
+    if (!defaultsLoaded) return;
+    try { localStorage.setItem(AGENZIA_OUT_PCT_KEY, agenziaOutPct); } catch {}
+  }, [agenziaOutPct, defaultsLoaded]);
 
   // Recompute Ristrutturazione when mq changes, based on last-edited side
   useEffect(() => {
@@ -164,14 +215,34 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
     setVoci(VOCI_INIT);
     setRistrMq('');
     setLastRistrEdit(null);
+    setAgenziaInPct('');
+    setAgenziaOutPct('');
     setRivendita1('');
     setRivendita2('');
     setEsposizione('');
     try {
       localStorage.removeItem(VOCI_DEFAULTS_KEY);
       localStorage.removeItem(RISTR_MQ_KEY);
+      localStorage.removeItem(AGENZIA_IN_PCT_KEY);
+      localStorage.removeItem(AGENZIA_OUT_PCT_KEY);
     } catch {}
   };
+
+  // Agenzia acquisto: importo = acquisto × pct
+  useEffect(() => {
+    const base = num(voci.acquisto);
+    const pct = num(agenziaInPct);
+    const imp = base > 0 && pct > 0 ? (base * pct) / 100 : 0;
+    setVoci(p => ({ ...p, agenzia_in: formatImportoEur(imp) }));
+  }, [voci.acquisto, agenziaInPct]);
+
+  // Agenzia vendita: importo = totale rivendita × pct
+  useEffect(() => {
+    const base = num(rivendita1) + num(rivendita2);
+    const pct = num(agenziaOutPct);
+    const imp = base > 0 && pct > 0 ? (base * pct) / 100 : 0;
+    setVoci(p => ({ ...p, agenzia_out: formatImportoEur(imp) }));
+  }, [rivendita1, rivendita2, agenziaOutPct]);
 
   const calc = useMemo(() => {
     const acquisto = num(voci.acquisto);
@@ -279,13 +350,15 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                   Svuota campi
                 </button>
               </div>
-              <p className="text-[0.6875rem] text-slate-400 mb-4">I costi restano memorizzati per il prossimo conto economico.</p>
+              <p className="text-[0.6875rem] text-slate-400 mb-4">
+                I costi in <span className="font-bold text-slate-600">grassetto</span> restano memorizzati per il prossimo conto economico.
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* Ristrutturazione: €/mq + totale auto-sincronizzati */}
                 <div className="md:col-span-2 grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
+                    <label className="block text-[0.625rem] font-extrabold text-[#002147] uppercase tracking-widest mb-2">Ristrutturazione (€/mq)</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -314,22 +387,60 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                   </div>
                 </div>
 
-                {VOCI_CONFIG.filter(v => v.key !== 'ristrutturazione').map(v => (
-                  <div key={v.key}>
-                    <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">{v.label}</label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        inputMode="decimal"
-                        value={voci[v.key]}
-                        onChange={e => setVoci(p => ({ ...p, [v.key]: fmtInput(e.target.value) }))}
-                        placeholder="0"
-                        className="pr-8"
-                      />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                {VOCI_CONFIG.filter(v => v.key !== 'ristrutturazione').map(v => {
+                  if (v.key === 'agenzia_in' || v.key === 'agenzia_out') {
+                    const pct = v.key === 'agenzia_in' ? agenziaInPct : agenziaOutPct;
+                    const setPct = v.key === 'agenzia_in' ? setAgenziaInPct : setAgenziaOutPct;
+                    return (
+                      <div key={v.key}>
+                        <label className="block text-[0.625rem] font-extrabold text-[#002147] uppercase tracking-widest mb-2">{v.label}</label>
+                        <div className="grid grid-cols-[5rem_1fr] gap-2">
+                          <div className="relative">
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              value={pct}
+                              onChange={e => setPct(fmtPctInput(e.target.value))}
+                              placeholder="0"
+                              className="pr-7 text-center"
+                              aria-label={`${v.label} percentuale`}
+                            />
+                            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">%</span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={voci[v.key]}
+                              readOnly
+                              tabIndex={-1}
+                              placeholder="0"
+                              className="pr-8 bg-slate-50 text-slate-600 cursor-not-allowed"
+                              aria-label={`${v.label} importo calcolato`}
+                            />
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                  const isMemorized = MEMORIZED_KEYS.has(v.key);
+                  return (
+                    <div key={v.key}>
+                      <label className={`block text-[0.625rem] uppercase tracking-widest mb-2 ${isMemorized ? 'font-extrabold text-[#002147]' : 'font-bold text-slate-400'}`}>{v.label}</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={voci[v.key]}
+                          onChange={e => setVoci(p => ({ ...p, [v.key]: fmtInput(e.target.value) }))}
+                          placeholder="0"
+                          className="pr-8"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
 
