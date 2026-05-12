@@ -277,10 +277,10 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                                 <button onClick={() => handleBuyNow(service.slug)} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
                               </>
                             ) : (
-                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center rounded-md transition-all">Apri</Link>
+                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-4 min-w-[5.5rem] hover:brightness-110 uppercase flex items-center justify-center rounded-md transition-all">Apri</Link>
                             )
                           ) : (
-                            <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-3 uppercase flex items-center rounded-md">In arrivo</Link>
+                            <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-4 min-w-[5.5rem] uppercase flex items-center justify-center rounded-md">In arrivo</Link>
                           )}
                         </div>
                       </td>
