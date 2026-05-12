@@ -323,7 +323,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
   }, [isLogged, isDirty, hasContent, saving, handleSave]);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] pt-14">
+    <div className="min-h-screen bg-[#f8f9fa] pt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
         <div className="mb-8">
