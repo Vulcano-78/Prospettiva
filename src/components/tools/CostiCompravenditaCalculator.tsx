@@ -54,6 +54,7 @@ export default function CostiCompravenditaCalculator() {
   const [prezzoStr, setPrezzoStr] = useState('');
   const [renditaStr, setRenditaStr] = useState('');
   const [openTip, setOpenTip] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const prezzo = parseNumber(prezzoStr);
   const rendita = parseNumber(renditaStr);
@@ -88,6 +89,21 @@ export default function CostiCompravenditaCalculator() {
 
   const handleBundleCta = () => {
     track('click_cta_bundle', { source: 'calcolatore-costi-compravendita' });
+  };
+
+  const handleCopyTotale = async () => {
+    if (!result) return;
+    const value = result.totaleAccessori
+      .toFixed(2)
+      .replace('.', ',');
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      track('copy_totale_accessori', { source: 'calcolatore-costi-compravendita' });
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // clipboard non disponibile: ignora
+    }
   };
 
   return (
@@ -284,11 +300,30 @@ export default function CostiCompravenditaCalculator() {
                   )}
                   <div className="border-t border-slate-100 pt-3 mt-3">
                     <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-lg p-3">
-                      <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
-                      <div className="text-lg font-extrabold text-[#002147]">
-                        {formatEur(result.totaleAccessori)}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
+                          <div className="text-lg font-extrabold text-[#002147]">
+                            {formatEur(result.totaleAccessori)}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleCopyTotale}
+                          aria-label="Copia totale costi accessori"
+                          className={`flex-shrink-0 inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border text-[0.625rem] font-bold uppercase tracking-widest transition-colors ${
+                            copied
+                              ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                              : 'bg-white border-[#4463EE]/30 text-[#4463EE] hover:bg-[#4463EE]/10 hover:border-[#4463EE]'
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-sm">
+                            {copied ? 'check' : 'content_copy'}
+                          </span>
+                          {copied ? 'Copiato' : 'Copia'}
+                        </button>
                       </div>
-                      <div className="text-[0.625rem] text-slate-500 mt-1">Imposte e IVA. Onorario notarile escluso.</div>
+                      <div className="text-[0.625rem] text-slate-500 mt-2">Imposte e IVA. Onorario notarile escluso. Utile da incollare nel conto economico.</div>
                     </div>
                   </div>
 
