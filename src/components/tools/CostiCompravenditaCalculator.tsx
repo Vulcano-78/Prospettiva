@@ -207,18 +207,18 @@ export default function CostiCompravenditaCalculator() {
                 <button
                   type="button"
                   onClick={handleAddVisura}
-                  className="mt-4 w-full flex items-center justify-between gap-3 rounded-lg border border-[#4463EE]/30 bg-[#4463EE]/5 hover:bg-[#4463EE]/10 hover:border-[#4463EE] transition-colors p-4 text-left"
+                  className="mt-4 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 rounded-lg border border-[#4463EE]/30 bg-[#4463EE]/5 hover:bg-[#4463EE]/10 hover:border-[#4463EE] transition-colors p-4 text-left"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#4463EE] text-white flex items-center justify-center">
                       <span className="material-symbols-outlined text-lg">description</span>
                     </span>
                     <div className="min-w-0">
-                      <div className="text-sm font-bold text-[#002147]">Non conosci la rendita catastale?</div>
-                      <div className="text-xs text-slate-500">Richiedi la visura catastale ufficiale in pochi minuti.</div>
+                      <div className="text-sm font-bold text-[#002147] leading-tight">Non conosci la rendita catastale?</div>
+                      <div className="text-xs text-slate-500 mt-1">Richiedi la visura catastale ufficiale in pochi minuti.</div>
                     </div>
                   </div>
-                  <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#4463EE] text-white text-[0.6875rem] font-bold uppercase tracking-widest px-3 py-2 rounded-md">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center gap-1.5 bg-[#4463EE] text-white text-[0.6875rem] font-bold uppercase tracking-widest px-4 py-2.5 rounded-md w-full sm:w-auto">
                     Acquista <span className="material-symbols-outlined text-sm">arrow_forward</span>
                   </span>
                 </button>
