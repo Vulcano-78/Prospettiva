@@ -56,8 +56,8 @@ const categoryServiceOrder: Record<string, string[]> = {
   'utility-gratuite': [
     'conto-economico',
     'calcolatore-costi-compravendita',
+    'esposizione-solare',
     'calcolatore-imu',
-    'checklist-mutuo',
   ],
   // 'ispezione-ipotecaria' è la voce unificata (immobile/soggetto scelti in carrello).
   // 'ispezione-ipotecaria-immobile' resta in services.ts come slug legacy, escluso dal catalogo.
@@ -156,6 +156,31 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                           </span>
                         </div>
                       </Link>
+                    </li>
+                  );
+                }
+
+                if (isFree && !isActive) {
+                  return (
+                    <li key={service.id}>
+                      <div
+                        aria-disabled="true"
+                        className="block rounded-2xl bg-slate-50/60 border border-dashed border-slate-200 p-4 cursor-not-allowed"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-[0.9375rem] font-bold text-slate-500 leading-tight">
+                              {service.shortName}
+                            </h3>
+                            <p className="text-xs text-slate-400 leading-snug mt-1.5">
+                              {service.description}
+                            </p>
+                          </div>
+                          <span className="flex-shrink-0 inline-flex items-center h-7 px-2.5 bg-slate-200/70 text-slate-500 text-[0.625rem] font-bold uppercase tracking-widest rounded-full mt-0.5">
+                            In arrivo
+                          </span>
+                        </div>
+                      </div>
                     </li>
                   );
                 }

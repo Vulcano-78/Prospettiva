@@ -399,26 +399,26 @@ export const services: Service[] = [
     fields: []
   },
   {
-    id: 'calcolatore-imu',
-    slug: 'calcolatore-imu',
-    name: 'Calcolatore IMU',
-    shortName: 'Calc. IMU',
-    description: 'Calcola rapidamente l\'imposta municipale.',
+    id: 'esposizione-solare',
+    slug: 'esposizione-solare',
+    name: 'Esposizione Solare',
+    shortName: 'Esposizione Solare',
+    description: 'Orientamento, luce e sole dell\'immobile.',
     price: 0,
     category: 'strumenti-gratuiti',
-    categoryIcon: 'calculate',
+    categoryIcon: 'wb_sunny',
     isActive: false,
     fields: []
   },
   {
-    id: 'checklist-mutuo',
-    slug: 'checklist-mutuo',
-    name: 'Checklist Mutuo',
-    shortName: 'Checklist',
-    description: 'Elenco documenti necessari per il finanziamento.',
+    id: 'calcolatore-imu',
+    slug: 'calcolatore-imu',
+    name: 'Calcolo IMU',
+    shortName: 'Calcolo IMU',
+    description: 'Calcola rapidamente l\'imposta municipale.',
     price: 0,
     category: 'strumenti-gratuiti',
-    categoryIcon: 'checklist',
+    categoryIcon: 'calculate',
     isActive: false,
     fields: []
   }
