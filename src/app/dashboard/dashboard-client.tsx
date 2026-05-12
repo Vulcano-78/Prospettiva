@@ -131,6 +131,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [conti, setConti] = useState<ContoEconomico[]>(initialConti);
   const [activeSection, setActiveSection] = useState<'documenti' | 'conti' | 'profilo'>('documenti');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
@@ -243,70 +244,117 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
   const cognome = meta.cognome ?? '';
   const nomeCompleto = [nome, cognome].filter(Boolean).join(' ') || '—';
 
+  const sectionMeta = {
+    documenti: { title: 'I miei documenti', subtitle: 'Storico degli ordini e download dei documenti.' },
+    conti: { title: 'Conti Economici', subtitle: 'Calcoli salvati dall’utility gratuita.' },
+    profilo: { title: 'Dati Personali', subtitle: 'Le informazioni del tuo profilo.' },
+  } as const;
+
+  const navItems: { key: typeof activeSection; label: string; icon: string }[] = [
+    { key: 'documenti', label: 'Documenti', icon: 'description' },
+    { key: 'conti', label: 'Conti Economici', icon: 'calculate' },
+    { key: 'profilo', label: 'Dati Personali', icon: 'person' },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="flex flex-1 pt-14">
+    <div className="flex flex-col min-h-screen bg-[#f3f4f6]">
+      <div className="flex flex-1 pt-14 relative">
+
+        {/* Mobile toggle */}
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(true)}
+          className="lg:hidden fixed top-[4.5rem] left-4 z-30 bg-white rounded-lg shadow-md border border-slate-200 w-10 h-10 inline-flex items-center justify-center text-[#002147]"
+          aria-label="Apri menu"
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+
+        {/* Mobile overlay */}
+        {sidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 bg-black/40 z-40"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden
+          />
+        )}
 
         {/* Sidebar */}
-        <aside className="hidden lg:flex w-64 flex-col py-8 px-6 bg-gradient-to-b from-white to-slate-50 border-r border-slate-100">
-          <div className="mb-10">
-            <span className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest">Area Personale</span>
-            {nomeCompleto !== '—' && (
-              <p className="mt-2 text-sm font-bold text-[#002147] truncate">{nomeCompleto}</p>
-            )}
+        <aside
+          className={`fixed lg:sticky top-0 lg:top-14 left-0 z-50 w-64 h-screen lg:h-[calc(100vh-3.5rem)] bg-[#002147] text-white flex flex-col transition-transform lg:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}
+        >
+          <div className="px-5 pt-6 pb-5 border-b border-white/10 flex items-start justify-between">
+            <div className="min-w-0">
+              <p className="text-[0.625rem] uppercase tracking-widest text-white/40 font-bold">Area Personale</p>
+              {nomeCompleto !== '—' && (
+                <p className="mt-1 text-base font-extrabold text-white truncate" style={{ fontFamily: 'var(--font-headline)' }}>{nomeCompleto}</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden text-white/60 hover:text-white"
+              aria-label="Chiudi"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
           </div>
 
-          <nav className="flex-1 space-y-1">
-            <button
-              onClick={() => setActiveSection('documenti')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'documenti' ? 'text-[#002147] font-semibold bg-white shadow-sm' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-white/60'}`}
-            >
-              <span className="material-symbols-outlined">description</span>
-              <span className="text-sm font-semibold">Documenti</span>
-            </button>
-            <button
-              onClick={() => setActiveSection('conti')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'conti' ? 'text-[#002147] font-semibold bg-white shadow-sm' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-white/60'}`}
-            >
-              <span className="material-symbols-outlined">calculate</span>
-              <span className="text-sm font-semibold">Conti Economici</span>
-            </button>
-            <button
-              onClick={() => setActiveSection('profilo')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full transition-colors ${activeSection === 'profilo' ? 'text-[#002147] font-semibold bg-white shadow-sm' : 'text-slate-500 font-medium hover:text-[#002147] hover:bg-white/60'}`}
-            >
-              <span className="material-symbols-outlined">person</span>
-              <span className="text-sm font-semibold">Dati Personali</span>
-            </button>
+          <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            {navItems.map(item => {
+              const active = activeSection === item.key;
+              return (
+                <button
+                  key={item.key}
+                  onClick={() => { setActiveSection(item.key); setSidebarOpen(false); }}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors w-full ${
+                    active
+                      ? 'bg-white/10 text-white font-bold'
+                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[1.25rem]">{item.icon}</span>
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-slate-100 space-y-1">
+          <div className="px-3 pb-5 pt-3 border-t border-white/10 space-y-2">
+            <Link
+              href="/"
+              onClick={() => setSidebarOpen(false)}
+              className="block w-full bg-[#4463ee] text-white font-bold py-2.5 rounded-lg text-center text-sm hover:brightness-110 transition-all"
+            >
+              Nuovo ordine
+            </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-2 text-slate-500 font-medium hover:text-red-600 transition-colors w-full"
+              className="flex items-center gap-2 px-3 py-2 text-white/60 hover:text-white text-xs transition-colors w-full"
             >
-              <span className="material-symbols-outlined">logout</span>
-              <span className="text-sm">Esci</span>
+              <span className="material-symbols-outlined text-sm">logout</span>
+              Esci
             </button>
-            <Link href="/" className="mt-4 block w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl text-center text-sm hover:brightness-110 transition-all">
-              Nuovo Ordine
-            </Link>
           </div>
         </aside>
 
         {/* Main */}
-        <main className="flex-1 p-6 md:p-10 max-w-5xl">
+        <main className="flex-1 min-w-0 px-5 sm:px-8 py-8 pt-16 lg:pt-8 max-w-7xl">
+          {/* Header coerente con admin */}
+          <header className="mb-8">
+            <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold mb-1">Area personale</p>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
+              {sectionMeta[activeSection].title}
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">{sectionMeta[activeSection].subtitle}</p>
+          </header>
 
           {/* Documenti */}
           {activeSection === 'documenti' && <section className="mb-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'var(--font-headline)' }}>
-                  I miei documenti
-                </h2>
-                <p className="text-slate-500 text-sm">Storico degli ordini e download dei documenti.</p>
-              </div>
-              <div className="flex bg-slate-100 p-1 rounded-xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-end gap-4 mb-6">
+              <div className="flex bg-white border border-slate-200 p-1 rounded-xl">
                 {(['all', 'ready', 'processing'] as const).map(f => (
                   <button
                     key={f}
@@ -322,7 +370,8 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
             </div>
 
             {filteredOrders.length === 0 ? (
-              <div className="bg-white rounded-xl border border-slate-100 p-12 text-center">
+
+              <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
                 <span className="material-symbols-outlined text-4xl text-slate-300 mb-3 block">folder_open</span>
                 <p className="font-bold text-[#002147] mb-1">Nessun documento</p>
                 <p className="text-sm text-slate-500 mb-6">
@@ -339,7 +388,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-100">
+                <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-200">
                   <label className="flex items-center gap-2.5 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -425,21 +474,15 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
 
           {/* Conti Economici */}
           {activeSection === 'conti' && <section className="mb-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-2xl font-extrabold text-[#002147] tracking-tight mb-1" style={{ fontFamily: 'var(--font-headline)' }}>
-                  Conti Economici
-                </h2>
-                <p className="text-slate-500 text-sm">Calcoli salvati dall&apos;utility gratuita.</p>
-              </div>
-              <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-5 py-3 rounded-xl hover:brightness-110 transition-all text-sm">
+            <div className="flex justify-end mb-6">
+              <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-5 py-2.5 rounded-lg hover:brightness-110 transition-all text-sm">
                 <span className="material-symbols-outlined text-base">add</span>
                 Nuovo CE
               </Link>
             </div>
 
             {conti.length === 0 ? (
-              <div className="bg-white rounded-xl border border-slate-100 p-12 text-center">
+              <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
                 <span className="material-symbols-outlined text-4xl text-slate-300 mb-3 block">calculate</span>
                 <p className="font-bold text-[#002147] mb-1">Nessun conto economico salvato</p>
                 <p className="text-sm text-slate-500 mb-6">Calcola e salva la prima operazione.</p>
@@ -453,7 +496,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 {conti.map(ce => {
                   const t = ceTotali(ce);
                   return (
-                    <div key={ce.id} className="bg-white p-5 rounded-xl border border-slate-100 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
+                    <div key={ce.id} className="bg-white p-5 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
                       <div className="flex items-center gap-4 min-w-0">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-[#002147] shrink-0">
                           <span className="material-symbols-outlined">calculate</span>
@@ -499,9 +542,8 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           </section>}
 
           {/* Dati Personali */}
-          {activeSection === 'profilo' && <section className="bg-white rounded-xl p-6 border border-slate-100">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Personali</h2>
+          {activeSection === 'profilo' && <section className="bg-white rounded-xl p-6 border border-slate-200">
+            <div className="flex items-center justify-end mb-6">
               {!editing ? (
                 <button
                   onClick={() => setEditing(true)}
