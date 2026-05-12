@@ -258,7 +258,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f3f4f6]">
-      <div className="flex flex-1 pt-14 relative">
+      <div className="flex flex-1 pt-16 relative">
 
         {/* Mobile toggle */}
         <button
@@ -281,7 +281,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
 
         {/* Sidebar */}
         <aside
-          className={`fixed lg:sticky top-0 lg:top-14 left-0 z-50 w-64 h-screen lg:h-[calc(100vh-3.5rem)] bg-[#002147] text-white flex flex-col transition-transform lg:translate-x-0 ${
+          className={`fixed lg:sticky top-0 lg:top-16 left-0 z-50 w-64 h-screen lg:h-[calc(100vh-4rem)] bg-[#002147] text-white flex flex-col transition-transform lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
         >
