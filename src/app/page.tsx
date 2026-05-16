@@ -454,7 +454,7 @@ export default function HomePage() {
                 Esplora il catalogo →
               </a>
             </div>
-            <div className="mt-8 md:mt-14 pt-6 md:pt-10 border-t border-slate-200">
+            <div className="mt-4 md:mt-14 pt-3 md:pt-10 border-t border-slate-200">
               <SuggestionForm />
             </div>
           </div>
