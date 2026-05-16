@@ -172,6 +172,10 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-x-10 md:gap-x-14 lg:gap-x-20 gap-y-6 text-slate-600">
+            {/* Stripe */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/stripe.png" alt="Stripe" className="h-8 w-auto" />
+
             {/* Agenzia delle Entrate */}
             <span className="inline-flex flex-col items-center leading-none">
               <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
@@ -182,6 +186,10 @@ export default function HomePage() {
               </span>
             </span>
 
+            {/* Supabase */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/supabase.svg" alt="Supabase" className="h-9 w-auto" />
+
             {/* Conservatoria */}
             <span className="inline-flex flex-col items-center leading-none">
               <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
@@ -191,15 +199,6 @@ export default function HomePage() {
                 Conservatoria
               </span>
             </span>
-
-            {/* Stripe */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/stripe.png" alt="Stripe" className="h-8 w-auto" />
-
-            {/* Supabase */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/supabase.svg" alt="Supabase" className="h-9 w-auto" />
-
 
             {/* Vercel */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
