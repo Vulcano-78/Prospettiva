@@ -171,10 +171,10 @@ export default function HomePage() {
             Fonti ufficiali · Infrastruttura · Pagamenti sicuri
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-10 md:gap-x-14 lg:gap-x-20 gap-y-6 text-slate-600">
+          <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-y-5 md:gap-y-6 md:gap-x-14 lg:gap-x-20 text-slate-600 [&>img]:max-w-[140px] md:[&>img]:max-w-none">
             {/* Stripe */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/stripe.png" alt="Stripe" className="h-8 w-auto" />
+            <img src="/brands/stripe.png" alt="Stripe" className="h-6 md:h-8 w-auto" />
 
             {/* Agenzia delle Entrate */}
             <span className="inline-flex flex-col items-center leading-none">
@@ -188,7 +188,7 @@ export default function HomePage() {
 
             {/* Supabase */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/supabase.svg" alt="Supabase" className="h-9 w-auto" />
+            <img src="/brands/supabase.svg" alt="Supabase" className="h-7 md:h-9 w-auto" />
 
             {/* Conservatoria */}
             <span className="inline-flex flex-col items-center leading-none">
@@ -202,7 +202,7 @@ export default function HomePage() {
 
             {/* Vercel */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/vercel.png" alt="Vercel" className="h-6 w-auto" />
+            <img src="/brands/vercel.png" alt="Vercel" className="h-5 md:h-6 w-auto" />
           </div>
 
           <p className="text-center text-[0.75rem] text-slate-500 mt-8 md:mt-10 max-w-2xl mx-auto">
@@ -464,7 +464,7 @@ export default function HomePage() {
                 Esplora il catalogo →
               </a>
             </div>
-            <div className="mt-14 pt-10 border-t border-slate-200">
+            <div className="mt-8 md:mt-14 pt-6 md:pt-10 border-t border-slate-200">
               <SuggestionForm />
             </div>
           </div>
