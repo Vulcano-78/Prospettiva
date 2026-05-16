@@ -19,6 +19,7 @@ export default function RegistrationPage() {
     confirmPassword: '',
     ragioneSociale: '',
     partitaIva: '',
+    codiceFiscale: '',
     ruolo: '',
     codiceSdi: '',
     pec: '',
@@ -27,6 +28,9 @@ export default function RegistrationPage() {
     cap: '',
     provincia: '',
   });
+  // Per impresa: traccia se l'utente ha toccato il CF manualmente.
+  // Finché è false, il CF mostra il valore della P.IVA (mirror automatico).
+  const [cfManuallyEdited, setCfManuallyEdited] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(false);
   const [error, setError] = useState('');
@@ -34,6 +38,32 @@ export default function RegistrationPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  // CF per impresa: si autocompila con la P.IVA finché non viene toccato.
+  const cfDisplayValue =
+    accountType === 'impresa' && !cfManuallyEdited
+      ? formData.partitaIva
+      : formData.codiceFiscale;
+
+  const handleCfFocus = () => {
+    if (accountType === 'impresa' && !cfManuallyEdited) {
+      // Primo click sul CF auto-fillato: lo svuota per permettere edit manuale.
+      setCfManuallyEdited(true);
+      setFormData(prev => ({ ...prev, codiceFiscale: '' }));
+    }
+  };
+
+  const handleCfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCfManuallyEdited(true);
+    setFormData(prev => ({ ...prev, codiceFiscale: e.target.value }));
+  };
+
+  const handleAccountTypeChange = (next: AccountType) => {
+    setAccountType(next);
+    // Reset stato CF quando si cambia tipo account.
+    setCfManuallyEdited(false);
+    setFormData(prev => ({ ...prev, codiceFiscale: '' }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,6 +96,10 @@ export default function RegistrationPage() {
           account_type: accountType,
           ragione_sociale: formData.ragioneSociale,
           partita_iva: formData.partitaIva,
+          codice_fiscale:
+            accountType === 'impresa' && !cfManuallyEdited
+              ? formData.partitaIva
+              : formData.codiceFiscale,
           ruolo: formData.ruolo,
           codice_sdi: formData.codiceSdi,
           pec: formData.pec,
@@ -157,7 +191,7 @@ export default function RegistrationPage() {
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setAccountType(opt.value)}
+                    onClick={() => handleAccountTypeChange(opt.value)}
                     style={{ borderRadius: '5px' }}
                     className={`relative flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-2.5 p-3 border transition-all min-w-0 cursor-pointer ${
                       accountType === opt.value ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
@@ -223,6 +257,19 @@ export default function RegistrationPage() {
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
                   </div>
                   <div>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice Fiscale *</label>
+                    <input
+                      type="text"
+                      name="codiceFiscale"
+                      value={formData.codiceFiscale}
+                      onChange={handleChange}
+                      placeholder="RSSMRA85L01H501Z"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
                     <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Ruolo</label>
                     <div className="relative">
                       <select name="ruolo" value={formData.ruolo} onChange={handleChange} className="appearance-none">
@@ -245,16 +292,14 @@ export default function RegistrationPage() {
                       <span className="material-symbols-outlined absolute right-4 top-3 pointer-events-none text-slate-400">expand_more</span>
                     </div>
                   </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
                     <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
                   </div>
-                  <div>
-                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
-                    <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
-                  </div>
+                </div>
+                <div>
+                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                  <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="studio@pec.it" />
                 </div>
                 <div>
                   <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo *</label>
@@ -306,13 +351,27 @@ export default function RegistrationPage() {
                     <input type="text" name="partitaIva" value={formData.partitaIva} onChange={handleChange} placeholder="11 cifre" required />
                   </div>
                   <div>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice Fiscale *</label>
+                    <input
+                      type="text"
+                      name="codiceFiscale"
+                      value={cfDisplayValue}
+                      onFocus={handleCfFocus}
+                      onChange={handleCfChange}
+                      placeholder="Uguale alla P.IVA, clicca per modificare"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
                     <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Codice SDI</label>
                     <input type="text" name="codiceSdi" value={formData.codiceSdi} onChange={handleChange} placeholder="0000000" maxLength={7} />
                   </div>
-                </div>
-                <div>
-                  <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
-                  <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="azienda@pec.it" />
+                  <div>
+                    <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">PEC</label>
+                    <input type="email" name="pec" value={formData.pec} onChange={handleChange} placeholder="azienda@pec.it" />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-[0.625rem] font-bold text-[#516169] uppercase tracking-widest mb-2">Indirizzo Sede Legale *</label>
