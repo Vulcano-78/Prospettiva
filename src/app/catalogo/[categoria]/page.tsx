@@ -158,52 +158,48 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                   const isActive = service.isActive;
                   const isFree = service.price === 0;
 
+                  const priceBlock = isFree ? (
+                    <div className="text-sm font-semibold text-[#4463EE] leading-none">Gratis</div>
+                  ) : (
+                    <>
+                      <div className="text-sm font-semibold text-[#002147] leading-none">
+                        €{service.price.toFixed(2)}
+                      </div>
+                      <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
+                        escl. IVA
+                      </div>
+                    </>
+                  );
+
                   return (
                     <div
                       key={service.id}
-                      className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 gap-y-3 py-4"
+                      className="grid grid-cols-1 md:grid-cols-[1fr_5rem_2.5rem_10rem] gap-y-3 md:gap-y-0 md:items-center md:gap-x-4 py-4"
                     >
-                      {/* Nome + descrizione */}
-                      <div className="min-w-0">
-                        <div className="text-sm font-medium text-[#002147]">{service.shortName}</div>
-                        <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
-                          {service.description}
+                      {/* Nome + desc (e prezzo inline su mobile) */}
+                      <div className="flex items-start justify-between gap-3 md:block min-w-0">
+                        <div className="min-w-0">
+                          <div className="text-sm font-medium text-[#002147]">{service.shortName}</div>
+                          <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-1">
+                            {service.description}
+                          </div>
+                        </div>
+                        {/* Prezzo a destra su mobile */}
+                        <div className="md:hidden text-right flex-shrink-0">
+                          {priceBlock}
                         </div>
                       </div>
 
-                      {/* Prezzo (md+) */}
+                      {/* Prezzo (md+) col 2 */}
                       <div className="hidden md:block text-right">
-                        {isFree ? (
-                          <div className="text-sm font-semibold text-[#4463EE] leading-none">Gratis</div>
-                        ) : (
-                          <>
-                            <div className="text-sm font-semibold text-[#002147] leading-none">
-                              €{service.price.toFixed(2)}
-                            </div>
-                            <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
-                              escl. IVA
-                            </div>
-                          </>
-                        )}
+                        {priceBlock}
                       </div>
 
-                      {/* Spacer (md+) */}
+                      {/* Spacer (md+) col 3 */}
                       <span aria-hidden className="hidden md:block" />
 
-                      {/* Azioni */}
-                      <div className="flex items-center justify-end gap-2 col-span-2 md:col-span-1">
-                        {/* Prezzo inline su mobile */}
-                        {!isFree && (
-                          <div className="md:hidden mr-auto text-left">
-                            <div className="text-sm font-semibold text-[#002147] leading-none">
-                              €{service.price.toFixed(2)}
-                            </div>
-                            <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
-                              escl. IVA
-                            </div>
-                          </div>
-                        )}
-
+                      {/* Azioni — su mobile sono in una riga a parte, allineate a destra */}
+                      <div className="flex items-center justify-end gap-2">
                         {isActive ? (
                           isFree ? (
                             <Link
