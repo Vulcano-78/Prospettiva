@@ -9,10 +9,10 @@ export default function Footer() {
 
         {/* Legal Links */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-2 sm:gap-6 mb-4">
-          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/privacy">Privacy Policy</Link>
-          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/cookie">Cookie Policy</Link>
-          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/termini">Termini e Condizioni</Link>
-          <Link className="text-white/60 text-xs hover:text-white transition-colors" href="/gdpr">GDPR</Link>
+          <Link className="text-white/60 text-[0.5625rem] font-mono uppercase tracking-[0.18em] hover:text-white hover:underline underline-offset-4 transition-colors" href="/privacy">Privacy Policy</Link>
+          <Link className="text-white/60 text-[0.5625rem] font-mono uppercase tracking-[0.18em] hover:text-white hover:underline underline-offset-4 transition-colors" href="/cookie">Cookie Policy</Link>
+          <Link className="text-white/60 text-[0.5625rem] font-mono uppercase tracking-[0.18em] hover:text-white hover:underline underline-offset-4 transition-colors" href="/termini">Termini e Condizioni</Link>
+          <Link className="text-white/60 text-[0.5625rem] font-mono uppercase tracking-[0.18em] hover:text-white hover:underline underline-offset-4 transition-colors" href="/gdpr">GDPR</Link>
         </div>
 
         {/* Copyright + P.IVA */}

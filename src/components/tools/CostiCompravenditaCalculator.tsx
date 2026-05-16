@@ -107,14 +107,16 @@ export default function CostiCompravenditaCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] pt-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+    <div className="min-h-screen bg-slate-50 pt-[96px] md:pt-[112px]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 md:pb-20">
         <header className="mb-8">
-          <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
+          <p className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            Utility gratuita
+          </p>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold text-[#002147] mb-3 leading-tight">
             Calcolatore Costi Compravendita
           </h1>
-          <p className="text-slate-500 text-sm md:text-base max-w-2xl">
+          <p className="text-on-surface-variant text-sm md:text-base max-w-2xl">
             Stima in 30 secondi imposte di registro, ipotecaria, catastale, IVA e onorario notarile per l&apos;acquisto di un immobile in Italia.
           </p>
         </header>
@@ -123,7 +125,7 @@ export default function CostiCompravenditaCalculator() {
           {/* FORM */}
           <div className="space-y-6">
             {/* Venditore */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Tipo di venditore</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {([
@@ -133,7 +135,7 @@ export default function CostiCompravenditaCalculator() {
                   <button key={opt.v}
                     type="button"
                     onClick={() => setTipoVenditore(opt.v)}
-                    className={`text-left rounded-lg border p-4 transition-colors ${tipoVenditore === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                    className={`text-left rounded-[5px] border p-4 transition-colors ${tipoVenditore === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                   >
                     <div className="text-sm font-bold text-[#002147]">{opt.label}</div>
                     <div className="text-[0.6875rem] text-slate-500 mt-0.5">{opt.sub}</div>
@@ -143,7 +145,7 @@ export default function CostiCompravenditaCalculator() {
             </section>
 
             {/* Destinazione */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Destinazione</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {([
@@ -153,7 +155,7 @@ export default function CostiCompravenditaCalculator() {
                   <button key={opt.v}
                     type="button"
                     onClick={() => setDestinazione(opt.v)}
-                    className={`text-left rounded-lg border p-4 transition-colors ${destinazione === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                    className={`text-left rounded-[5px] border p-4 transition-colors ${destinazione === opt.v ? 'border-[#4463EE] bg-[#4463EE]/5' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                   >
                     <div className="text-sm font-bold text-[#002147]">{opt.label}</div>
                     <div className="text-[0.6875rem] text-slate-500 mt-0.5">{opt.sub}</div>
@@ -161,14 +163,14 @@ export default function CostiCompravenditaCalculator() {
                 ))}
               </div>
               {destinazione === 'prima_casa' && CATEGORIE_LUSSO.includes(categoria) && (
-                <p className="text-[0.6875rem] text-amber-700 bg-amber-50 border border-amber-200 mt-3 rounded-lg p-3">
+                <p className="text-[0.6875rem] text-amber-700 bg-amber-50 border border-amber-200 mt-3 rounded-[5px] p-3">
                   Le categorie di lusso (A/1, A/8, A/9) non possono beneficiare dell&apos;agevolazione prima casa: applichiamo le aliquote ordinarie.
                 </p>
               )}
             </section>
 
             {/* Categoria + prezzo + rendita */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Immobile</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -176,7 +178,7 @@ export default function CostiCompravenditaCalculator() {
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value as CategoriaCatastale)}
-                    className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                    className="w-full h-[2.875rem] rounded-[5px] border border-slate-200 bg-white px-3 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                   >
                     <optgroup label="Standard">
                       {CATEGORIE_STANDARD.map(c => <option key={c} value={c}>{c}</option>)}
@@ -194,7 +196,7 @@ export default function CostiCompravenditaCalculator() {
                       placeholder="200.000"
                       value={prezzoStr}
                       onChange={(e) => setPrezzoStr(formatInputNumber(e.target.value, false))}
-                      className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                      className="w-full h-[2.875rem] rounded-[5px] border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                   </div>
@@ -211,7 +213,7 @@ export default function CostiCompravenditaCalculator() {
                         placeholder="450,00"
                         value={renditaStr}
                         onChange={(e) => setRenditaStr(formatInputNumber(e.target.value, true))}
-                        className="w-full h-[2.875rem] rounded-lg border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
+                        className="w-full h-[2.875rem] rounded-[5px] border border-slate-200 bg-white px-3 pr-8 text-sm text-[#002147] focus:outline-none focus:border-[#4463EE]"
                       />
                       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">€</span>
                     </div>
@@ -223,7 +225,7 @@ export default function CostiCompravenditaCalculator() {
                 <button
                   type="button"
                   onClick={handleAddVisura}
-                  className="mt-4 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 rounded-lg border border-[#4463EE]/30 bg-[#4463EE]/5 hover:bg-[#4463EE]/10 hover:border-[#4463EE] transition-colors p-4 text-left"
+                  className="mt-4 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 rounded-[5px] border border-[#4463EE]/30 bg-[#4463EE]/5 hover:bg-[#4463EE]/10 hover:border-[#4463EE] transition-colors p-4 text-left"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#4463EE] text-white flex items-center justify-center">
@@ -234,7 +236,7 @@ export default function CostiCompravenditaCalculator() {
                       <div className="text-xs text-slate-500 mt-1">Richiedi la visura catastale ufficiale in pochi minuti.</div>
                     </div>
                   </div>
-                  <span className="flex-shrink-0 inline-flex items-center justify-center gap-1.5 bg-[#4463EE] text-white text-[0.6875rem] font-bold uppercase tracking-widest px-4 py-2.5 rounded-md w-full sm:w-auto">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center gap-1.5 bg-[#4463EE] text-white text-[0.6875rem] font-bold uppercase tracking-widest px-4 py-2.5 rounded-[5px] w-full sm:w-auto">
                     Acquista <span className="material-symbols-outlined text-sm">arrow_forward</span>
                   </span>
                 </button>
@@ -244,7 +246,7 @@ export default function CostiCompravenditaCalculator() {
 
           {/* RISULTATI */}
           <aside className="lg:sticky lg:top-24 self-start">
-            <div className="bg-white rounded-xl border border-slate-100 p-6">
+            <div className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Riepilogo costi</h2>
 
               {!result && (
@@ -299,7 +301,7 @@ export default function CostiCompravenditaCalculator() {
                     />
                   )}
                   <div className="border-t border-slate-100 pt-3 mt-3">
-                    <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-lg p-3">
+                    <div className="bg-[#4463EE]/5 border border-[#4463EE]/20 rounded-[5px] p-3">
                       <div className="text-[0.625rem] font-bold text-[#4463EE] uppercase tracking-widest mb-1">Totale costi accessori</div>
                       <div className="flex items-center justify-between gap-3">
                         <div className="text-lg font-extrabold text-[#002147]">
@@ -309,7 +311,7 @@ export default function CostiCompravenditaCalculator() {
                           type="button"
                           onClick={handleCopyTotale}
                           aria-label="Copia totale costi accessori"
-                          className={`flex-shrink-0 inline-flex items-center gap-1 h-6 px-2 rounded-md border text-[0.5625rem] font-bold uppercase tracking-wider transition-colors ${
+                          className={`flex-shrink-0 inline-flex items-center gap-1 h-6 px-2 rounded-[5px] border text-[0.5625rem] font-bold uppercase tracking-wider transition-colors ${
                             copied
                               ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
                               : 'bg-white border-[#4463EE]/30 text-[#4463EE] hover:bg-[#4463EE]/10 hover:border-[#4463EE]'
@@ -383,7 +385,7 @@ function Row({
         <span className={`text-sm font-bold ${muted ? 'text-slate-500' : 'text-[#002147]'} text-right whitespace-nowrap`}>{value}</span>
       </div>
       {isOpen && (
-        <p className="text-[0.6875rem] text-slate-500 bg-slate-50 rounded-md p-2 mt-1.5 leading-relaxed">{tip}</p>
+        <p className="text-[0.6875rem] text-slate-500 bg-slate-50 rounded-[5px] p-2 mt-1.5 leading-relaxed">{tip}</p>
       )}
     </div>
   );

@@ -42,7 +42,7 @@ function PaymentForm({ total }: { total: number }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Stripe Payment Element */}
-      <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+      <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
         <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
           <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
           Metodo di pagamento
@@ -55,7 +55,7 @@ function PaymentForm({ total }: { total: number }) {
         />
 
         {error && (
-          <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+          <div className="mt-4 bg-red-50 border border-red-200 rounded-[5px] p-4 flex items-start gap-3">
             <span className="material-symbols-outlined text-[#ba1a1a]">error</span>
             <p className="text-sm text-[#ba1a1a]">{error}</p>
           </div>
@@ -67,7 +67,7 @@ function PaymentForm({ total }: { total: number }) {
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm"
+          className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-5 rounded-[5px] hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm"
         >
           <span className="material-symbols-outlined text-sm">arrow_back</span>
           Indietro
@@ -75,7 +75,7 @@ function PaymentForm({ total }: { total: number }) {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-[5px] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <>
@@ -148,19 +148,22 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
+    <div className="flex flex-col min-h-screen bg-slate-50">
       {/* Progress Bar — full width, centered on page */}
-      <div className="w-full pt-16 mb-4 md:mb-6">
+      <div className="w-full pt-[88px] mb-4 md:mb-6">
         <ProgressBar currentStep={3} />
       </div>
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         {/* Header */}
         <header className="mb-8 md:mb-10 text-center">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
-            Pagamento sicuro
+          <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            03 · Pagamento
+          </div>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-[#002147] mb-3">
+            Pagamento sicuro.
           </h1>
-          <p className="text-[#44474e] text-sm">
+          <p className="text-on-surface-variant text-sm md:text-base">
             Completa il pagamento per ricevere i tuoi documenti.
           </p>
         </header>
@@ -169,7 +172,7 @@ export default function PaymentPage() {
           {/* Payment Section — 2 cols */}
           <div className="lg:col-span-2">
             {initError && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-6 flex items-start gap-3">
+              <div className="bg-red-50 border border-red-200 rounded-[5px] p-6 mb-6 flex items-start gap-3">
                 <span className="material-symbols-outlined text-[#ba1a1a]">error</span>
                 <div>
                   <p className="text-sm font-bold text-[#ba1a1a] mb-1">Errore</p>
@@ -228,15 +231,15 @@ export default function PaymentPage() {
               </Elements>
             ) : !initError ? (
               /* Loading skeleton */
-              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+              <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
                 <div className="animate-pulse space-y-4">
                   <div className="h-6 bg-slate-200 rounded w-48" />
-                  <div className="h-12 bg-slate-100 rounded-xl" />
+                  <div className="h-12 bg-slate-100 rounded-[5px]" />
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="h-12 bg-slate-100 rounded-xl" />
-                    <div className="h-12 bg-slate-100 rounded-xl" />
+                    <div className="h-12 bg-slate-100 rounded-[5px]" />
+                    <div className="h-12 bg-slate-100 rounded-[5px]" />
                   </div>
-                  <div className="h-12 bg-slate-100 rounded-xl" />
+                  <div className="h-12 bg-slate-100 rounded-[5px]" />
                 </div>
               </section>
             ) : null}
@@ -244,7 +247,7 @@ export default function PaymentPage() {
 
           {/* Order Summary — 1 col */}
           <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-3">
-            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
+            <section className="bg-white rounded-[5px] p-6 border border-slate-200/50 shadow-sm">
               <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo

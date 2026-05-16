@@ -257,14 +257,14 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f3f4f6]">
-      <div className="flex flex-1 pt-16 relative">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="flex flex-1 pt-[72px] relative">
 
         {/* Mobile toggle */}
         <button
           type="button"
           onClick={() => setSidebarOpen(true)}
-          className="lg:hidden fixed top-[4.5rem] left-4 z-30 bg-white rounded-lg shadow-md border border-slate-200 w-10 h-10 inline-flex items-center justify-center text-[#002147]"
+          className="lg:hidden fixed top-[4.5rem] left-4 z-30 bg-white rounded-[5px] shadow-md border border-slate-200 w-10 h-10 inline-flex items-center justify-center text-[#002147]"
           aria-label="Apri menu"
         >
           <span className="material-symbols-outlined">menu</span>
@@ -309,7 +309,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 <button
                   key={item.key}
                   onClick={() => { setActiveSection(item.key); setSidebarOpen(false); }}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors w-full ${
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-[5px] text-sm transition-colors w-full ${
                     active
                       ? 'bg-white/10 text-white font-bold'
                       : 'text-white/70 hover:bg-white/5 hover:text-white'
@@ -326,7 +326,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
             <Link
               href="/"
               onClick={() => setSidebarOpen(false)}
-              className="block w-full bg-[#4463ee] text-white font-bold py-2.5 rounded-lg text-center text-sm hover:brightness-110 transition-all"
+              className="block w-full bg-[#4463ee] text-white font-bold py-2.5 rounded-[5px] text-center text-sm hover:brightness-110 transition-all"
             >
               Nuovo ordine
             </Link>
@@ -343,23 +343,23 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
         {/* Main */}
         <main className="flex-1 min-w-0 px-5 sm:px-8 py-5 pt-14 lg:pt-5 max-w-7xl">
           {/* Header coerente con admin */}
-          <header className="mb-6">
-            <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold mb-1">Area personale</p>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
+          <header className="mb-8">
+            <p className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">Area personale</p>
+            <h1 className="text-2xl md:text-3xl font-headline font-bold text-[#002147] leading-tight">
               {sectionMeta[activeSection].title}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">{sectionMeta[activeSection].subtitle}</p>
+            <p className="text-sm text-on-surface-variant mt-2">{sectionMeta[activeSection].subtitle}</p>
           </header>
 
           {/* Documenti */}
           {activeSection === 'documenti' && <section className="mb-12">
             <div className="flex flex-col md:flex-row md:items-center justify-end gap-4 mb-6">
-              <div className="flex bg-white border border-slate-200 p-1 rounded-xl">
+              <div className="flex bg-white border border-slate-200 p-1 rounded-[5px]">
                 {(['all', 'ready', 'processing'] as const).map(f => (
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
+                    className={`px-4 py-2 text-xs font-bold rounded-[5px] transition-colors ${
                       filter === f ? 'bg-white shadow-sm text-[#002147]' : 'text-slate-500 hover:text-[#002147]'
                     }`}
                   >
@@ -371,7 +371,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
 
             {filteredOrders.length === 0 ? (
 
-              <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
+              <div className="bg-white rounded-[5px] border border-slate-200 p-12 text-center">
                 <span className="material-symbols-outlined text-4xl text-slate-300 mb-3 block">folder_open</span>
                 <p className="font-bold text-[#002147] mb-1">Nessun documento</p>
                 <p className="text-sm text-slate-500 mb-6">
@@ -380,7 +380,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                     : 'Nessun documento in questo stato.'}
                 </p>
                 {filter === 'all' && (
-                  <Link href="/" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all text-sm">
+                  <Link href="/" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-6 py-3 rounded-[5px] hover:brightness-110 transition-all text-sm">
                     Esplora i servizi
                     <span className="material-symbols-outlined text-base">arrow_forward</span>
                   </Link>
@@ -388,7 +388,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-200">
+                <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-[5px] border border-slate-200">
                   <label className="flex items-center gap-2.5 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -404,7 +404,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                   <button
                     onClick={handleDeleteSelected}
                     disabled={selectedIds.size === 0 || deleting}
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-40 disabled:hover:bg-red-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-[5px] bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-40 disabled:hover:bg-red-50 disabled:cursor-not-allowed"
                   >
                     <span className="material-symbols-outlined text-sm">delete</span>
                     {deleting ? 'Eliminazione…' : `Elimina selezionati`}
@@ -414,7 +414,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                   const ready = !!order.file_url;
                   const isSelected = selectedIds.has(order.id);
                   return (
-                    <div key={order.id} className={`bg-white p-5 rounded-xl border flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow ${isSelected ? 'border-[#4463ee]' : 'border-slate-100'}`}>
+                    <div key={order.id} className={`bg-white p-5 rounded-[5px] border flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow ${isSelected ? 'border-[#4463ee]' : 'border-slate-100'}`}>
                       <div className="flex items-center gap-4">
                         <input
                           type="checkbox"
@@ -423,7 +423,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                           className="w-4 h-4 rounded border-slate-300 text-[#002147] focus:ring-[#002147] cursor-pointer"
                           aria-label={`Seleziona ${orderLabel(order)}`}
                         />
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${ready ? 'bg-blue-50 text-[#002147]' : 'bg-amber-50 text-amber-600'}`}>
+                        <div className={`w-12 h-12 rounded-[5px] flex items-center justify-center ${ready ? 'bg-blue-50 text-[#002147]' : 'bg-amber-50 text-amber-600'}`}>
                           <span className="material-symbols-outlined">{ready ? 'description' : 'pending_actions'}</span>
                         </div>
                         <div>
@@ -447,18 +447,18 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                                   .createSignedUrl(order.file_url!, 3600)
                                 if (data?.signedUrl) window.open(data.signedUrl, '_blank')
                               }}
-                              className="p-2 rounded-lg bg-slate-100 text-[#002147] hover:bg-[#002147] hover:text-white transition-colors"
+                              className="p-2 rounded-[5px] bg-slate-100 text-[#002147] hover:bg-[#002147] hover:text-white transition-colors"
                             >
                               <span className="material-symbols-outlined">download</span>
                             </button>
                           ) : (
-                            <div className="p-2 rounded-lg bg-slate-50 text-slate-300 cursor-not-allowed">
+                            <div className="p-2 rounded-[5px] bg-slate-50 text-slate-300 cursor-not-allowed">
                               <span className="material-symbols-outlined">download</span>
                             </div>
                           )}
                           <button
                             onClick={() => handleDeleteOne(order)}
-                            className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                            className="p-2 rounded-[5px] bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
                             aria-label="Elimina ordine"
                           >
                             <span className="material-symbols-outlined">delete</span>
@@ -475,18 +475,18 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           {/* Conti Economici */}
           {activeSection === 'conti' && <section className="mb-12">
             <div className="flex justify-end mb-6">
-              <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-5 py-2.5 rounded-lg hover:brightness-110 transition-all text-sm">
+              <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-5 py-2.5 rounded-[5px] hover:brightness-110 transition-all text-sm">
                 <span className="material-symbols-outlined text-base">add</span>
                 Nuovo CE
               </Link>
             </div>
 
             {conti.length === 0 ? (
-              <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
+              <div className="bg-white rounded-[5px] border border-slate-200 p-12 text-center">
                 <span className="material-symbols-outlined text-4xl text-slate-300 mb-3 block">calculate</span>
                 <p className="font-bold text-[#002147] mb-1">Nessun conto economico salvato</p>
                 <p className="text-sm text-slate-500 mb-6">Calcola e salva la prima operazione.</p>
-                <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all text-sm">
+                <Link href="/utility/conto-economico" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-6 py-3 rounded-[5px] hover:brightness-110 transition-all text-sm">
                   Apri utility
                   <span className="material-symbols-outlined text-base">arrow_forward</span>
                 </Link>
@@ -496,9 +496,9 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 {conti.map(ce => {
                   const t = ceTotali(ce);
                   return (
-                    <div key={ce.id} className="bg-white p-5 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
+                    <div key={ce.id} className="bg-white p-5 rounded-[5px] border border-slate-200 flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-shadow">
                       <div className="flex items-center gap-4 min-w-0">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50 text-[#002147] shrink-0">
+                        <div className="w-12 h-12 rounded-[5px] flex items-center justify-center bg-blue-50 text-[#002147] shrink-0">
                           <span className="material-symbols-outlined">calculate</span>
                         </div>
                         <div className="min-w-0">
@@ -529,7 +529,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                             const res = await fetch(`/api/conti-economici?id=${ce.id}`, { method: 'DELETE' });
                             if (res.ok) setConti(prev => prev.filter(x => x.id !== ce.id));
                           }}
-                          className="p-2 rounded-lg bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                          className="p-2 rounded-[5px] bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
                         >
                           <span className="material-symbols-outlined">delete</span>
                         </button>
@@ -542,12 +542,12 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
           </section>}
 
           {/* Dati Personali */}
-          {activeSection === 'profilo' && <section className="bg-white rounded-xl p-6 border border-slate-200">
+          {activeSection === 'profilo' && <section className="bg-white rounded-[5px] p-6 border border-slate-200">
             <div className="flex items-center justify-end mb-6">
               {!editing ? (
                 <button
                   onClick={() => setEditing(true)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#4463ee] border border-[#4463ee] rounded-lg hover:bg-[#4463ee] hover:text-white transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#4463ee] border border-[#4463ee] rounded-[5px] hover:bg-[#4463ee] hover:text-white transition-colors"
                 >
                   <span className="material-symbols-outlined text-base">edit</span>
                   Modifica
@@ -556,14 +556,14 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setEditing(false)}
-                    className="px-4 py-2 text-sm font-semibold text-slate-500 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 text-sm font-semibold text-slate-500 border border-slate-200 rounded-[5px] hover:bg-slate-50 transition-colors"
                   >
                     Annulla
                   </button>
                   <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[#4463ee] text-white rounded-lg hover:brightness-110 transition-all disabled:opacity-60"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[#4463ee] text-white rounded-[5px] hover:brightness-110 transition-all disabled:opacity-60"
                   >
                     {saving ? 'Salvataggio…' : 'Salva'}
                   </button>
@@ -572,7 +572,7 @@ export default function DashboardClient({ initialUser, initialOrders, initialCon
             </div>
 
             {saveError && (
-              <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg">{saveError}</div>
+              <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-[5px]">{saveError}</div>
             )}
 
             {editing ? (

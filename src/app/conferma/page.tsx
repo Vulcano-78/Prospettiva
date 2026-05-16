@@ -99,7 +99,7 @@ export default function ConfirmationPage() {
   if (pageState === 'deciding') {
     const pct = (secondsLeft / BEACON_TIMEOUT) * 100;
     return (
-      <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
+      <div className="flex flex-col min-h-screen bg-slate-50">
         <main className="flex-grow flex flex-col items-center justify-center px-6 py-16">
           <div className="max-w-lg w-full">
             <div className="text-center mb-8">
@@ -117,10 +117,10 @@ export default function ConfirmationPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+            <div className="bg-white rounded-[5px] shadow-lg border border-slate-100 overflow-hidden">
               <div className="p-8">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-12 h-12 bg-[#4463ee]/10 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 bg-[#4463ee]/10 rounded-[5px] flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-[#4463ee]" style={{ fontVariationSettings: "'FILL' 1" }}>folder_open</span>
                   </div>
                   <div>
@@ -136,13 +136,13 @@ export default function ConfirmationPage() {
                 <div className="space-y-3">
                   <button
                     onClick={() => handleAuthChoice('registrazione')}
-                    className="w-full bg-[#4463ee] text-white font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow"
+                    className="w-full bg-[#4463ee] text-white font-extrabold py-4 rounded-[5px] hover:brightness-110 transition-all shadow"
                   >
                     Registrati e salva il documento
                   </button>
                   <button
                     onClick={() => handleAuthChoice('login')}
-                    className="w-full bg-[#002147] text-white font-bold py-3 rounded-xl hover:opacity-90 transition-opacity"
+                    className="w-full bg-[#002147] text-white font-bold py-3 rounded-[5px] hover:opacity-90 transition-opacity"
                   >
                     Accedi al tuo account
                   </button>
@@ -177,7 +177,7 @@ export default function ConfirmationPage() {
 
   if (pageState === 'processing') {
     return (
-      <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
+      <div className="flex flex-col min-h-screen bg-slate-50">
         <main className="flex-grow flex flex-col items-center justify-center px-6">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-[#4463ee] border-t-transparent rounded-full animate-spin mx-auto mb-6" />
@@ -190,8 +190,8 @@ export default function ConfirmationPage() {
 
   // --- DONE ---
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow flex flex-col items-center px-6 pt-16 pb-8">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <main className="flex-grow flex flex-col items-center px-6 pt-[96px] md:pt-[112px] pb-8">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-8">
             <span className="material-symbols-outlined text-[#28a428] mb-4 block" style={{ fontSize: 'clamp(3.5rem, 7vw, 5.5rem)', fontVariationSettings: "'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48" }}>
@@ -210,14 +210,14 @@ export default function ConfirmationPage() {
 
           <div className="grid md:grid-cols-2 gap-8 items-stretch">
             {/* Order Details */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+            <div className="bg-white p-8 rounded-[5px] shadow-lg border border-slate-100">
               <div className="flex flex-col gap-6">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-[#516169] mb-1">Tempo Stimato</p>
                     <p className="text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Entro 60 minuti</p>
                   </div>
-                  <div className="bg-slate-50 p-3 rounded-lg">
+                  <div className="bg-slate-50 p-3 rounded-[5px]">
                     <span className="material-symbols-outlined text-[#002147]">schedule</span>
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export default function ConfirmationPage() {
 
             {/* CTA Card */}
             {savedToDashboard ? (
-              <div className="bg-[#002147] text-white rounded-2xl p-8 shadow-xl flex flex-col justify-between">
+              <div className="bg-[#002147] text-white rounded-[5px] p-8 shadow-xl flex flex-col justify-between">
                 <div>
                   <span className="material-symbols-outlined text-[#4463ee] text-4xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>folder_open</span>
                   <h2 className="text-2xl font-extrabold mb-3" style={{ fontFamily: 'var(--font-headline)' }}>
@@ -257,13 +257,13 @@ export default function ConfirmationPage() {
                 </div>
                 <Link
                   href="/dashboard"
-                  className="block w-full bg-[#4463ee] text-white text-center font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg"
+                  className="block w-full bg-[#4463ee] text-white text-center font-extrabold py-4 rounded-[5px] hover:brightness-110 transition-all shadow-lg"
                 >
                   Vai alla Dashboard
                 </Link>
               </div>
             ) : (
-              <div className="bg-[#002147] text-white rounded-2xl p-8 shadow-xl">
+              <div className="bg-[#002147] text-white rounded-[5px] p-8 shadow-xl">
                 <h2 className="text-2xl font-extrabold mb-4" style={{ fontFamily: 'var(--font-headline)' }}>
                   Il tuo Archivio Documentale
                 </h2>
@@ -286,7 +286,7 @@ export default function ConfirmationPage() {
                 </ul>
                 <Link
                   href="/registrazione"
-                  className="block w-full bg-[#4463ee] text-white text-center font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg"
+                  className="block w-full bg-[#4463ee] text-white text-center font-extrabold py-4 rounded-[5px] hover:brightness-110 transition-all shadow-lg"
                 >
                   Crea il tuo account gratuito
                 </Link>
@@ -295,13 +295,13 @@ export default function ConfirmationPage() {
           </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Link href="/" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-8 py-4 rounded-xl hover:brightness-110 transition-all">
+            <Link href="/" className="inline-flex items-center gap-2 bg-[#4463ee] text-white font-bold px-8 py-4 rounded-[5px] hover:brightness-110 transition-all">
               Esplora altri strumenti
               <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
 
-          <div className="mt-12 bg-white border border-slate-100 rounded-xl p-6 text-center">
+          <div className="mt-12 bg-white border border-slate-100 rounded-[5px] p-6 text-center">
             <span className="material-symbols-outlined text-3xl text-[#4463ee] mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>help</span>
             <h3 className="font-bold text-[#002147] mb-1" style={{ fontFamily: 'var(--font-headline)' }}>Serve aiuto?</h3>
             <p className="text-sm text-[#44474e] mb-3">Il nostro supporto tecnico è a tua disposizione per qualsiasi chiarimento.</p>

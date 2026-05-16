@@ -34,21 +34,25 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center px-6">
-      <div className="w-full max-w-sm bg-white border border-slate-200 p-8 shadow-sm">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6 pt-[72px]">
+      <div
+        className="w-full max-w-sm bg-white border border-slate-300/80 p-8"
+        style={{ borderRadius: '5px' }}
+      >
         <div className="mb-6">
-          <p className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-2">Admin</p>
-          <h1 className="text-2xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
-            Accesso protetto
+          <p className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">Admin</p>
+          <h1 className="text-2xl md:text-3xl font-headline font-bold text-[#002147] leading-tight">
+            Accesso protetto.
           </h1>
-          <p className="text-sm text-on-surface-variant mt-2">
+          <p className="text-sm text-on-surface-variant mt-3">
             Inserisci la password admin per continuare.
           </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="password"
-            className="w-full border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:border-secondary"
+            className="w-full border border-slate-300 px-3 py-2.5 text-sm text-[#002147] placeholder-slate-400 focus:outline-none focus:border-[#002147] transition-colors"
+            style={{ borderRadius: '5px' }}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -59,9 +63,10 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full bg-[#002147] text-white text-xs font-bold uppercase tracking-widest px-6 py-3 hover:bg-secondary transition-colors disabled:opacity-60"
+            className="w-full bg-[#002147] text-white text-xs font-bold uppercase tracking-[0.18em] px-6 py-3 cursor-pointer hover:bg-[#4463EE] hover:shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            style={{ borderRadius: '5px' }}
           >
-            {status === 'loading' ? 'Verifico...' : 'Entra'}
+            {status === 'loading' ? 'Verifico...' : 'Entra →'}
           </button>
           {status === 'error' && <p className="text-xs text-red-600">{errMsg}</p>}
         </form>

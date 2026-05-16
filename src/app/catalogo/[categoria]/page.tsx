@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services, getServicesByCategory } from '@/data/services';
 import Breadcrumb from '@/components/Breadcrumb';
+import ServiceDetailSheet from '@/components/ServiceDetailSheet';
 
 const categoryConfig: Record<string, { title: string; description: string; icon: string; number: string }> = {
   'documenti-catastali': {
@@ -87,6 +88,8 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   // For utility-gratuite, the data category is 'strumenti-gratuiti'
 
   const router = useRouter();
+  const [detailSlug, setDetailSlug] = useState<string | null>(null);
+  const detailService = detailSlug ? services.find(s => s.slug === detailSlug) ?? null : null;
 
   const handleAddToCart = (slug: string) => {
     const service = services.find(s => s.slug === slug);
@@ -98,200 +101,165 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
     if (service) addItem(service);
     router.push('/carrello');
   };
+  const handleShowDetails = (slug: string) => setDetailSlug(slug);
+
+  const rail = 'absolute top-0 bottom-0 w-px bg-slate-200/80 pointer-events-none';
 
   return (
-    <main className="bg-white min-h-screen">
-      {/* Header section with title */}
-      <section className="hero-gradient pt-16 pb-6 px-8"><div className="max-w-[1440px] mx-auto">
-        <Breadcrumb items={[
-          { label: 'Home', href: '/' },
-          { label: config.title },
-        ]} />
-        <div className="text-center mb-4">
-          <h1 className="text-[2.625rem] md:text-5xl text-[#002147] mb-4">{config.title}</h1>
-          <p className="text-on-surface-variant text-lg md:text-xl font-normal max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-body)' }}>
-            {config.description}
-          </p>
-        </div>
+    <main className="bg-white min-h-screen text-[#002147]">
+      {/* HERO — titolo categoria nella stessa grammatica del catalogo home */}
+      <section className="relative pt-[96px] md:pt-[112px] pb-10 md:pb-12">
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
+          <Breadcrumb items={[
+            { label: 'Home', href: '/' },
+            { label: config.title },
+          ]} />
+          <div className="mt-6 max-w-2xl">
+            <div className="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-[#4463EE] mb-3">
+              Categoria {config.number}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-headline leading-[1.1] text-[#002147] mb-4">{config.title}</h1>
+            <p className="text-on-surface-variant text-base md:text-lg">
+              {config.description}
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Services Box */}
-      <section className="pb-24 px-4 md:px-8" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)' }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="workflow-box p-5 md:p-8 flex flex-col bg-white">
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <div>
-                <h2 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">{config.icon}</span> {config.title}
-                </h2>
-                <p className="text-xs text-on-surface-variant">{config.description}</p>
+      {/* Servizi — card stessa estetica del home-lab CategoryCard */}
+      <section className="relative bg-white pb-24 md:pb-32">
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
+          <div className="border border-slate-300/80 bg-white">
+            <div className="px-6 py-4 border-b border-slate-300/80">
+              <div className="text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400 mb-1">
+                Categoria {config.number}
               </div>
+              <h2 className="text-xl font-headline text-[#002147]">{config.title}</h2>
+              <p className="text-xs text-on-surface-variant mt-1">{config.description}</p>
             </div>
 
-            {/* MOBILE: cards staccate per utility gratuite, righe con CTA per servizi a pagamento */}
-            <ul className={`md:hidden ${categoryServices.every((s) => s.price === 0) ? 'flex flex-col gap-3' : 'divide-y divide-slate-100'}`}>
-              {categoryServices.map((service) => {
-                const isActive = service.isActive;
-                const isFree = service.price === 0;
+            <div className="px-6">
+              {/* Intestazione colonne (md+) */}
+              <div className="hidden md:grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-3 border-b border-slate-200 text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400">
+                <span>Servizio</span>
+                <span className="text-right">Prezzo</span>
+                <span />
+                <span className="text-right">Azioni</span>
+              </div>
 
-                if (isFree && isActive) {
-                  return (
-                    <li key={service.id}>
-                      <Link
-                        href={service.href ?? `/coming-soon/${service.slug}`}
-                        className="group block rounded-2xl bg-white border border-slate-200/80 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.12)] hover:shadow-[0_2px_4px_rgba(15,23,42,0.06),0_16px_32px_-12px_rgba(68,99,238,0.25)] hover:border-secondary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-200 p-4"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-[0.9375rem] font-bold text-primary-container leading-tight group-hover:text-secondary transition-colors">
-                              {service.shortName}
-                            </h3>
-                            <p className="text-xs text-on-surface-variant leading-snug mt-1.5">
-                              {service.description}
-                            </p>
-                          </div>
-                          <span className="material-symbols-outlined flex-shrink-0 text-slate-300 group-hover:text-secondary group-hover:translate-x-0.5 transition-all text-xl mt-0.5">
-                            arrow_forward
-                          </span>
-                        </div>
-                      </Link>
-                    </li>
-                  );
-                }
+              <div className="divide-y divide-slate-100">
+                {categoryServices.map((service) => {
+                  const isActive = service.isActive;
+                  const isFree = service.price === 0;
 
-                if (isFree && !isActive) {
                   return (
-                    <li key={service.id}>
-                      <div
-                        aria-disabled="true"
-                        className="block rounded-2xl bg-slate-50/60 border border-dashed border-slate-200 p-4 cursor-not-allowed"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-[0.9375rem] font-bold text-slate-500 leading-tight">
-                              {service.shortName}
-                            </h3>
-                            <p className="text-xs text-slate-400 leading-snug mt-1.5">
-                              {service.description}
-                            </p>
-                          </div>
-                          <span className="flex-shrink-0 inline-flex items-center h-7 px-2.5 bg-slate-200/70 text-slate-500 text-[0.625rem] font-bold uppercase tracking-widest rounded-full mt-0.5">
-                            In arrivo
-                          </span>
+                    <div
+                      key={service.id}
+                      className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 gap-y-3 py-4"
+                    >
+                      {/* Nome + descrizione */}
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-[#002147]">{service.shortName}</div>
+                        <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                          {service.description}
                         </div>
                       </div>
-                    </li>
-                  );
-                }
 
-                return (
-                  <li key={service.id} className="py-5 flex flex-col gap-3">
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[0.9375rem] font-bold text-primary-container leading-tight flex-1 min-w-0">
-                        {service.shortName}
-                      </h3>
-                      {!isFree && (
-                        <div className="flex-shrink-0 text-right">
-                          <div className="text-[0.9375rem] font-extrabold text-primary-container leading-none">€{service.price.toFixed(2)}</div>
-                          <div className="text-[0.5625rem] text-on-surface-variant/60 mt-1 uppercase tracking-wider">escl. IVA</div>
-                        </div>
-                      )}
-                    </div>
-
-                    <p
-                      className="text-xs text-on-surface-variant leading-snug min-h-[2.6em] overflow-hidden"
-                      style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
-                    >
-                      {service.description}
-                    </p>
-
-                    <div className="flex justify-end items-center gap-2">
-                      {isActive ? (
-                        <>
-                          <button
-                            onClick={() => handleAddToCart(service.slug)}
-                            aria-label="Aggiungi al carrello"
-                            className="inline-flex items-center justify-center h-10 w-12 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors cursor-pointer"
-                          >
-                            <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>add_shopping_cart</span>
-                          </button>
-                          <button
-                            onClick={() => handleBuyNow(service.slug)}
-                            className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#002147] text-white text-[0.6875rem] font-bold uppercase tracking-widest rounded-md hover:brightness-110 transition-all cursor-pointer"
-                          >
-                            Acquista <span className="material-symbols-outlined text-base">arrow_forward</span>
-                          </button>
-                        </>
-                      ) : (
-                        <span className="inline-flex items-center h-10 px-4 bg-slate-100 text-slate-400 text-[0.6875rem] font-bold uppercase tracking-widest rounded-md">
-                          In arrivo
-                        </span>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-
-            {/* DESKTOP: tabella */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
-                    <th className="py-3 font-bold">Servizio</th>
-                    <th className="py-3 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-3 font-bold text-right">Azioni</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {categoryServices.map((service) => (
-                    <tr key={service.id} className="group hover:bg-slate-50/50 transition-colors">
-                      <td className="py-4">
-                        <div className="text-sm font-bold text-primary-container">{service.shortName}</div>
-                        <div className="text-[0.6875rem] text-on-surface-variant">{service.description}</div>
-                      </td>
-                      <td className="py-4 text-right pr-4">
-                        {service.price > 0 ? (
-                          <>
-                            <span className="text-sm font-semibold text-primary-container">€{service.price.toFixed(2)}</span>
-                            <span className="text-[0.5625rem] text-on-surface-variant/60 block">escl. IVA</span>
-                          </>
+                      {/* Prezzo (md+) */}
+                      <div className="hidden md:block text-right">
+                        {isFree ? (
+                          <div className="text-sm font-semibold text-[#4463EE] leading-none">Gratis</div>
                         ) : (
-                          <span className="text-sm font-semibold text-[#4463EE]">Gratis</span>
+                          <>
+                            <div className="text-sm font-semibold text-[#002147] leading-none">
+                              €{service.price.toFixed(2)}
+                            </div>
+                            <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
+                              escl. IVA
+                            </div>
+                          </>
                         )}
-                      </td>
-                      <td className="py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          {service.isActive ? (
-                            service.price > 0 ? (
-                              <>
-                                <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button>
-                                <button
-                                  onClick={() => handleAddToCart(service.slug)}
-                                  aria-label="Aggiungi al carrello"
-                                  className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors"
-                                >
-                                  <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                                </button>
-                                <button onClick={() => handleBuyNow(service.slug)} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
-                              </>
-                            ) : (
-                              <Link href={service.href ?? `/coming-soon/${service.slug}`} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-4 min-w-[5.5rem] hover:brightness-110 uppercase flex items-center justify-center rounded-md transition-all">Apri</Link>
-                            )
+                      </div>
+
+                      {/* Spacer (md+) */}
+                      <span aria-hidden className="hidden md:block" />
+
+                      {/* Azioni */}
+                      <div className="flex items-center justify-end gap-2 col-span-2 md:col-span-1">
+                        {/* Prezzo inline su mobile */}
+                        {!isFree && (
+                          <div className="md:hidden mr-auto text-left">
+                            <div className="text-sm font-semibold text-[#002147] leading-none">
+                              €{service.price.toFixed(2)}
+                            </div>
+                            <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
+                              escl. IVA
+                            </div>
+                          </div>
+                        )}
+
+                        {isActive ? (
+                          isFree ? (
+                            <Link
+                              href={service.href ?? `/coming-soon/${service.slug}`}
+                              className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex items-center justify-center"
+                              style={{ borderRadius: '5px' }}
+                            >
+                              Apri
+                            </Link>
                           ) : (
-                            <Link href={`/coming-soon/${service.slug}`} className="bg-slate-100 text-slate-400 text-[0.625rem] font-bold h-8 px-4 min-w-[5.5rem] uppercase flex items-center justify-center rounded-md">In arrivo</Link>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => handleShowDetails(service.slug)}
+                                aria-label={`Dettagli ${service.shortName}`}
+                                className="text-slate-400 hover:text-[#002147] hover:underline underline-offset-4 cursor-pointer text-[0.5625rem] font-mono uppercase tracking-[0.18em] transition-colors"
+                              >
+                                Dettagli
+                              </button>
+                              <button
+                                onClick={() => handleAddToCart(service.slug)}
+                                aria-label="Aggiungi al carrello"
+                                className="h-8 w-11 border border-slate-300 text-slate-500 flex items-center justify-center cursor-pointer hover:bg-slate-100 hover:border-[#002147] hover:text-[#002147] transition flex-shrink-0"
+                                style={{ borderRadius: '5px' }}
+                              >
+                                <span className="material-symbols-outlined text-[0.75rem]">add_shopping_cart</span>
+                              </button>
+                              <button
+                                onClick={() => handleBuyNow(service.slug)}
+                                className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex-shrink-0"
+                                style={{ borderRadius: '5px' }}
+                              >
+                                Acquista
+                              </button>
+                            </>
+                          )
+                        ) : (
+                          <Link
+                            href={`/coming-soon/${service.slug}`}
+                            className="border border-slate-300 text-slate-400 text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] uppercase tracking-[0.15em] flex items-center justify-center"
+                            style={{ borderRadius: '5px' }}
+                          >
+                            In arrivo
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      <ServiceDetailSheet service={detailService} onClose={() => setDetailSlug(null)} />
     </main>
   );
 }

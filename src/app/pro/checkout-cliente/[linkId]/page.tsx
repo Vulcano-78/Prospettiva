@@ -51,9 +51,9 @@ export default function CheckoutClientePage() {
   const needsDelegate = mockOrder.services.some(s => s.requiresDelegate);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
+    <div className="flex flex-col min-h-screen bg-slate-50">
       {/* Studio Banner */}
-      <div className="bg-[#002147] text-white py-4 px-6">
+      <div className="bg-[#002147] text-white py-4 px-6 pt-[88px]">
         <div className="max-w-2xl mx-auto flex items-center justify-center gap-3">
           <span className="material-symbols-outlined text-[#4463ee]">storefront</span>
           <span className="text-sm">
@@ -84,7 +84,7 @@ export default function CheckoutClientePage() {
               {mockOrder.services.map(service => (
                 <div
                   key={service.id}
-                  className={`bg-white rounded-xl p-5 shadow-sm border flex items-center justify-between ${
+                  className={`bg-white rounded-[5px] p-5 shadow-sm border flex items-center justify-between ${
                     service.requiresDelegate ? 'border-l-4 border-l-amber-400 border-slate-100' : 'border-slate-100'
                   }`}
                 >
@@ -105,7 +105,7 @@ export default function CheckoutClientePage() {
             </div>
 
             {/* Totals */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-200 mb-8">
+            <div className="bg-slate-50 rounded-[5px] p-6 border border-dashed border-slate-200 mb-8">
               <div className="space-y-3">
                 <div className="flex justify-between text-sm text-[#44474e]">
                   <span>Subtotale</span>
@@ -124,7 +124,7 @@ export default function CheckoutClientePage() {
 
             <button
               onClick={handleContinue}
-              className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
+              className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-[5px] shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
             >
               Continua
               <span className="material-symbols-outlined">arrow_forward</span>
@@ -145,7 +145,7 @@ export default function CheckoutClientePage() {
             </header>
 
             <form className="space-y-8">
-              <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+              <section className="bg-white rounded-[5px] p-6 border border-slate-100 shadow-sm space-y-5">
                 <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   Dati Personali
@@ -180,19 +180,19 @@ export default function CheckoutClientePage() {
               </section>
 
               {needsDelegate && (
-                <section className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm space-y-5">
+                <section className="bg-white rounded-[5px] p-6 border border-amber-200 shadow-sm space-y-5">
                   <h2 className="text-lg font-bold text-[#002147] flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                     <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">2</span>
                     Delega Proprietario
                   </h2>
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                  <div className="bg-amber-50 border border-amber-200 rounded-[5px] p-4">
                     <p className="text-sm text-amber-900">
                       <strong>Attenzione:</strong> Per alcuni documenti di questo ordine e necessaria una delega firmata.
                     </p>
                   </div>
 
-                  <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-[#4463ee] transition-colors cursor-pointer">
+                  <div className="border-2 border-dashed border-slate-200 rounded-[5px] p-8 text-center hover:border-[#4463ee] transition-colors cursor-pointer">
                     <span className="material-symbols-outlined text-5xl text-slate-300 mb-3">upload_file</span>
                     <p className="text-sm font-medium text-[#002147]">Carica il documento di delega</p>
                     <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (max 10MB)</p>
@@ -204,7 +204,7 @@ export default function CheckoutClientePage() {
               <button
                 type="button"
                 onClick={handleContinue}
-                className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
+                className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-[5px] shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
               >
                 Procedi al pagamento
                 <span className="material-symbols-outlined">payments</span>
@@ -225,7 +225,7 @@ export default function CheckoutClientePage() {
               </p>
             </header>
 
-            <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm mb-8">
+            <div className="bg-white rounded-[5px] p-6 border border-slate-100 shadow-sm mb-8">
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                 <span className="font-bold text-[#002147]">Totale da pagare</span>
                 <span className="text-3xl font-extrabold text-[#002147]">{formatPrice(total)}</span>
@@ -258,7 +258,7 @@ export default function CheckoutClientePage() {
 
             <button
               onClick={handleContinue}
-              className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
+              className="w-full bg-[#4463ee] text-white font-extrabold py-5 rounded-[5px] shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg"
             >
               Paga {formatPrice(total)}
               <span className="material-symbols-outlined">lock</span>
@@ -275,7 +275,7 @@ export default function CheckoutClientePage() {
         {currentStep > 1 && (
           <button
             onClick={() => setCurrentStep(currentStep - 1)}
-            className="w-full mt-4 bg-white border border-slate-200 text-[#002147] font-bold py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
+            className="w-full mt-4 bg-white border border-slate-200 text-[#002147] font-bold py-4 rounded-[5px] hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined">arrow_back</span>
             Indietro

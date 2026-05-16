@@ -26,7 +26,7 @@ export default function AdminSidebar({ email }: { email: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed top-[4.5rem] left-4 z-30 bg-white rounded-lg shadow-md border border-slate-200 w-10 h-10 inline-flex items-center justify-center text-[#002147]"
+        className="lg:hidden fixed top-[4.5rem] left-4 z-30 bg-white rounded-[5px] shadow-md border border-slate-200 w-10 h-10 inline-flex items-center justify-center text-[#002147]"
         aria-label="Apri menu admin"
       >
         <span className="material-symbols-outlined">menu</span>
@@ -71,7 +71,7 @@ export default function AdminSidebar({ email }: { email: string }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-[5px] text-sm transition-colors ${
                   active
                     ? 'bg-white/10 text-white font-bold'
                     : 'text-white/70 hover:bg-white/5 hover:text-white'

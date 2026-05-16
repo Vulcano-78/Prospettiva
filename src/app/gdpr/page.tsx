@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 export default function GdprPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="w-full pt-16 px-8 max-w-[1440px] mx-auto">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="w-full pt-[96px] md:pt-[112px] px-6 md:px-12 max-w-7xl mx-auto">
         <nav className="mb-4">
           <ol className="flex items-center gap-1.5 text-[0.6875rem] text-[#74777f]">
             <li><Link href="/" className="hover:text-[#002147] transition-colors">Home</Link></li>
@@ -17,15 +17,18 @@ export default function GdprPage() {
 
         {/* Header */}
         <header className="mb-8 md:mb-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
+          <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            Legale
+          </div>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-[#002147] mb-3">
             Informativa GDPR
           </h1>
-          <p className="text-[#44474e] text-sm">Regolamento (UE) 2016/679 — Ultimo aggiornamento: 14 aprile 2026</p>
+          <p className="text-on-surface-variant text-sm">Regolamento (UE) 2016/679 — Ultimo aggiornamento: 14 aprile 2026</p>
         </header>
 
         <div className="space-y-8">
           {/* Intro */}
-          <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+          <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
             <div className="flex items-start gap-3 mb-4">
               <span className="material-symbols-outlined text-[#4463ee] text-2xl mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>
               <div>
@@ -40,7 +43,7 @@ export default function GdprPage() {
           </section>
 
           {/* Section 1 */}
-          <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+          <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
             <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
               Principi del trattamento
@@ -69,7 +72,7 @@ export default function GdprPage() {
           </section>
 
           {/* Section 2 */}
-          <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+          <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
             <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
               I tuoi diritti
@@ -98,7 +101,7 @@ export default function GdprPage() {
           </section>
 
           {/* Section 3 */}
-          <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+          <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
             <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">3</span>
               Misure di sicurezza
@@ -116,7 +119,7 @@ export default function GdprPage() {
           </section>
 
           {/* Section 4 */}
-          <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+          <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
             <h2 className="text-lg font-bold text-[#002147] mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
               <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">4</span>
               Contatti e reclami

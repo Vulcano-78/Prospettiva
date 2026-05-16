@@ -323,15 +323,17 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
   }, [isLogged, isDirty, hasContent, saving, handleSave]);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] pt-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+    <div className="min-h-screen bg-slate-50 pt-[96px] md:pt-[112px]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 md:pb-20">
 
         <div className="mb-8">
-          <p className="text-[0.625rem] uppercase tracking-widest font-bold text-slate-400 mb-2">Utility gratuita</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
+          <p className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            Utility gratuita
+          </p>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold text-[#002147] mb-3 leading-tight">
             Conto Economico
           </h1>
-          <p className="text-slate-500 text-sm md:text-base max-w-2xl">
+          <p className="text-on-surface-variant text-sm md:text-base max-w-2xl">
             Calcola costi, ricavi, utile, ROI e ROE di un&apos;operazione immobiliare.
             {isLogged ? ' Puoi salvare il calcolo nella tua dashboard.' : ' Accedi per salvarlo nella tua dashboard.'}
           </p>
@@ -343,7 +345,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
           <div className="space-y-6">
 
             {/* Intestazione */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Operazione</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -366,7 +368,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
             </section>
 
             {/* Acquisto */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <label className="block text-[0.625rem] font-bold text-slate-400 uppercase tracking-widest mb-2">Acquisto</label>
               <div className="relative">
                 <input
@@ -382,13 +384,13 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
             </section>
 
             {/* Costi */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <div className="flex items-center justify-between gap-3 mb-2">
                 <h2 className="text-sm font-extrabold text-[#002147] uppercase tracking-widest">Costi</h2>
                 <button
                   type="button"
                   onClick={handleSvuota}
-                  className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[0.6875rem] font-bold text-slate-500 uppercase tracking-wider transition-colors"
+                  className="px-3 py-2 rounded-[5px] bg-slate-100 hover:bg-slate-200 text-[0.6875rem] font-bold text-slate-500 uppercase tracking-wider transition-colors"
                 >
                   Svuota campi
                 </button>
@@ -495,7 +497,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
             </section>
 
             {/* Ricavi */}
-            <section className="bg-white rounded-xl border border-slate-100 p-6">
+            <section className="bg-white border border-slate-300/80 rounded-[5px] p-6">
               <h2 className="text-sm font-extrabold text-[#002147] mb-4 uppercase tracking-widest">Ricavi</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -528,7 +530,7 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
 
           {/* Riepilogo sticky */}
           <aside className="lg:sticky lg:top-24 lg:self-start space-y-4">
-            <div className="bg-[#002147] text-white rounded-xl p-6">
+            <div className="bg-[#002147] text-white rounded-[5px] p-6">
               <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50 mb-4">Riepilogo</p>
 
               <div className="space-y-3 text-sm">
@@ -548,11 +550,11 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                  <div className="bg-white/5 rounded-lg p-3">
+                  <div className="bg-white/5 rounded-[5px] p-3">
                     <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">ROI</p>
                     <p className="text-lg font-bold mt-1">{fmtPct(calc.roi)}</p>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-3">
+                  <div className="bg-white/5 rounded-[5px] p-3">
                     <p className="text-[0.625rem] uppercase tracking-widest font-bold text-white/50">ROE</p>
                     <p className="text-lg font-bold mt-1">{fmtPct(calc.roe)}</p>
                   </div>
@@ -561,12 +563,12 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
             </div>
 
             {isLogged ? (
-              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-2">
+              <div className="bg-white border border-slate-300/80 rounded-[5px] p-4 space-y-2">
                 <button
                   onClick={handleSave}
                   disabled={saving || (!isDirty && !!currentId) || !hasContent}
                   aria-live="polite"
-                  className={`w-full font-bold py-3 rounded-xl transition-all text-sm inline-flex items-center justify-center gap-2 ${
+                  className={`w-full font-bold py-3 rounded-[5px] transition-all text-sm inline-flex items-center justify-center gap-2 ${
                     saving
                       ? 'bg-[#4463ee] text-white opacity-70 cursor-wait'
                       : isDirty || !currentId
@@ -597,11 +599,11 @@ export default function ContoEconomicoClient({ isLogged }: { userEmail: string |
                 </Link>
               </div>
             ) : (
-              <div className="bg-white rounded-xl border border-slate-100 p-4 space-y-3">
+              <div className="bg-white border border-slate-300/80 rounded-[5px] p-4 space-y-3">
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Accedi per salvare i tuoi conti economici e ritrovarli nella dashboard.
                 </p>
-                <Link href="/login" className="block w-full bg-[#4463ee] text-white font-bold py-3 rounded-xl text-center text-sm hover:brightness-110 transition-all">
+                <Link href="/login" className="block w-full bg-[#4463ee] text-white font-bold py-3 rounded-[5px] text-center text-sm hover:brightness-110 transition-all">
                   Accedi
                 </Link>
                 <p className="text-center text-xs text-slate-500 pt-1">

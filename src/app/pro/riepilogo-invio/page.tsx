@@ -33,8 +33,8 @@ export default function RiepilogoInvioPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow max-w-4xl mx-auto px-6 py-10">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <main className="flex-grow max-w-4xl mx-auto px-6 pt-[96px] md:pt-[112px] pb-10">
         {/* Progress */}
         <div className="mb-8 flex justify-center">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400">
@@ -46,7 +46,7 @@ export default function RiepilogoInvioPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+        <div className="bg-white rounded-[5px] shadow-xl border border-slate-100 overflow-hidden">
           <div className="p-8 md:p-12">
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
@@ -73,11 +73,11 @@ export default function RiepilogoInvioPage() {
                   <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dettagli Ordine</h2>
                 </div>
 
-                <div className="bg-slate-50 rounded-2xl p-1 border border-slate-100 space-y-2">
+                <div className="bg-slate-50 rounded-[5px] p-1 border border-slate-100 space-y-2">
                   {mockSelectedServices.map(service => (
                     <div
                       key={service.id}
-                      className={`bg-white rounded-xl border border-slate-100 p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm ${
+                      className={`bg-white rounded-[5px] border border-slate-100 p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm ${
                         service.requiresDelegate ? 'border-l-4 border-l-amber-400' : ''
                       }`}
                     >
@@ -97,7 +97,7 @@ export default function RiepilogoInvioPage() {
                       <div className="flex items-center gap-4">
                         <span className="font-bold text-[#002147]">{formatPrice(service.price)}</span>
                         <div className="flex items-center gap-2">
-                          <button type="button" className="text-xs font-bold text-[#002147] hover:bg-[#002147]/5 px-3 py-1.5 rounded-lg transition-colors border border-[#002147]/10">
+                          <button type="button" className="text-xs font-bold text-[#002147] hover:bg-[#002147]/5 px-3 py-1.5 rounded-[5px] transition-colors border border-[#002147]/10">
                             Modifica
                           </button>
                           <button type="button" className="text-slate-400 hover:text-red-500 p-1 transition-colors">
@@ -117,7 +117,7 @@ export default function RiepilogoInvioPage() {
                   <h2 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Destinatario</h2>
                 </div>
 
-                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <div className="bg-slate-50 rounded-[5px] p-6 border border-slate-100">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="md:col-span-2">
                       <label className="block text-[0.625rem] font-black uppercase tracking-widest text-slate-500 mb-2">
@@ -173,7 +173,7 @@ export default function RiepilogoInvioPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                   {/* Totals */}
-                  <div className="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+                  <div className="lg:col-span-5 bg-slate-50 p-6 rounded-[5px] border border-slate-100 space-y-4">
                     <div className="flex justify-between text-sm text-slate-500 border-b border-slate-200 pb-3">
                       <span>Imponibile</span>
                       <span className="font-bold">{formatPrice(subtotal)}</span>
@@ -198,7 +198,7 @@ export default function RiepilogoInvioPage() {
                   <div className="lg:col-span-7 space-y-4">
                     <button
                       type="submit"
-                      className="w-full bg-[#002147] text-white font-extrabold py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-[#002147]/90 transition-all hover:shadow-xl group"
+                      className="w-full bg-[#002147] text-white font-extrabold py-5 rounded-[5px] flex items-center justify-center gap-3 hover:bg-[#002147]/90 transition-all hover:shadow-xl group"
                     >
                       <span className="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>send</span>
                       <span className="text-lg uppercase tracking-wider">Invia Riepilogo e Link Pagamento</span>
@@ -208,7 +208,7 @@ export default function RiepilogoInvioPage() {
                       <button
                         type="button"
                         onClick={() => setSendMethod('email')}
-                        className={`bg-white border-2 text-[#002147] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all text-xs ${
+                        className={`bg-white border-2 text-[#002147] font-bold py-4 rounded-[5px] flex items-center justify-center gap-2 transition-all text-xs ${
                           sendMethod === 'email' ? 'border-[#002147]' : 'border-slate-200 hover:bg-slate-50'
                         }`}
                       >
@@ -218,7 +218,7 @@ export default function RiepilogoInvioPage() {
                       <button
                         type="button"
                         onClick={() => setSendMethod('whatsapp')}
-                        className={`bg-white border-2 text-[#002147] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all text-xs ${
+                        className={`bg-white border-2 text-[#002147] font-bold py-4 rounded-[5px] flex items-center justify-center gap-2 transition-all text-xs ${
                           sendMethod === 'whatsapp' ? 'border-[#002147]' : 'border-slate-200 hover:bg-slate-50'
                         }`}
                       >
@@ -228,7 +228,7 @@ export default function RiepilogoInvioPage() {
                     </div>
 
                     <div className="flex items-center justify-center gap-4 pt-4">
-                      <div className="flex items-center text-emerald-600 gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                      <div className="flex items-center text-emerald-600 gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-[5px] border border-emerald-100">
                         <span className="material-symbols-outlined text-base">verified_user</span>
                         <span className="text-[0.625rem] font-bold uppercase tracking-widest">Protocollo Sicuro</span>
                       </div>

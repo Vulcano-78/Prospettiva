@@ -201,7 +201,8 @@ function VisuraFields({ item, data, onChange, onProvinciaChange }: {
             { value: 'soggetto-giuridico' as const, label: 'Sogg. Giuridico', icon: 'business' },
           ]).map(opt => (
             <button key={opt.value} type="button" onClick={() => handleSearchTypeChange(opt.value)}
-              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+              style={{ borderRadius: '5px' }}
+              className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border transition-all text-xs font-bold ${
                 searchType === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}>
               <span className="material-symbols-outlined text-base">{opt.icon}</span>
@@ -376,7 +377,8 @@ function TipoRegistroSwitch({ value, onChange }: {
       <div className="grid grid-cols-2 gap-2">
         {(['generale', 'particolare'] as TipoRegistro[]).map(v => (
           <button key={v} type="button" onClick={() => onChange(v)}
-            className={`py-2.5 px-4 border rounded-lg transition-all text-xs font-bold ${
+            style={{ borderRadius: '5px' }}
+            className={`py-2.5 px-4 border transition-all text-xs font-bold ${
               value === v ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
             }`}>
             {v.charAt(0).toUpperCase() + v.slice(1)}
@@ -397,7 +399,8 @@ function ModeSwitch({ mode, onChange }: {
       <div className="grid grid-cols-3 gap-2">
         {IPOTECARIA_MODE_OPTIONS.map(opt => (
           <button key={opt.value} type="button" onClick={() => onChange(opt.value)}
-            className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+            style={{ borderRadius: '5px' }}
+            className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border transition-all text-xs font-bold ${
               mode === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
             }`}>
             <span className="material-symbols-outlined text-base">{opt.icon}</span>
@@ -594,13 +597,17 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-        <main className="flex-grow flex flex-col items-center justify-center px-6 py-16">
+      <div className="flex flex-col min-h-screen bg-slate-50">
+        <main className="flex-grow flex flex-col items-center justify-center px-6 pt-[120px] pb-16">
           <div className="text-center">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">shopping_cart</span>
-            <h1 className="text-2xl font-bold text-[#002147] mb-2">Il tuo carrello e vuoto</h1>
-            <p className="text-[#44474e] mb-6">Aggiungi servizi dal catalogo per iniziare.</p>
-            <Link href="/" className="inline-flex items-center gap-2 bg-[#002147] text-white font-bold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
+            <h1 className="text-2xl font-headline font-bold text-[#002147] mb-2">Il tuo carrello è vuoto</h1>
+            <p className="text-on-surface-variant mb-6">Aggiungi servizi dal catalogo per iniziare.</p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 bg-[#002147] text-white font-bold px-6 py-3 hover:brightness-110 transition"
+              style={{ borderRadius: '5px' }}
+            >
               <span className="material-symbols-outlined">arrow_back</span>
               Torna al catalogo
             </Link>
@@ -613,18 +620,21 @@ export default function CartPage() {
   let sectionNum = 0;
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="w-full pt-16 mb-4 md:mb-6">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="w-full pt-[88px] mb-4 md:mb-6">
         <ProgressBar currentStep={1} />
       </div>
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         <header className="mb-8 md:mb-10 text-center">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
-            Carrello
+          <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            01 · Carrello
+          </div>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-[#002147] mb-3">
+            Inserisci i dati e completa l&apos;ordine.
           </h1>
-          <p className="text-[#44474e] text-sm">
-            Inserisci i dati necessari per ogni servizio.
+          <p className="text-on-surface-variant text-sm md:text-base">
+            Un modulo per ogni servizio. Pochi campi, niente burocrazia.
           </p>
         </header>
 
@@ -759,7 +769,8 @@ export default function CartPage() {
               <button
                 type="submit"
                 form="carrello-form"
-                className="w-full max-w-xs bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
+                style={{ borderRadius: '5px' }}
+                className="w-full max-w-xs bg-[#4463ee] text-white font-bold py-3 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm"
               >
                 <span>Continua</span>
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
