@@ -55,12 +55,12 @@ export default function NotifyMeInline({ slug, label = 'Entra in lista d’attes
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
       <input
         type="email"
         autoFocus
-        className="flex-grow bg-white/10 border border-white/30 text-white placeholder-white/50 px-4 py-3 text-sm focus:outline-none focus:border-white"
-        placeholder="La tua email"
+        className="flex-grow min-w-0 sm:min-w-[260px] bg-white/10 border border-white/30 text-white placeholder-white/50 px-4 py-3 text-sm focus:outline-none focus:border-white"
+        placeholder="nome@email.it"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         disabled={status === 'loading'}

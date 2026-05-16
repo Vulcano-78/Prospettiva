@@ -383,7 +383,7 @@ export default function HomePage() {
 
         <div className="relative max-w-5xl mx-auto px-6 md:px-12 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-center">
           {/* Colonna testo — asimmetrica, niente center */}
-          <div className="md:col-span-8">
+          <div className="md:col-span-7">
             <p className="text-[0.6875rem] uppercase tracking-[0.4em] text-white/45 mb-4">
               04 · Strumenti AI
             </p>
@@ -406,7 +406,7 @@ export default function HomePage() {
           </div>
 
           {/* Colonna CTA */}
-          <div className="md:col-span-4 flex md:justify-end">
+          <div className="md:col-span-5 flex md:justify-end">
             <div className="flex flex-col md:items-end gap-2">
               <NotifyMeInline slug="virtual-staging" />
               <p className="text-[0.625rem] uppercase tracking-[0.25em] text-white/35">
