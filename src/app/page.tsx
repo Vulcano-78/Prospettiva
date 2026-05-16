@@ -510,33 +510,33 @@ function CategoryCard({
         <p className="text-xs text-on-surface-variant mt-1">{desc}</p>
       </div>
       <div className="flex-grow px-6">
-        {/* Intestazione colonne — dà l'ordine "Servizio · Prezzo · Azioni" */}
-        <div className="grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-3 border-b border-slate-200 text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400">
+        {/* Intestazione colonne (md+ only) */}
+        <div className="hidden md:grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-3 border-b border-slate-200 text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400">
           <span>Servizio</span>
           <span className="text-right">Prezzo</span>
           <span />
           <span className="text-right">Azioni</span>
         </div>
         <div className="divide-y divide-slate-100">
-          {rows.map(r => (
-            <div
-              key={r.slug}
-              className="grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-4"
-            >
+          {rows.map(r => {
+            const nameBlock = (
               <div className="min-w-0">
                 <div className="text-sm font-medium text-[#002147]">{r.name}</div>
-                <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-1">
                   {r.desc}
                 </div>
               </div>
-              <div className="text-right">
+            );
+            const priceBlock = (
+              <div className="text-right flex-shrink-0">
                 <div className="text-sm font-semibold text-[#002147] leading-none">{r.price}</div>
                 <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
                   escl. IVA
                 </div>
               </div>
-              <span aria-hidden />
-              <div className="flex items-center justify-end gap-2">
+            );
+            const actionsBlock = (
+              <>
                 <button
                   type="button"
                   onClick={() => onShowDetails(r.slug)}
@@ -560,9 +560,32 @@ function CategoryCard({
                 >
                   Acquista
                 </button>
+              </>
+            );
+            return (
+              <div key={r.slug}>
+                {/* MOBILE: stack 2 righe (nome+prezzo / azioni) */}
+                <div className="md:hidden flex flex-col gap-3 py-4">
+                  <div className="flex items-start justify-between gap-3">
+                    {nameBlock}
+                    {priceBlock}
+                  </div>
+                  <div className="flex items-center justify-end gap-2 flex-wrap">
+                    {actionsBlock}
+                  </div>
+                </div>
+                {/* DESKTOP: grid 4 colonne */}
+                <div className="hidden md:grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-4">
+                  {nameBlock}
+                  {priceBlock}
+                  <span aria-hidden />
+                  <div className="flex items-center justify-end gap-2">
+                    {actionsBlock}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <div className="px-6 py-3 border-t border-slate-100 text-center">
