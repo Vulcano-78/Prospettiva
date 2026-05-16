@@ -108,7 +108,7 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
   return (
     <main className="bg-white min-h-screen text-[#002147]">
       {/* HERO — titolo categoria nella stessa grammatica del catalogo home */}
-      <section className="relative pt-[96px] md:pt-[112px] pb-10 md:pb-12">
+      <section className="relative pt-[88px] md:pt-[96px] pb-8 md:pb-10">
         <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
         <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
 
