@@ -45,22 +45,25 @@ export default function PreparaOrdinePage() {
   const categoryServices = services.filter(s => s.category === activeTab && s.isActive);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <main className="flex-grow max-w-7xl mx-auto px-4 md:px-8 pt-[96px] md:pt-[112px] pb-12">
         {/* Header */}
-        <section className="mb-12">
+        <section className="mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-[#002147] tracking-tight leading-tight mb-3" style={{ fontFamily: 'var(--font-headline)' }}>
+              <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+                Area professionisti
+              </div>
+              <h1 className="text-3xl md:text-4xl font-headline font-bold text-[#002147] tracking-tight leading-tight mb-3">
                 Prepara un ordine per il tuo cliente
               </h1>
-              <p className="text-base text-[#44474e]">
+              <p className="text-base text-on-surface-variant">
                 Seleziona i documenti necessari per la pratica. Scegli tra pacchetti pronti o componi l&apos;ordine con servizi singoli.
               </p>
             </div>
 
             {/* Progress Steps */}
-            <div className="flex items-center gap-3 bg-slate-100 p-4 rounded-xl">
+            <div className="flex items-center gap-3 bg-slate-100 p-4 rounded-[5px]">
               <div className="flex flex-col items-center">
                 <div className="w-8 h-8 rounded-full bg-[#4463ee] text-white flex items-center justify-center font-bold text-sm mb-1">1</div>
                 <span className="text-[0.625rem] font-bold uppercase tracking-tight text-[#002147]">Prepari il pacchetto</span>
@@ -87,7 +90,7 @@ export default function PreparaOrdinePage() {
 
               <Link
                 href="#packages"
-                className="flex items-center gap-3 px-4 py-3 bg-[#4463ee] text-white font-bold rounded-xl shadow-sm"
+                className="flex items-center gap-3 px-4 py-3 bg-[#4463ee] text-white font-bold rounded-[5px] shadow-sm"
               >
                 <span className="material-symbols-outlined text-xl">inventory_2</span>
                 <span className="text-sm">Pacchetti preconfezionati</span>
@@ -95,16 +98,16 @@ export default function PreparaOrdinePage() {
 
               <Link
                 href="#services"
-                className="flex items-center gap-3 px-4 py-3 text-[#44474e] hover:bg-slate-100 rounded-xl font-medium"
+                className="flex items-center gap-3 px-4 py-3 text-[#44474e] hover:bg-slate-100 rounded-[5px] font-medium"
               >
                 <span className="material-symbols-outlined text-xl">grid_view</span>
                 <span className="text-sm">Servizi singoli</span>
               </Link>
 
-              <div className="mt-12 p-6 bg-[#002147] rounded-2xl text-white">
+              <div className="mt-12 p-6 bg-[#002147] rounded-[5px] text-white">
                 <p className="font-bold text-base mb-2" style={{ fontFamily: 'var(--font-headline)' }}>Hai bisogno di aiuto?</p>
                 <p className="text-xs text-blue-200 mb-4">Un nostro esperto e pronto ad assisterti nella scelta.</p>
-                <button className="bg-white/10 hover:bg-white/20 w-full py-2 rounded-lg text-sm font-bold border border-white/20 transition-all">
+                <button className="bg-white/10 hover:bg-white/20 w-full py-2 rounded-[5px] text-sm font-bold border border-white/20 transition-all">
                   Contatta Supporto
                 </button>
               </div>
@@ -122,9 +125,9 @@ export default function PreparaOrdinePage() {
 
               <div className="space-y-3">
                 {packages.map(pkg => (
-                  <div key={pkg.id} className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between">
+                  <div key={pkg.id} className="bg-white border border-slate-200 rounded-[5px] p-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-[#002147]/5 flex items-center justify-center text-[#002147]">
+                      <div className="w-10 h-10 rounded-[5px] bg-[#002147]/5 flex items-center justify-center text-[#002147]">
                         <span className="material-symbols-outlined">description</span>
                       </div>
                       <div>
@@ -136,7 +139,7 @@ export default function PreparaOrdinePage() {
                       <span className="text-lg font-bold text-[#002147]">{formatPrice(pkg.price)}</span>
                       <button
                         onClick={() => handleAddPackage(pkg)}
-                        className="bg-[#002147] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#002147]/90 transition-colors"
+                        className="bg-[#002147] text-white px-4 py-2 rounded-[5px] text-xs font-bold hover:bg-[#002147]/90 transition-colors"
                       >
                         Aggiungi
                       </button>
@@ -170,7 +173,7 @@ export default function PreparaOrdinePage() {
               </div>
 
               {/* Services List */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50">
+              <div className="bg-white rounded-[5px] shadow-sm border border-slate-100 divide-y divide-slate-50">
                 {categoryServices.map(service => (
                   <div
                     key={service.id}
@@ -178,7 +181,7 @@ export default function PreparaOrdinePage() {
                       selectedServices.includes(service.id) ? 'bg-[#4463ee]/5' : 'hover:bg-slate-50'
                     }`}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-[#002147]/5 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-[5px] bg-[#002147]/5 flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-[#002147]">{service.categoryIcon}</span>
                     </div>
                     <div className="flex-1">
@@ -197,7 +200,7 @@ export default function PreparaOrdinePage() {
                     </div>
                     <button
                       onClick={() => handleToggleService(service.id)}
-                      className={`px-5 py-2 rounded-xl text-sm font-bold transition-all ${
+                      className={`px-5 py-2 rounded-[5px] text-sm font-bold transition-all ${
                         selectedServices.includes(service.id)
                           ? 'bg-[#002147] text-white'
                           : 'bg-white border border-[#002147]/10 text-[#002147] hover:bg-[#002147] hover:text-white'
@@ -248,7 +251,7 @@ export default function PreparaOrdinePage() {
               <button
                 onClick={handleContinue}
                 disabled={selectedServices.length === 0}
-                className="bg-[#4463ee] text-white px-10 py-4 rounded-2xl font-extrabold flex items-center gap-3 hover:brightness-110 transition-all shadow-xl shadow-[#4463ee]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#4463ee] text-white px-10 py-4 rounded-[5px] font-extrabold flex items-center gap-3 hover:brightness-110 transition-all shadow-xl shadow-[#4463ee]/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="text-lg">Continua all&apos;invio</span>
                 <span className="material-symbols-outlined">arrow_forward</span>

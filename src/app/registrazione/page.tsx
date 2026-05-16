@@ -124,20 +124,25 @@ export default function RegistrationPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <main className="flex-grow pt-16 pb-12 px-6">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <main className="flex-grow pt-[120px] pb-16 px-6">
         <div className="max-w-xl mx-auto">
 
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-extrabold text-[#002147] tracking-tight mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
-              Crea il tuo account
+          <div className="text-center mb-8">
+            <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+              Registrazione
+            </div>
+            <h1 className="text-3xl md:text-4xl font-headline font-bold text-[#002147] mb-3">
+              Crea il tuo account.
             </h1>
-            <p className="text-[#44474e]">Inizia oggi a utilizzare gli strumenti di Prospettiva.io.</p>
+            <p className="text-on-surface-variant text-sm">
+              Inizia oggi a utilizzare gli strumenti di Prospettiva.io.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg">
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3" style={{ borderRadius: '5px' }}>
                 {error}
               </div>
             )}
@@ -153,7 +158,8 @@ export default function RegistrationPage() {
                     key={opt.value}
                     type="button"
                     onClick={() => setAccountType(opt.value)}
-                    className={`relative flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-2.5 p-3 rounded-lg border transition-all min-w-0 ${
+                    style={{ borderRadius: '5px' }}
+                    className={`relative flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-2.5 p-3 border transition-all min-w-0 cursor-pointer ${
                       accountType === opt.value ? 'border-[#002147] bg-[#002147]/5' : 'border-slate-200 hover:border-[#002147]/30'
                     }`}
                   >
@@ -169,7 +175,7 @@ export default function RegistrationPage() {
             </section>
 
             {/* Dati Personali */}
-            <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+            <section className="bg-white border border-slate-300/80 p-6 space-y-5" style={{ borderRadius: '5px' }}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">1</div>
                 <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Personali</h3>
@@ -202,7 +208,7 @@ export default function RegistrationPage() {
 
             {/* Dati Professionali */}
             {accountType === 'professionista' && (
-              <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+              <section className="bg-white border border-slate-300/80 p-6 space-y-5" style={{ borderRadius: '5px' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Professionali</h3>
@@ -285,7 +291,7 @@ export default function RegistrationPage() {
 
             {/* Dati Aziendali (Impresa) */}
             {accountType === 'impresa' && (
-              <section className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
+              <section className="bg-white border border-slate-300/80 p-6 space-y-5" style={{ borderRadius: '5px' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 rounded-full bg-[#002147] text-white text-xs font-bold flex items-center justify-center">2</div>
                   <h3 className="text-lg font-bold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>Dati Aziendali</h3>
@@ -342,7 +348,7 @@ export default function RegistrationPage() {
             )}
 
             {/* Termini */}
-            <section className="bg-slate-50 rounded-xl p-6 space-y-4">
+            <section className="bg-slate-100 border border-slate-200 p-6 space-y-4" style={{ borderRadius: '5px' }}>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -372,7 +378,8 @@ export default function RegistrationPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#4463ee] text-white font-extrabold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg disabled:opacity-60"
+                style={{ borderRadius: '5px' }}
+                className="w-full bg-[#002147] text-white font-bold py-3.5 cursor-pointer hover:bg-[#4463EE] hover:shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed text-sm uppercase tracking-[0.18em]"
               >
                 {loading ? 'Creazione account…' : 'Crea il mio account'}
               </button>

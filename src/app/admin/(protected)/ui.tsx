@@ -2,13 +2,13 @@ import React from 'react';
 
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: React.ReactNode }) {
   return (
-    <header className="mb-6 flex items-end justify-between gap-4 flex-wrap">
+    <header className="mb-8 flex items-end justify-between gap-4 flex-wrap">
       <div>
-        <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold mb-1">Admin</p>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#002147]" style={{ fontFamily: 'var(--font-headline)' }}>
+        <p className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">Admin</p>
+        <h1 className="text-2xl md:text-3xl font-headline font-bold text-[#002147] leading-tight">
           {title}
         </h1>
-        {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+        {subtitle && <p className="text-sm text-on-surface-variant mt-2">{subtitle}</p>}
       </div>
       {action}
     </header>
@@ -32,7 +32,7 @@ export function Kpi({
     sky: 'text-sky-600',
   };
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
+    <div className="bg-white border border-slate-300/80 rounded-[5px] p-5">
       <div className="flex items-center justify-between mb-3">
         <p className="text-[0.625rem] uppercase tracking-widest text-slate-400 font-bold">{label}</p>
         {icon && <span className="material-symbols-outlined text-slate-300 text-lg">{icon}</span>}
@@ -47,7 +47,7 @@ export function Kpi({
 
 export function Card({ title, action, children }: { title?: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <section className="bg-white border border-slate-300/80 rounded-[5px] overflow-hidden">
       {(title || action) && (
         <header className="flex items-center justify-between gap-3 px-5 py-3 border-b border-slate-100">
           {title && <h2 className="text-sm font-extrabold text-[#002147] uppercase tracking-widest">{title}</h2>}

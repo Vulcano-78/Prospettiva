@@ -134,17 +134,20 @@ export default function CheckoutDataPage() {
   const needsDelegate = items.some(item => item.service.requiresDelegate);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
-      <div className="w-full pt-16 mb-4 md:mb-6">
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="w-full pt-[88px] mb-4 md:mb-6">
         <ProgressBar currentStep={2} />
       </div>
 
       <main className="flex-grow pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
         <header className="mb-8 md:mb-10 text-center">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#002147] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
-            Dati
+          <div className="text-[0.625rem] font-mono uppercase tracking-[0.22em] text-[#4463EE] mb-3">
+            02 · Dati
+          </div>
+          <h1 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-[#002147] mb-3">
+            Dati per fattura e consegna.
           </h1>
-          <p className="text-[#44474e] text-sm">
+          <p className="text-on-surface-variant text-sm md:text-base">
             Inserisci i dati di fatturazione e per la consegna dei documenti.
           </p>
         </header>
@@ -155,7 +158,7 @@ export default function CheckoutDataPage() {
             <form onSubmit={handleSubmit} id="dati-form" className="space-y-8">
 
               {/* Dati per la fatturazione */}
-              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+              <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">1</span>
                   {accountType === 'privato' ? 'Dati per il pagamento' : 'Dati per la fatturazione'}
@@ -170,7 +173,7 @@ export default function CheckoutDataPage() {
                       { value: 'professionista', label: 'Professionista', icon: 'work' },
                     ] as const).map(opt => (
                       <button key={opt.value} type="button" onClick={() => { setAccountType(opt.value); setPivaManuallyEdited(false); }}
-                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-lg transition-all text-xs font-bold ${
+                        className={`flex flex-col items-center justify-center gap-1.5 py-3 px-2 border rounded-[5px] transition-all text-xs font-bold ${
                           accountType === opt.value ? 'border-[#002147] bg-[#002147] text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}>
                         <span className="material-symbols-outlined text-base">{opt.icon}</span>
@@ -354,7 +357,7 @@ export default function CheckoutDataPage() {
               </section>
 
               {/* Dati per l'invio della documentazione */}
-              <section className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/50 shadow-sm">
+              <section className="bg-white border border-slate-300/80 p-6 md:p-8 rounded-[5px]">
                 <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                   <span className="w-6 h-6 rounded-full bg-[#002147] text-white text-xs flex items-center justify-center">2</span>
                   Dati per l&apos;invio della documentazione
@@ -394,17 +397,17 @@ export default function CheckoutDataPage() {
 
               {/* Delegate Section */}
               {needsDelegate && (
-                <section className="bg-white rounded-2xl p-6 md:p-8 border border-amber-200/50 shadow-sm">
+                <section className="bg-white rounded-[5px] p-6 md:p-8 border border-amber-200/50 shadow-sm">
                   <h2 className="text-lg font-bold text-[#002147] mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                     <span className="w-6 h-6 rounded-full bg-amber-500 text-white text-xs flex items-center justify-center">3</span>
                     Delega Proprietario
                   </h2>
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                  <div className="bg-amber-50 border border-amber-200 rounded-[5px] p-4 mb-6">
                     <p className="text-sm text-amber-900">
                       <strong>Attenzione:</strong> Per richiedere planimetrie e altri documenti riservati e necessaria una delega firmata dal proprietario dell&apos;immobile.
                     </p>
                   </div>
-                  <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-[#4463ee] transition-colors cursor-pointer">
+                  <div className="border-2 border-dashed border-slate-200 rounded-[5px] p-8 text-center hover:border-[#4463ee] transition-colors cursor-pointer">
                     <span className="material-symbols-outlined text-5xl text-slate-300 mb-3">upload_file</span>
                     <p className="text-sm font-medium text-[#002147]">Carica il documento di delega</p>
                     <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (max 10MB)</p>
@@ -416,11 +419,11 @@ export default function CheckoutDataPage() {
 
             {/* Actions */}
             <div className="mt-6 flex items-center gap-3">
-              <button type="button" onClick={() => router.push('/carrello')} className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-6 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm">
+              <button type="button" onClick={() => router.push('/carrello')} className="bg-white border border-slate-200 text-[#002147] font-medium py-3 px-6 rounded-[5px] hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm">
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                 Torna al carrello
               </button>
-              <button type="submit" form="dati-form" className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
+              <button type="submit" form="dati-form" className="flex-1 bg-[#4463ee] text-white font-bold py-3 rounded-[5px] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm">
                 <span>Continua</span>
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </button>
@@ -429,7 +432,7 @@ export default function CheckoutDataPage() {
 
           {/* Right: Order Summary */}
           <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-3">
-            <section className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-sm">
+            <section className="bg-white rounded-[5px] p-6 border border-slate-200/50 shadow-sm">
               <h2 className="text-lg font-bold text-[#002147] mb-5 flex items-center gap-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 <span className="material-symbols-outlined text-[#4463ee]">receipt_long</span>
                 Riepilogo

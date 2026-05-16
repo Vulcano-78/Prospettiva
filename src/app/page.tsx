@@ -1,508 +1,579 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { services } from '@/data/services';
 import SuggestionForm from '@/components/SuggestionForm';
 import NotifyMeInline from '@/components/NotifyMeInline';
+import HeaderLab from '@/components/HeaderLab';
+import ServiceDetailSheet from '@/components/ServiceDetailSheet';
 
 export default function HomePage() {
   const router = useRouter();
-  const { addItem, itemCount } = useCart();
-
-  useEffect(() => {
-    if (window.location.hash) {
-      history.replaceState(null, '', window.location.pathname);
-      window.scrollTo(0, 0);
-    }
-  }, []);
-
-  const getService = (slug: string) => services.find(s => s.slug === slug);
+  const { addItem } = useCart();
+  const [detailSlug, setDetailSlug] = useState<string | null>(null);
+  const detailService = detailSlug ? services.find(x => x.slug === detailSlug) ?? null : null;
 
   const handleAddToCart = (slug: string) => {
-    const service = getService(slug);
-    if (service) addItem(service);
+    const s = services.find(x => x.slug === slug);
+    if (s) addItem(s);
   };
-
   const handleBuyNow = (slug: string) => {
-    const service = getService(slug);
-    if (service) addItem(service);
+    handleAddToCart(slug);
     router.push('/carrello');
   };
+  const handleShowDetails = (slug: string) => setDetailSlug(slug);
+  const rail = 'absolute top-0 bottom-0 w-px bg-slate-200/80 pointer-events-none';
+  const hline = 'absolute left-0 right-0 h-px bg-slate-200/80 pointer-events-none';
 
   return (
     <>
-      {/* Hero */}
-      <header className="hero-gradient pt-24 md:pt-40 pb-10 md:pb-28 px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 text-left">
-            <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.1]">
-              <span className="text-[#002147]">L&apos;immobiliare,</span><br />
+      <HeaderLab />
+      <main className="bg-white text-[#002147]">
+      {/* ===========================================================
+          HERO con cornice a griglia (stile Stripe, interpretato)
+          pt include l'altezza dell'header fisso (72px).
+      =========================================================== */}
+      <section className="relative pt-32 md:pt-40 pb-20 md:pb-28">
+        {/* Rails verticali — su desktop appaiono come margini laterali della pagina */}
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        {/* Linea orizzontale sotto l'hero */}
+        <div className={hline} style={{ bottom: 0 }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
+          <div className="lg:col-span-7">
+            {/* Eyebrow tecnico — etichetta in font mono come marker della griglia */}
+            <div className="flex items-center gap-3 mb-6 text-[0.625rem] font-mono uppercase tracking-[0.2em] text-slate-500">
+              <span className="w-6 h-px bg-[#4463EE]" />
+              Catasto · Conservatoria · Urbanistica
+            </div>
+
+            <h1 className="text-4xl md:text-5xl xl:text-6xl mb-6 leading-[1.05] font-headline">
+              <span className="text-[#002147]">L&apos;immobiliare,</span>
+              <br />
               <span className="text-[#4463EE]">senza burocrazia.</span>
             </h1>
-            <p className="text-on-surface-variant text-base md:text-xl mb-6 md:mb-10 max-w-xl font-body">
+            <p className="text-on-surface-variant text-base md:text-xl mb-10 max-w-xl">
               Documenti ufficiali, verifiche ipotecarie e strumenti AI. Tutto automatizzato, tutto in un posto solo.
             </p>
 
-            {/* Mobile hero image */}
-            <div className="lg:hidden mb-6">
-              <div className="glass-code-box flex flex-col overflow-hidden text-[0.625rem]">
-                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/20 bg-white/30">
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
-                  </div>
-                  <span className="ml-auto text-[0.5rem] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847</span>
-                </div>
-                <div className="p-4 font-mono leading-relaxed text-slate-700 overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="text-slate-400 border-b border-slate-200/50">
-                        <th className="text-left py-1.5 font-medium">SERVIZIO</th>
-                        <th className="text-left py-1.5 font-medium">STATO</th>
-                        <th className="text-right py-1.5 font-medium">TEMPO</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100/50">
-                      <tr>
-                        <td className="py-2 pr-3">Visura Catastale</td>
-                        <td className="py-2 text-emerald-600">✓ completata</td>
-                        <td className="py-2 text-right text-slate-400">2m 14s</td>
-                      </tr>
-                      <tr>
-                        <td className="py-2 pr-3">Verifica Ipotecaria</td>
-                        <td className="py-2 text-emerald-600">✓ completata</td>
-                        <td className="py-2 text-right text-slate-400">4m 02s</td>
-                      </tr>
-                      <tr className="bg-[#EEF1FD]">
-                        <td className="py-2 px-1.5 pr-3 font-semibold flex items-center gap-1.5">
-                          <span className="material-symbols-outlined text-secondary text-sm">auto_awesome</span>
-                          Virtual Staging AI
-                        </td>
-                        <td className="py-2 text-[#4463EE] animate-pulse">⟳ in corso...</td>
-                        <td className="py-2 text-right text-slate-400">—</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#catalog" className="bg-secondary text-white px-6 py-3 text-base font-medium hover:bg-primary-container transition-all flex items-center justify-center" style={{ borderRadius: '6px' }}>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/#catalog"
+                className="bg-[#4463EE] text-white px-6 py-3 text-base font-medium hover:brightness-110 transition flex items-center justify-center"
+                style={{ borderRadius: '5px' }}
+              >
                 Esplora i servizi <span className="ml-2">→</span>
-              </a>
-              <Link href="/registrazione" className="bg-white border border-outline-variant text-primary-container px-6 py-3 text-base font-medium hover:bg-surface-container-low transition-all text-center" style={{ borderRadius: '6px' }}>
+              </Link>
+              <Link
+                href="/registrazione"
+                className="bg-white border border-slate-300 text-[#002147] px-6 py-3 text-base font-medium hover:bg-slate-50 transition text-center"
+                style={{ borderRadius: '5px' }}
+              >
                 Crea account
               </Link>
             </div>
           </div>
+
+          {/* Lato destro — "scheda pratica" tecnica, integrata nella griglia.
+              Nessuna chrome di finestra, nessun effetto vetro. Sembra un
+              estratto di documento, in linea con le linee della pagina. */}
           <div className="lg:col-span-5 hidden lg:block">
-            <div className="glass-code-box flex flex-col overflow-hidden">
-              <div className="flex items-center gap-1.5 px-6 py-4 border-b border-white/20 bg-white/30">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+            <div className="border border-slate-300/80 bg-white">
+              {/* Intestazione tipo "scheda" */}
+              <div className="px-6 py-4 border-b border-slate-300/80 flex items-baseline justify-between">
+                <div className="flex flex-col">
+                  <span className="text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400">
+                    Scheda pratica
+                  </span>
+                  <span className="text-sm font-headline text-[#002147] mt-0.5">
+                    Nº 2847 · Milano, Via Brera 14
+                  </span>
                 </div>
-                <span className="ml-auto text-[0.625rem] font-mono text-slate-500 uppercase tracking-tight font-semibold">prospettiva.io — pratica #2847 — Milano, Via Brera 14</span>
+                <span className="flex items-center gap-1.5 text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-[#4463EE]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4463EE] animate-pulse" />
+                  live
+                </span>
               </div>
-              <div className="p-6 font-mono text-[0.6875rem] leading-relaxed text-slate-700 overflow-x-auto">
-                <table className="w-full">
+
+              {/* Corpo — tabella senza decorazioni superflue */}
+              <div className="px-6 py-5">
+                <table className="w-full text-[0.8125rem]">
                   <thead>
-                    <tr className="text-slate-400 border-b border-slate-200/50">
-                      <th className="text-left py-2 font-medium">SERVIZIO</th>
-                      <th className="text-left py-2 font-medium">STATO</th>
-                      <th className="text-right py-2 font-medium">TEMPO</th>
+                    <tr className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 border-b border-slate-200">
+                      <th className="text-left py-2 font-medium w-8">#</th>
+                      <th className="text-left py-2 font-medium">Servizio</th>
+                      <th className="text-left py-2 font-medium">Stato</th>
+                      <th className="text-right py-2 font-medium">Tempo</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100/50">
+                  <tbody className="divide-y divide-slate-100">
                     <tr>
-                      <td className="py-3 pr-4">Visura Catastale</td>
-                      <td className="py-3 text-emerald-600">✓ completata</td>
-                      <td className="py-3 text-right text-slate-400">2 min 14s</td>
+                      <td className="py-3 font-mono text-[0.625rem] text-slate-400">01</td>
+                      <td className="py-3 pr-3 text-[#002147]">Visura Catastale</td>
+                      <td className="py-3 text-emerald-600 text-xs">✓ completata</td>
+                      <td className="py-3 text-right text-slate-400 font-mono text-xs">2m 14s</td>
                     </tr>
                     <tr>
-                      <td className="py-3 pr-4">Verifica Ipotecaria</td>
-                      <td className="py-3 text-emerald-600">✓ completata</td>
-                      <td className="py-3 text-right text-slate-400">4 min 02s</td>
+                      <td className="py-3 font-mono text-[0.625rem] text-slate-400">02</td>
+                      <td className="py-3 pr-3 text-[#002147]">Verifica Ipotecaria</td>
+                      <td className="py-3 text-emerald-600 text-xs">✓ completata</td>
+                      <td className="py-3 text-right text-slate-400 font-mono text-xs">4m 02s</td>
                     </tr>
                     <tr>
-                      <td className="py-3 pr-4">Estratto di Mappa</td>
-                      <td className="py-3 text-emerald-600">✓ completata</td>
-                      <td className="py-3 text-right text-slate-400">1 min 38s</td>
-                    </tr>
-                    <tr className="bg-[#EEF1FD]">
-                      <td className="py-3 px-2 pr-4 font-semibold flex items-center gap-2">
-                        <span className="material-symbols-outlined text-secondary text-base">auto_awesome</span>
-                        Virtual Staging AI
-                      </td>
-                      <td className="py-3 text-[#4463EE] animate-pulse">⟳ in corso...</td>
-                      <td className="py-3 text-right text-slate-400">—</td>
+                      <td className="py-3 font-mono text-[0.625rem] text-slate-400">03</td>
+                      <td className="py-3 pr-3 text-[#002147] font-medium">Virtual Staging AI</td>
+                      <td className="py-3 text-[#4463EE] text-xs">⟳ in corso…</td>
+                      <td className="py-3 text-right text-slate-400 font-mono text-xs">—</td>
                     </tr>
                     <tr>
-                      <td className="py-3 pr-4">Certificato Urbanistico</td>
-                      <td className="py-3 text-slate-400">◌ in coda</td>
-                      <td className="py-3 text-right text-slate-400">—</td>
+                      <td className="py-3 font-mono text-[0.625rem] text-slate-400">04</td>
+                      <td className="py-3 pr-3 text-slate-400">Certificato Urbanistico</td>
+                      <td className="py-3 text-slate-400 text-xs">◌ in coda</td>
+                      <td className="py-3 text-right text-slate-400 font-mono text-xs">—</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div className="bg-white/40 backdrop-blur-md px-6 py-3 flex justify-between items-center border-t border-white/20">
-                <span className="text-slate-500 text-[0.625rem] font-mono tracking-wider">3 / 5 pratiche evase</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#4463EE]"></div>
-                  <span className="text-[#4463EE] text-[0.625rem] font-mono uppercase font-bold">● live</span>
-                </div>
+
+              {/* Piè di scheda — barra di stato segmentata + protocollo */}
+              <div className="px-6 py-3 border-t border-slate-300/80 flex justify-between items-center text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400">
+                <span className="flex items-center gap-2">
+                  <span className="flex gap-1">
+                    <span className="block w-5 h-0.5 bg-emerald-500" />
+                    <span className="block w-5 h-0.5 bg-emerald-500" />
+                    <span className="block w-5 h-0.5 bg-[#4463EE]" />
+                    <span className="block w-5 h-0.5 bg-slate-200" />
+                  </span>
+                  2 / 4 evase
+                </span>
+                <span>Prot. 2026/05/13</span>
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Rapid Procurement Dashboard */}
-      <section id="catalog" className="bg-white">
-      <div className="pt-2 md:pt-16 pb-16 px-8 max-w-7xl mx-auto">
-        <div className="text-left md:text-center mb-14">
-          <h2 className="text-4xl md:text-5xl text-[#002147] mb-4 leading-[1.1] md:leading-tight">Scegli il servizio. <span className="text-[#4463EE]">Noi facciamo il resto.</span></h2>
-          <p className="text-on-surface-variant text-base md:text-lg font-normal max-w-2xl md:mx-auto" style={{ fontFamily: 'var(--font-body)' }}>
-            Ogni documento che ti serve per una compravendita, un&apos;istruttoria o una perizia. Online, ufficiale, immediato.
+      {/* ===========================================================
+          RIPROVA SOCIALE — banda unica con i brand in evidenza.
+          Una riga sola: micro-claim sopra, loghi in fila sotto.
+      =========================================================== */}
+      <section className="relative bg-white border-y border-slate-200/80">
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 relative">
+          <p className="text-center text-[0.6875rem] font-mono uppercase tracking-[0.22em] text-slate-500 mb-8 md:mb-10">
+            Fonti ufficiali · Infrastruttura · Pagamenti sicuri
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-10 md:gap-x-14 lg:gap-x-20 gap-y-6 text-slate-600">
+            {/* Agenzia delle Entrate */}
+            <span className="inline-flex flex-col items-center leading-none">
+              <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
+                Dati ufficiali
+              </span>
+              <span className="text-[1.0625rem] font-headline font-bold text-[#002147] tracking-tight">
+                Agenzia delle Entrate
+              </span>
+            </span>
+
+            {/* Conservatoria */}
+            <span className="inline-flex flex-col items-center leading-none">
+              <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
+                Registri
+              </span>
+              <span className="text-[1.0625rem] font-headline font-bold text-[#002147] tracking-tight">
+                Conservatoria
+              </span>
+            </span>
+
+            {/* Stripe */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/stripe.png" alt="Stripe" className="h-8 w-auto" />
+
+            {/* Supabase */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/supabase.svg" alt="Supabase" className="h-9 w-auto" />
+
+
+            {/* Vercel */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/vercel.png" alt="Vercel" className="h-6 w-auto" />
+          </div>
+
+          <p className="text-center text-[0.75rem] text-slate-500 mt-8 md:mt-10 max-w-2xl mx-auto">
+            Documenti rilasciati dagli enti ufficiali. Pagamenti, hosting e dati su infrastruttura europea conforme al GDPR.
           </p>
         </div>
-        <div className="relative">
-        <div className="absolute inset-0 -mb-16 -mx-8 md:mx-0" style={{ background: 'linear-gradient(180deg, transparent 0%, #eef0ff40 15%, #eef0ff60 50%, #eef0ff40 85%, transparent 100%)' }}></div>
+      </section>
 
-        {/* Mobile cards */}
-        <div className="md:hidden relative grid grid-cols-1 gap-4">
-          {[
-            { href: '/catalogo/documenti-catastali', icon: 'description', title: 'Catasto', desc: 'Visure e planimetrie ufficiali in tempo reale.', tag: 'Documenti ufficiali', cta: 'Esplora' },
-            { href: '/catalogo/verifiche-ipotecarie', icon: 'account_balance', title: 'Conservatoria', desc: 'Analisi gravami e trascrizioni pregiudizievoli.', tag: 'Verifiche ipotecarie', cta: 'Esplora' },
-            { href: '/coming-soon/urbanistica', icon: 'architecture', title: 'Urbanistica', desc: 'Conformità e titoli abilitativi comunali.', tag: 'Coming Soon', cta: 'Avvisami', comingSoon: true },
-            { href: '/catalogo/utility-gratuite', icon: 'construction', title: 'Utility Gratuite', desc: 'Strumenti per l’attività quotidiana.', tag: 'Tool gratuiti', cta: 'Esplora' },
-          ].map(c => (
-            <Link key={c.href} href={c.href} className="group relative block bg-white border border-slate-200 hover:border-secondary/40 hover:shadow-xl shadow-sm transition-all duration-300 overflow-hidden">
-              <span className="material-symbols-outlined absolute -bottom-6 -right-4 text-primary-container/[0.04] pointer-events-none select-none group-hover:text-secondary/[0.08] transition-colors" style={{ fontSize: '160px' }}>{c.icon}</span>
-              <div className="relative p-5 flex items-start gap-4">
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-secondary/15 to-primary-container/5 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-secondary" style={{ fontSize: '30px' }}>{c.icon}</span>
+      {/* ===========================================================
+          CATALOGO — 4 schede servizio, stesso linguaggio dell'hero
+      =========================================================== */}
+      <section id="catalog" className="relative bg-white">
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-20 md:pb-28 relative">
+          <div className={hline} style={{ bottom: 0 }} />
+
+          {/* Intestazione sezione */}
+          <div className="max-w-2xl mb-6 md:mb-8">
+            <div className="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-[#4463EE] mb-3">
+              03 · Catalogo
+            </div>
+            <h2 className="text-3xl md:text-4xl font-headline leading-[1.1] text-[#002147] mb-4">
+              Scegli il servizio.{' '}
+              <span className="text-[#4463EE]">Noi facciamo il resto.</span>
+            </h2>
+            <p className="text-on-surface-variant text-base md:text-lg">
+              Ogni documento che serve per una compravendita, un&apos;istruttoria o una perizia.
+              Online, ufficiale, immediato.
+            </p>
+          </div>
+
+          {/* Griglia 2×2 di schede servizio */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* 01 Catasto */}
+            <CategoryCard
+              num="01"
+              title="Catasto"
+              desc="Visure e planimetrie ufficiali in tempo reale."
+              href="/catalogo/documenti-catastali"
+              rows={[
+                { name: 'Visura Catastale', desc: 'Per immobile o soggetto', price: '€5.90', slug: 'visura-catastale' },
+                { name: 'Visura Catastale Storica', desc: 'Tutte le variazioni nel tempo', price: '€8.90', slug: 'visura-catastale-storica' },
+              ]}
+              onAdd={handleAddToCart}
+              onBuy={handleBuyNow}
+              onShowDetails={handleShowDetails}
+            />
+
+            {/* 02 Conservatoria */}
+            <CategoryCard
+              num="02"
+              title="Conservatoria"
+              desc="Analisi gravami e trascrizioni pregiudizievoli."
+              href="/catalogo/verifiche-ipotecarie"
+              rows={[
+                { name: 'Ispezione Ipotecaria', desc: 'Formalità per soggetto o immobile', price: '€29.90', slug: 'ispezione-ipotecaria' },
+                { name: 'Ispezione Nazionale', desc: 'Formalità a livello nazionale', price: '€36.90', slug: 'ispezione-ipotecaria-nazionale' },
+              ]}
+              onAdd={handleAddToCart}
+              onBuy={handleBuyNow}
+              onShowDetails={handleShowDetails}
+            />
+
+            {/* 03 Urbanistica — coming soon */}
+            <div className="border border-slate-300/80 bg-white p-6 flex flex-col">
+              <div className="flex items-baseline justify-between mb-4">
+                <div>
+                  <div className="text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400 mb-1">
+                    Categoria 03
+                  </div>
+                  <h3 className="text-xl font-headline text-[#002147]">Urbanistica</h3>
+                  <p className="text-xs text-on-surface-variant mt-1">
+                    Conformità e titoli abilitativi comunali.
+                  </p>
                 </div>
-                <div className="flex-grow min-w-0 pt-0.5">
-                  <h3 className="text-lg font-bold text-primary-container leading-tight mb-1">{c.title}</h3>
-                  <p className="text-xs text-on-surface-variant leading-snug">{c.desc}</p>
-                </div>
-              </div>
-              <div className="relative px-5 py-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between">
-                {c.comingSoon ? (
-                  <span className="bg-secondary/10 text-secondary text-[0.625rem] font-bold tracking-widest px-2 py-0.5 uppercase">{c.tag}</span>
-                ) : (
-                  <span className="text-[0.625rem] text-on-surface-variant uppercase tracking-widest font-bold">{c.tag}</span>
-                )}
-                <span className="flex items-center gap-1 text-secondary text-[0.6875rem] font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                  {c.cta} <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_forward</span>
+                <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-[#4463EE] border border-[#4463EE]/30 px-2 py-1">
+                  Coming Soon
                 </span>
               </div>
-            </Link>
+              <div className="flex-grow flex flex-col items-start justify-center py-8 border-t border-slate-100">
+                <p className="text-sm text-on-surface-variant max-w-md mb-6">
+                  Stiamo lavorando ai servizi di urbanistica: accesso agli atti, certificati di
+                  destinazione urbanistica e altre pratiche comunali.
+                </p>
+                <Link
+                  href="/coming-soon/urbanistica"
+                  className="inline-flex items-center gap-2 text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] hover:gap-3 transition-all"
+                >
+                  Avvisami quando disponibile →
+                </Link>
+              </div>
+            </div>
+
+            {/* 04 Utility Gratuite */}
+            <div className="border border-slate-300/80 bg-white p-6 flex flex-col">
+              <div className="flex items-baseline justify-between mb-4">
+                <div>
+                  <div className="text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400 mb-1">
+                    Categoria 04
+                  </div>
+                  <h3 className="text-xl font-headline text-[#002147]">Utility Gratuite</h3>
+                  <p className="text-xs text-on-surface-variant mt-1">
+                    Strumenti per l&apos;attività quotidiana.
+                  </p>
+                </div>
+                <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-emerald-600 border border-emerald-600/30 px-2 py-1">
+                  Gratis
+                </span>
+              </div>
+              <div className="flex flex-col divide-y divide-slate-100 border-t border-slate-100">
+                <Link
+                  href="/utility/conto-economico"
+                  className="flex items-center justify-between py-3 group"
+                >
+                  <div>
+                    <div className="text-sm font-medium text-[#002147]">Conto Economico</div>
+                    <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                      Costi · Ricavi · ROI
+                    </div>
+                  </div>
+                  <span className="text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
+                    Calcola →
+                  </span>
+                </Link>
+                <Link
+                  href="/utility/calcolatore-costi-compravendita"
+                  className="flex items-center justify-between py-3 group"
+                >
+                  <div>
+                    <div className="text-sm font-medium text-[#002147]">Costi Compravendita</div>
+                    <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                      Imposte · IVA · Registro
+                    </div>
+                  </div>
+                  <span className="text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
+                    Calcola →
+                  </span>
+                </Link>
+              </div>
+              <div className="pt-4 mt-auto text-center border-t border-slate-100">
+                <Link
+                  href="/catalogo/utility-gratuite"
+                  className="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-[#4463EE]"
+                >
+                  Vedi tutte le utility →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===========================================================
+          STRUMENTI AI — sezione "altra Prospettiva".
+          Rompe la grammatica geometrica del resto della pagina.
+          Niente rails, niente bordi. Navy full-bleed + aurora.
+      =========================================================== */}
+      <section className="relative overflow-hidden bg-[#001229] text-white">
+        {/* Aurora — tre blob radiali, lentissimi, fanno da "anima" */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute -top-[20%] -left-[15%] w-[70%] h-[80%] rounded-full blur-3xl opacity-70"
+            style={{
+              background:
+                'radial-gradient(circle at center, rgba(68,99,238,0.55) 0%, rgba(68,99,238,0) 65%)',
+            }}
+          />
+          <div
+            className="absolute top-[10%] -right-[20%] w-[75%] h-[90%] rounded-full blur-3xl opacity-60"
+            style={{
+              background:
+                'radial-gradient(circle at center, rgba(167,139,250,0.45) 0%, rgba(167,139,250,0) 65%)',
+            }}
+          />
+          <div
+            className="absolute -bottom-[25%] left-[20%] w-[65%] h-[70%] rounded-full blur-3xl opacity-50"
+            style={{
+              background:
+                'radial-gradient(circle at center, rgba(34,211,238,0.40) 0%, rgba(34,211,238,0) 65%)',
+            }}
+          />
+        </div>
+
+        {/* Linea sottilissima in alto per uscire dalla sezione precedente senza cesura brusca */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-white/10" />
+
+        <div className="relative max-w-5xl mx-auto px-6 md:px-12 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-center">
+          {/* Colonna testo — asimmetrica, niente center */}
+          <div className="md:col-span-8">
+            <p className="text-[0.6875rem] uppercase tracking-[0.4em] text-white/45 mb-4">
+              04 · Strumenti AI
+            </p>
+            <h2 className="font-headline text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.15] tracking-tight mb-4">
+              <span className="text-white/85">Dove finisce la burocrazia, </span>
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(110deg, #C7D2FE 0%, #DDD6FE 30%, #A5F3FC 70%, #C7D2FE 100%)',
+                }}
+              >
+                comincia il racconto.
+              </span>
+            </h2>
+            <p className="text-sm md:text-base text-white/65 max-w-xl leading-relaxed">
+              Virtual staging, descrizioni che vendono, render fotorealistici.
+              Lo studio creativo che parte dove i documenti si fermano.
+            </p>
+          </div>
+
+          {/* Colonna CTA */}
+          <div className="md:col-span-4 flex md:justify-end">
+            <div className="flex flex-col md:items-end gap-2">
+              <NotifyMeInline slug="virtual-staging" />
+              <p className="text-[0.625rem] uppercase tracking-[0.25em] text-white/35">
+                In arrivo · Beta a posti limitati
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===========================================================
+          CTA FINALE
+      =========================================================== */}
+      <section className="relative bg-slate-50">
+        <div className={rail} style={{ left: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+        <div className={rail} style={{ right: 'max(1.5rem, calc((100% - 80rem) / 2))' }} />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-28 relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-[#4463EE] mb-3">
+              05 · Inizia
+            </div>
+            <h2 className="text-3xl md:text-5xl font-headline leading-[1.1] text-[#002147] mb-5">
+              Non è un servizio.{' '}
+              <span className="text-[#4463EE]">È un nuovo modo di lavorare.</span>
+            </h2>
+            <p className="text-on-surface-variant text-base md:text-lg mb-10">
+              Documenti, marketing AI, strumenti professionali — in un&apos;unica piattaforma
+              costruita per chi lavora ogni giorno nell&apos;immobiliare. Siamo agli inizi, e la
+              strada è già tracciata.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/registrazione"
+                className="bg-[#4463EE] text-white px-8 py-3 text-sm font-bold uppercase tracking-[0.18em] hover:brightness-110 transition"
+                style={{ borderRadius: '5px' }}
+              >
+                Registrati gratis →
+              </Link>
+              <a
+                href="#catalog"
+                className="bg-white border border-slate-300 text-[#002147] px-8 py-3 text-sm font-bold uppercase tracking-[0.18em] hover:bg-slate-100 transition"
+                style={{ borderRadius: '5px' }}
+              >
+                Esplora il catalogo →
+              </a>
+            </div>
+            <div className="mt-14 pt-10 border-t border-slate-200">
+              <SuggestionForm />
+            </div>
+          </div>
+        </div>
+      </section>
+      </main>
+      <ServiceDetailSheet service={detailService} onClose={() => setDetailSlug(null)} />
+    </>
+  );
+}
+
+/* ============================================================
+   Scheda servizio — usata per Catasto e Conservatoria
+============================================================ */
+type Row = { name: string; desc: string; price: string; slug: string };
+
+function CategoryCard({
+  num,
+  title,
+  desc,
+  href,
+  rows,
+  onAdd,
+  onBuy,
+  onShowDetails,
+}: {
+  num: string;
+  title: string;
+  desc: string;
+  href: string;
+  rows: Row[];
+  onAdd: (slug: string) => void;
+  onBuy: (slug: string) => void;
+  onShowDetails: (slug: string) => void;
+}) {
+  return (
+    <div className="border border-slate-300/80 bg-white flex flex-col">
+      <div className="px-6 py-4 border-b border-slate-300/80">
+        <div className="text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400 mb-1">
+          Categoria {num}
+        </div>
+        <h3 className="text-xl font-headline text-[#002147]">{title}</h3>
+        <p className="text-xs text-on-surface-variant mt-1">{desc}</p>
+      </div>
+      <div className="flex-grow px-6">
+        {/* Intestazione colonne — dà l'ordine "Servizio · Prezzo · Azioni" */}
+        <div className="grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-3 border-b border-slate-200 text-[0.5625rem] font-mono uppercase tracking-[0.22em] text-slate-400">
+          <span>Servizio</span>
+          <span className="text-right">Prezzo</span>
+          <span />
+          <span className="text-right">Azioni</span>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {rows.map(r => (
+            <div
+              key={r.slug}
+              className="grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-4"
+            >
+              <div className="min-w-0">
+                <div className="text-sm font-medium text-[#002147]">{r.name}</div>
+                <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                  {r.desc}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-semibold text-[#002147] leading-none">{r.price}</div>
+                <div className="text-[0.5rem] font-mono uppercase tracking-wider text-slate-400 mt-1">
+                  escl. IVA
+                </div>
+              </div>
+              <span aria-hidden />
+              <div className="flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => onShowDetails(r.slug)}
+                  aria-label={`Dettagli ${r.name}`}
+                  className="text-slate-400 hover:text-[#002147] hover:underline underline-offset-4 cursor-pointer text-[0.5625rem] font-mono uppercase tracking-[0.18em] transition-colors"
+                >
+                  Dettagli
+                </button>
+                <button
+                  onClick={() => onAdd(r.slug)}
+                  aria-label="Aggiungi al carrello"
+                  className="h-8 w-11 border border-slate-300 text-slate-500 flex items-center justify-center cursor-pointer hover:bg-slate-100 hover:border-[#002147] hover:text-[#002147] transition flex-shrink-0"
+                  style={{ borderRadius: '5px' }}
+                >
+                  <span className="material-symbols-outlined text-[0.75rem]">add_shopping_cart</span>
+                </button>
+                <button
+                  onClick={() => onBuy(r.slug)}
+                  className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex-shrink-0"
+                  style={{ borderRadius: '5px' }}
+                >
+                  Acquista
+                </button>
+              </div>
+            </div>
           ))}
         </div>
-
-        <div className="relative hidden md:grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 01 - Documenti Catastali */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <div>
-                <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">description</span> Catasto
-                </h3>
-                <p className="text-xs text-on-surface-variant">Visure e planimetrie ufficiali in tempo reale.</p>
-              </div>
-            </div>
-            <div className="flex-grow overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
-                    <th className="py-2 font-bold">Servizio</th>
-                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-2 font-bold text-right">Azioni</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Visura Catastale</div>
-                      <div className="text-[0.625rem] text-on-surface-variant">Per immobile o soggetto</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€5.90</span>
-                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button><button onClick={() => handleAddToCart('visura-catastale')} aria-label="Aggiungi al carrello" className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </button>
-                        <button onClick={() => handleBuyNow('visura-catastale')} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Visura Catastale Storica</div>
-                      <div className="text-[0.625rem] text-on-surface-variant">Tutte le variazioni catastali nel tempo</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€8.90</span>
-                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button><button onClick={() => handleAddToCart('visura-catastale-storica')} aria-label="Aggiungi al carrello" className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </button>
-                        <button onClick={() => handleBuyNow('visura-catastale-storica')} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="pt-6 text-center">
-              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/documenti-catastali">
-                VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* 02 - Verifiche Ipotecarie */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <div>
-                <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">account_balance</span> Conservatoria
-                </h3>
-                <p className="text-xs text-on-surface-variant">Analisi gravami e trascrizioni pregiudizievoli.</p>
-              </div>
-            </div>
-            <div className="flex-grow overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider border-b border-slate-200">
-                    <th className="py-2 font-bold">Servizio</th>
-                    <th className="py-2 font-bold text-right pr-4">Prezzo</th>
-                    <th className="py-2 font-bold text-right">Azioni</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria</div>
-                      <div className="text-[0.625rem] text-on-surface-variant">Formalità ipotecarie per soggetto o immobile</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€29.90</span>
-                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button><button onClick={() => handleAddToCart('ispezione-ipotecaria')} aria-label="Aggiungi al carrello" className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </button>
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria')} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="group hover:bg-white transition-colors">
-                    <td className="py-4">
-                      <div className="text-sm font-bold text-primary-container">Ispezione Ipotecaria Nazionale</div>
-                      <div className="text-[0.625rem] text-on-surface-variant">Formalità a livello nazionale su un determinato soggetto</div>
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <span className="text-xs font-semibold text-primary-container">€36.90</span>
-                      <span className="text-[0.5rem] text-on-surface-variant/60 block">escl. IVA</span>
-                    </td>
-                    <td className="py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button type="button" className="text-slate-400 hover:text-slate-700 text-[0.625rem] uppercase tracking-wide transition-colors mr-1 cursor-pointer">Dettagli</button><button onClick={() => handleAddToCart('ispezione-ipotecaria-nazionale')} aria-label="Aggiungi al carrello" className="h-8 w-12 bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 rounded-md cursor-pointer transition-colors">
-                          <span className="material-symbols-outlined !text-lg" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20" }}>add_shopping_cart</span>
-                        </button>
-                        <button onClick={() => handleBuyNow('ispezione-ipotecaria-nazionale')} className="bg-[#002147] text-white text-[0.625rem] font-bold h-8 px-3 hover:brightness-110 uppercase flex items-center cursor-pointer rounded-md transition-all">Acquista</button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="pt-6 text-center">
-              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/verifiche-ipotecarie">
-                VISUALIZZA TUTTI <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* 03 - Urbanistica */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-white relative overflow-hidden">
-            <span className="material-symbols-outlined absolute -bottom-8 -right-6 text-primary-container/[0.04] pointer-events-none select-none" style={{ fontSize: '220px' }}>architecture</span>
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 relative">
-                            <div>
-                <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">architecture</span> Urbanistica
-                </h3>
-                <p className="text-xs text-on-surface-variant">Conformità e titoli abilitativi comunali.</p>
-              </div>
-            </div>
-            <div className="flex-grow flex flex-col items-center justify-center text-center py-10 relative">
-              <span className="inline-block bg-secondary/10 text-secondary text-[0.625rem] font-bold tracking-widest px-3 py-1 mb-4 uppercase">Coming Soon</span>
-              <p className="text-sm text-on-surface-variant max-w-xs mb-6">
-                Stiamo lavorando ai servizi di urbanistica: accesso agli atti, certificati di destinazione urbanistica e altre pratiche comunali.
-              </p>
-              <Link href="/coming-soon/urbanistica" className="inline-flex items-center gap-1 text-secondary text-[0.6875rem] font-bold uppercase tracking-wider hover:gap-2 transition-all">
-                Avvisami quando disponibile <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* 04 - Utility Gratuite */}
-          <div className="workflow-box p-6 flex flex-col h-full bg-white">
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <div>
-                <h3 className="text-xl text-primary-container leading-none mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-secondary text-xl">construction</span> Utility Gratuite
-                </h3>
-                <p className="text-xs text-on-surface-variant">Strumenti per l&apos;attività quotidiana.</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-3">
-              <Link href="/utility/conto-economico" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
-                    <span className="material-symbols-outlined">calculate</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-primary-container">Conto Economico</div>
-                    <div className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider font-semibold">Costi · Ricavi · ROI</div>
-                  </div>
-                </div>
-                <span className="text-secondary text-[0.625rem] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
-              </Link>
-              <Link href="/utility/calcolatore-costi-compravendita" className="flex items-center justify-between p-4 bg-white border border-slate-100 hover:shadow-lg hover:border-secondary/20 transition-all group cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary/5 group-hover:text-secondary transition-colors">
-                    <span className="material-symbols-outlined">request_quote</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-primary-container">Costi Compravendita</div>
-                    <div className="text-[0.625rem] text-on-surface-variant uppercase tracking-wider font-semibold">Imposte · IVA · Registro</div>
-                  </div>
-                </div>
-                <span className="text-secondary text-[0.625rem] font-bold flex items-center gap-1">CALCOLA <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
-              </Link>
-            </div>
-            <div className="pt-6 text-center mt-auto">
-              <Link className="text-on-surface-variant text-[0.6875rem] font-bold flex items-center justify-center gap-1 hover:text-secondary" href="/catalogo/utility-gratuite">
-                VEDI TUTTE LE UTILITY <span className="material-symbols-outlined text-xs">chevron_right</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-        </div>
       </div>
-      </section>
-
-      {/* Marketing AI Section */}
-      <section className="navy-glow py-24 px-8 overflow-hidden" id="come-funziona">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="inline-block bg-secondary text-white text-[0.625rem] font-bold tracking-widest px-3 py-1 mb-6 uppercase">Nuovo · Marketing AI</span>
-            <h2 className="text-4xl md:text-5xl text-white mb-6 leading-tight">Esplora in totale libertà.</h2>
-            <p className="text-white/60 text-lg mb-10 max-w-md">
-              Trasforma schizzi tecnici e stanze vuote in ambienti arredati da designer professionisti. Carica la planimetria e lascia che l&apos;AI faccia la magia istantaneamente.
-            </p>
-            <div className="text-center md:text-left">
-              <NotifyMeInline slug="virtual-staging" />
-            </div>
-          </div>
-          <div className="relative">
-            <div className="aspect-video bg-slate-900 border border-white/10 relative overflow-hidden group shadow-2xl">
-              <div className="absolute inset-0 blueprint-lines bg-slate-950 flex items-center justify-center">
-                <svg className="w-full h-full p-16 opacity-40" viewBox="0 0 100 60">
-                  <path className="wall-stroke" d="M10 50 L10 20 L40 10 L80 10 L90 20 L90 50 Z"></path>
-                  <path className="wall-stroke" d="M10 20 L40 30 L80 30 L90 20"></path>
-                  <path className="wall-stroke" d="M40 10 L40 30 M80 10 L80 30"></path>
-                  <rect className="wall-stroke" height="15" width="20" x="25" y="35"></rect>
-                  <line className="wall-stroke" x1="25" x2="45" y1="35" y2="50"></line>
-                  <line className="wall-stroke" x1="45" x2="25" y1="35" y2="50"></line>
-                </svg>
-              </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <div className="absolute inset-0 bg-cover bg-center opacity-60 transition-opacity duration-700" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop')" }}></div>
-              <div className="absolute top-[25%] left-[30%] w-3 h-3 bg-secondary rounded-full ai-marker animate-pulse z-40"></div>
-              <div className="absolute top-[45%] right-[25%] w-3 h-3 bg-secondary rounded-full ai-marker animate-pulse z-40" style={{ animationDelay: '500ms' }}></div>
-              <div className="absolute bottom-[30%] left-[50%] w-3 h-3 bg-secondary rounded-full ai-marker animate-pulse z-40" style={{ animationDelay: '1000ms' }}></div>
-              <div className="absolute inset-0 flex items-center justify-center z-30 bg-primary-container/30 backdrop-blur-[1px] p-6">
-                <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-8 w-full max-w-sm text-center">
-                  <div className="mb-6">
-                    <span className="material-symbols-outlined text-white text-5xl mb-4">upload_file</span>
-                    <p className="text-white text-xl font-bold mb-2">Upload Your Floor Plan</p>
-                    <p className="text-white/60 text-sm">PDF, JPEG, or DWG supported</p>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <div className="relative">
-                      <input className="w-full bg-white/5 border border-white/20 text-white placeholder-white/40 px-4 py-3 text-sm focus:ring-0 cursor-pointer" placeholder="Select file..." readOnly type="text" />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/40 text-lg">attach_file</span>
-                    </div>
-                    <button className="bg-secondary text-white py-3 px-6 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all flex items-center justify-center gap-2">
-                      Start AI Magic <span className="material-symbols-outlined text-base">auto_awesome</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute top-4 left-4 z-40">
-                <span className="text-[0.5625rem] text-secondary font-mono uppercase tracking-[0.2em] bg-slate-900/80 px-2 py-1 border border-secondary/30">AI_ACTIVE_OVERLAY</span>
-              </div>
-            </div>
-            <div className="absolute -bottom-6 -right-6 hidden md:block z-50">
-              <div className="bg-secondary p-8 w-48 h-48 flex flex-col justify-end shadow-2xl border border-white/10">
-                <span className="text-white text-4xl font-bold">94%</span>
-                <span className="text-white/80 text-[0.625rem] leading-tight uppercase font-medium">Conversione media annunci stagizzati</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partner Logos */}
-      <section className="bg-white border-y border-slate-100 py-12 px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-40 grayscale">
-            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">AGENZIA DELLE ENTRATE</span>
-            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">CATASTO NAZIONALE</span>
-            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">CONSIGLIO NOTARIATO</span>
-            <span className="text-primary-container font-[800] text-sm tracking-[0.15em] font-headline">REGISTRO IMPRESE</span>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-surface-container-low py-24 px-8 text-center" id="cta">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl text-primary-container mb-6">Prospettiva non è un servizio. È un nuovo modo di lavorare.</h2>
-          <p className="text-on-surface-variant mb-10 text-lg">
-            Documenti, marketing AI, strumenti professionali. Tutto in un&apos;unica piattaforma, costruita per chi lavora ogni giorno nell&apos;immobiliare.<br />Siamo agli inizi — e la strada è già tracciata.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <Link href="/registrazione" className="bg-primary-container text-white px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-secondary transition-all text-center" style={{ borderRadius: '6px' }}>
-              Registrati gratis<span className="hidden md:inline"> →</span>
-            </Link>
-            <a href="#come-funziona" className="bg-white border border-outline-variant text-primary-container px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface transition-all" style={{ borderRadius: '6px' }}>
-              Scopri cosa sta arrivando<span className="hidden md:inline"> →</span>
-            </a>
-          </div>
-          <SuggestionForm />
-        </div>
-      </section>
-
-    </>
+      <div className="px-6 py-3 border-t border-slate-100 text-center">
+        <Link
+          href={href}
+          className="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-[#4463EE]"
+        >
+          Visualizza tutti →
+        </Link>
+      </div>
+    </div>
   );
 }

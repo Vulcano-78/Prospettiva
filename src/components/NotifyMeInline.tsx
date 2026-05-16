@@ -37,7 +37,7 @@ export default function NotifyMeInline({ slug, label = 'Entra in lista d’attes
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-block bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all"
+        className="inline-block whitespace-nowrap bg-secondary text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:brightness-110 transition-all"
         style={{ borderRadius: '6px' }}
       >
         {label} <span aria-hidden>→</span>
@@ -70,7 +70,7 @@ export default function NotifyMeInline({ slug, label = 'Entra in lista d’attes
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="bg-secondary text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary-container transition-all disabled:opacity-60"
+        className="bg-secondary text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:brightness-110 transition-all disabled:opacity-60"
         style={{ borderRadius: '6px' }}
       >
         {status === 'loading' ? 'Invio...' : 'Avvisami'}

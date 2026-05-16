@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
-import Header from "@/components/Header";
+import HeaderLab from "@/components/HeaderLab";
 import Footer from "@/components/Footer";
 
 const manrope = Manrope({
@@ -167,7 +167,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <CartProvider>
-          <Header />
+          <HeaderLab />
           {children}
           <Footer />
         </CartProvider>
