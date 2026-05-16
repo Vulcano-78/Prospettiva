@@ -171,80 +171,83 @@ export default function CatalogoCategoriaPage({ params }: { params: Promise<{ ca
                     </>
                   );
 
-                  return (
-                    <div
-                      key={service.id}
-                      className="grid grid-cols-1 md:grid-cols-[1fr_5rem_2.5rem_10rem] gap-y-3 md:gap-y-0 md:items-center md:gap-x-4 py-4"
+                  const actionsBlock = isActive ? (
+                    isFree ? (
+                      <Link
+                        href={service.href ?? `/coming-soon/${service.slug}`}
+                        className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex items-center justify-center"
+                        style={{ borderRadius: '5px' }}
+                      >
+                        Apri
+                      </Link>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => handleShowDetails(service.slug)}
+                          aria-label={`Dettagli ${service.shortName}`}
+                          className="text-slate-400 hover:text-[#002147] hover:underline underline-offset-4 cursor-pointer text-[0.5625rem] font-mono uppercase tracking-[0.18em] transition-colors"
+                        >
+                          Dettagli
+                        </button>
+                        <button
+                          onClick={() => handleAddToCart(service.slug)}
+                          aria-label="Aggiungi al carrello"
+                          className="h-8 w-11 border border-slate-300 text-slate-500 flex items-center justify-center cursor-pointer hover:bg-slate-100 hover:border-[#002147] hover:text-[#002147] transition flex-shrink-0"
+                          style={{ borderRadius: '5px' }}
+                        >
+                          <span className="material-symbols-outlined text-[0.75rem]">add_shopping_cart</span>
+                        </button>
+                        <button
+                          onClick={() => handleBuyNow(service.slug)}
+                          className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex-shrink-0"
+                          style={{ borderRadius: '5px' }}
+                        >
+                          Acquista
+                        </button>
+                      </>
+                    )
+                  ) : (
+                    <Link
+                      href={`/coming-soon/${service.slug}`}
+                      className="border border-slate-300 text-slate-400 text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] uppercase tracking-[0.15em] flex items-center justify-center"
+                      style={{ borderRadius: '5px' }}
                     >
-                      {/* Nome + desc (e prezzo inline su mobile) */}
-                      <div className="flex items-start justify-between gap-3 md:block min-w-0">
+                      In arrivo
+                    </Link>
+                  );
+
+                  return (
+                    <div key={service.id}>
+                      {/* MOBILE: flex-col stack su 2 righe (nome+prezzo / azioni) */}
+                      <div className="md:hidden flex flex-col gap-3 py-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-medium text-[#002147]">{service.shortName}</div>
+                            <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-1">
+                              {service.description}
+                            </div>
+                          </div>
+                          <div className="text-right flex-shrink-0">{priceBlock}</div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2 flex-wrap">
+                          {actionsBlock}
+                        </div>
+                      </div>
+
+                      {/* DESKTOP: grid 4 colonne */}
+                      <div className="hidden md:grid grid-cols-[1fr_5rem_2.5rem_10rem] items-center gap-x-4 py-4">
                         <div className="min-w-0">
                           <div className="text-sm font-medium text-[#002147]">{service.shortName}</div>
                           <div className="text-[0.625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mt-1">
                             {service.description}
                           </div>
                         </div>
-                        {/* Prezzo a destra su mobile */}
-                        <div className="md:hidden text-right flex-shrink-0">
-                          {priceBlock}
+                        <div className="text-right">{priceBlock}</div>
+                        <span aria-hidden />
+                        <div className="flex items-center justify-end gap-2">
+                          {actionsBlock}
                         </div>
-                      </div>
-
-                      {/* Prezzo (md+) col 2 */}
-                      <div className="hidden md:block text-right">
-                        {priceBlock}
-                      </div>
-
-                      {/* Spacer (md+) col 3 */}
-                      <span aria-hidden className="hidden md:block" />
-
-                      {/* Azioni — su mobile sono in una riga a parte, allineate a destra */}
-                      <div className="flex items-center justify-end gap-2">
-                        {isActive ? (
-                          isFree ? (
-                            <Link
-                              href={service.href ?? `/coming-soon/${service.slug}`}
-                              className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex items-center justify-center"
-                              style={{ borderRadius: '5px' }}
-                            >
-                              Apri
-                            </Link>
-                          ) : (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => handleShowDetails(service.slug)}
-                                aria-label={`Dettagli ${service.shortName}`}
-                                className="text-slate-400 hover:text-[#002147] hover:underline underline-offset-4 cursor-pointer text-[0.5625rem] font-mono uppercase tracking-[0.18em] transition-colors"
-                              >
-                                Dettagli
-                              </button>
-                              <button
-                                onClick={() => handleAddToCart(service.slug)}
-                                aria-label="Aggiungi al carrello"
-                                className="h-8 w-11 border border-slate-300 text-slate-500 flex items-center justify-center cursor-pointer hover:bg-slate-100 hover:border-[#002147] hover:text-[#002147] transition flex-shrink-0"
-                                style={{ borderRadius: '5px' }}
-                              >
-                                <span className="material-symbols-outlined text-[0.75rem]">add_shopping_cart</span>
-                              </button>
-                              <button
-                                onClick={() => handleBuyNow(service.slug)}
-                                className="bg-[#002147] text-white text-[0.5625rem] font-bold h-8 px-3 cursor-pointer hover:bg-[#4463EE] hover:shadow-md uppercase tracking-[0.15em] transition-all flex-shrink-0"
-                                style={{ borderRadius: '5px' }}
-                              >
-                                Acquista
-                              </button>
-                            </>
-                          )
-                        ) : (
-                          <Link
-                            href={`/coming-soon/${service.slug}`}
-                            className="border border-slate-300 text-slate-400 text-[0.5625rem] font-bold h-8 px-3 min-w-[5.5rem] uppercase tracking-[0.15em] flex items-center justify-center"
-                            style={{ borderRadius: '5px' }}
-                          >
-                            In arrivo
-                          </Link>
-                        )}
                       </div>
                     </div>
                   );
