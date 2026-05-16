@@ -172,10 +172,6 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-y-5 md:gap-y-6 md:gap-x-14 lg:gap-x-20 text-slate-600 [&>img]:max-w-[140px] md:[&>img]:max-w-none">
-            {/* Stripe */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brands/stripe.png" alt="Stripe" className="h-6 md:h-8 w-auto" />
-
             {/* Agenzia delle Entrate */}
             <span className="inline-flex flex-col items-center leading-none">
               <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
@@ -186,19 +182,13 @@ export default function HomePage() {
               </span>
             </span>
 
+            {/* Stripe */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brands/stripe.png" alt="Stripe" className="h-6 md:h-8 w-auto" />
+
             {/* Supabase */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brands/supabase.svg" alt="Supabase" className="h-7 md:h-9 w-auto" />
-
-            {/* Conservatoria */}
-            <span className="inline-flex flex-col items-center leading-none">
-              <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
-                Registri
-              </span>
-              <span className="text-[1.0625rem] font-headline font-bold text-[#002147] tracking-tight">
-                Conservatoria
-              </span>
-            </span>
 
             {/* Vercel */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
