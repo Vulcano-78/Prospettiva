@@ -281,7 +281,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   href="/coming-soon/urbanistica"
-                  className="inline-flex items-center gap-2 text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-[#002147] text-xs font-bold uppercase tracking-[0.18em] hover:gap-3 transition-all"
                 >
                   Avvisami quando disponibile →
                 </Link>
@@ -315,7 +315,7 @@ export default function HomePage() {
                       Costi · Ricavi · ROI
                     </div>
                   </div>
-                  <span className="text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
+                  <span className="text-[#002147] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
                     Calcola →
                   </span>
                 </Link>
@@ -329,7 +329,7 @@ export default function HomePage() {
                       Imposte · IVA · Registro
                     </div>
                   </div>
-                  <span className="text-[#4463EE] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
+                  <span className="text-[#002147] text-xs font-bold uppercase tracking-[0.18em] group-hover:translate-x-0.5 transition-transform">
                     Calcola →
                   </span>
                 </Link>
