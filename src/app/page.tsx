@@ -172,14 +172,9 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-y-5 md:gap-y-6 md:gap-x-14 lg:gap-x-20 text-slate-600 [&>img]:max-w-[140px] md:[&>img]:max-w-none">
-            {/* Agenzia delle Entrate */}
-            <span className="inline-flex flex-col items-center leading-none">
-              <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-slate-400 mb-1">
-                Dati ufficiali
-              </span>
-              <span className="text-[1.0625rem] font-headline font-bold text-[#002147] tracking-tight">
-                Agenzia delle Entrate
-              </span>
+            {/* Agenzia entrate */}
+            <span className="whitespace-nowrap font-headline font-extrabold text-black text-xl md:text-2xl tracking-tight leading-none">
+              Agenzia entrate
             </span>
 
             {/* Stripe */}
