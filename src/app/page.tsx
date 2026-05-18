@@ -173,7 +173,10 @@ export default function HomePage() {
 
           <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-y-5 md:gap-y-6 md:gap-x-14 lg:gap-x-20 text-slate-600 [&>img]:max-w-[140px] md:[&>img]:max-w-none">
             {/* Agenzia entrate */}
-            <span className="whitespace-nowrap font-headline font-extrabold text-black text-xl md:text-2xl tracking-tight leading-none">
+            <span
+              className="whitespace-nowrap font-extrabold text-black text-xl md:text-2xl tracking-tight leading-none"
+              style={{ fontFamily: 'var(--font-nunito), ui-rounded, system-ui, sans-serif' }}
+            >
               Agenzia entrate
             </span>
 

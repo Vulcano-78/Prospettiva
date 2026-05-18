@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Inter, Fira_Code } from "next/font/google";
+import { Manrope, Inter, Fira_Code, Nunito } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import HeaderLab from "@/components/HeaderLab";
@@ -23,6 +23,13 @@ const firaCode = Fira_Code({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-fira-code",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-nunito",
   display: "swap",
 });
 
@@ -132,7 +139,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" className={`${manrope.variable} ${inter.variable} ${firaCode.variable}`}>
+    <html lang="it" className={`${manrope.variable} ${inter.variable} ${firaCode.variable} ${nunito.variable}`}>
       <head>
         <link
           rel="preload"
