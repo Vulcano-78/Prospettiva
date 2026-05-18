@@ -270,7 +270,7 @@ export default function HomePage() {
                     Conformità e titoli abilitativi comunali.
                   </p>
                 </div>
-                <span className="text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-[#4463EE] border border-[#4463EE]/30 px-2 py-1">
+                <span className="whitespace-nowrap text-[0.5625rem] font-mono uppercase tracking-[0.18em] text-[#4463EE] border border-[#4463EE]/30 px-2 py-1">
                   Coming Soon
                 </span>
               </div>
@@ -281,7 +281,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   href="/coming-soon/urbanistica"
-                  className="inline-flex items-center gap-2 text-[#002147] text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3.5 py-2 rounded-md hover:bg-[#002147]/10 hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 whitespace-nowrap text-[#002147] text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-[0.16em] sm:tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3 sm:px-3.5 py-2 rounded-md hover:bg-[#002147]/10 hover:gap-3 transition-all"
                 >
                   Avvisami quando disponibile →
                 </Link>
@@ -315,7 +315,7 @@ export default function HomePage() {
                       Costi · Ricavi · ROI
                     </div>
                   </div>
-                  <span className="inline-flex items-center text-[#002147] text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3 py-1.5 rounded-md group-hover:bg-[#002147]/10 group-hover:translate-x-0.5 transition-all">
+                  <span className="inline-flex items-center whitespace-nowrap text-[#002147] text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3 py-1.5 rounded-md group-hover:bg-[#002147]/10 group-hover:translate-x-0.5 transition-all">
                     Calcola →
                   </span>
                 </Link>
@@ -329,7 +329,7 @@ export default function HomePage() {
                       Imposte · IVA · Registro
                     </div>
                   </div>
-                  <span className="inline-flex items-center text-[#002147] text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3 py-1.5 rounded-md group-hover:bg-[#002147]/10 group-hover:translate-x-0.5 transition-all">
+                  <span className="inline-flex items-center whitespace-nowrap text-[#002147] text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#002147]/5 border border-[#002147]/15 px-3 py-1.5 rounded-md group-hover:bg-[#002147]/10 group-hover:translate-x-0.5 transition-all">
                     Calcola →
                   </span>
                 </Link>
