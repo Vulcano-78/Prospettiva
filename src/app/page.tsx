@@ -175,7 +175,7 @@ export default function HomePage() {
             {/* Agenzia entrate */}
             <span
               className="whitespace-nowrap font-extrabold text-2xl md:text-3xl tracking-tight leading-none"
-              style={{ fontFamily: 'var(--font-nunito), ui-rounded, system-ui, sans-serif', color: '#1F4E96' }}
+              style={{ fontFamily: 'var(--font-nunito), ui-rounded, system-ui, sans-serif', color: '#002147' }}
             >
               Agenzia entrate
             </span>
